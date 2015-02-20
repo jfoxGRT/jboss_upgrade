@@ -1,0 +1,9 @@
+<tr>
+    <td>
+        <%= task_dispatched.id %>
+    </td>
+    <td>
+    	<% alert = task_dispatched.alert_instances[0].alert %>
+        <%= link_to(alert.description, edit_task_path(task_dispatched.id)) %>
+    </td>
+</tr>

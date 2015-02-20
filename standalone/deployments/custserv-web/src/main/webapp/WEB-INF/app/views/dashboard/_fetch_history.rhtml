@@ -1,0 +1,15 @@
+<tr>
+          <td><%= link_to(fetch_history.samCustomerUcn, conv_export_master_batch_path(fetch_history.batchNumber, :ucn => fetch_history.samCustomerUcn)) %></td>
+          <td><%= link_to(fetch_history.batchNumber, conv_export_master_batch_path(fetch_history.batchNumber)) %></td>
+          <td><%=h fetch_history.type %></td>
+  		  <td style="color: <%= (fetch_history.status=='e') ? 'red' : 'black' %>">
+              <%=h fetch_history.statusDesc %></td>
+          <td><%=h (fetch_history.statusDate.nil?) ? "" : fetch_history.statusDate %></td>
+          <td><%=h fetch_history.archive %></td>
+          <td><%=h fetch_history.loaded %></td>
+          <td><%=h (fetch_history.nextAttemptAt.nil?) ? "" : fetch_history.nextAttemptAt %></td>
+          <td><%=h (fetch_history.lastAttemptedAt.nil?) ? "" : fetch_history.lastAttemptedAt %></td>
+          <td><%=h (fetch_history.finalTryAfterDate.nil?) ? "" : fetch_history.finalTryAfterDate %></td>
+          <td><%=h fetch_history.createdAt %></td>
+          <td><%=h fetch_history.updatedAt %></td>
+</tr>

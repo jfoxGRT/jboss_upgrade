@@ -1,0 +1,15 @@
+<% bill_to_org = known_entitlement_destination.bill_to_org
+	ship_to_org = known_entitlement_destination.ship_to_org %>
+<tr id="known_entitlement_destination_<%= known_entitlement_destination.id %>">
+	<td><%= known_entitlement_destination.id %></td>
+	<td style="text-align: left;"><%= bill_to_org.name %></td>
+	<td><%= bill_to_org.customer.ucn %></td>
+	<td style="text-align: left;"><%= ship_to_org.name %></td>
+	<td><%= ship_to_org.customer.ucn %></td>
+	<% disabled_value = edit_permission ? "" : "disabled" %>
+	<td><%= button_to("Edit", edit_sam_customer_entitlement_known_destination_path(sam_customer_id, known_entitlement_destination), :method => :get, :class => "form_button", :disabled => disabled_value) %></td>
+	<td><%= button_to_remote("Delete", {:condition => "confirm('Are you sure you wish to delete this destination?')",
+					:before => "$('#{status_indicator}').show(); $$('input.form_button').each(Form.Element.disable);",
+					:complete => "$('#{status_indicator}').hide(); $$('input.form_button').each(Form.Element.enable);",
+					:url => sam_customer_entitlement_known_destination_path(sam_customer_id, known_entitlement_destination), :method => :delete}, {:class => "form_button", :disabled => disabled_value}) %></td>
+</tr>

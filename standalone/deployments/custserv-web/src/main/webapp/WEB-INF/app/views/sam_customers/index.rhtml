@@ -1,0 +1,17 @@
+<% @page_title = "SAMC - " + SAM_CUSTOMER_TERM %>
+<% sam_customer_count = @sam_customers.total_entries %>
+<div id="flash_message" style="font-weight: bold; color: green; margin-top: 30px;"></div>
+<div class="table_header"><h2 class="table_title"><%= @state_province.display_name %></h2>
+<img border="0" src="http://chart.apis.google.com/chart?cht=p3&chd=t:<%= @pct_registered %>,<%= @pct_non_registered %>&chs=500x100&chl=<%= @number_of_registered_customers %> Registered with SAMC|<%= sam_customer_count - @number_of_registered_customers %> Not Registered"
+alt="Yellow pie chart" /><br/><br/>
+<%= render(:partial => "sam_customer_count", :locals => {:sam_customer_count => sam_customer_count}) %>
+<div class="cs_loading_indicator_container">&nbsp;
+<%= generateAjaxIndicator("sam_customers_loading_indicator") %></div>
+</div>
+<div id="sam_customers_table">
+	<%= render(:partial => "sam_customers_table", :locals => {:sam_customer_collection => @sam_customers,
+																:state_id => @state_province.id, 
+	                                                            :status_indicator => "sam_customers_loading_indicator",
+	                                                            :update_element => "sam_customers_table",
+																:sam_customer_count => sam_customer_count}) %>
+</div>

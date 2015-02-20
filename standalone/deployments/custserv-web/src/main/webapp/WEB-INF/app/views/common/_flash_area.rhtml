@@ -1,0 +1,6 @@
+<% if (!flash_notice.nil?) %>
+	<div id="<%= (flash_type.nil? || flash_type != 'info') ? 'cs_error_message' : 'cs_notice_message' %>"><br/>
+		<%= flash_notice %><br/><br/>
+	</div>
+
+<% end %>

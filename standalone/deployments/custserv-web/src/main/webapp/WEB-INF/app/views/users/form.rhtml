@@ -1,0 +1,30 @@
+<%  if (@current_user == @user)
+		@page_title = "SAMC - My Profile"
+	else
+		@page_title = "SAMC - #{@mode} Scholastic User"
+	end %>
+<%= javascript_include_tag("autotab") %>
+<table id="breadcrumb_container">
+	<tr>
+		<td><%= link_to("Scholastic Users", users_path) %></td>
+		<% if @user.id %>
+			<td>&raquo;</td>
+			<td><%= link_to(@user.email, user_path(@user)) %></td>
+		<% end %>
+		<td>&raquo;</td>
+		<td><span id="current_page_title"><%= @mode %></span></td>
+	</tr>
+</table>
+<hr/>
+
+<div class="table_header">
+	<h2 class="table_title">
+		<% if @current_user == @user %>
+			My Profile
+		<% else %>
+			<%= @mode %> <%= @user.display_type %>
+		<% end %>
+		</h2>
+</div>
+<%= error_messages_for :user %>
+<%= render(:partial => "edit_user_form", :locals => {:user => @user, :salutations => @salutations, :permissions => @permissions, :submit_label => (@current_user == @user) ? "Update Profile" : "#{@mode} User"}) %>

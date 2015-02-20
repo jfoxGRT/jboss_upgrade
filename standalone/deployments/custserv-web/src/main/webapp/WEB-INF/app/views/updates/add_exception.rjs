@@ -1,0 +1,2 @@
+page << "closeTBPopup();"
+page << "location.reload(true);"

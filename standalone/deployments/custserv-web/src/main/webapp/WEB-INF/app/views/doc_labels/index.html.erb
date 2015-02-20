@@ -1,0 +1,36 @@
+<center><h1>Document Labels</h1></center>
+<center><%= link_to 'New Document Label', new_doc_label_path %></center>
+<br />
+
+<table class="data_table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Display text</th>
+      <th>Display desc</th>
+      <th>Notes</th>
+      <th>Display order</th>
+      <th colspan=2>Actions</th>            
+    </tr>
+  </thead>
+
+<% @doc_labels.each do |doc_label| %>
+  <tbody>
+    <tr>
+      <td><%= doc_label.code %></td>
+      <td><%= doc_label.display_order %></td>    
+      <td><%= doc_label.display_text %></td>
+      <td><%= doc_label.display_desc %></td>
+      <td><%= doc_label.notes %></td>
+      <td><%= link_to 'Show', doc_label %></td>
+      <td><%= link_to 'Edit', edit_doc_label_path(doc_label) %></td>
+      <!--<td><%= link_to 'Destroy', doc_label, :confirm => 'Are you sure?', :method => :delete %></td>-->
+    </tr>
+  </tbody>
+<% end %>
+</table>
+
+<br />
+<center><%= link_to 'New Document Label', new_doc_label_path %></center>
+<br />
+<br />

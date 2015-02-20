@@ -1,0 +1,14 @@
+<table class="basic_table" >
+	<thead>
+		<tr>
+			<th>Process ID</th>
+			<th>Command</th>
+			<th>Time</th>
+			<th>State</th>
+			<th>Info</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "db_process", :collection => db_processes)%>
+	</tbody>
+</table>

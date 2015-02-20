@@ -1,0 +1,10 @@
+<tr>
+    <td>&nbsp;<%= auth_user_school.id %></td>
+    <td>&nbsp;<%= link_to(auth_user_school.name, sam_customer_school_path(sam_customer_id, auth_user_school.id)) %></td>
+    <td>&nbsp;<%= auth_user_school.sam_server_id %></td>
+	<td>&nbsp;<%= auth_user_school.sam_server_name %></td>
+	<td>&nbsp;<%= translate_school_status(auth_user_school.school_status) %></td>
+	<td>&nbsp;<a href="#" onclick="popup_org_dialog('<%= auth_user_school.ucn %>'); return false;"><%= auth_user_school.ucn %></a>
+		<%#= link_to(auth_user_school.ucn, org_path(auth_user_school.school_org_id)) if (auth_user_school.school_org_id) %>
+	</td>
+</tr>

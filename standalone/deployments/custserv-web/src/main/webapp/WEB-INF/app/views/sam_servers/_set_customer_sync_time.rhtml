@@ -1,0 +1,19 @@
+<div style="text-align: left">
+<br /><br /> 
+</br>
+<p style="font-weight: bold">Enter a time when the customer's server will be available for a full sync. (Both SAM and Agent are running)  It is preferred that the sync time occur during the regularly schedule sync window (9pm - 3am UTC)</p>
+</div>
+<br /></b><br />
+<div style="text-align: center">
+<% form_tag :action => 'update_customers_sync_time', :id => @sam_server.id do %>
+    Time:&nbsp;<%= select_hour((sam_server_info.customer_set_sync_hour ? sam_server_info.customer_set_sync_hour : Time.now), :prefix => 'sync_time')%>:00  &nbsp; (UTC)
+      
+     <% if sam_server_info.customer_set_sync_hour %>
+        &nbsp;&nbsp;&nbsp;&nbsp;     
+        <%= check_box_tag(:remove, 'Remove Sync Time') %>
+        <%= label_tag(:remove, "Remove Sync Time") %>  
+     <%end%>
+    <br /><br />  
+    <%= submit_tag("Submit") %>
+<% end %>     
+</div>

@@ -1,0 +1,45 @@
+<%  @page_title = "SAMC - Batch Central - Sub Batches" %>
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+
+  <div class="table_header">
+  	<h2 class="table_title">OPEN Sub Batches</h2>
+  </div>
+
+
+  <table class="property_table" style="margin-top: 20px;">
+    <tr>
+      <th>id</th>
+      <th>Master Batch Id</th>
+      <th>Master Status</th>
+      <th>Drop Dead Date</th>
+      <th>Conv Start Date</th>
+      <th>Conv End Date</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Type Code</th>
+      <th>Note</th>
+    </tr>
+    <% @conv_export_sub_batches.each do |subbatch| %>
+      <tr>
+        <td><%= link_to(subbatch.id, subbatch) %></td>
+        <td><%= link_to(subbatch.conv_export_master_batch_id, subbatch.conv_export_master_batch) %></td>
+        <td><%= (subbatch.closed?) ? "CLOSED" : "open" %></td>
+        <td><%=h (subbatch.drop_dead_date.nil?) ? "" : subbatch.drop_dead_date.strftime(DATE_FORM) %></td>
+        <td><%=h (subbatch.conv_start_date.nil?) ? "" : subbatch.conv_start_date.strftime(DATE_FORM) %></td>
+        <td><%=h (subbatch.conv_end_date.nil?) ? "" : subbatch.conv_end_date.strftime(DATE_FORM) %></td>
+        <td><%=h (subbatch.created_at.nil?) ? "" : subbatch.created_at.strftime(DATE_FORM) %></td>
+        <td><%=h (subbatch.updated_at.nil?) ? "" : subbatch.updated_at.strftime(DATE_FORM) %></td>
+        <td><%=h subbatch.type_code %></td>
+        <td><%=h subbatch.note %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <br />
+<!--
+  <%= link_to 'New conv_export_master_batch', new_conv_export_master_batch_path %>
+-->
+
+<% end %>            

@@ -1,0 +1,23 @@
+<% @page_title = "SAMC - #{@subcommunity.code} Seat Pool for #{@sam_customer.name}" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span class="breadcrumb_level"><%= link_to(@subcommunity.name, sam_customer_subcommunity_path(@sam_customer.id, @subcommunity.id)) %></span></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= "Unallocated " if @seat_pool.sam_server.nil? %>Seat Pool: <%= @seat_pool.id %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= "Unallocated " if @seat_pool.sam_server.nil? %>Seat Pool: <%= @seat_pool.id %></h2>
+	<span class="super_caption">
+		<% if @seat_pool.sam_server %>
+	    	<%= link_to("License Count Discrepancy Automatic Resolve Audit", {:controller => :seat_pools, :action => :lcd_autoresolve_audit, :samServerId => @seat_pool.sam_server.id, :seat_pool_id => @seat_pool.id}) %><br/>
+		<% end %>
+	  </span>
+</div>
+<%= render(:partial => "seat_pool_info", :locals => {:seat_activities => @seat_activities, :seat_pool_info => @seat_pool, :sam_customer_id => @sam_customer.id}) %>

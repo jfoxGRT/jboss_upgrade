@@ -1,0 +1,50 @@
+<tr id="task-<%= search_result.id %>">
+	<td><%= search_result.id %></td>
+	<td><%= search_result.task_type_description %></td>
+	<td><%= translateTaskStatusCode(search_result.status) %></td>
+	<td><%= search_result["comment"] %></td>
+	<td><%= search_result.created_at.strftime(DATE_FORM) if search_result.created_at %></td>
+	<% begin DateTime.strptime(search_result["task_closed_at"], "%Y-%m-%d %H:%M:%S") %>
+		<td><%= DateTime.strptime(search_result["task_closed_at"], "%Y-%m-%d %H:%M:%S").strftime(DATE_FORM) %></td>
+	<% rescue %>
+		<td><%= search_result["task_closed_at"]  %></td>
+	<% end %>	
+	<td><%= search_result["closed_by_first_name"] %> <%= search_result["closed_by_last_name"] %></td>
+	<% if (search_result.task_type_id == pending_entitlement_task_type.id) %>
+		<td>
+			<% if (search_result["tms_entitlementid"] && search_result["entitlement_id"]) %>
+				<% if (search_result.sam_customer_id) %>
+					<%= link_to(search_result["tms_entitlementid"], sam_customer_entitlement_path(search_result.sam_customer_id, search_result["entitlement_id"])) %>
+				<% else %>
+					<%= link_to(search_result["tms_entitlementid"], entitlement_path(search_result["entitlement_id"])) %>
+				<% end %>
+			<% end %>
+		</td>
+		<td style="text-align: left;"><%= search_result["product_description"] %></td>
+		<td><%= search_result.license_count %></td>
+		<td><%= search_result["order_num"] %></td>
+		<td><%= search_result["invoice_num"] %></td>
+  <% elsif (@task_type == "pending_entitlement" || @task_type == "any") %>
+    <td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	<% end %>
+	<td><%= search_result.sam_customer_name if (search_result.sam_customer_id) %></td>
+	<td style="vertical-align: middle; text-align: left; width: 100px; height: 50px;">
+	<% if (!@current_user.hasPermission?(Permission.edit)) %>
+		<%= button_to("Reopen", "", {:disabled => "disabled"}) %>
+	<% else %>	
+	<%= button_to_remote("Reopen", {:condition => "confirm('Are you sure you wish to reopen this task?')",
+									:before => "$$('input.reopen_button').each(Form.Element.disable); $('loading-indicator-#{search_result.id}').show();", 
+									:complete => "$('loading-indicator-#{search_result.id}').hide(); $$('input.reopen_button').each(Form.Element.enable);",
+									:url => reopen_task_path(:id => search_result.id, :source_user_id => @current_user.id, :number_of_tasks => number_of_tasks), :method => :put},
+									{:class => "reopen_button"}) if(search_result.status == Task.CLOSED && (eligible_for_reopen?(search_result.task_type_code))) %>
+		<span id="loading-indicator-<%= search_result.id %>" style="display: none;">
+			<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>
+		</span>								
+	<% end %>							
+	</td>
+	<td id="task-<%= search_result.id.to_s %>-status" style="color: red;"></td>
+</tr>

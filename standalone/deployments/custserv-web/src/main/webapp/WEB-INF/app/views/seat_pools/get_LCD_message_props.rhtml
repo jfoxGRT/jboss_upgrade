@@ -1,0 +1,15 @@
+<div class="table_header">
+	<h2 class="table_title">License Count Discrepancy Message Properties (Message ID : <%= @am_id %>)</h2>
+</div>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "lcd_message_prop_detail", :collection => @lcd_message_props)%>
+    </tbody>    
+</table>

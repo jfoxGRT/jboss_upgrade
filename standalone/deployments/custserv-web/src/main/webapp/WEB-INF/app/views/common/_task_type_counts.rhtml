@@ -1,0 +1,11 @@
+<% if (@current_user.isAdminType || @current_user.user_type == task_counts[task_type_counts[0]].user_type) %>
+<li><%= link_to(@task_counts[task_type_counts[0]].task_type_description, eval("unassigned_#{task_type_counts[1]}_path"), {:id => "#{task_type_counts[1]}"}) %></li>
+<% if (controller_name == task_type_counts[1] ) %>
+	<ul onMouseover=cellImgOn("<%= task_type_counts[1] %>") >
+<% else %>
+	<ul onMouseover=cellImgOn("<%= task_type_counts[1] %>") onMouseOut=cellImgOff("<%= task_type_counts[1] %>"); >
+<% end %>
+		<li><%= link_to(task_counts[task_type_counts[0]].unassigned.to_s + " Unassigned Tasks", eval("unassigned_#{task_type_counts[1]}_path"), {:id => "#{task_type_counts[1]}_unassigned"}) %></li>
+		<li><%= link_to(task_counts[task_type_counts[0]].assigned.to_s + " Assigned Tasks", eval("assigned_#{task_type_counts[1]}_path"), {:id => "#{task_type_counts[1]}_assigned"}) %></li>
+	</ul>
+<% end %>

@@ -1,0 +1,24 @@
+<table class="property_table shadow" style="width: 85%; font-size: 10px;">
+    <tbody>
+        <tr>
+            <td>First Name:</td>
+            <td><%= sam_customer_hosting_agreement_info.first_name %></td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td><%= sam_customer_hosting_agreement_info.last_name %></td>
+        </tr>
+        <tr>
+            <td>Title (role):</td>
+            <td><%= sam_customer_hosting_agreement_info.title %></td>
+        </tr>
+        <tr>
+            <td>Email Address:</td>
+            <td><%= sam_customer_hosting_agreement_info.email_address %></td>
+        </tr>
+        <tr>
+            <td>Date accepted:</td>
+            <td><%= sam_customer_hosting_agreement_info.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+    </tbody>
+</table>

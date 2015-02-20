@@ -1,0 +1,12 @@
+<tr>
+	<td><a href="#" onclick="popup_org_dialog('<%= search_result.ucn %>'); return false;"><%= search_result.ucn %></a></td>
+	<td style="text-align: left;"><%= search_result.org_name %></td>
+	<td style="text-align: left;"><%= search_result["city_name"] %></td>
+	<td style="text-align: left;"><%= search_result.state_name %></td>
+	<td><%= search_result["postal_code"] %></td>
+	<td><%= search_result.status_description %></td>
+	<td style="text-align: left;"><%= search_result.group_description %></td>
+	<td style="text-align: left;"><%= search_result.type_description %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if (!search_result["sam_customer_id"].nil?) %>
+	<td><%= search_result.number_of_children %></td>
+</tr>

@@ -1,0 +1,12 @@
+<script type="application/javascript">
+  //each time we render a row, store the defaults that the page rendered with. we might need these again
+	default_licenses_to_keep.push(<%= sam_server_pool["licenses_to_keep"] %>);
+	default_licenses_to_discard.push(<%= sam_server_pool["licenses_to_discard"] %>);
+</script>
+<tr>
+  <td style="text-align: left;"><%= sam_server_pool["subcommunity_name"] %></td>
+  <td><%= sam_server_pool["seat_count"] %></td>
+  <td><%= text_field_tag("license_count_#{sam_server_pool["id"].to_i}", sam_server_pool["licenses_to_keep"].to_i, {:disabled => enabled ? nil : "disabled", :class => "licenses_to_keep", :onchange => "update_license_count_fields(#{sam_server_pool["max_discardable"].to_i}, parseInt(this.value), 'licenses_to_discard_#{sam_server_pool["id"].to_i}', 'text_field_status_#{sam_server_pool["id"]}')"}) %><%= hidden_field_tag("text_field_status_#{sam_server_pool["id"].to_i}", "0") %></td>
+  <td class="licenses_to_discard" id="licenses_to_discard_<%= sam_server_pool["id"] %>"><%= sam_server_pool["licenses_to_discard"] %></td>
+  <td><%= sam_server_pool["max_discardable"] %></td>
+</tr>

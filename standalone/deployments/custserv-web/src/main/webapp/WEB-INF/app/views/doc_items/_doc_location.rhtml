@@ -1,0 +1,1 @@
+<%= check_box("doc_location", doc_location.id, :checked => doc_item.user_selected_doc_location_ids.include?(doc_location.id.to_s) ? 'checked' : 'notchecked') %>&nbsp;&nbsp;<%= doc_location.display_location %><br/>

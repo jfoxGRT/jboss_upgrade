@@ -1,0 +1,11 @@
+<tr>
+	<td><%= link_to(processes_search_result.id, :controller => :utilities, :action => :process_details, :id => processes_search_result.id)%></td>
+	<td><%= (processes_search_result.process_type_code == "SSM") ? "Server Move" : "Server Deactivation" %></td>
+	<td><%= processes_search_result.sam_customer_id %></td>
+	<td><%= processes_search_result.sam_customer_name %></td>
+	<td><%= processes_search_result.sam_server_id %></td>
+	<td><%= (processes_search_result.completed_at.nil?) ? "" : processes_search_result.completed_at.strftime(DATE_FORM) %></td>
+	<td><%= (processes_search_result.started_at.nil?) ? "" : processes_search_result.started_at.strftime(DATE_FORM) %></td>
+	<td><%= processes_search_result.pct_complete %></td>
+	<td><%= processes_search_result["user_email"] %></td>
+</tr>

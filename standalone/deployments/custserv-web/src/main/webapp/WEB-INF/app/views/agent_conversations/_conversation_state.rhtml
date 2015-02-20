@@ -1,0 +1,11 @@
+<tr>
+    <td>&nbsp;<%= conversation_state.id %></td>
+    <td>&nbsp;<%= link_to(conversation_state.state_identifier, agent_conversation_conversation_state_path(agent_id, conversation_id, conversation_state.id)) %></td>
+    <% conversationCommand = conversation_state.conversation_command %>
+    <td>&nbsp;<%= conversationCommand.command_id if !conversationCommand.nil? %></td>
+    <td>&nbsp;<%= conversationCommand.plugin_id if !conversationCommand.nil? %></td>
+    <td>&nbsp;<%= conversationCommand.success if !conversationCommand.nil? %></td>
+    <td>&nbsp;<%= conversation_state.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= (conversation_state.entered.nil?) ? "-" : conversation_state.entered.strftime('%I:%M:%S %p %m/%d/%y')%></td>
+    <td>&nbsp;<%= (conversation_state.exited.nil?) ? "-" : conversation_state.exited.strftime('%I:%M:%S %p %m/%d/%y')%></td>
+</tr>

@@ -1,0 +1,12 @@
+<% form_remote_tag(:url => "") do -%>
+<table style="margin-right: auto; margin-left: auto;">
+    	<td>UCN:</td>
+        <td><%= text_field_tag("org_name") %></td>
+        <td><%= submit_to_remote("search_for_orgs", "Show Details", :url => {:action => "find_ucn"}, :html => {:class => "submit_button"},
+                            :before => "$$('input.submit_button').each(Form.Element.disable); $('status_indicator').show();",
+                            :complete => "$('status_indicator').hide(); $$('input.submit_button').each(Form.Element.enable); $('org_name').select();") %></td>
+</table>
+<% end -%>
+<script type="text/javascript">
+	Form.Element.focus('org_name');
+</script>

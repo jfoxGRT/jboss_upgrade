@@ -1,0 +1,19 @@
+<tr id="org_widget_child_entry_row_<%= org_widget_child.id %>" class="org_widget_child_entry_row">
+	<td>
+		<%= link_to(org_widget_child.name, "#", {:onclick => "highlight_cell('.org_widget_child_entry_row td', '#org_widget_child_entry_row_#{org_widget_child.id} td'); lookup_org('#{org_widget_child.ucn}');"}) %><br/>
+		<span style="font-weight: bold;">Group:</span>&nbsp;&nbsp;<%= org_widget_child.group_description %><br/>
+		<span style="font-weight: bold;"><%= SAM_CUSTOMER_TERM %>: 
+			<% if (org_widget_child.sam_customer_active.nil?) %>
+				<%= image_tag("choice-no.gif", :style => "vertical-align: bottom;") %>
+			<% else %>
+				<%= image_tag("choice-yes.gif", :style => "vertical-align: bottom;") %><%= (org_widget_child.sam_customer_active == "1") ? image_tag("choice-yes.gif", :style => "vertical-align: bottom;") : image_tag("choice-no.gif", :style => "vertical-align: bottom;") %>
+			<% end %>
+		</span>
+	</td>
+	<td style="text-align: center; vertical-align: middle;">
+		<%= org_widget_child.number_of_children %> <%= org_widget_child.number_of_children == "1" ? "child" : "children" %>
+		<% if org_widget_child.number_of_children.to_i > 0 %>
+			<div><input type="button" value="Show Children" onclick="get_children('<%= org_widget_child.ucn %>');" /></div>
+		<% end %>
+	</td>
+</tr>

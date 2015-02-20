@@ -1,0 +1,53 @@
+<% unless @sam_server_report_request.nil? %>
+  <div class="table_header"> Server Report Request Id - <%= @sam_server_report_request.id  %></div>
+  <table class="property_table">
+    <tbody>
+    <tr>
+      <td>Server Report Id</td>
+      <td><%= @sam_server_report_request.id %></td>
+    </tr>
+    <tr>
+      <td>Created At</td>
+      <td><%= @sam_server_report_request.created_at.strftime(DATE_FORM) %></td>
+    </tr>
+    <tr>
+      <td>Updated At</td>
+      <td><%= @sam_server_report_request.updated_at.strftime(DATE_FORM) %></td>
+    </tr>
+    <tr>
+      <td>Sam Server Id</td>
+      <td><%= @sam_server_report_request.sam_server.id %></td>
+    </tr>
+    <tr>
+      <td>User Id</td>
+      <td><%= @sam_server_report_request.user_id %></td>
+    </tr>
+    <tr>
+      <td>Cohort Type</td>
+      <td><%= @sam_server_report_request.cohort_type %></td>
+    </tr>
+    <tr>
+      <td>Cohort Id</td>
+      <td><%= @sam_server_report_request.cohort_id %></td>
+    </tr>
+    <tr>
+      <td>Date Range</td>
+      <td><%= @sam_server_report_request.date_range %></td>
+    </tr>
+    <tr>
+      <td>Report Type Id</td>
+      <td><%= @sam_server_report_request.report_type_id %></td>
+    </tr>
+    <tr>
+      <td>Report Type</td>
+      <td>
+      <% if @sam_server_report_request.report_type == "x" %>
+        xml
+      <% elsif @sam_server_report_request.report_type == "p" %>
+        pdf
+      <% end %>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+<% end %>

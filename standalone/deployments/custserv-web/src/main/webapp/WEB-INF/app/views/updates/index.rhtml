@@ -1,0 +1,31 @@
+<% @page_title = "SAM Connect Updates" %>
+
+<div id="um_status">
+  <%= render(:partial => "um_status",
+             :locals => {:update_manager => @update_manager,
+                         :update_element => "um_status"}) %>
+</div>
+
+<%= link_to "Update Manager Overrides", :controller => "updates", :action => "overrides" %>
+
+
+<div class="table_header">
+	<h2 class="table_title">Updates completed in the last 24 hours:</h2>
+</div>
+<div id="completed_updates_table">
+	<%= render(:partial => "completed_updates_table", 
+	           :locals => {:completed_updates => @completed_updates,
+				  		   :status_indicator => "sam_customers_loading_indicator",
+	                       :update_element => "completed_updates_table"}) %>
+</div>
+
+
+<div class="table_header">
+	<h2 class="table_title">Updates scheduled in the next 24 hours:</h2>
+</div>
+<div id="scheduled_updates_table">
+	<%= render(:partial => "scheduled_updates_table", 
+		       :locals => {:scheduled_updates => @scheduled_updates,
+		       :status_indicator => "sam_customers_loading_indicator",
+	           :update_element => "scheduled_updates_table"}) %>
+</div>

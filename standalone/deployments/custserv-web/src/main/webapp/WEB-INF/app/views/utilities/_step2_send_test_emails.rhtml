@@ -1,0 +1,13 @@
+<h3 style="text-align: left;" id="step2" >Processing Emails...</h3>
+<% if (failure && failure_reason.length > 0) %>
+	Email processing failed: <%= @failure_reason %>
+<% elsif (failure) %>
+	Email processing failed.
+<% elsif (@unsuccessful_emails && @unsuccessful_emails.length > 0) %>
+	Complete, but the following email types could not be processed: <%= @unsuccessful_emails.chop %>
+  <% if (@failure_reason && @failure_reason.length > 0) %>
+  Reason: <%= @failure_reason %>
+  <% end %>
+<% else %>
+	<div align="center">Test emails processed successfully.<br/><br/></div>
+<% end %>

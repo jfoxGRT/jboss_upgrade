@@ -1,0 +1,21 @@
+<div class="table_header">
+	<span class="super_caption">Current School Statuses</span>
+</div>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Description</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="text-align: left;">Awaiting Customer Match</td>
+			<td><%= num_schools_requiring_manual_match %></td>	
+		</tr>
+		<tr>
+			<td style="text-align: left;">Awaiting Customer Maintenance Match</td>
+			<td><%= num_schools_requiring_cm_match %></td>	
+		</tr>
+	</tbody>
+</table>

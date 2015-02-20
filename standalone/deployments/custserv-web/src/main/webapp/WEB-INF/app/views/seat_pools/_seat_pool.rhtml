@@ -1,0 +1,10 @@
+<% sam_server_id = seat_pool.server_id %>
+<% sam_customer_id = seat_pool.sam_customer.id %>
+<tr>
+	<td>&nbsp;<%= link_to(seat_pool.id, sam_customer_subcommunity_seat_pool_path(sam_customer_id, seat_pool.subcommunity.id, seat_pool.id)) %>
+    <td>&nbsp;<%= link_to(sam_server_id, sam_customer_sam_server_path(sam_customer_id, sam_server_id)) if !sam_server_id.nil? %></td>
+    <td style="text-align: left;">&nbsp;<%= seat_pool.name if !sam_server_id.nil? %></td>
+    <td>&nbsp;<%= seat_pool.seat_count %></td>
+    <td>&nbsp;<%= seat_pool.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= seat_pool.updated_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+</tr>

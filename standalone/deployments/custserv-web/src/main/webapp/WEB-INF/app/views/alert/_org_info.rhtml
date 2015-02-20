@@ -1,0 +1,26 @@
+<div style="width: 100%; text-align: center;"><h2><%= org_name %></h2></div>
+<div align="center" style="font-size: 12px; margin-bottom: 10px; height: 20px; vertical-align: top;">&nbsp;
+<span id="status_indicator" style="color: red; display: none; vertical-align: top;">Please wait..<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></span></div>
+<table class="data_table" style="width: 90%;">
+<thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th style="width: 20%;">Organization Name</th>
+        <th>UCN</th>
+        <th>Organization Type</th>
+        <th>Organization Status</th>
+        <th># of Subdistricts</th>
+        <th># of Schools</th>
+        <th>Registered with SC?</th>
+        <th># of SAM Servers</th>
+        <th># of READ180 - Stage A Seats</th>
+        <th># of READ180 - Stage B Seats</th>
+        <th># of READ180 - Stage C Seats</th>
+        <th># of SRI Seats</th>
+        <th># of SRC Seats</th>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "org_link", :collection => org_list) %>
+</tbody>
+</table>

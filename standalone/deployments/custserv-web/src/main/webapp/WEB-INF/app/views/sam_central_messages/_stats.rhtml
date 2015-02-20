@@ -1,0 +1,114 @@
+<%
+	diff = 0
+  delay_display_string = "00:00 (queue empty)"
+	
+	if @head
+  	diff = (Time.now - @head.created_at).floor
+    diff_hours = (diff / 3600).floor
+    diff_minutes = ((diff % 3600) / 60).floor
+    diff_seconds = diff % 60
+  	delay_display_string = "#{diff_hours}h #{('%02d' % diff_minutes)}:#{('%02d' % diff_seconds)}"
+	end
+
+	is_problem = (diff / 3600 > 2)
+%>
+
+<%= stylesheet_link_tag "jqplot/jquery.jqplot.min.css" %>
+<%= javascript_include_tag "jqplot/jquery.jqplot.min.js" %>
+<%= javascript_include_tag "jqplot/plugins/jqplot.barRenderer.min.js" %>
+<%= javascript_include_tag "jqplot/plugins/jqplot.dateAxisRenderer.min.js" %>
+<%= javascript_include_tag "jqplot/plugins/jqplot.highlighter.min.js" %>
+
+<script type="text/javascript" charset="utf-8">
+  
+  jQuery(document).ready(function() {
+    var throughputSeries = <%= @display_json %>;
+    
+    if(throughputSeries == null || (Array.isArray(throughputSeries) && throughputSeries.length == 0) ) {
+      // still want to render the chart axes, just empty. chart plugin can't handle throughputSeries == null
+      var now = new Date();
+      throughputSeries = [[now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate() + " " +  now.getHours(), 0]]
+    }
+    
+    // for debug:
+    //throughputSeries=[["2013-03-28 00",1900], ["2013-03-28 01",2100], ["2013-03-28 02",3600], ["2013-03-28 03",2011], ["2013-03-28 04",2200], ["2013-03-28 05",921], ["2013-03-28 06",921], ["2013-03-28 07",921], ["2013-03-28 08",921], ["2013-03-28 09",921], ["2013-03-28 10",921], ["2013-03-28 11",921], ["2013-03-28 12",921], ["2013-03-28 13",921], ["2013-03-28 14",921], ["2013-03-28 15",921]];
+    //console.log("throughputSeries = " + throughputSeries);
+    
+    var plot1 = jQuery.jqplot('jqplot_chart_div', [throughputSeries], {
+        title:'Historical Throughput Rate (partial batches omitted)',
+        seriesColors: [ "#33aaaa" ],
+        seriesDefaults:{
+            renderer:jQuery.jqplot.BarRenderer,
+            shadow: false,
+            rendererOptions: {
+              // workround for bug in plugin - setting barWidth manually; auto not working
+              barWidth: getFixedBarWidth(1000, throughputSeries.length)
+              // barMargin: 0
+            }
+        },
+        
+        axes: {
+            xaxis: {
+                renderer:jQuery.jqplot.DateAxisRenderer,
+                label:'time',
+                labelOptions: {
+                  fontSize: '10pt'
+                },
+                tickOptions:{
+                  showMark: false,
+                  showGridline: false,
+                  formatString: '%Y-%m-%d %H:00',
+                  showLabel: false // label only for the current hover-over, not all along the axis
+                }
+            },
+            
+            yaxis: {
+              min: 0,
+              max: getAxisMax(<%= @max %>), //workaround for bug in autoscale
+              label:'messages per hour',
+              labelOptions: {
+                fontSize: '10pt'
+              },
+              tickOptions: {
+                formatString: "%'i"
+              }
+            }
+        },
+        
+        highlighter: {
+          show: true
+        }
+        
+    });
+});
+
+  // part of a workaround for bug in graph autoscale
+  function getAxisMax(maxActualValue) {
+    var axisMax = 10000;
+    
+    if(maxActualValue > axisMax) {
+      axisMax = Math.round(1.2*maxActualValue/1000)*1000;
+    }
+    return axisMax;
+  }
+  
+  // part of workaround for bug in overlapping jQplot columns
+  function getFixedBarWidth(divWidth, columnCount) {
+      
+    var axisLabelOffset = 127; // number of horizontal pixesl in the div on either side of the actual graph
+    var barWidth = Math.max(1, ((divWidth - axisLabelOffset)/columnCount)); 
+        
+    return barWidth;
+  }
+</script>
+
+<h2 style="text-align: center;"><%= @queue_name %>
+</h2>
+<br/>
+<span title="Difference between current time and creation time of head message" style="color:<%= is_problem ? 'red' : 'black' %>; font-size: 10pt">&nbsp;&nbsp;&nbsp;&nbsp;Delay: <%= delay_display_string %></span>
+<br/>
+<br/>
+<span style="color:'black'; font-size: 10pt">&nbsp;&nbsp;&nbsp;&nbsp;Average batch time: <%= @average_batch_time %>s</span>
+<br/>
+<div id="jqplot_chart_div" style="width: 1000px; height: 400px;"></div>
+<br/>

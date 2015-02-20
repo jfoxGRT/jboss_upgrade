@@ -1,0 +1,79 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<script type="text/javascript">     
+                
+    jQuery(document).ready(function() {
+        jQuery('#moratorium_table').dataTable({
+            "aaSorting": [[0, "desc"]],
+            "oLanguage": {
+                "oPaginate": {
+                    "sNext": "",
+                    "sPrevious": ""
+                }
+            }
+        });
+    } );       
+    
+    function popup_create_dialog() {
+                jQuery('#moratorium_pane').html("<%= escape_javascript(render(:partial => 'moratorium_form')) %>");
+                jQuery('#moratorium_pane').dialog({
+                modal: true,
+                width: 400,
+                height: 300
+            });
+    }
+    
+    function check_form() {
+        var ok = false;
+        var message = "";
+        
+        var startdatetime = new Date(document.getElementById("date1").value + 'T' + document.getElementById("start_time_hour").value + ':' + document.getElementById('start_time_minute').value);
+        var enddatetime = new Date(document.getElementById("date2").value + 'T' + document.getElementById("end_time_hour").value + ':' + document.getElementById('end_time_minute').value);
+        
+        if (enddatetime < startdatetime) {
+            message += "You cannot set the end datetime to less than the start datetime. \n\n";
+        }
+        
+        if (document.getElementById('samservercomp').checked == false && document.getElementById('sapcontent').checked == false) {
+            message += "Please select which sapling types are included. \n\n";
+        }
+        if (document.getElementById('hosted').checked == false && document.getElementById('local').checked == false) {
+            message += "Please select which servers are included. \n\n";
+        }
+        
+        if (message.length > 0) {
+            alert(message);   
+            ok = false;
+        }
+        else {
+            ok = true;
+        }       
+        return ok;
+    }  
+</script>
+
+<h1>Moratorium</h1>
+<div id="moratorium_pane"></div>
+<div align="center">
+<button type="button" onclick="popup_create_dialog(); return false;">Create New Moratorium</button>
+</div>
+<br /><br />
+<h4>Current and Past Moratoriums</h4>
+<div align="left">    
+<table class="data_table" id="moratorium_table" style="width: 100%; table-layout: fixed">
+    <thead>
+        <tr class="data_table_first_row">
+            <th>ID</th>
+            <th width="150px;">Start Datetime</th>
+            <th width="150px;">End Datetime</th>
+            <th>Sam Server Component</th>
+            <th>Content</th>
+            <th>Hosted Servers</th>
+            <th>Local Servers</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody> 
+        <%= render(:partial => "moratorium_record", :collection => @moratorium) %>
+    </tbody>
+</table>
+</div>                        

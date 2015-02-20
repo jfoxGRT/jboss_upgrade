@@ -1,0 +1,98 @@
+<div id="org_search_panel">
+	<% form_for(:org, :url => search_agents_path, :html => {:method => :get, :name => "agent_form", :onsubmit => 
+				'ew = popUp(""); document.org_form.target = ew.name; document.org_form.submit(); return false;'}) do |f| -%>
+		<table class="search_table">
+			<tr>
+				<td colspan="2" style="text-align: center;"><h2>Agent Search</h2></td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="ucn">IP Address starting with</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:ip_address, {:id => "ip_address"}) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_name">Name</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:name) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_position">Hierarchy Category</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:position, TopLevelOrg.ORG_HIERARCHY_POSITIONS, :selected => "AO") %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_customer_group_id">Organization Group</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:customer_group_id, customer_group_list, {}, {:style => "width: 7em;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_customer_type_id">Organization Type</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:customer_type_id, customer_type_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_address">Address</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:address) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_city">City</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:city) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_state_id">State / Province</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:state_id, state_province_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_zip_code">Zip Code (5-digit)</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:zip_code) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_status">Organization Status</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:status, customer_status_list) %>
+				</td>
+			</tr>			
+			<tr>
+				<td>&nbsp;</td>
+				<td><%= submit_tag("Search") %></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;"><span id="status_indicator" style="padding-top: 10px; color: red; display: none;">
+Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></span></td>
+			</tr>
+		</table>
+	<% end %>
+</div>

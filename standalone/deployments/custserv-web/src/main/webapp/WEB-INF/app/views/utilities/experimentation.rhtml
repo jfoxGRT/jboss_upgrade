@@ -1,0 +1,76 @@
+<script type="text/javascript">
+	//jQuery.ajaxSetup({'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}})
+	$(document).ready(function () {
+		/*$('.link_to_org_widget a').click(function(e) {
+			e.preventDefault();
+			$link_container = $(this).parent();
+			$('<%= image_tag("mozilla_blu.gif", :style => "height: 12px; margin: 0px; padding: 0px; vertical-align: bottom;") %>').appendTo($link_container);
+			// load the contact form using ajax
+			$.get('<%= url_for(:action => "show_org_details") %>?id=' + $link_container.attr("id"), function(data){
+				// create a modal dialog with the data
+				$('#org_widget').html(data);
+				$('#org_widget').dialog('open');
+				$link_container.children('img').hide();
+				$('#org_name').focus();
+				//$link_container.html($old_html);
+			});
+		});*/
+	
+		$(function() {
+			$("#org_widget").dialog({autoOpen: false, title: "Organization Details", height: 500, width: 700});
+		});
+
+	});
+	
+	
+	function popup_org_dialog(link_element) {
+		$link_container = link_element.parent();
+		$('<%= image_tag("mozilla_blu.gif", :style => "height: 12px; margin: 0px; padding: 0px; vertical-align: bottom;") %>').appendTo($link_container);
+		$.get('<%= url_for(:action => "show_org_details") %>?id=' + $link_container.attr("id"), function(data){
+			$('#org_widget_left_pane').html(data);
+			$('#org_widget').dialog('open');
+			$link_container.children('img').hide();
+			$('#org_name').focus();
+		});
+	}
+	
+	
+	
+	function lookup_org(ucn) {
+			$('#org_widget_container input').attr('disabled', 'disabled');
+			$('#org_widget_status_message').show();
+			$('#org_widget_left_pane').fadeOut(300);
+			// load the contact form using ajax
+			$.get('<%= url_for(:action => "show_org_details") %>?id=' + ucn, function(data){
+				// create a modal dialog with the data
+				if (data != "ERROR")
+					$('#org_widget_left_pane').html(data);
+				else
+					$('#org_widget_left_pane').html("<table style='width:100%;'><tr><td style='font-size: 12px; padding-top: 50px; text-align: center; font-weight: normal; color: red; border: 0px;'>No organization match</td></tr></table>");
+				$('#org_widget_status_message').hide();
+				$('#org_widget_left_pane').fadeIn(300, function() {$('#org_widget_container input').removeAttr('disabled'); $('#org_name').focus();});
+				//$link_container.html($old_html);
+			});
+		}
+		
+	function get_children(ucn) {
+		$('#org_widget_container input').attr('disabled', 'disabled');
+		$('#org_widget_status_message').show();
+		$('#org_widget_right_pane').fadeOut(300);
+		$.get('<%= url_for(:action => "get_children") %>?id=' + ucn, function(data){
+				// create a modal dialog with the data
+				$('#org_widget_right_pane').html(data);
+				$('#org_widget_status_message').hide();
+				$('#org_widget_right_pane').fadeIn(300, function() {$('#org_widget_container input').removeAttr('disabled'); $('#org_name').focus();});
+				//$link_container.html($old_html);
+			});
+	}
+		
+</script>
+<div>
+<span class="link_to_org_widget" id="600008873"><a href="#" onclick="popup_org_dialog($(this));">Clark County School District</a>
+</span>following text
+</div>
+<div id="org_widget" title="Basic dialog">
+	<%= render(:partial => "org_widget", :object => nil) %>
+</div>

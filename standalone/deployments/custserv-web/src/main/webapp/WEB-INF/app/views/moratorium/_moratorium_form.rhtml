@@ -1,0 +1,74 @@
+<script>
+    jQuery(function() {
+                jQuery( document ).ready(function() {
+                    var d = new Date();
+                    var dateString = d.toString();
+                    var inHours = dateString.slice(dateString.length - 15, dateString.length);
+                    var timezone = inHours[5] + " " + inHours[5];
+                    jQuery( "#timezone" ).text(inHours);
+                });
+                
+                jQuery( "#date1" ).datepicker({ 
+                    dateFormat: 'yy-mm-dd',
+                    startDate: new Date(),
+                    minDate: new Date,
+                    showOn: "button",
+                    buttonImage: "images/calendar.gif",
+                    buttonImageOnly: true,
+                    numberOfMonths: 2,
+                    onSelect: function( selectedDate ) {
+                        jQuery( "#date2" ).datepicker( "option", "minDate", selectedDate );
+                    } 
+                    });
+                jQuery( "#date2" ).datepicker({ 
+                    dateFormat: 'yy-mm-dd',
+                    startDate: new Date(),
+                    minDate: new Date,
+                    showOn: "button",
+                    buttonImage: "images/calendar.gif",
+                    buttonImageOnly: true,
+                    numberOfMonths: 2,
+                    onSelect: function( selectedDate ) {
+                        jQuery( "#date1" ).datepicker( "option", "maxDate", selectedDate );
+                    } 
+                    });
+    });                    
+</script>
+<div align="center">
+<% form_remote_tag(:url => url_for(:action => :create_moratorium), :condition =>"check_form()", :html => {:name => 'moratoriumform'}) do -%>
+            <table id="moratorium_side">
+                <thead><tr><td>Your current system time zone is <label id="timezone"></label><br></td></tr></thead>
+                <tr>
+                    <td>
+                        <h4>Start Datetime:</h4>
+                        Date:&nbsp;<%= text_field_tag(:start_date, Date.today, {:id => "date1", :size => "12", :readonly => true}) %>&nbsp;
+                        Time:&nbsp;<%= select_time(Time.now, :prefix => 'start_time')%> &nbsp; (UTC)<br /><br />
+                        <h4>End Datetime:</h4>
+                        Date:&nbsp;<%= text_field_tag(:end_date, Date.today, {:id => "date2", :size => "12", :readonly => true}) %>&nbsp;
+                        Time:&nbsp;<%= select_time(Time.now, :prefix => 'end_time')%>  &nbsp; (UTC)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>Sapling Type:</h4>
+                        <%= check_box_tag(:samservercomp, 'SAM_SERVER_COMPONENT') %>
+                        <%= label_tag(:samservercomp, 'SAM_SERVER_COMPONENT') %>
+                        <%= check_box_tag(:sapcontent, 'CONTENT') %>
+                        <%= label_tag(:sapcontent, "CONTENT") %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>Server Type:</h4>
+                        <%= check_box_tag(:hosted, 'Hosted') %>
+                        <%= label_tag(:hosted, 'Hosted') %>
+                        <%= check_box_tag(:local, 'Local') %>
+                        <%= label_tag(:local, "Local") %>
+                    </td>
+                </tr>
+                <tr><td style="text-align: center;">
+                    <%=submit_tag "Create Moratorium", :confirm => "Are you sure you want to create this moratorium?"%>
+                    <%end%>
+                </td style="border-bottom:none"></tr>
+            </table>
+</div>            

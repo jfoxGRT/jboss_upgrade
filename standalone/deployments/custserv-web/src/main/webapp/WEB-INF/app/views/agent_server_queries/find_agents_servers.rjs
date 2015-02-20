@@ -1,0 +1,1 @@
+page[:query_result_info].replace_html(:partial => "query_result_info", :locals => {:result_set => @result_set})

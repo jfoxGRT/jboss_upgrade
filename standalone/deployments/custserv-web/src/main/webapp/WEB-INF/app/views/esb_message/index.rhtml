@@ -1,0 +1,74 @@
+<%  @page_title = "SAMC - ESB Messages" %>
+<script>
+        jQuery(function() {
+                jQuery( "#esb_messages_on" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<div class="table_header">
+	<h2 class="table_title">ESB Messages</h2>
+</div>
+<% form_for(:esb_message_search, :url => search_esb_messages_path, :html => {:method => :get, :name => "esb_message_search", :onsubmit => 
+				'ew = popUp(""); document.esb_message_search.target = ew.name; document.esb_message_search.submit(); return false;'}) do |f| -%>
+<table class="form_table" style="margin-bottom: 20px;">
+  		<tr>
+  			<td class="label_cell">CORP_ID value</td>
+			<td class="field_cell"><%= f.text_field(:corpid_value, {:id => "corpid_field"}) %></td>
+		</tr>
+		<tr>
+			<td class="label_cell">Source System</td>
+			<td class="field_cell"><%= f.select(:message_source, @src_system_list) %></td>
+		<tr>
+			<td class="label_cell">
+				<label for="unassigned">Ignored</label>
+			</td>
+			<td class="field_cell">
+				<%= f.check_box(:ignored) %>
+			</td>				
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+		</tr>
+</table>
+<% end %>
+<hr/>
+<div class="link_set">
+	<%= link_to("Drive Incoming ESB Message", new_esb_message_path) %>
+</div>
+<hr/>
+<div style="width: 100%; text-align: center; margin-bottom: 30px;">
+<% form_remote_for(:esb_message_date_search, :url => "", :html => {:name => "esb_message_date_search"}) do |f| -%>
+<p><label for="received">Find ESB Messages On (YYYY-MM-DD):</label><br/><br/>
+    <%= f.text_field(:received, {:id => "esb_messages_on", :name => "esb_message_date", :style => "vertical-align: top;"}) %> 
+    </p>
+    <DIV ID="testdiv1" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;"></DIV>
+    <div style="height: 2em;">&nbsp;<span id="status_indicator" style="vertical-align: middle; color: red; display: none;">Loading message data.. &nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>
+               </span></div>
+    <p><%= submit_to_remote("viewmessages", "View Messages", {:url => {:action => "find_messages"},
+                            :before => "$('message_data_block').hide(); $('status_indicator').show(); $('view_messages_button').disable();",
+                            :complete => "$('view_messages_button').enable(); $('submit_indicator').hide(); $('message_data_block').show();", :html => {:id => "view_messages_button"}}) %></p>
+<% end -%>
+</div>
+<div id="esb_message_container_block" style="height: 80em;">
+<div id="message_data_block">
+    <%= render(:partial => "message_data", 
+           :locals => {:last_message_received => @last_esb_message_received,
+						:last_message_sent => @last_esb_message_sent, 
+						:inbound_message_hash => @esb_inbound_message_hash,
+                       :outbound_message_hash => @esb_outbound_message_hash,
+                       :date => @date}) %>
+</div>
+</div>
+
+</div>
+<script type="text/javascript">
+	
+	function popUp(URL) {
+		day = new Date();
+		id = day.getTime();
+		return eval("page" + id + " = window.open(URL, '" + id + "','toolbar=1,scrollbars=1,location=1,statusbar=1,menubar=1,resizable=1,width=800,height=800');");
+	}
+	
+	$('corpid_field').focus();
+	
+</script>

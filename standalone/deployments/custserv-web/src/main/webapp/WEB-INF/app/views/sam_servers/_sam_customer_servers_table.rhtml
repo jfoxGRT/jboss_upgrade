@@ -1,0 +1,178 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/datatables/plugins/numeric_html_sort.min.js" %>
+<%= javascript_include_tag "jquery/jquery_shared_utilities.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<% sc_licensing_activated = SamCustomer.find(sam_customer_id).sc_licensing_activated
+	 customer_resource_edit = @current_user.hasScholasticPermission(Permission.customer_resource_edit)
+%>
+
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#sam_customer_servers_datatable').dataTable({
+    "aoColumns": get_column_types_array(),
+    "bPaginate": false,
+		"aaSorting": get_sort_columns_array(),
+    "oLanguage": {
+      "sEmptyTable": "No SAM Servers to display.",
+      "sZeroRecords": "No SAM Servers match the search criteria."
+    },
+    "sDom": 'T<"clear">lfrtip',
+    "oTableTools": {
+      "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+      "aButtons": [
+				{
+          "sExtends": "copy",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "csv",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "xls",
+          "sFileName": "*.xls",
+          "sButtonText": "XLS",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+				},
+				"print"
+			]
+		}
+	});
+} );
+
+<% # return the array of column indices that should be exported to the CSV/XLS/PDF.
+   # this method is needed because the deactivated servers view has one fewer column than
+   # the active servers view so the indices are off.
+%>
+function get_export_columns_array() {
+  var status = "<%= status %>";
+  var customer_resource_edit = <%= customer_resource_edit %>;
+  
+  if (status == "a" && customer_resource_edit) {
+    return [ 1, 2, 3, 4, 5, 6 ];
+  }
+  return [ 0, 1, 2, 3, 4, 5 ];
+}
+
+
+<% # return the array of column indices datatables should sort by at initialization.
+   # this method is needed because the deactivated servers view has one fewer column than
+   # the active servers view so the indices are off.
+%>
+function get_sort_columns_array() {
+  var status = "<%= status %>";
+  var customer_resource_edit = <%= customer_resource_edit %>;
+  
+  if (status == "a" && customer_resource_edit) {
+    return [[6, "desc"]];
+  }
+  return [[5, "desc"]];
+}
+
+<% # some columns contain special or mixed data and we need to identify their type explicitly
+   # to help the sorter. for example, HTML links with numeric link text should sort numerically
+   # by link text, not lexigraphically the link HTML.
+%>
+function get_column_types_array() {
+  var status = "<%= status %>";
+  var customer_resource_edit = <%= customer_resource_edit %>;
+  
+  if (status == "a" && customer_resource_edit) {
+    return [ null, null, null, null, { "sType": "num-html" }, null, null, null ];
+  }
+  return [ null, null, null, { "sType": "num-html" }, null, null, null ];
+}
+</script>
+
+<table id="servers_table_container" width="100%" style="margin-left: auto; margin-right: auto; border: 0px;">
+<tr>
+	<td style="border: 0px;">
+<% form_tag(operate_on_sam_servers_path, :name => "operate_on_servers", :method => :post) do -%>
+	<%= hidden_field_tag(:operation, "0") %> 
+<table id="sam_customer_servers_datatable" class="data_table filterable_table">
+  <thead>
+    <tr class="data_table_first_row">
+      <% if (customer_resource_edit && status == SamServer.STATUS_ACTIVE) %>
+        <th>Edit</th>
+      <% end %>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Registered At</th>
+      <th>Agent ID</th>
+      <th>Agent Updated At</th>
+      <th>Next Poll At</th>
+      <th>Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "sam_customer_server", :collection => server_collection, :locals => 
+    					{:sam_customer_id => sam_customer_id, 
+    					:sc_licensing_activated => sc_licensing_activated,
+    					:customer_resource_edit => customer_resource_edit,
+    					:number_of_servers => server_collection.length,
+					:status => status}) %>
+  </tbody>
+	</table>
+	</td>
+</tr>
+<tr>
+	<td style="border: 0px;">
+		<input type="button" value="Move" id="move_servers_button" style="display:none;" onclick="document.operate_on_servers.operation.value = '1'; document.operate_on_servers.submit();" />
+		<input type="button" value="Deactivate" id="deactivate_servers_button" style="display:none;" onclick="document.operate_on_servers.operation.value = '2'; document.operate_on_servers.submit();" />
+	</td>
+</tr>
+</table>
+<% end %>
+</div>
+<script type="text/javascript">
+  
+  jQuery(document).ready(function() {
+    jQuery('.connection_status_text').betterTooltip({speed: 250, delay: 75});
+  });
+  
+	function edit_resource_click(row_id) {
+		$(row_id).toggleClassName("row_highlight");
+		if (any_checked(document.operate_on_servers.sam_server_ids)) {
+			//show buttons
+			$('move_servers_button').show();
+			$('deactivate_servers_button').show();
+		} 
+		else {
+			$('move_servers_button').hide();
+			$('deactivate_servers_button').hide();
+		}	
+	}
+	
+	function any_checked(field_name) {
+		var array_len = field_name.length
+		if (array_len != undefined) {
+			for (var i = 0; i < array_len; i++)
+				if (field_name[i].checked)
+					return true;
+			return false;
+		}
+		else {
+			return field_name.checked;
+		}
+		
+	}
+</script>

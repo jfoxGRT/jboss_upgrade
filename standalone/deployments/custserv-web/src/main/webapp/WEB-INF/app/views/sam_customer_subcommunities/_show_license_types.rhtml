@@ -1,0 +1,35 @@
+<h3 align="center" style="margin-top: 20px;">Partitions by Entitlement Type</h3><br/>
+<table class="data_table shadow" style="width: 90%; margin-bottom: 30px;">
+        <thead>
+							<tr style="background-color: #DDDDDD;">
+								<th style="text-align: center;"><%= PRODUCT_TERM %></th>
+								<th style="text-align: center;">Historical Count</th>
+								<th style="text-align: center;">New Entitled Count</th>
+								<th style="text-align: center;">Virtual Count</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%= render(:partial => "license_type_row", :collection => product_list, :locals => {:license_types => license_types}) %>
+						</tbody>
+    </table>
+<% if !hosted_compliance_counts.keys.empty? || !e21_compliance_counts.keys.empty? %>
+<h3 align="center">License Compliance</h3><br/>
+<table class="data_table shadow" style="width: 90%;">
+	<thead>
+		<tr style="background-color: #DDDDDD; text-align: center;">
+			<th style="text-align: center;">Product/Service</th>
+			<th style="text-align: center;">Max Allowed on Hosted Servers</th>
+			<th style="text-align: center;">Allocated License Count</th>
+			<th style="text-align: center;">Out of Compliance Count</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% hosted_compliance_counts.keys.each do |hcc| %>
+			<%= render(:partial => "compliance_count_row", :object => hosted_compliance_counts[hcc]) %>
+		<% end %>
+		<% e21_compliance_counts.keys.each do |ecc| %>
+			<%= render(:partial => "compliance_count_row", :object => e21_compliance_counts[ecc]) %>
+		<% end %>
+	</tbody>
+</table>
+<% end %>

@@ -1,0 +1,35 @@
+<tr>
+    <td>&nbsp;<%= unassigned_entitlement_task.id %></td>
+    <td>&nbsp;<%= unassigned_entitlement_task.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <% assigned_date = unassigned_entitlement_task.date_assigned %>
+    <td>&nbsp;<%= assigned_date.strftime('%I:%M:%S %p %m/%d/%y') if (!assigned_date.nil?) %></td>
+    <% assigned_by_user = unassigned_entitlement_task.assigning_user %>
+    <td>&nbsp;<%= (assigned_by_user.last_name + ", " + assigned_by_user.first_name) if (!assigned_by_user.nil?) %></td>
+    <% closed_date = unassigned_entitlement_task.date_closed %>
+    <td>&nbsp;<%= closed_date.strftime('%I:%M:%S %p %m/%d/%y') if (!closed_date.nil?) %></td>
+    <td><%= unassigned_entitlement_task.state_name %></td>
+    <% org1 = unassigned_entitlement_task.org1 %>
+    <% org2 = unassigned_entitlement_task.org2 %>
+    <td>&nbsp;<%= org1.name.strip %></td>
+    <td>&nbsp;<%= org2.name.strip %></td>
+    <td>&nbsp;
+    <% if (org1.isTopLevel?) %>
+        <%= org1.name.strip %>
+    <% else %>
+        <% org1_top_levels = unassigned_entitlement_task.org1.top_level_orgs
+           org1_top_levels.each do |otl| %>
+        <%= otl.name.strip %><br/>
+        <% end %>
+    <% end %>
+    </td>
+    <td>&nbsp;
+    <% if (org2.isTopLevel?) %>
+        <%= org2.name.strip %>
+    <% else %>
+        <% org2_top_levels = unassigned_entitlement_task.org2.top_level_orgs 
+           org2_top_levels.each do |otl| %>
+        <%= otl.name.strip %><br/>
+        <% end %>
+    <% end %>
+    </td>
+</tr>

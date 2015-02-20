@@ -1,0 +1,15 @@
+<tr>
+  <td>&nbsp;<%= customer_registration_detail[:customer] %></td>
+  <td>&nbsp;<%= link_to(customer_registration_detail[:customer_id], sam_customer_path(customer_registration_detail[:customer_id])) if customer_registration_detail[:customer_id] %></td>    
+  <td>&nbsp;<%= customer_registration_detail[:state] %></td>  
+  <td>&nbsp;<%= link_to(customer_registration_detail[:num_servers], sam_customer_sam_servers_path(customer_registration_detail[:customer_id])) if customer_registration_detail[:num_servers] %></td>
+  <td>&nbsp;<%= safe_date_format(customer_registration_detail[:earliest_reg]) %></td>
+  <td>&nbsp;<%= safe_date_format(customer_registration_detail[:latest_reg]) %></td>
+  <td>&nbsp;<%= boolean_icon(customer_registration_detail[:lm_activated]) %></td>
+  <td>&nbsp;<%= safe_date_format(customer_registration_detail[:lm_activated_date]) %></td>
+  <td>&nbsp;<%= boolean_icon(customer_registration_detail[:um_activated]) %></td>
+  <td>&nbsp;<%= safe_date_format(customer_registration_detail[:um_activated_date]) %></td>
+  <td>&nbsp;<%= link_to(customer_registration_detail[:school_count], sam_customer_schools_path(customer_registration_detail[:customer_id])) if customer_registration_detail[:school_count] %></td>     	
+  <td>&nbsp;<%= customer_registration_detail[:ucn] %></td>
+  <td>&nbsp;<%= boolean_icon(customer_registration_detail[:sc_admin_exists]) %></td>
+</tr>

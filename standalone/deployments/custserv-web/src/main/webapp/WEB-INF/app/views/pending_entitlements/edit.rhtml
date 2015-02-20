@@ -1,0 +1,346 @@
+
+
+<% 	@page_title = "SAMC - Work Task"
+
+	bill_to = @task_info[0] 
+	ship_to = @task_info[1]
+	date_assigned = @assigned_task_event.created_at
+							 %>
+
+<h1>Work Task</h1>    
+<div id="all-servers-table">
+	<% form_tag(pending_entitlement_path(@task.id), {:method => :put, :id => "task_resolution_form", :name => "task_resolution"}) do %>
+	<!--<form name='task_resolution' id='task_resolution' >-->
+<!-- start of  Orders table -->
+
+<!-- active tasks list table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;">
+    	<thead>
+        	<tr class="parent">
+				<td >Active Task</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" >
+		<thead>
+        	<tr>
+     			<td style='width:25%;'>Task ID</td>
+				<td style='width:25%;'>Task Type</td>
+				<td style='width:25%;'>Date Assigned</td>
+				<td style='width:25%;'>Assigned By</td>
+			</tr>
+		</thead>
+	</table>
+
+<!-- start of tasks table query and result -->
+	<table id="5"  cellspacing="1" style="border:1px solid black; width: 98%; table-layout: fixed;">
+		<tbody>
+      		<tr>
+				<td style='width:25%;'><%= bill_to.id %></td>
+				<td style='width:25%;'>
+					<%= bill_to.task_type_description %><br>
+				</td>
+				<td style='width:25%;'>
+					<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+				</td>
+				<td style='width:25%;'><%= @assigning_user.first_name %> <%= @assigning_user.last_name %></td>
+			</tr>
+      		<!-- PUT TFOOT HERE -->
+			<tr>
+				<td colspan=2 style="border-bottom:0px;">
+				<!-- start of details area for selected active task -->
+					<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+        					<tr class="parent"  >
+          						<td style="background:#99A36B;"> Task Details</td>
+        					</tr>
+      					</thead>
+    				</table>
+					<table id="4250712"  cellspacing="1" style="margin-top:5px;width:98%; table-layout: fixed; overflow: hidden;">
+						<tbody>
+							<tr>
+								<td  style="width:13%" class='workDetails'>B/T Info:</td>
+                 				<td style="width:37%" class='basicModallink'>
+                 					<%= render(:partial => "orgs/org_summary_info", :object => bill_to, :locals => {:link => true}) %>
+								</td>
+		                		<td style="width:15%" class='workDetails' class='basicModallink'>S/T Info:</td>
+	 		                 	<td style="width:35%" class='basicModallink'>
+	 		                 		<%= render(:partial => "orgs/org_summary_info", :object => ship_to, :locals => {:link => true}) %>
+				         		</td>
+        					</tr>
+      						<tr>
+      							<% date = Time.parse(bill_to.ordered) %>
+             					<td class='workDetails'>Order:</td>
+        						<td><%= bill_to.order_num %></td>
+            					<td class='workDetails'>Order Date:</td>
+          						<td><%= date.strftime('%m/%d/%y') %></td>
+        					</tr>
+        					<tr>
+              					<td class='workDetails'>Invoice:</td>
+        						<td><%= bill_to.invoice_num %></td>
+               					<td class='workDetails'> Reason:</td>
+		        				<td><%= bill_to.reason_unassigned %></td>
+        					</tr>
+      						<!-- Entitlement list Goes Here -->
+							<tr>
+								<td colspan=4>
+									<table class="entitlementCat" style="width:95%;">
+										<tr>
+  											<td class="entitlementCat" style='width:18%'>Entitlement ID</td>
+											<td class="entitlementCat" style='width:12%'>TMS ID</td>
+											<td class="entitlementCat" style='width:20%'>Order Date</td>
+											<td class="entitlementCat" style='width:30%'><%= PRODUCT_TERM %></td>
+											<td class="entitlement" style='width:20%'>License</td>
+   										</tr>
+									</table>
+									<table class="entitlementDetails" style="width:95%;">
+										<tr>
+  											<td class="entitlement" style='width:18%'><%= bill_to.entitlement_id %></td>
+											<td class="entitlement"  style='width:12%'><%= bill_to.tms_entitlement_id %></td>
+											<td class="entitlement"  style='width:20%'><%= date.strftime('%m/%d/%y') %></td>
+											<td class="entitlement"  style='width:30%'><%= bill_to.product_name %>  </td>
+											<td class="entitlement" style='width:20%'><%= bill_to.license_count %></td>
+   										</tr>
+									</table>
+									<p  class='entitlementModallink'>The selected entitlement is part of an order that contains a total of <b><%= @number_of_entitlements %></b> entitlements.<br><a href="<%= order_set_for_entitlement_path(bill_to.entitlement_id) %>">[View All]</a></p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#999;"> Task History</td>
+		        			</tr>
+      					</thead>
+    				</table>
+		    		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+						<tr class='workDetails'>
+							<td  colspan=4 >The following actions have been applied to this task:	 </td>
+		       			</tr>
+		      			<tr class='workDetails'>
+		             		<td class='workDetails' style='width:15%;'>Performed By:</td>
+							<td class='workDetails'style='width:10%;'>Action</td>
+		
+		 					<td class='workDetails' style='width:10%;'>Target User:</td>
+							<td class='workDetails' style='width:20%;'>Performed At:</td>
+		          			<td class='workDetails' style='width:45%;'>Comments</td>
+		
+		        		</tr>
+						<%= render(:partial => "edit_pe_task_event", :collection => @task_events) %>
+						
+		              	<tr class='workDetails'>
+				        	<td ><%= @current_user.last_name %></td>		
+							<td> <span class="release_link"  id="3_<%= bill_to.id %>" href="<%= unassign_task_path(:id => bill_to.id, :target_user_id => @current_user.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span></td>
+							<td ><%= @current_user.last_name %></td>
+							<td>&nbsp;</td>
+		 			 		<td id='commentModallink'><a href='#' id=67_4815 style='display:block' >View/Add Comments</a>&nbsp;</td>        
+						</tr>
+		  			</table>
+		
+		
+					<!-- end of details area for selected active task-->
+				</td>
+				<td colspan=2 style="border-bottom:0px;">
+					<!--start of task tools areas for selected active task -->
+		
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		      			<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#666;"> Task Tools</td>
+		        			</tr>
+		      			</thead>
+		    		</table>
+		      		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+		
+						<tbody>
+							<tr class='workDetails' >
+								<td  colspan=6 >The following organizations are the most likely candidates for managing this order.  Please select one from the list, or if a different organization should manage the order, please specify that organization's UCN in the UCN looup field below.</td>
+		
+		        			</tr>
+		
+		     			 	<tr class='workDetails'>
+		      					<td style="width:5%;"></td>
+		             			<td style='width:30%;' class='workDetails'>Org. Info:</td>
+		
+		
+		        				<td style='width:10%;' class='workDetails'>Source</td>
+		            			<td style='width:20%;' class='workDetails'>Group & Type</td>
+		
+		                   		<td  class='workDetails' colspan=2>Status</td>
+		        			</tr>
+							<%= render(:partial => "edit_pe_task_org", :collection => @task_org_info) %>
+							<tr id='assigned'>
+								<td style="width:5%;"></td>
+		
+								<td style="text-align: left;" class='basicModallink' colspan=5>UCN
+		
+									<input id="ucn_field"   name="user_ucn" value="" type="text" style="width:150px;height:15px;font-size:11px" />
+									<input type=submit name='ucn_lookup' id='ucn_lookup' href="<%= search_summary_info_for_org_path %>" value='Look Up UCN' style='font-family: "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;font-size:9px;' />
+								</td>
+		
+							</tr>
+							<tr id='noUCN'>
+								<td style="width:5%;">
+									<input type=radio name=ucn value='' id='Close Task Without UCN' style='width:9px;' />
+								</td>
+		
+								<td style="text-align: left;" class='basicModallink' colspan=5><b>Close task without assigning UCN</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		  				<thead>
+		    				<tr class="parent"  >
+		      					<td style="background:#CC6600;"> Task Resolution</td>
+		    				</tr>
+		  				</thead>
+		
+					</table>
+		
+					<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_resolve">
+						<tr class='workDetails'>
+							<td  colspan=3 >Please follow the steps below to resolve and close out the task </td>
+		
+		    			</tr>
+		  				<tr class='workDetails'>
+		
+		         			<td class='workDetails'  style='width:35%; vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;">Step 1:<br>
+		
+		        					<span style='font-weight:normal'> Select Organization to apply to Unassigned Entitlement</span>
+								</div>
+								<input type=hidden name='task_page_path' value="<%= edit_task_path(bill_to.id) %>" />
+								<span id='assigned_name' style="margin-top:8px;padding-top:8px;display:block;"></span>
+								<span id='assigned_ucn' style="margin-top:8px;padding-top:8px;"></span>
+							</td>
+		
+		 					<td class='workDetails'  style='width:35%; vertical-align:top'>
+								<div class='step2' style="height:45px;margin:0px;padding:0px;visibility:hidden;">
+									Step 2:<br/>
+		        					<span style='font-weight:normal'> Always use selected UCN for this <br>SHIP-TO / BILL-TO combination?</span>
+		
+		        					<span style="text-align:left;display:block;padding:15px 25px 10px;margin-top:8px;">
+										<input  id="known_destination_yes" name="known_destination" type="checkbox" value="yes" />&nbsp;Yes
+									</span>	
+								</div>
+							</td>
+		
+								<td class='workDetails'  style='width:35%;vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;visibility:hidden;" class='step3' >Step
+									<span id='num'>3</span>:<br>
+									<span style='font-weight:normal'> Apply UCN and Close Task </span>
+								</div>
+		         				<div class='buttons' style='visibility:hidden;'>
+				 					<div class='resolve' style="padding-top:2px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Complete Task</div>
+								</div>
+		         			</td>
+		
+		
+		
+		    			</tr>
+					</table>
+		
+		
+				
+		
+		
+		
+			<!-- end of task tooks area for selected active task -->
+		
+				</td>
+		
+			</tr>
+		</tbody>
+		
+	</table>
+		
+		
+		<!-- end of active tasks list table -->
+		
+		
+		
+		<!-- end of Orders table -->
+	<% end %>
+	<!--</form>-->
+</div>
+
+
+
+
+<div id="commentModalContent" style='display:none;margin:0px;padding=0px;'>
+	<% form_tag(add_comment_for_task_path(:id => @task.id), :id => "add_task_comment") do -%>
+    <table id="serverview" class="view" cellspacing="0" style="width:100%;margin:0px;padding:0px;">
+        <thead>
+            <tr class="parent">
+                <td style="background:#CC6600;"> Task History & Comments</td>
+                <!--     <td style="text-align:center;border-right:2px solid #fff;"><a href='#' class='modalClose' style='text-decoration:none;color:#fff;'>Close</a></td>-->
+            </tr>
+        </thead>
+    </table>
+    <div style="overflow:auto; height: 360px;">
+        <table cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+            <tr class='workDetails'>
+                <td colspan=4>The following events have been applied to this task:	 </td>
+            </tr>
+            <tr class='workDetails'>
+                <td class='workDetails' style='width:15%;'>Performed By:</td>
+				<td class='workDetails'style='width:10%;'>Action</td>
+
+				<td class='workDetails' style='width:10%;'>Target User:</td>
+				<td class='workDetails' style='width:20%;'>Performed At:</td>
+      			<td class='workDetails' style='width:45%;'>Comments</td>
+            </tr>
+			<% number_of_events = @task_events.length %>
+			<%= render(:partial => "edit_pe_task_event", :collection => @task_events[0..(number_of_events - 2)]) %>
+            <tr class='workDetails'>
+                <td><%= @current_user.email %></td>
+                <td>Assigned To</td>
+                <td><%= @current_user.email %></td>
+				<td><%= date_assigned.strftime('%m/%d/%y') %><br/>
+		<%= date_assigned.strftime('%I:%M:%S %p') %></td>
+                <td id='commentModallink'>
+                    <textarea name="comments" id="comments" style='width:96%;font-size:1.2em;'><%= @assigned_task_event.comment %></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class='buttons'>
+        <div class='yes' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Edit/Save</div>
+        <div class='no modalClose' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Cancel</div>
+    </div>
+	<% end -%>
+</div>
+<script type="text/javascript">
+	$("#ucn_field").focus();	
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

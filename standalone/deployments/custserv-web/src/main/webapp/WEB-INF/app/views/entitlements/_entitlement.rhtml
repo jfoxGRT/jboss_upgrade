@@ -1,0 +1,23 @@
+<tr id="entitlement_row_<%= entitlement.id %>">
+	<td class="tms_entitlement_id"><input type="button" value="..show details" 
+		href="<%= sam_customer_entitlement_path(entitlement.sam_customer.id, entitlement.id, :popup => 1) %>" onclick="loadModal($(this));" /></td>
+	<td class="sc_entitlement_type" style="text-align: center;"><%= entitlement.tms_entitlementid %></td>
+    <td class="created_at" style="text-align: center;"><%= entitlement.created_at.strftime(DATE_FORM) %></td>
+	<td class="subscription_start"><%= entitlement.subscription_start.strftime(DATE_FORM) if entitlement.subscription_start %></td>
+	<td class="subscription_end"><%= entitlement.subscription_end.strftime(DATE_FORM) if entitlement.subscription_end %></td>
+    <td class="product_description" style="text-align: left;"><%= entitlement.product_description %></td>
+    <td class="number_of_licenses" style="text-align: center;">
+		<table style="width: 100%; font-size: 10px;">
+			<tr>
+				<td style="width: 70%; border: 0px;"><%= (entitlement.license_count.nil?) ? "-" : entitlement.license_count %></td>
+				<td style="width: 30%; border: 0px;"><%= (!entitlement.seats_active.nil? && entitlement.seats_active) ?  image_tag("choice-yes.gif", :style => "vertical-align: bottom;") : 
+							image_tag("choice-no.gif", :style => "vertical-align: bottom;") %></td>
+			</tr>
+		</table>
+	</td>
+    <td class="order_number"><%= (entitlement.order_num.nil?) ? "-" : entitlement.order_num %></td>
+    <td class="installed_to" style="text-align:left;">
+		<% if (!entitlement.install_to_ucn.nil?) %>
+		 	<a href="#" onclick="popup_org_dialog('<%= entitlement.install_to_ucn %>'); return false;"><%= entitlement.install_to_org_name %></a><br/>{UCN: <%= entitlement.install_to_ucn %>}</td>
+		<% end %>
+</tr>

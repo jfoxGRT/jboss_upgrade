@@ -1,0 +1,141 @@
+<script>
+        jQuery(function() {
+                jQuery( "#start_date_begin_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#start_date_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+<% form_for(:processes, :url => {:controller => :processes, :action => :search}, :remote => true, :html => {:name => "processes_form", :id => "processes_form"}) do |f| -%>
+		<table style="width:100%; margin-top: 20px;" class="search_table">
+			<tr>
+				<td colspan="4" style="text-align: center;"><h3>Processes Search</h3></td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="process_id">Process ID</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:process_id, :style => "width: 15em;") %>
+				</td>
+			</tr>
+			<tr>	
+				<td class="label_cell">
+					<label for="process_id">Sam Customer ID</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:sam_customer_id, :style => "width: 15em;") %>
+				</td>			
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="server_id">Server ID</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:server_id, {:id => "server_id", :style => "width: 15em;"}) %>
+				</td>
+				<td class="label_cell">
+					<label for="process_type_ssm">Move</label>
+		          <br>
+		          <br>
+		          <label for="process_type_ssd">Deactivated</label>
+				</td>
+				<td class="field_cell">
+							<%= radio_button_tag("processes[process_type]", "0", true) %> 
+		          <br>
+				  <br>
+							<%= radio_button_tag("processes[process_type]", "1", false) %>
+		        </td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="email">Server Type</label>
+				</td>
+					<td class="field_cell" colspan = "3"><%= f.select(:server_type, ["-any-","Hosted","Local"]) %>
+				</td>	
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="email">License Manager Enroll</label>
+				</td>
+					<td class="field_cell" colspan = "3"><%= f.select(:licensing_status, ["Yes or No","Yes","No"]) %>
+				</td>	
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="start_date">Started between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:start_date_begin, {:id => "start_date_begin_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:start_date_end, {:id => "start_date_end_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="email">Completed By</label>
+				</td>
+					<td class="field_cell" colspan="3"><%= f.select(:completed_by, ["-any-","Automated Job","User"], {:id => "completed_by"}, {:onchange => "affect_user()"}) %>
+				</td>	
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="process_user_email">E-mail</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:process_user_email, {:id => "process_user_email", :style => "width: 15em;"})%>
+				</td>			
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="process_first_name">First Name</label>
+				</td>
+				<td class="field_cell" colspan = "3">
+					<%= f.text_field(:process_first_name, {:id => "process_first_name", :style => "width: 15em;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="process_last_name">Last Name</label>
+				</td>
+				<td class="field_cell" colspan = "3">
+					<%= f.text_field(:process_last_name, {:id => "process_last_name", :style => "width: 15em;"}) %>
+				</td>
+			</tr>
+			<tr>
+      <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+      <td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+    </tr>
+		</table>
+
+<script type="text/javascript">
+function affect_user(){
+	var completed_by = document.getElementById('processes_completed_by');
+	if	(completed_by.value == 'Automated Job'){
+	document.getElementById('process_user_email').disabled = true;
+	document.getElementById("process_first_name").disabled = true;
+	document.getElementById("process_last_name").disabled = true;	
+}
+else {
+	document.getElementById("process_user_email").disabled = false;
+	document.getElementById("process_first_name").disabled = false;
+	document.getElementById("process_last_name").disabled = false;
+}
+}
+
+        jQuery(document).ready(function() {
+                    jQuery("#processes_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+<% end %>

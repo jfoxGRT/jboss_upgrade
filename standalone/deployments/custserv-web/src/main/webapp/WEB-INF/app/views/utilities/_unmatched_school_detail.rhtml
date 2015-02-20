@@ -1,0 +1,14 @@
+<tr>
+    <td>&nbsp;<%= unmatched_school_detail.customer_name %></td>
+    <td>&nbsp;<%= (unmatched_school_detail.customer_id.nil?) ? "" : link_to(unmatched_school_detail.customer_id, sam_customer_path(unmatched_school_detail.customer_id)) %></td>        
+	<td>&nbsp;<%= unmatched_school_detail.ucn %></td>
+    <td>&nbsp;<%= unmatched_school_detail.server_name %></td>    
+    <td>&nbsp;<%= (unmatched_school_detail.customer_id.nil? || unmatched_school_detail.server_id.nil?) ? "" : link_to(unmatched_school_detail.server_id, sam_customer_sam_server_path(unmatched_school_detail.customer_id, unmatched_school_detail.server_id)) %></td>  
+    <td>&nbsp;<%= unmatched_school_detail.school_name %></td>
+    <td>&nbsp;<%= (unmatched_school_detail.server_id.nil? || unmatched_school_detail.school_id.nil?) ? "" : link_to(unmatched_school_detail.school_id, sam_server_sam_server_school_infos_path(unmatched_school_detail.server_id)) %></td>   
+    <td>&nbsp;<%= unmatched_school_detail["address1"] %></td>
+    <td>&nbsp;<%= unmatched_school_detail["city"] %></td>
+    <td>&nbsp;<%= unmatched_school_detail["state"] %></td>
+	<td>&nbsp;<%= unmatched_school_detail["postal_code"] %></td>
+    <td>&nbsp;<%= link_to("Match", use_customer_app_for_sam_customer_path(:id => unmatched_school_detail.customer_id, :redirect_url => "http://#{request.host}:#{request.port}/schools/index_unmatched"))%>
+</tr>

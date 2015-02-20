@@ -1,0 +1,19 @@
+<br>
+<u><b><center><font size = "2.5px">The following servers have components with updates available:</center></font></b></u>
+<%= render(:partial => "outdated_component_quiz_history_table", :collection => outdated_server_list) %>
+
+<br><br>
+<u><b><center><font size = "2.5px">The following servers have components that are up to date:</center></font></b></u>
+<table class="popup_one_table_pane" style="width:100%;">
+<br>
+	<br><br>
+	<thead>
+		<tr>
+			<th>Server ID</th>
+			<th>Server Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "updated_component_quiz_history_row", :collection => updated_server_list) %>
+	</tbody>
+</table>

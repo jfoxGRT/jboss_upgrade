@@ -1,0 +1,19 @@
+<td>
+	<% 
+	   assigning_tasks = current_user.hasScholasticPermission(Permission.assign_tasks)
+	   button_text = "Take Ownership"
+	   if (task_common_end_cells.status == Task.UNASSIGNED)
+		  if (assigning_tasks)
+			button_text = "Assign" %>
+			<%= form_variable.select(:target_user_id, user_map, :selected => current_user.id) %>
+	 <% else %>
+	 		<%= form_variable.hidden_field(:target_user_id, :value => current_user.id) %>
+	 	&nbsp;
+	 <% end 
+	   else
+		button_text = "Revoke"
+		assigned_user = task_common_end_cells.current_user %>
+		<%= assigned_user.last_name %>, <%= assigned_user.first_name %>
+	<% end %>
+</td>
+<td>&nbsp;<%= submit_tag(button_text) if ((assigning_tasks) || task_common_end_cells.status == Task.UNASSIGNED) %></td>

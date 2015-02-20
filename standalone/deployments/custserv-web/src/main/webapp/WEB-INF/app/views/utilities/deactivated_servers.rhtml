@@ -1,0 +1,67 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Deactivated Servers Report", :csv_action => "export_deactivated_servers_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>
+          <% if (@sort_order == "cust_name") %>
+            <%= link_to("SAM Customer Name", {:action => :deactivated_servers, :sort => "cust_name_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :deactivated_servers, :sort => "cust_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "cust_id") %>
+            <%= link_to("SC ID", {:action => :deactivated_servers, :sort => "cust_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :deactivated_servers, :sort => "cust_id"}) %>
+          <% end %>
+        </th>            
+        <th>    
+		  <% if (@sort_order == "server_name") %>
+            <%= link_to("Server Name", {:action => :deactivated_servers, :sort => "server_name_desc"}) %>
+          <% else %>
+            <%= link_to("Server Name", {:action => :deactivated_servers, :sort => "server_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "server_id") %>
+            <%= link_to("Server ID", {:action => :deactivated_servers, :sort => "server_id_desc"}) %>
+          <% else %>
+            <%= link_to("Server ID", {:action => :deactivated_servers, :sort => "server_id"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "server_active") %>
+            <%= link_to("Server Active?", {:action => :deactivated_servers, :sort => "server_active_desc"}) %>
+          <% else %>
+            <%= link_to("Server Active?", {:action => :deactivated_servers, :sort => "server_active"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "server_registration") %>
+            <%= link_to("Server Registration Date", {:action => :deactivated_servers, :sort => "server_registration_desc"}) %>
+          <% else %>
+            <%= link_to("Server Registration Date", {:action => :deactivated_servers, :sort => "server_registration"}) %>
+          <% end %>
+        </th>                                
+        <th>
+          <% if (@sort_order == "agent_id") %>
+            <%= link_to("Agent ID", {:action => :deactivated_servers, :sort => "agent_id_desc"}) %>
+          <% else %>
+            <%= link_to("Agent ID", {:action => :deactivated_servers, :sort => "agent_id"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "agent_last_connected") %>
+            <%= link_to("Agent Last Connected", {:action => :deactivated_servers, :sort => "agent_last_connected_desc"}) %>
+          <% else %>
+            <%= link_to("Agent Last Connected", {:action => :deactivated_servers, :sort => "agent_last_connected"}) %>
+          <% end %>
+        </th>                        
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "deactivated_servers_detail", :collection => @deactivated_servers)%>
+    </tbody>    
+</table>

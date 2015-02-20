@@ -1,0 +1,23 @@
+<h3 align="center">Please Assign a Root Organization To the Following Entitlement:</h3>
+<table class="data_table" width="60%">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Account Name</th>
+            <th>Old Associated Organization</th>
+            <th>Date Registered</th>
+            <th>Task Details</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="text-align: center;"><%= sam_customer_assign_nav.id %></td>
+        <td style="text-align: center;"><%= sam_customer_assign_nav.org1.name.strip.upcase %></td>
+        <td style="text-align: center;"><%= sam_customer_assign_nav.org1.name.strip.upcase %></td>
+        <td style="text-align: center;"><%= (sam_customer_assign_nav.sam_customer.registration_date.nil?) ? "-" : sam_customer_assign_nav.sam_customer.registration_date.strftime(fmt='%x') %></td>
+        <td><%= sam_customer_assign_nav.message %></td>
+        <td style="text-align: center;"><%= button_to("Cancel", {:action => :cancel_sam_customer_assign, :id => sam_customer_assign_nav.id}) %></td>
+    </tr>
+    </tbody>
+</table>

@@ -1,0 +1,7 @@
+<% count_difference = compliance_count_row.total_allocated_count.to_i - compliance_count_row.max_allowed_on_hosted_servers.to_i %>
+<tr>
+	<td style="border-right: 1px dotted black;"><%= compliance_count_row.description %></td>
+	<td style="border-right: 1px dotted black;"><%= compliance_count_row.max_allowed_on_hosted_servers %></td>
+	<td style="border-right: 1px dotted black;"><%= compliance_count_row.total_allocated_count %></td>
+	<td style="color:red;">&nbsp;<%= count_difference if count_difference > 0 %></td> 
+</tr>

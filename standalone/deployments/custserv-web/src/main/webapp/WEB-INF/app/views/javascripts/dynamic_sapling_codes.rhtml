@@ -1,0 +1,26 @@
+var sapling_codes = new Array();
+
+<% for sapling_code in @sapling_codes -%>
+	sapling_codes.push(new Array(<%= sapling_code.sapling_type_id %>, '<%= sapling_code.name %>', <%= sapling_code.id %>));
+<% end -%>
+
+function saplingCodeSelected() {
+	sapling_sapling_type = $('sapling_sapling_type').getValue();
+	options = $('sapling_sapling_code').options;
+	options.length = 0;
+	sapling_codes.each(function(sapling_code) {
+		if (sapling_code[0] == sapling_sapling_type) {
+			options[options.length] = new Option(sapling_code[1], sapling_code[2]);
+		}
+	});
+	if (options.length == 0) {
+		options[0] = new Option("Select a Sapling Type","");
+	}
+	//	$('sapling_sapling_code').show();
+	//}
+}
+
+document.observe('dom:loaded', function() {
+	//$('sapling_sapling_code').hide();
+	$('sapling_sapling_type').observe('change', saplingCodeSelected);
+});

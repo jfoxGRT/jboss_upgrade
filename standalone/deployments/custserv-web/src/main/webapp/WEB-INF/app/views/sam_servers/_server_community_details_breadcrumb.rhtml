@@ -1,0 +1,12 @@
+<table style="margin-bottom: 30px;">
+    <tr>
+        <td class="commander_profile_breadcrumb_cell"><%= link_to(sam_customer.root_org.name.strip, 
+                                                        :action => :sam_customer_details, :id => sam_customer.id) %></td>
+        <td class="commander_profile_breadcrumb_cell">&lt;</td>
+        <td class="commander_profile_breadcrumb_cell"><%= link_to(server_community_info.sam_server.name, 
+                                                        {:action => :commander_server_details, :id => sam_customer.id, 
+                                                         :server_id => server_community_info.sam_server.id}) %></td>
+        <td class="commander_profile_breadcrumb_cell">&lt;</td>
+        <td class="commander_profile_breadcrumb_cell"><%= server_community_info.community.name %></td>
+    </tr>
+</table>

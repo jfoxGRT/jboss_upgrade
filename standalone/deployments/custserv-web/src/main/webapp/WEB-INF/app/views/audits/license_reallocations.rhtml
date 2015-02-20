@@ -1,0 +1,15 @@
+<% @page_title = "SAM Connect - License Reallocations" %>
+<h2>License Reallocations</h2>
+<%= link_to("License Reallocations", :action => :sam_customers) %>&nbsp;&nbsp;&gt;&nbsp;&nbsp;
+<%= @sam_customer.root_org.name.strip %>
+<table class="data_table" style="margin-top: 30px;">
+	<tr>
+		<th><%= PRODUCT_TERM %></th>
+		<th>SAM Server</th>
+		<th>Starting Count</th>
+		<th>Change from Starting Count</th>
+		<th>Performed By..</th>
+		<th>Performed At..</th>
+	</tr>
+	<%= render(:partial => "license_reallocation", :collection => @seat_activities) %>
+</table>

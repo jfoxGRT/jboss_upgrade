@@ -1,0 +1,11 @@
+<% reg_date = sam_customer.registration_date
+	style_text = (reg_date) ? "background-color: #ee6;" : "" %>
+<tr id="sam_customer_<%= sam_customer.id %>" <%= "style='background-color: #ff6; '" if reg_date %>>
+	<td style="text-align: left; <%= style_text %>">&nbsp;<%= link_to(sam_customer.name, sam_customer_path(sam_customer.id)) %></td>
+	<td style="<%= style_text %>"><%= link_to(sam_customer.sc_ucn, org_path(sam_customer.root_org_id)) %></td>
+	<td style="<%= style_text %>">&nbsp;<%= sam_customer.sc_index %></td>
+	<td style="<%= style_text %>">&nbsp;<%= reg_date.strftime(DATE_FORM) if reg_date %></td>
+	<td style="<%= style_text %>">&nbsp;<%= translateManagerStatus(sam_customer.licensing_status) %></td>
+	<td style="<%= style_text %>">&nbsp;<%= translateManagerStatus(sam_customer.auth_status) %></td>
+	<td style="<%= style_text %>">&nbsp;<%= translateManagerStatus(sam_customer.update_manager_status) %></td>
+</tr>

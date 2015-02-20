@@ -1,0 +1,18 @@
+<% if flash[:notice] %>
+    <div style="color: red"><%= flash[:notice] %></div>
+<% end %>
+
+<% form_tag :action => 'approve' do %>
+<div style="margin: 30px 0 30px 0;">
+<table class="data_table">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Generated Date</th>
+        <th>Recipient Address</th>
+        <th>Subject</th>
+    </tr>
+    <%= render(:partial => "unapproved", :collection => @unapproved) %>
+</table>
+</div>
+<%= submit_tag "Approve Selected" %>
+<% end %>

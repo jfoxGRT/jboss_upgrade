@@ -1,0 +1,7 @@
+<tr>
+	<td><%= seat_pool_entitlement.tms_entitlementid %></td>
+	<td><%= seat_pool_entitlement.created_at.strftime(DATE_FORM) %></td>
+	<td><%= seat_pool_entitlement.license_count %></td>
+	<td><%= seat_pool_entitlement.subscription_start.strftime(DATE_FORM) if seat_pool_entitlement.subscription_start %></td>
+	<td><%= seat_pool_entitlement.subscription_end.strftime(DATE_FORM) if seat_pool_entitlement.subscription_end %></td>
+</tr>

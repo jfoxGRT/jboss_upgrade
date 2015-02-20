@@ -1,0 +1,11 @@
+multiple_servers = (@sam_server_ids.split(',').length > 1)
+
+page["step3_container"].replace_html(:partial => "/sam_servers/step3_move_servers", :locals => 
+          {:failure => @failure, :process_token => @process_token, :error_descriptions => @error_descriptions, :process_threads => @process_threads, :process => @process, :multiple_servers => multiple_servers})
+unless @failure
+  unless multiple_servers
+    page.call 'monitor_process', @process.id.to_s, SAMC_PROCESS_SAM_SERVER_MOVE, 'process_thread_table', 'process_msg_indicator'
+  end
+else
+  page["move_servers_button"].enable
+end

@@ -1,0 +1,78 @@
+<% form_for :entitlement do |f| -%>
+<p><label for="id">Entitlement ID</label><br/>
+<%= f.text_field :id %></p>
+
+<p><label for="originating_order_num">Originating Order Number</label><br/>
+<%= f.text_field :originating_order_num %></p>
+
+<p><label for="order_num">Order Number</label><br/>
+<%= f.text_field :order_num %></p>
+
+<p><label for="invoice_num">Invoice Number</label><br/>
+<%= f.text_field :invoice_num %></p>
+
+<p><label for="shipment_num">Shipment Number</label><br/>
+<%= f.text_field :shipment_num %></p>
+
+<p><label for="po_num">PO Number</label><br/>
+<%= f.text_field :po_num %></p>
+
+<p><label for="master_order_num">Master Order Number</label><br/>
+<%= f.text_field :master_order_num %></p>
+
+<p><label for="item_num">Item Number</label><br/>
+<%= f.text_field :item_num %></p>
+
+<p><label for="item_desc">Item Description</label><br/>
+<%= f.text_field :item_desc %></p>
+
+<p><label for="quantity">Quantity</label><br/>
+<%= f.text_field :quantity %></p>
+
+<p><label for="order_date">Order Date</label><br/>
+<%= f.text_field :order_date %></p>
+
+<p><label for="shipped_date">Shipped Date</label><br/>
+<%= f.text_field :shipped_date %></p>
+
+<p><label for="type_code">Type Code</label><br/>
+<%= f.text_field :type_code %></p>
+
+<p><label for="type_desc">Type Description</label><br/>
+<%= f.text_field :type_desc %></p>
+
+<p><label for="product_group_code"><%= PRODUCT_TERM %> Group Code</label><br/>
+<%= f.text_field :product_group_code %></p>
+
+<p><label for="product_group_desc"><%= PRODUCT_TERM %> Group Description</label><br/>
+<%= f.text_field :product_group_desc %></p>
+
+<p><label for="product_id"><%= PRODUCT_TERM %> ID</label><br/>
+<%= f.text_field :product_id %></p>
+
+<p><label for="product_id_value"><%= PRODUCT_TERM %> ID Value</label><br/>
+<%= f.text_field :product_id_value %></p>
+
+<p><label for="product_desc"><%= PRODUCT_TERM %> Description</label><br/>
+<%= f.text_field :product_desc %></p>
+
+<p><label for="product_version"><%= PRODUCT_TERM %> Version</label><br/>
+<%= f.text_field :product_version %></p>
+
+<p><label for="product_version_desc"><%= PRODUCT_TERM %> Version Description</label><br/>
+<%= f.text_field :product_version_desc %></p>
+
+<p><label for="license_count_type">License Count Type</label><br/>
+<%= f.text_field :license_count_type %></p>
+
+<p><label for="license_count">License Count</label><br/>
+<%= f.text_field :license_count %></p>
+
+<p><%= submit_tag 'Submit Message' %> </p>
+<% end -%>
+
+<hr/>
+
+<pre>
+<%= escape_once( @xml ) %>
+</pre>

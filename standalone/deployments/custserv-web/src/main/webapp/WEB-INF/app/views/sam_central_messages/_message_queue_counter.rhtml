@@ -1,0 +1,161 @@
+
+<% # script needs to be here since we render this partial directly from controller after initial load
+%>
+<script type="text/javascript" charset="utf-8">
+    
+  function popup_create_dialog(queueName) {
+    jQuery('#stats_div').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator', :locals => {:top_padding => '200'})) %>");
+  	jQuery('#stats_div').dialog({
+  		modal: false,
+      width: 'auto'
+  	});
+    jQuery.get('<%= url_for(:action => "stats") %>' + '?queue_name=' + queueName, function(data) {
+  		jQuery('#stats_div').html(data); 
+  	});
+    return true;
+  }
+  
+</script>
+
+<table class="basic_table" align="left" style="width: 100%; table-layout: fixed">
+	<thead>
+		<tr>
+			<th style="width: 10%;">Queue Name</th>
+			<th style="width: 9%;">Message Count</th>
+			<th style="width: 8%;">Head Message ID</th>
+      <th style="width: 8%;">Stats</th>
+      <% if (current_user.isAdminType) %>
+			  <th style="width: 8%;">Edit</th>
+      <% end %>
+			<th style="width: 57%;">Head Message</th>
+		</tr>
+	</thead>
+	<tbody>
+
+    <% class_value = (@auth_head && ((Time.now - @auth_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Auth</td>
+			<td><%= @scm_auth_count %></td>
+			<td><%= @auth_head.id if @auth_head %></td>
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageAuth.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageAuth.QUEUE_NAME), :method => :get) if @auth_head %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @auth_head.message if @auth_head %></pre></td>
+		</tr>
+		
+    <% class_value = (@commander_head && ((Time.now - @commander_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Commander</td>
+			<td><%= @scm_commander_count %></td>
+			<td><%= @commander_head.id  if @commander_head %></td>
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageCommander.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageCommander.QUEUE_NAME), :method => :get) if @commander_head %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @commander_head.message if @commander_head %></pre></td>
+		</tr>
+		
+    <% class_value = (@core_audit_head && ((Time.now - @core_audit_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Core Audit</td>
+			<td><%= @scm_core_audit_count %></td>
+			<td><%= @core_audit_head.id if @core_audit_head %></td>
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageCoreAudit.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageCoreAudit.QUEUE_NAME), :method => :get) if @core_audit_head  %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @core_audit_head.message if @core_audit_head %></pre></td>
+		</tr>
+		
+    <% class_value = (@core_email_head && ((Time.now - @core_email_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Core Email</td>
+			<td><%= @scm_core_email_count %></td>
+			<td><%= @core_email_head.id if @core_email_head %></td>      
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageCoreEmail.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageCoreEmail.QUEUE_NAME), :method => :get) if @core_email_head %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @core_email_head.message if @core_email_head %></pre></td>
+		</tr>
+    
+		<% class_value = (@core_processor_head && ((Time.now - @core_processor_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Core Processor</td>
+			<td><%= @scm_core_processor_count %></td>
+			<td><%= @core_processor_head.id if @core_processor_head %></td>
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageCoreProcessor.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageCoreProcessor.QUEUE_NAME), :method => :get) if @core_processor_head %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @core_processor_head.message if @core_processor_head %></pre></td>
+		</tr>
+		
+    <% class_value = (@messaging_head && ((Time.now - @messaging_head.created_at) / 3600) > 2) ? "twinzmq_msg_cell table_row_problem" : "twinzmq_msg_cell" %>
+		<tr class="<%= class_value %>">
+			<td>Messaging</td>
+			<td><%= @scm_messaging_count %></td>
+			<td><%= @messaging_head.id if @messaging_head %></td>
+      <td><button type="button" onclick="popup_create_dialog(<%= "'" + SamCentralMessageMessaging.QUEUE_NAME + "'" %>);">View</button></td>
+      <% if (current_user.isAdminType) %>
+			  <td><%= button_to("Edit", edit_sam_central_message_path(SamCentralMessageMessaging.QUEUE_NAME), :method => :get) if @messaging_head %></td>
+      <% end %>
+			<td><pre style="overflow: auto;"><%= @messaging_head.message if @messaging_head %></pre></td>
+		</tr>
+		
+    <tr>
+		    <td>Unprocessed Email Message</td>
+		    <td><%= @unprocessed_emails_count %></td>
+		    <td>&nbsp;</td>
+        <!-- TODO: implement delay time and maybe throughput(emails sent per hour) here -->
+		    <td>&nbsp;</td>
+        <% if (current_user.isAdminType) %>
+          <td></td>
+        <% end %>
+		    <td></td>
+		</tr>
+		
+    <tr>
+			<td>TMS Temp Out</td>
+			<td><%= @scm_tms_temp_out_count %></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+      <% if (current_user.isAdminType) %>
+			  <td>&nbsp;</td>
+      <% end %>
+      <td>&nbsp;</td>
+		</tr>
+		
+    <tr>
+			<td>TMS Fake In</td>
+			<td><%= @scm_tms_fake_in_count %></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+      <% if (current_user.isAdminType) %>
+			  <td>&nbsp;</td>
+      <% end %>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>CSI Temp Out</td>
+			<td><%= @scm_csi_temp_out_count %></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+      <% if (current_user.isAdminType) %>
+			  <td>&nbsp;</td>
+      <% end %>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>CSI Fake In</td>
+			<td><%= @scm_csi_fake_in_count %></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+      <% if (current_user.isAdminType) %>
+			  <td>&nbsp;</td>
+      <% end %>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>

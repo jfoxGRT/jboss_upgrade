@@ -1,0 +1,69 @@
+<% @page_title = "SAMC - Finder" %>
+<h1>Finder</h1>
+<script type="text/javascript" charset="utf-8">
+		Date.firstDayOfWeek = 7;
+		Date.format = 'yyyy-mm-dd';
+        $(function()
+		{
+			$('.date-pick').datePicker({
+			clickInput:true,
+			startDate:'1996-01-01'
+			})
+		});
+</script>
+
+<div id="all-servers-table"  >
+<!-- start of  Orders table -->
+	<div id="tabs" style="width:750px; padding: 20px; margin: 10px;">
+		<ul>
+			<li><a href="#tabs-1">Entitlements</a></li>
+			<li><a href="#tabs-2">Organizations</a></li>
+			<li><a href="#tabs-3">Tasks</a></li>
+			<li><a href="#tabs-4"><%= SAM_CUSTOMER_TERM %>s</a></li>
+			<li><a href="#tabs-5">SAM Servers</a></li>
+			<li><a href="#tabs-6">Email</a></li>
+      <li><a href="#tabs-7">Auth Users</a></li>
+		</ul>
+		<div id="tabs-1">
+			<%= render(:partial => "entitlement_search", :locals => {:product_group_list => @product_group_list,
+			 :product_type_list => @product_type_list, :order_type_list => @order_type_list, 
+			 :sc_entitlement_type_list => @sc_entitlement_type_list, :state_province_list => @state_province_list}) %> 	
+		</div>
+		<div id="tabs-2">
+			<%= render(:partial => "org_search", :locals => {:customer_status_list => @customer_status_list,
+						:customer_group_list => @customer_group_list, :customer_type_list => @customer_type_list,
+						:state_province_list => @state_province_list}) %>
+		</div>
+		<div id="tabs-3">
+			<%= render(:partial => "task_search", :locals => {:order_type_list => @order_type_list, :task_type_list => @task_type_list,
+						:user_list => @user_list, :task_status_list => @task_status_list, :state_province_list => @state_province_list}) %>
+		</div>
+		<div id="tabs-4">
+			<%= render(:partial => "sam_customer_search", :locals => {:true_or_false_options => @true_or_false_options, :product_type_list => @product_type_list, :community_list => @community_list, :state_province_list => @state_province_list}) %>
+		</div>
+		<div id="tabs-5">
+			<%= render(:partial => "sam_server_search", :locals => {:true_or_false_options => @true_or_false_options, :os_family_options => @os_family_options, :cpu_bits_options => @cpu_bits_options, :os_series_options => @os_series_options, :community_list => @community_list, :agent_plugins_list => @agent_plugins_list})%>
+		</div>
+		<div id="tabs-6">
+			<%= render(:partial => "email_search", :locals => {:true_or_false_options => @true_or_false_options, :email_type_list => @email_type_list})%>
+		</div>
+    <div id="tabs-7">
+			<%= render(:partial => "auth_user_search", :locals => {:true_or_false_options => @true_or_false_options, :auth_user_type_list => @auth_user_type_list})%>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+<!-- Begin
+function popUp(URL) {
+	day = new Date();
+	id = day.getTime();
+	return eval("page" + id + " = window.open(URL, '" + id + "','toolbar=1,scrollbars=1,location=1,statusbar=1,menubar=1,resizable=1,width=800,height=800');");
+}
+// End -->
+</script>
+<script type="text/javascript">
+	//$('ucn').focus();
+</script>

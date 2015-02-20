@@ -1,0 +1,14 @@
+<table class="data_table">
+    <thead>
+    <tr class="data_table_first_row">
+        <td>Top-Level Org Name</td>
+        <td>State</td>
+        <td>Count Assigned to This User</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% user_task_top_level_org_hash.each do |k,v| %>
+        <%= render(:partial => "unassigned_entitlement_summary_row", :object => v ) %>
+        <% end %>
+    </tbody>
+</table>

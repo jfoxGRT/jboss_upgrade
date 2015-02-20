@@ -1,0 +1,10 @@
+<tr>
+    <td>&nbsp;<%= deactivated_servers_detail.cust_name %></td>
+    <td>&nbsp;<%= (deactivated_servers_detail.cust_id.nil?) ? "" : link_to(deactivated_servers_detail.cust_id, sam_customer_path(deactivated_servers_detail.cust_id)) %></td>    
+    <td>&nbsp;<%= deactivated_servers_detail.server_name %></td>
+    <td>&nbsp;<%= (deactivated_servers_detail["server_id"].nil?) ? "" : link_to(deactivated_servers_detail["server_id"], sam_customer_sam_server_path(deactivated_servers_detail.cust_id, deactivated_servers_detail["server_id"])) %></td>     
+    <td>&nbsp;<%= deactivated_servers_detail.server_active %></td>
+    <td>&nbsp;<%= deactivated_servers_detail.server_registration_date %></td>        
+    <td>&nbsp;<%= (deactivated_servers_detail["server_id"].nil? || deactivated_servers_detail["agent_id"].nil?) ? "" : link_to(deactivated_servers_detail["agent_id"], agent_path(deactivated_servers_detail["agent_id"])) %></td>                
+    <td>&nbsp;<%= deactivated_servers_detail["agent_last_connected"] %></td>    
+</tr>

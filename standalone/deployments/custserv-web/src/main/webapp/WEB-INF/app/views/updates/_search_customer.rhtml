@@ -1,0 +1,8 @@
+<tr>
+	<td style="text-align: left;"><%= search_customer.id %></td>
+	<td style="text-align: left;"><%= search_customer.name %></td>
+	<td style="text-align: left;">
+      <button type="button" 
+              onclick="swapTBContent('<%= url_for(:action => :add_customer_override_p2, :id => search_customer.id) %>',true); return false;">Add Exception</button>
+	</td>
+</tr>

@@ -1,0 +1,9 @@
+<% @page_title = "SAM Connect - License Reallocations" %>
+<h2>License Reallocations</h2>
+<table class="data_table">
+	<tr>
+		<th>Sam Customer ID</th>
+		<th>SAM Customer</th>
+	</tr>
+	<%= render(:partial => "sam_customer", :collection => @sam_customers) %>
+</table>

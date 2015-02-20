@@ -1,0 +1,14 @@
+<% @page_title = "SAMC - #{@manager}" %>
+
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @manager %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @manager %></h2>
+</div>

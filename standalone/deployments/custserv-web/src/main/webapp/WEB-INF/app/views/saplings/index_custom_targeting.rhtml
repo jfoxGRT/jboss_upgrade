@@ -1,0 +1,73 @@
+<script type="text/javascript">
+  function toggleEntitlementSelect() {
+    checkbox = document.getElementById("entitlement_checkbox");
+    dateRow = document.getElementById("entitlement_date_row")
+    selectRow = document.getElementById("select_entitlement_row");
+  	dateField = document.getElementById("entitlement_date");
+  	
+    if(checkbox.checked) {
+      dateRow.style.display = '';
+      selectRow.style.display = '';
+      formatDate(dateField);
+    }
+    else {
+      selectRow.style.display = 'none';
+      dateRow.style.display = 'none';    
+    }
+  }
+  
+  function formatDate(dateField)
+  {
+	  	now = new Date();
+	  	
+	  	currMonth = (now.getMonth()) + 1;
+	  	if(currMonth < 10) currMonth = "0" + currMonth;
+	  	currDate = now.getDate();
+	  	if(currDate < 10) currDate = "0" + currDate;
+	  	currYear = now.getFullYear();
+	  	
+	  	dateString = currYear + "-" + currMonth + "-" + currDate;
+	  	dateField.value = dateString;
+  }
+  
+  function selectAllCustomers() 
+  { // Checks or unchecks all checkboxes on page
+  	checkAllBox = document.getElementById("check_all");
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName('input');
+    for(i = 0; i < inputArray.length; i++) {
+    	if(inputArray[i].type == 'checkbox') {
+    		if(checkAllBox.checked) {
+      			inputArray[i].checked = true;
+      		}
+      		else {
+      			inputArray[i].checked = false;
+      		}
+      	}
+     }
+  }
+  
+  jQuery(function() {
+                jQuery( "#entitlement_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+        
+</script>
+<h2>Custom Sapling Targeting Utility</h2>
+<br>
+<div id="custom_targeting_body">
+<% form_remote_tag :url => { :action => :retrieve_customer_list_by_form } do -%>
+<b>Fill in the form below to retrieve a list of customers for sapling targeting:</b>
+<br><br><br>
+  <table align="center">
+    <tr><td style="text-align: left;">Specify Entitlement:</td><td style="text-align: left;"><input type="checkbox" id="entitlement_checkbox" value="1" name="entitlement_checkbox" onclick="toggleEntitlementSelect()"></input></td></tr>
+    <tr id="entitlement_date_row" style="display: none"><td style="text-align: left;">List Entitlements As Of:</td><td style="text-align: left;"><input type=text id="entitlement_date" name="entitlement_date"></input></td></tr>
+    <tr id="select_entitlement_row" style="display: none"><td style="text-align: left;">Select Entitlement:</td><td style="text-align: left;"><%= collection_select(:entitlement_select, :product_id_value, @products, :id_value, :description) %></td></tr>
+    <tr><td style="text-align: left;">Update Manager Activated:</td><td style="text-align: left;"><%= check_box_tag("um_activated_checkbox") %></td></tr>
+    <tr><td style="text-align: left;">Update Components As Available Selected:</td><td style="text-align: left;"><%= check_box_tag("update_components_as_avail_checkbox") %></td></tr>
+    <tr><td style="text-align: left;">Update Quizzes As Available Selected:</td><td style="text-align: left;"><%= check_box_tag("update_quiz_as_avail_checkbox") %></td></tr>
+    <tr><td style="text-align: left;">Customer Type:</td><td style="text-align: left;"><select name="customer_type"><option value="all">All</option><option value="regular">Local Only</option><option value="hosted">Hosted Only</option><option value="hybrid">Hybrid</option></select></td></tr>
+  </table>
+<br><br>
+<p><%= submit_tag "Retrieve Customers" %></p>
+<%- end %>
+</div>

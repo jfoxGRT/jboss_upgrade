@@ -1,0 +1,42 @@
+<script type="text/javascript">
+	function popup_sam_customer_search_results(keystring) {
+		jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+		jQuery('#org_widget').dialog('open');
+		jQuery.get('<%= url_for(:controller => "sam_customers", :action => "search_by_name_or_id", :id => nil) %>?keystring=' + keystring, function(data){
+			jQuery('#org_widget_pane').hide();
+			if (data.indexOf('pull_the_blinds') != -1) {
+				jQuery('#org_widget_pane').html(data);
+				jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+			}	
+			else {
+				jQuery('#org_widget_pane').html('<table style="width:100%;"><tr><td style="border: 0px;text-align: center; padding-top: 200px; color: blue;">Found SAM EE Customer.&nbsp;&nbsp;Please wait..&nbsp;&nbsp;<%= image_tag('indicator_smallwaitanim.gif', :border => '0', :id => 'status_image', :style => 'vertical-align: bottom;' ) %></td></tr></table>');
+				jQuery('#org_widget_pane').fadeIn(500, null);
+				window.location = data;
+			}
+		});
+	}
+	
+	jQuery.fn.slideFadeToggle = function(speed, easing, callback) {
+	  return this.animate({opacity: 'toggle', height: 'toggle'}, speed, easing, callback);  
+	};
+</script>
+<div style="border-top: 3px solid #666;">
+	<h3 style="text-align: center; margin-top: 15px;"><%= SAM_CUSTOMER_TERM %>s</h3>
+	<% form_tag("", :onsubmit => "popup_sam_customer_search_results(jQuery('#sam_customer_search_keystring').val()); return false;") do -%>
+	<table id="favorite_sam_customer_list_table">
+		<tr>
+			<td class="favorite_sam_customer_link_cell" style="text-align: left; font-size: 12px; width: 65%;">
+				&nbsp;Search Name or ID: <!--<input type="text" id="ucn_search_field" />-->	
+					<%= text_field_tag(:keystring, "", :size => 18, :id => "sam_customer_search_keystring") %>
+			</td>
+			<td style="width: 5%;">&nbsp;
+			</td>
+			<td style="width: 30%; vertical-align: middle; text-align: center;">
+				<!--<input type="button" value="Lookup" onclick="alert('yo');" />-->
+				<%= submit_tag("Search") %>
+			</td>
+		</tr>	
+		<%= render(:partial => "common/favorite_sam_customer", :collection => favorite_sam_customers) %>
+	</table>
+	<% end %>
+</div>

@@ -1,0 +1,23 @@
+<%  @page_title = "SAMC - Auth User" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @auth_user.username %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title">Auth User&nbsp;&nbsp;-&nbsp;&nbsp;<%= @auth_user.username %></h2>
+</div>
+<div class="table_header">
+	<h3 class="table_title">SAM Server Users</h3>
+</div>
+<%= render(:partial => "auth_user_ssu_info", :locals => {:sam_customer => @sam_customer, :sam_server_users => @sam_server_users }) %>
+<div class="table_header">
+	<h3 class="table_title">Related Schools</h3>
+</div>
+<%= render(:partial => "auth_user_school_info", :object => @auth_user, :locals => {:schools => @schools, :sam_customer_id => @sam_customer.id}) %>

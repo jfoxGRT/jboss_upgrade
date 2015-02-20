@@ -1,0 +1,11 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th><%= SAM_CUSTOMER_TERM %> Name</th>
+			<th>UCN</th>
+		</tr>
+	</thead>
+	<tbody class="standard_link_style">
+		<%= render :partial => "global_data_hosted_customer", :collection => @hosted_customers %>
+	</tbody>
+</table>

@@ -1,0 +1,24 @@
+<h2>Add User</h2>
+
+<%= error_messages_for :user %>
+<% form_for :user do |f| -%>
+<%= f.hidden_field :id %>
+<%= f.hidden_field :sam_customer_id, :value => current_user.sam_customer.id %>
+
+<p><label for="email">Email</label><br/>
+<%= f.text_field :email %></p>
+
+<p><label for="first_name">First Name</label><br/>
+<%= f.text_field :first_name %></p>
+
+<p><label for="last_name">Last Name</label><br/>
+<%= f.text_field :last_name %></p>
+
+<p><label for="password">Password</label><br/>
+<%= f.password_field :password %></p>
+
+<p><label for="password_confirmation">Confirm Password</label><br/>
+<%= f.password_field :password_confirmation %></p>
+
+<p><%= submit_tag 'Add User' %></p>
+<% end -%>

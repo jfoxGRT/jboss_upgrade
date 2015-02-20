@@ -1,0 +1,58 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#quicksearch_table').dataTable({
+    "bPaginate": false,
+		"aaSorting": [[1, "asc"]],
+    "oLanguage": {
+      "sEmptyTable": "No schools to display.",
+      "sZeroRecords": "No schools match the search criteria."
+    },
+    "sDom": 'T<"clear">lfrtip',
+    "oTableTools": {
+      "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+      "aButtons": [
+				"copy",
+				"csv",
+				{
+          "sExtends": "xls",
+          "sFileName": "*.xls",
+          "sButtonText": "XLS"
+        },
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape"
+				},
+				"print"
+			]
+		}
+	});
+} );
+</script>
+
+<table id="quicksearch_table" class="data_table filterable_table">
+    <thead>
+        <tr class="data_table_first_row">
+        	<th>ID</th>
+			<th>Name</th>
+      <th>School Number</th>
+			<th>Address</th>
+			<th>City</th>
+			<th>State</th>
+      <th>ZIP</th>
+      <th>Phone</th>
+			<th>SAM Server</th>
+			<th>Match Status</th>
+			<th>UCN</th>
+			<th>Matched Site</th>
+			<th>Classes</th>
+			<th>Created</th>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "sam_customer_schools/server_school", :collection => schools_collection) %>
+    </tbody>
+</table>

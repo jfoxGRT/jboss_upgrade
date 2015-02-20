@@ -1,0 +1,31 @@
+<% org_name = @customer_details.name.strip %>
+<%  @page_title = "SAMC - Organization Details" %>
+<div class="link_set">
+	<%= link_to("Top-Level Organizations By Bracket", :action => :org_hierarchy_brackets, :controller => :csi) %>
+</div>
+<div style="height: 50px; text-align: center;">&nbsp;
+	<span id="status_indicator" style="color: red; display: none;">
+    Please wait.. This may take a minute&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+		</span>
+</div>
+<table style="width: 100%;">
+	<tr>
+		<td id="left_pane" style="vertical-align: top; width: 50%; border-right: 2px solid black; padding: 10 0 10 0;">
+			<div align="right" id="left_pane_show_details_button">
+				<%= render(:partial => "left_pane_show_details_button", :object => @customer_under_lens) %>
+			</div>
+			<div id="org_hierarchy">&nbsp;
+				<%= render(:partial => "org_hierarchy_info", :locals => {:customer_under_lens => @customer_under_lens, :descendant_orgs => @descendant_orgs}) %>
+			</div>
+		</td>
+		<td id="right_pane" style="vertical-align: top; text-align: left; width: 50%; padding: 10 0 10 0;">
+			<div align="left" id="right_pane_show_hierarchy_button">
+				<%= render(:partial => "right_pane_show_hierarchy_button", :object => @customer_details) %>
+			</div>
+			<%= render(:partial => "ucn_search") %>
+			<div align="center" id="org_details">
+				<%= render(:partial => "org_info", :object => @customer_details) %>
+			</div>	
+		</td>
+	</tr>
+</table>

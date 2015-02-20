@@ -1,0 +1,6 @@
+Current status of update manager: <%= update_manager.active == 1 ? "Running" : "Paused" %>.
+
+<%= link_to_remote (update_manager.active == 1 ? "Pause Update Manager" : "Activate Update Manager"), 
+    :url => { :action => "global_toggle" },
+    :update => update_element,
+    :complete => visual_effect(:highlight, update_element ) %>

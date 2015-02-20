@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<%= stylesheet_link_tag("jquery_and_yahoo_map_master") %>
+	<%= stylesheet_link_tag("jeff_stuff") %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+    <%= javascript_include_tag("jquery/jquery") %>
+	<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=FppKowbV34Foo8Tl5zeg1UIfdLOgloqsaDyBxFsX00Q1Ak0CBhw1VYFBNU4_AP_rZTBaWGsFrOI-"></script>
+	<%= javascript_include_tag("cs_tasks") %>
+    <title><%= @page_title %></title>
+    <script type="text/javascript">
+
+		var mapData = <%= @map_data_json %>;
+		var locationHash = new Array();
+	
+		function init() {
+			var startingAddress = "kansas city, mo";
+			var startingZoom = 14;
+			//$("#togglePlayPause").text(getOtherPlayPause());
+			//$("#toggleMode").text(getOtherMode());
+			//var dimensions = getViewportDimensions();
+			//var width = $("#map").width() - 50;
+			//var height = dimensions[1]-70;
+			map = new YMap(document.getElementById("us_image_map"), YAHOO_MAP_REG, new YSize(800, 495));
+			//map.addTypeControl();
+			map.addZoomLong();
+			map.addTypeControl();
+			map.addPanControl();
+			map.drawZoomAndCenter(startingAddress, startingZoom);
+			
+			initSpecifics();
+			
+			//pan();
+	
+			/*for(var i = 0; i < maxItems; i++) {
+				$("#template").clone().attr("id", "item" + i).
+					attr("onMouseOver", "highlight(" + i + ")").
+					attr("onMouseOut", "unhighlight(" + i + ")").
+					appendTo("#items");
+			}*/
+			//$("#").show("slow");
+			//refresh();
+		}
+		
+		
+		function displayMarker(geoCode) {
+			
+			if(geoCode.success && geoCode.Address != "kansas city, mo") {
+				//alert(geoCode.Address);
+				var point = geoCode.GeoPoint;
+				//map.panToLatLon(point);
+				//map.removeMarkersAll();
+				var marker = new YMarker(point);
+				//marker.addLabel("<div style='background-color: white; width: 100%;'>" + mapData[locationHash[geoCode.Address]].sam_customer_name + "</div>");
+				marker.addAutoExpand("<div style='background-color: white; width: 100%;'>" + mapData[locationHash[geoCode.Address]].sam_customer_name + "</div>");
+				map.addOverlay(marker);
+				//marker.openSmartWindow(lastPanned.server_name + " @<br/>" + lastPanned.sam_customer_name);
+			}
+			else {
+				
+			}
+		}
+		
+		$(document).ready(init);
+		
+    </script>
+  </head>
+  <% home_page_link = url_for(:controller => :account, :action => :login) %>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">    
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<div id="samlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></div>
+			<dl>
+				<dt class="schlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></dt>
+				<dt></dt>
+			</dl>
+			<div class="hide">
+				<a href="#content" title="skip navigation" accesskey="2">Skip Navigation</a>
+			</div>
+			<div id="meta">
+			    <p>
+			      <%= link_to("Profile", edit_user_path(@current_user.id)) %> |
+			      <a href="#">Feedback</a> |
+			      <a href="#">Help</a> |
+			      <%= link_to("Logout", :action => :logout, :controller => :account) %>
+			    </p>
+				<p>Logged in as <strong><%= @current_user.first_name %> <%= @current_user.last_name %></strong></p>
+		  	</div> <!-- end meta -->
+			<div class="line" id="navigation">
+	  			<div class="item" id="primary-nav">
+	    			<div class="sap-content">
+	    				<%= render(:partial => "/common/new_app_tabs") %>
+					</div>
+	  			</div> <!-- end primary-nav -->
+			</div> <!-- end navigation -->
+			<div id="subtabnav"></div>
+			<div id="main" class="line">
+	  			<div class="item column" id="sidebar-left">
+	    			<div class="sap-content">
+	    				<div id="block-user-0" class="block block-user">
+							<%= render(:partial => "/common/left_sidebar") %>
+						</div> <!-- end block-user-0 -->
+					</div>
+				</div> <!-- end sidebar-left -->
+				<div class="item column" id="maincontent">
+	    			<div class="sap-content">
+		   				<div class="tabs">
+		   				</div>
+					   	<div id="node-1" class="node clear-block">
+							<div class="meta">
+							</div>
+							<div class="content" id="the-body">
+								<div id="cs_notice_block">
+								<% if flash[:notice] %>
+	                                	<div id="<%= (flash[:msg_type] == 'info') ? 'cs_notice_message' : 'cs_error_message' %>"><br/>
+											<%= flash[:notice] %><br/><br/>
+										</div>
+									
+	                            <% end %>
+								</div>
+	                            <%= yield(:layout) %>								
+							</div>
+						</div>
+					</div>
+					<div class="item column" id="sidebar-right">
+						<div class="sap-content">
+							<div id="block-user-3" class="block block-user"></div>
+						</div>
+					</div> <!-- end sidebar-right -->
+				</div> <!-- end maincontent -->
+			</div> <!-- end main -->
+		</div> <!-- end header -->
+        
+        <div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer -->        
+        
+	</div> <!-- end canvas -->
+	<!-- snippet from layout was here -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-4047083-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+  </body>
+</html>

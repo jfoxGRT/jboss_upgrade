@@ -1,0 +1,101 @@
+<%= render(:partial => "sapling_js") %>
+<h2>Target Sapling ID: <%= @sapling.id %></h2>
+<div id="target_sapling"></div>
+<%= error_messages_for :sapling %>
+<% form_for(:sapling, :url => sapling_path(@sapling), :html => {:multipart => true, :method => :put, :onsubmit => "$('status_indicator').show(); Form.Element.disable('submit_tag')"}) do |f| -%>
+  <%= f.hidden_field :id %>
+  <input type="hidden" name="sapling_target[update_targeting]" value="1" /><!-- This tells controller that it's updating targeting only -->
+  
+  <% if @sapling.auto_target %>
+    <div style="font-style: italic">
+      Note that this sapling is configured for auto-targeting. Targeting will be cleared and refreshed automatically.
+    </div>
+    </br>
+  <% end %>
+  <table align="center" style="margin-bottom: 20px;">
+	<tr>
+	  <td style="text-align: left">
+	  	<label for="customer_id">Target Customer:</label></td>
+	  	<td style="text-align: left; padding-right: 20px;">
+	  		<input type="checkbox" id="target_customer" onClick="targetCustomer(checked)" />
+	  	</td>
+	  	<td style="text-align: left;">
+	  		<label for="customer_id">
+	  			<a href="" onclick="javascript:selectCustomer(); return false;">Customer ID:</a>
+	  		</label>
+	  	</td>
+	  	<td style="text-align: left; padding-right: 20px;">
+	  		<input disabled type="text" id="customer_id"/>
+	  	</td>
+ 	</tr>
+ 	<tr>  
+ 	  <td style="text-align: left"><label for="server_id">Target Server:</label></td>
+ 	  <td style="text-align: left; padding-right: 20px;"><input type="checkbox" id="target_server" onClick="targetServer(checked)" /></td>
+ 	  <td style="text-align: left;">
+ 	  	<label for="server_id">
+ 	  	<a href="" onclick="javascript:selectServer(); return false;">Server ID:</a>
+ 	  	</label></td>
+ 	  <td style="text-align: left; padding-right: 20px;"><input disabled type="text" id="server_id"/></td>
+ 	</tr>
+ 	<tr>
+ 	  <td style="text-align: left"><label for="product_id">Target Product:</label></td>
+ 	  <td style="text-align: left; padding-right: 20px;"><input type="checkbox" id="target_product" onClick="targetProduct(checked)" /></td>
+ 	  <td style="text-align: left;">
+ 	  	<label for="product_id">
+ 	  		<a href="" onclick="javascript:selectProduct(); return false;">Product ID:</a>
+ 	  	</label></td>
+ 	  	<td style="text-align: left; padding-right: 20px;"><input disabled type="text" id="product_id"/></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td style="text-align: left;"><label for="white_list">White List:</label></td><td style="text-align: left; padding-right: 20px;"><input type="checkbox" id="white_list" /></td>
+	</tr>
+	<tr>
+	  <td style="text-align: left; padding-right: 20px;"><input type="button" value="Add Targeting Rule" onclick="insertTargetingRule(trim($('customer_id').value), trim($('server_id').value), trim($('product_id').value), $('white_list').checked)" /></td>
+	</tr>
+	<tr>
+	    <td style="text-align: left; padding-right: 20px;"><input type="button" value="Remove All Targeting Rules" onclick="removeAllTargetingRules(document.getElementById('target_ids').value)" /></td>
+	</tr>
+        <% if (@sapling.sapling_type == 'SAM_SERVER_COMPONENT') %>
+	<tr>
+	  <td colspan="4" style="text-align: center; padding-right: 20px;">-- OR  --</td>
+	</tr>
+	<tr>
+	  <td colspan="4" style="text-align: center; padding-right: 20px;"><%= link_to("Do a Custom Targeting", {:controller => :saplings, :action => :custom_targeting_for_component, :id => @sapling.id}) %></td>
+	</tr>
+        <% end %>
+  </table>
+  <table align="left" class="data_table" id="sapling_targeting_table">
+    <tbody id="sapling_targeting_table_body">
+	  <tr>
+		<!--<th>ID</th>-->
+		<th>Customer ID (Name)</th>
+		<th>SAM Server ID (Name)</th>
+		<th>Product ID (Name)</th>
+		<th>White List</th>
+		<th>Action</th>
+	  </tr>
+	  <% unless(@sapling_target.nil?) %>
+	  <% target_ids = '' %>
+	  <%@sapling_target.each do |st| %>
+	  <% target_ids += st.id.to_s + ',' %>
+	  <%end%>
+	    <input type="hidden" value="<%= target_ids %>" id="target_ids" />
+	    <%= render(:partial => "sapling_targeting", :collection => @sapling_target) %>
+	  <% end %>
+	</tbody>
+  </table>
+  <div id="target_data_container">
+    <% unless(@sapling_target.nil?) %>
+	  <%= render(:partial => "sapling_targeting_hidden", :collection => @sapling_target) %>	
+	<% end %>		
+  </div><br><br><br><br><br><br>
+  <div id="update">
+    <div id="break">
+      <br><br>
+    </div>
+    <%= submit_tag("Update Sapling", :id => "submit_tag") %>
+  </div>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

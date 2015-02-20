@@ -1,0 +1,37 @@
+     <% assigned_alert_instance = !alert_unassigned_sam_customer.assigned_user.nil?
+        handled = !alert_unassigned_sam_customer.status.nil?
+        if (assigned_alert_instance || handled) %>
+        <tr class="dispatched_alert_instance">
+        <% else %>
+        <tr class="undispatched_alert_instance">
+        <% end %>
+        <td id="alert_id" style="text-align: center;"><%= alert_unassigned_sam_customer.id %></td>
+        <td id="alert_account_name" style="text-align: center;"><%= alert_unassigned_sam_customer.org1.name.strip.upcase %></td>
+        <td id="alert_old_org" style="text-align: center;"><%= alert_unassigned_sam_customer.org1.name.strip.upcase %></td>
+        <td id="alert_new_org" style="text-align: center;"><%= (alert_unassigned_sam_customer.org2.nil?) ? "-" : alert_unassigned_sam_customer.org2.name.strip.upcase %></td>
+        <td id="alert_date_registered" style="text-align: center;"><%= (alert_unassigned_sam_customer.sam_customer.registration_date.nil?) ? "-" : alert_unassigned_sam_customer.sam_customer.registration_date.strftime(fmt='%x') %></td>
+        <td id="alert_alert_details" ><%= alert_unassigned_sam_customer.message %></td>
+        <td id="alert_dispatched_user" style="text-align: center;">
+            <% if (assigned_alert_instance) %>
+            <%= alert_unassigned_sam_customer.assigned_user.email %>
+            <% else %>
+            -
+            <% end %>
+        </td>
+        <td id="alert_status" style="text-align: center;">
+        <% if (handled) %>
+            <img src="/images/closed.gif">
+        <% elsif (assigned_alert_instance) %>
+            <img src="/images/wip.gif">
+        <% else %>
+            -
+        <% end %>
+        </td>
+        <td id="alert_action" style="vertical-align: middle;">
+        <% if (assigned_alert_instance || handled) %>
+        <%= button_to("Take ownership", {:action => :top_level_districts}, :disabled => "disabled") %>
+        <% else %>
+        <%= button_to("Take ownership", {:action => :top_level_districts, :alert_instance_id => alert_unassigned_sam_customer.id}) %>
+        <% end %>
+        </td>
+    </tr>

@@ -1,0 +1,129 @@
+<script>
+        jQuery(function() {
+                jQuery( "#date1" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#date2" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#order_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#order_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<% form_for(:entitlement, :url => {:controller => :entitlements, :action => :search}, :remote => true, :html => {:name => "entitlement_form", :id => "entitlement_form"}) do |f| -%>
+
+			<table style="width:100%; margin-top: 20px;" class="search_table">
+				<tr>
+					<td colspan="4" style="text-align: center;"><h3>Entitlement Search</h3></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="id">SAMC Entitlement ID</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:id, {:id => "samc_entitlement_id", :size => "10"}) %></td>
+					<td class="label_cell"><label for="entitlement_tms_entitlementid">TMS Entitlement ID</label></td>
+					<td class="field_cell"><%= f.text_field(:tms_entitlementid, {:size => "10"}) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_order_num">Order #</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:order_num, {:size => "30"}) %></td>
+					<td class="label_cell"><label for="entitlement_invoice_num">Invoice #</label></td>
+					<td class="field_cell"><%= f.text_field(:invoice_num, {:size => "30"}) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_order_type">Order Type</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:entitlement_type_id, order_type_list) %></td>
+					<td class="label_cell"><label for="entitlement_sc_entitlement_type_id">Entitlement Type</label></td>
+					<td class="field_cell"><%= f.select(:sc_entitlement_type_id, sc_entitlement_type_list, {}, {:id => "sc_entitlement_type", :onchange => "resetBillToShipToFields(this)"}) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_sam_customer_id"><%= SAM_CUSTOMER_TERM %> ID</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:sam_customer_id, {:id => "sam_customer_id", :size => "30"}) %></td>
+					<td class="label_cell"><label for="entitlement_product_id">License Count</label></td>
+					<td class="field_cell"><%= f.text_field(:license_count) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_bill_to_ucn">Bill-To UCN</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:bill_to_ucn, {:id => "bill_to", :size => "30"}) %></td>
+					<td class="label_cell"><label for="entitlement_ship_to_ucn">Ship-To UCN</label></td>
+					<td class="field_cell"><%= f.text_field(:ship_to_ucn, {:id => "ship_to", :size => "30"}) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="unassigned">Unassigned</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.check_box(:unassigned, :onclick => "resetSamCustomerIdField(this);") %></td>
+					<td class="label_cell"><label for="entitlement_state_province">State / Province</label></td>
+					<td class="field_cell"><%= f.select(:state_id, state_province_list) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="created_at_start_date_field">Received in SAMC between</label></td>
+					<td class="field_cell" colspan="3">
+						<%= f.text_field(:created_at_start_date, {:id => "date1", :style => "width: 30%;"}) %>
+						<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+						<%= f.text_field(:created_at_end_date, {:id => "date2", :style => "width: 30%;"}) %>
+					</td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_order_num">Order Date between</label></td>
+					<td class="field_cell" colspan="3">
+						<%= f.text_field(:order_start_date, {:id => "order_start_date_field", :style => "width: 30%;"}) %>
+						<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+						<%= f.text_field(:order_end_date, {:id => "order_end_date_field", :style => "width: 30%;"}) %>
+					</td>
+				</tr>
+        <tr>
+					<td class="label_cell"><label for="active">Subscription Active</label></td>
+					<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.check_box(:active) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_product_group_id"><%= PRODUCT_TERM %> Group</label></td>
+					<td class="field_cell" colspan="3"><%= f.select(:product_group_id, product_group_list) %></td>
+				</tr>
+				<tr>
+					<td class="label_cell"><label for="entitlement_product_id"><%= PRODUCT_TERM %></label></td>
+					<td class="field_cell" colspan="3"><%= f.select(:product_id, product_type_list) %></td>
+				</tr>
+				<tr>
+                    <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+					<td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+				</tr>
+			</table>
+			<script type="text/javascript">
+			
+				jQuery(document).ready(function() {
+					jQuery("#entitlement_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+							jQuery('#org_widget_pane').hide();
+							jQuery('#org_widget_pane').html(data);
+							jQuery('#org_widget').dialog('option', 'width', 1100);
+							jQuery('#org_widget').dialog('option', 'height', 650);
+							jQuery('#org_widget').dialog('option', 'position', 'center');
+							jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+						});
+						return false;
+					});
+				});
+			
+			
+	function resetSamCustomerIdField(check_box) {
+		if (check_box.checked) {
+			$('#sam_customer_id').attr("disabled", "disabled");
+			$('#sc_entitlement_type').attr("disabled", "disabled");
+		}
+		else {
+			$('#sam_customer_id').removeAttr("disabled");
+			$('#sc_entitlement_type').removeAttr("disabled");
+		}
+	}
+	
+	function resetBillToShipToFields(sc_entitlement_type) {
+		if (sc_entitlement_type.value == "<%= ScEntitlementType.virtual.id %>") {
+			$('#ship_to').attr("disabled", "disabled");
+			$('#bill_to').attr("disabled", "disabled");
+		}
+		else {
+			$('#ship_to').removeAttr("disabled");
+			$('#bill_to').removeAttr("disabled");
+		}
+	}
+	
+
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+			<% end %>

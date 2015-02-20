@@ -1,0 +1,10 @@
+<tr>
+	<td><%= server_count_message.id %></td>
+	<td><%= server_count_message.timestamp.strftime(DATE_FORM) %></td>
+	<% if all_servers %>
+	<td><%= server_count_message.server_name %></td>
+	<% end %>
+	<td><%= server_count_message.value %></td>
+	<td><%= translate_audit_message_reason(server_count_message.reason) %></td>
+	<td><%= link_to("..see #{server_count_message.esb_message_count} ESB message(s)", {:controller => :esb_message, :action => :find_messages_by_reference_token, :id => server_count_message.token}, {:target => "_new"}) if server_count_message.esb_message_count != "0" %></td>
+</tr>

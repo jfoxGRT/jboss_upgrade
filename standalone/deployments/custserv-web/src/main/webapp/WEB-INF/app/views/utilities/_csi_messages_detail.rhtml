@@ -1,0 +1,9 @@
+<tr>
+    <td>&nbsp;<%= csi_messages_detail.org_name %></td>
+    <td>&nbsp;<%= csi_messages_detail.c_ucn %></td>
+    <td>&nbsp;<%= csi_messages_detail.em_transaction_type %></td>        
+    <td>&nbsp;<%= csi_messages_detail.em_received %></td>    
+    <td>&nbsp;<%= (csi_messages_detail.em_id.nil?) ? "" : link_to(csi_messages_detail.em_id, :controller => :esb_message, :action => :message_detail, :id => csi_messages_detail.em_id) %></td>
+    <td>&nbsp;<%= csi_messages_detail.sc_name %></td>    
+    <td>&nbsp;<%= (csi_messages_detail.sc_id.nil?) ? "" : link_to(csi_messages_detail.sc_id, sam_customer_path(csi_messages_detail.sc_id)) %></td>
+</tr>

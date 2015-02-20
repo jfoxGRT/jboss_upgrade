@@ -1,0 +1,9 @@
+<tr>
+	<td><%= radio_button_tag(:sam_customer_id, search_result.id, "", :onclick => "$('status_indicator').show(); this.disable();") %></td>
+	<td>
+		<b><%= search_result.name %></b><br/>
+		<%= search_result.address_line_1 %><br/>
+		<%= search_result.city_name %> <%= search_result.zip_code %>
+	</td>
+	<td><%= search_result.state_code %></td>
+</tr>

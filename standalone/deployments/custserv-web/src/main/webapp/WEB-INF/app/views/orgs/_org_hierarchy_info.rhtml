@@ -1,0 +1,29 @@
+<% if(!customer_under_lens.nil? && !descendant_orgs.nil?) %>
+<div align="center">
+<%= button_to_remote("Go to Parent",
+							{:before => "$$('input.submit_button').each(Form.Element.disable); $('status_indicator').show();",
+                            :complete => "$('status_indicator').hide(); $$('input.submit_button').each(Form.Element.enable); $('org_name').select();",
+							:url => {:action => :go_to_ancestor, :id => customer_under_lens.id}}, {:class => "submit_button"}) %>
+</div>
+<div class="table_header">
+<h2 class="table_title"><%= customer_under_lens.org.name %></h2>
+<span class="super_caption"><%= "UCN: #{customer_under_lens.ucn}" %></span><br/>
+<span class="super_caption">Number of Children: <%= customer_under_lens.org.number_of_children %></span><br/><br/>
+<h3 class="table_title">Children Organizations</h3>
+</div>
+<table class="data_table" align="center" style="width: 95%;">
+	<thead>
+		<tr>
+			<th style="width: 30%;">Child Organization Name</th>
+			<th>UCN</th>
+			<th>Group</th>
+			<th>Relationship Created</th>
+			<th>Number of Children</th>
+			<th><%= SAM_CUSTOMER_TERM %> / Enabled?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "descendant_org", :collection => descendant_orgs) %>
+	</tbody>
+</table>
+<% end %>

@@ -1,0 +1,64 @@
+<% @page_title = "SAMC - Add Virtual Entitlement" %>
+<h2><%= @sam_customer.name %></h2>
+<% if (@entitlement_audits.length > 0) %>
+<h3>Virtual Entitlements Added For This Task</h3>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Date Created</th>
+			<th>Entitlement ID</th>
+			<th>License Count</th>
+			<th>Annotation</th>
+			<th>Added By..</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "entitlement_audit", :collection => @entitlement_audits) %>
+	</tbody>
+</table>
+<% end %>
+<h3>Apply <%= @subcommunity.name %> Virtual Entitlement</h3>
+<% pool_count = @subcommunity_scale.allocated_pool_count
+   server_count = @subcommunity_scale.server_count %>
+<table class="data_table" style="width: 80%;">
+    <thead>
+        <tr>
+            <th><%= PRODUCT_TERM %></th>
+			<th>SAM Connect's Record of Unallocated Counts</th>
+			<th>SAM Connect's Record of Allocated Counts</th>
+            <th>Actual Allocated Count Reported from SAM Servers</th>
+            <th>Discrepancy Count</th>
+			<th>Added Virtual Entitlement Count For This Task</th>
+			<th>Difference Left to Resolve</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        	<% discrepancy_count = server_count - pool_count %>
+            <td><%= @subcommunity.name %></td>
+			<td><%= @subcommunity_scale.unallocated_pool_count %></td>
+			<td><%= pool_count %></td>
+            <td><%= server_count %></td>
+            <td><%= discrepancy_count %></td>
+			<td><%= @subcommunity_scale.virtual_entitlement_count %></td>
+			<td><%= discrepancy_count - @subcommunity_scale.virtual_entitlement_count %></td>
+        </tr>
+    </tbody>
+</table>
+<div align="center" style="margin-top: 30px;">
+<% form_tag(task_license_count_discrepancies_path(@task.id), {:method => :post, :onsubmit => "showStatus(); Form.Element.disable('submit_tag')"}) do -%>
+<%= hidden_field_tag(:sam_customer_id, @sam_customer.id) %>
+<%= hidden_field_tag(:subcommunity_id, @subcommunity.id) %>
+<%= hidden_field_tag(:pool_count, pool_count) %>
+<%= hidden_field_tag(:server_count, server_count) %>
+<div style="width: 70%; margin: 20px 0 20px 0;"><div style="margin-bottom: 20px;">Please enter the number of licenses you'd like to apply.
+count.  This number should not exceed the difference left to resolve above.  (positive or negative numbers are accepted)</div>
+<%= text_field_tag(:delta, @delta) %></div>
+
+<div style="margin: 20px 0 20px 0;"><div style="margin-bottom: 20px;">Please enter details about the license change (e.g. why they're being applied, etc.)</div><%= text_area_tag(:annotation, @annotation, :size => "50x10") %></div>
+<%= submit_tag("Apply", :id => "submit_tag") %>
+<% end -%> 
+</div>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

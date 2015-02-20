@@ -1,0 +1,187 @@
+<% @page_title = "SAMC - Create Fake Order" 
+
+product_id_list = @product_list.collect {|p| [p.description, p.id]}
+
+# for filling in the default subscription dates differently based on selected product
+# make a big string that will be used to populate a javascript array in the rendered view
+# using 3 string values: "perpetual", "year", "almost_perpetual".  we'll do the actual
+# date math in the rendered view.
+def get_sam_server_product_array_string
+  sam_server_product_array_string = ""
+  @product_list.each do |product|
+    if (product.product_group.code == "FLEX" || product.product_group.code == "LBOOK")
+      sam_server_product_array_string += ("\"" + "almost_perpetual" + "\"")
+    elsif (product.id_value == "10041" || product.id_value == "10043" || product.id_value == "10057") #if the product is iRead T, or M180 Yr 1 or 2 Teacher, then these are only perpetuals
+      sam_server_product_array_string += ("\"" + "only_perpetual" + "\"")
+    # requestors of this feature want to assume E21 and Do The Math entitlements will be created as web 
+    # subscriptions (SAM Server Products that license counts and subscription dates)
+    elsif (product.sam_server_product && product.product_group.code != "E21" && product.product_group.code != "DTM" && product.id_value != "10045" && product.id_value != "10046" && product.id_value != "10047" && product.id_value != "10048" && product.id_value != "10049" && product.id_value != "10050")
+      sam_server_product_array_string += ("\"" + "perpetual" + "\"")
+    else
+      sam_server_product_array_string += ("\"" + "year" + "\"")
+    end
+    
+    sam_server_product_array_string += ", " unless product == @product_list.last
+  end
+  return sam_server_product_array_string
+end
+
+%>
+<script>
+  jQuery(function() {
+    jQuery( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    jQuery( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    jQuery( "#grace_period_start" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    jQuery( "#grace_period_end" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  });
+  
+  var nullDates = <%= false %>;
+  var samServerProductArray = [<%= get_sam_server_product_array_string %>]
+  
+  function setSubscriptionDates() {
+    document.getElementById("start_date").value = getStartDate();
+    document.getElementById("end_date").value = getEndDate();
+    
+  }
+  
+  function getStartDate() {
+    var productSubscriptionType = samServerProductArray[document.getElementById("product_id").selectedIndex];
+    if(productSubscriptionType == "only_perpetual") {
+      document.getElementById("subscription_dates_section").style.display = "none"; //this will make the tbody disappear
+    }
+    else {
+      document.getElementById("subscription_dates_section").style.display = ""; //this will make the tbody appear, or stay
+    }
+    if(productSubscriptionType == "almost_perpetual" || productSubscriptionType == "year") //both start right now, end at different times
+      return getFormattedDateString(new Date());
+    
+    return ""; //else, it's a perpetual entitlement, no subscription dates
+  }
+  
+  function getEndDate() {
+    var endDate = null;
+    
+    var productSubscriptionType = samServerProductArray[document.getElementById("product_id").selectedIndex];
+    if(productSubscriptionType == "almost_perpetual") {
+      var endDate = new Date();
+      endDate.setUTCFullYear(2999, 11, 31); // 12/31/2999 : 23:59:59  the current message sender include hours and minutes,
+      endDate.setUTCHours(23, 59, 59, 0);   // 23:59:59 is assumed by the listener. doing this anyway.
+    }
+    else if(productSubscriptionType == "year") {
+      var endDate = new Date();
+      endDate.setUTCDate(endDate.getDate() + 365);
+      endDate.setUTCHours(23, 59, 59, 0);
+    }
+    
+    return getFormattedDateString(endDate);
+  }
+  
+  function getFormattedDateString(dateObject) {
+    if(dateObject == null) return "";
+    
+    var dateString = "";
+    dateString += dateObject.getUTCFullYear();
+    dateString += "-";
+    
+    var month = dateObject.getUTCMonth() + 1;
+    if(month < 10)  month = "0" + month;
+    dateString += month;
+    dateString += "-";
+    
+    var day = dateObject.getUTCDate();
+    if(day < 10)  day = "0" + day;
+    dateString += day;
+    
+    return dateString;
+  }
+  
+</script>
+
+<h1 style="margin-bottom: 10px; text-align: center">Create Fake Order</h1>
+<hr/>
+<div align="center">
+	<h3 style="text-align: left;">Submit Order Data</h3>
+	<br/>
+	<% if @core_processor_queue_depth > 1000 || @msg_queue_depth > 1000 %>
+		<div align="center" style="color:red; font-style:italic;margin-bottom:20px;">Warning:&nbsp;&nbsp;There is currently a backlog of messages in SAMC's internal process queue, which may cause your submission to run slower than normal.
+			&nbsp;&nbsp;Please confer with an SAMC administrator before proceeding.</div>
+	<% end %>
+	<% form_remote_tag(:url => url_for(:action => :create_fake_order), :before => "Form.Element.disable('create_order_button'); show_loading_msg('step2_container'); Effect.ScrollTo('step2_container');") do -%>
+		<table class="form_table">
+			<tr>
+				<td class="label_cell">Product:</td>
+				<td class="field_cell"><%= select_tag("product_id", options_for_select(product_id_list), :onchange => "setSubscriptionDates()") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">License Count:</td>
+				<td class="field_cell">
+					<input id="license_count" name="license_count" type="number" value="0" required="required" />
+					<%#= text_field_tag("license_count", 0) %>
+				</td>
+			</tr>
+			<tbody id="subscription_dates_section">
+			<tr>
+				<td class="label_cell">Subscription Start Date:</td>
+				<td class="field_cell"><%= text_field_tag("start_date", nil, :id => "start_date") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Subscription End Date:</td>
+				<td class="field_cell"><%= text_field_tag("end_date", nil, :id => "end_date") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Grace Period:</td>
+				<td class="field_cell"><%= select_tag("grace_period_id", options_for_select(@grace_period_id_list)) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Grace Period Start Date:</td>
+				<td class="field_cell"><%= text_field_tag("grace_period_start_date", "", :id => "grace_period_start") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Grace Period End Date:</td>
+				<td class="field_cell"><%= text_field_tag("grace_period_end_date", "", :id => "grace_period_end") %></td>
+			</tr>
+			</tbody>
+			<tr>
+				<td class="label_cell">Assign-To UCN:</td>
+				<td class="field_cell"><input id="assign_to_ucn" name="assign_to_ucn" type="text" required="required"></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Install-To UCN:</td>
+				<td class="field_cell">
+					<input id="install_to_ucn" name="install_to_ucn" type="text" required="required">
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">Bill-To UCN:</td>
+				<td class="field_cell">
+					<input id="bill_to_ucn" name="bill_to_ucn" type="text">
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">Ship-To UCN:</td>
+				<td class="field_cell"><input id="ship_to_ucn" name="ship_to_ucn" type="text"></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Create Single Entitlement:</td>
+				<td class="field_cell"><%= check_box_tag("send_one_entitlement") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Part of License Manager Conversion:</td>
+				<td class="field_cell"><%= check_box_tag("lm_conversion") %></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<%= submit_tag("Create Fake Order", :id => "create_order_button") %>
+				</td>
+			</tr>
+		</table>
+	<% end %>		
+	<br/><br/>
+	<hr/>
+	<div id="step2_container"></div>
+</div>
+<script type="text/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+</script>

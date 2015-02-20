@@ -1,0 +1,24 @@
+<Context path="/custserv" reloadable="true" docBase="${catalina.home}/webapps/custserv" >
+    <ResourceLink name="jdbc/Scholastic" global="jdbc/Scholastic" type="javax.sql.DataSource"/>
+  <ResourceLink name="jdbc/Auth" global="jdbc/Auth" type="javax.sql.DataSource"/>
+  <ResourceLink name="jdbc/Reporting" global="jdbc/Reporting" type="javax.sql.DataSource"/>
+	<ResourceLink name="rails/custservURL" global="rails/custservURL" type="java.lang.String"/>
+	<ResourceLink name="rails/sessionTimeoutInMinutes" global="rails/sessionTimeoutInMinutes" type="java.lang.Integer"/>
+	<ResourceLink name="couchdb/host" global="couchdb/host" type="java.lang.String"/>
+	<ResourceLink name="couchdb/port" global="couchdb/port" type="java.lang.Integer"/>
+	<ResourceLink name="jobs/emailDropDir" global="jobs/emailDropDir" type="java.lang.String"/>
+    <ResourceLink name="conv/batchModeEnabled" global="conv/batchModeEnabled" type="java.lang.Boolean" />
+    <ResourceLink name="service/dashboardBaseUrl" global="service/dashboardBaseUrl" type="java.lang.String" />
+    <ResourceLink name="service/serverReportRequestMaxReqsInConvo"        global="service/serverReportRequestMaxReqsInConvo" type="java.lang.Integer" />
+    <ResourceLink name="service/serverReportRequestWhiteInDayStartMins"   global="service/serverReportRequestWhiteInDayStartMins" type="java.lang.Integer" />
+    <ResourceLink name="service/serverReportRequestWhiteInDayMinDuration" global="service/serverReportRequestWhiteInDayMinDuration" type="java.lang.Integer" />    
+    <ResourceLink name="service/serverReportRequestWhiteInDayStartMins2"   global="service/serverReportRequestWhiteInDayStartMins2" type="java.lang.Integer" />
+    <ResourceLink name="service/serverReportRequestWhiteInDayMinDuration2" global="service/serverReportRequestWhiteInDayMinDuration2" type="java.lang.Integer" />    
+    <ResourceLink name="gridfs/mongoServers" global="gridfs/mongoServers" type="java.lang.String" />
+    <ResourceLink name="gridfs/database" global="gridfs/database" type="java.lang.String" />
+    <ResourceLink name="gridfs/filesCollection" global="gridfs/filesCollection" type="java.lang.String" />
+    <ResourceLink name="gridfs/chunksCollection" global="gridfs/chunksCollection" type="java.lang.String" />
+    <ResourceLink name="service/ndtBaseUrl" global="service/ndtBaseUrl" type="java.lang.String" />
+    <ResourceLink name="hibernate/skipAutoTemplateRefresh" global="hibernate/skipAutoTemplateRefresh" type="java.lang.Boolean" />
+    <ResourceLink name="service/licenseManagerRequestNotifyEmail" global="service/licenseManagerRequestNotifyEmail" type="java.lang.String" />
+</Context>

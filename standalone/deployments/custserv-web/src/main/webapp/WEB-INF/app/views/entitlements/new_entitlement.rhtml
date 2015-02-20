@@ -1,0 +1,50 @@
+<h2 align="center">Create New Entitlement for <%= @samCustomer.root_org.name %></h2>
+<div id="views_entitlement_header_links" align="center" style="margin: 30px;">
+<%= link_to("Back to " + @samCustomer.root_org.name, :action => :sam_customer_details, :controller => :sam_customer, :id => @samCustomer.id) %>
+</div>
+<div id="view_entitlement_new_entitlement_error_messages"><%= error_messages_for :entitlement %></div>
+<% form_for :entitlement do |f| -%>
+<%= f.hidden_field(:ordered, :value => Date.today)%>
+<%= f.hidden_field(:shipped, :value => Date.today)%>
+<%= f.hidden_field(:sam_customer_id, :value => params[:sam_account_id]) %>
+<%= f.hidden_field(:license_duration_id, :value => LicenseDuration.perpetual.id) %>
+<%= f.hidden_field(:license_portability_id, :value => LicensePortability.transferrable.id) %>
+
+<table id="views_entitlement_new_entitlement_form" border="0" align="center">
+    <tr>
+        <td class="label_cell"><label for="tms_entitlementid">TMS Entitlement ID:</label></td>
+        <td class="input_cell"><%= f.text_field(:tms_entitlementid) %></td>
+        <td class="label_cell"><label for="master_order_num">Master Order Num:</label></td>
+        <td class="input_cell"><%= f.text_field :master_order_num %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="order_num">Order Num:</label></td>
+        <td class="input_cell"><%= f.text_field :order_num %></td>
+        <td class="label_cell"><label for="invoice_num">Invoice Num:</label></td>
+        <td class="input_cell"><%= f.text_field :invoice_num %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="shipment_num">Shipment Num:</label></td>
+        <td class="input_cell"><%= f.text_field :shipment_num %></td>
+        <td class="label_cell"><label for="originating_order_num">Originating Order Num:</label></td>
+        <td class="input_cell"><%= f.text_field :originating_order_num %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="item_quantity">Item Quantity:</label></td>
+        <td class="input_cell"><%= f.text_field(:item_quantity) %></td>
+        <td class="label_cell"><label for="license_count">License Count:</label></td>
+        <td class="input_cell"><%= f.text_field(:license_count) %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="entitlement_type">Entitlement Type:</label></td>
+        <td class="input_cell"><%= f.select(:entitlement_type_id, @entitlementTypes.collect {|et| [et.description, et.id]}) %></td>
+        <td class="label_cell"><label for="item_id">Item:</label></td>
+        <td class="input_cell"><%= f.select(:item_id, @itemList.collect {|i| [i.description, i.id]}, :prompt => "-Select an Item-") %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="marketing_version">Marketing Version:</label></td>
+        <td class="input_cell"><%= f.select(:marketing_version, Entitlement::MARKETING_VERSIONS, :prompt => "-Select a Version-") %></td>
+    </tr>
+</table>
+<div align="center" style="margin-top: 20px;"><%= submit_tag "Submit" %></div>
+<% end -%>

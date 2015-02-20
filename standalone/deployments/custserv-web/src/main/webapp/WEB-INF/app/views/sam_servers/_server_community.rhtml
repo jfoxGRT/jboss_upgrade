@@ -1,0 +1,11 @@
+<tr>
+	<% if @current_user.isAdminType %>
+		<td>&nbsp;<%= server_community.id %></td>
+	<% end %>
+    <td>&nbsp;<%= link_to(server_community.community.name, sam_server_community_info_path(sam_server_id, server_community)) %></td>
+    <td>&nbsp;<%= server_community.version %></td>
+    <td>&nbsp;<%= server_community.customer_release_number %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if server_community.enabled %></td>
+	<td>&nbsp;<%= server_community.created_at.strftime(DATE_FORM) %></td>
+    <td>&nbsp;<%= server_community.updated_at.strftime(DATE_FORM) %></td>
+</tr>

@@ -1,0 +1,30 @@
+<div align="left" style="padding-left:10px;">
+
+<% form_remote_tag(:url => url_for(:action => :update_create_auth_zone, :mode => "Create"), :condition =>"check_form()", :html => {:name => 'createform'}) do -%>
+<table align="left"><br /> 
+    <td>
+        <tr><h4>Code: <%= text_field_tag(:code, "", :size => 15) %></tr></h4><br />
+        <tr><h4>Description: <%= text_field_tag(:desc, "", :size => 20) %></tr></h4><br />
+        <tr><h4>Login Path: <%= text_field_tag(:login_path, "", :size => 30) %></tr></h4><br />
+        <tr><h4>Error Path: <%= text_field_tag(:error_path, "", :size => 30) %></tr></h4><br />
+        <tr><h4>Password: <%= text_field_tag(:zone_password, "", :size => 40) %></tr></h4><br />
+        <tr><h4>
+            Profile Enabled: 
+            <%= label_tag(:true, "True") %> <%= radio_button_tag(:profile_enabled, true ) %>
+            <%= label_tag(:false, "False") %> <%= radio_button_tag(:profile_enabled, false ) %>
+        </tr></h4><br />
+        <tr><h4>Error Path: <%= text_field_tag(:error_path, "", :size => 30) %></tr></h4><br />
+        <tr><h4>Login URL: <%= text_field_tag(:login_url, "", :size => 65) %></tr></h4><br />
+        <tr><h4>Root URL:  <%= text_field_tag(:root_url, "", :size => 65) %></tr></h4><br />
+        <tr><h4>Logout URL: <%= text_field_tag(:logout_url, "", :size => 65) %></tr></h4><br />
+        <tr><h4>Usage URL: <%= text_field_tag(:usage_url, "", :size => 65) %></tr></h4><br />
+        <tr><h4>SAML URL:  <%= text_field_tag(:saml_url, "", :size => 65) %></tr></h4><br />
+        <tr align = "center">
+            <%=submit_tag "Create New Auth Zone", :confirm => "Are you sure you want to create this Auth Zone?"%>
+            <input type="button" onclick="close_dialog()" value="Cancel" />
+        </tr>
+     </td>
+     <br />
+</table>
+<%end%>
+</div>

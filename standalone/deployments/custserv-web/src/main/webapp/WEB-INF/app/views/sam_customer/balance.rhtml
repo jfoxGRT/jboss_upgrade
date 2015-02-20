@@ -1,0 +1,43 @@
+<h2><%= @sam_customer.root_org.name.strip %></h2>
+<h3>Apply <%= @subcommunity.name %> License Counts</h3>
+<% if (@seat_pool_count.to_i > @sssi_count.to_i) %>
+    <div style="color: red; margin-bottom: 30px;">The license count from entitlements is greater than the license count reported on the Sam Servers.  Please confirm
+    with the customer that ALL of the purchased licenses are installed on a Sam Server before balancing this product.
+    </div>
+<% end %>
+
+<table class="data_table">
+    <thead>
+        <tr>
+            <th><%= PRODUCT_TERM %></th>
+            <th>License Count From All Entitlements</th>
+            <th>License Count Installed On Servers</th>
+            <th>Difference</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= @subcommunity.name %></td>
+            <td style="color: red;"><%= @seat_pool_count %></td>
+            <td style="color: red;"><%= @sssi_count %></td>
+            <td><%= @sssi_count.to_i - @seat_pool_count.to_i %></td>
+        </tr>
+    </tbody>
+</table>
+<div align="center" style="margin-top: 30px;">
+<% form_tag(url_for(:action => :balance), {:onsubmit => "showStatus(); Form.Element.disable('submit_tag')"}) do -%>
+<%= hidden_field_tag(:sam_customer_id, @sam_customer.id) %>
+<%= hidden_field_tag(:subcommunity_id, @subcommunity.id) %>
+<%= hidden_field_tag(:seat_pool_count, @seat_pool_count) %>
+<%= hidden_field_tag(:sssi_count, @sssi_count) %>
+<div style="width: 70%; margin: 20px 0 20px 0;"><div style="margin-bottom: 20px;">Please enter the number of licenses you'd like to apply to the entitlement license
+count.  The entitlement license count should not exceed the count reported from the servers.  (positive or negative numbers are accepted)</div>
+<%= text_field_tag(:delta, @delta) %></div>
+
+<div style="margin: 20px 0 20px 0;"><div style="margin-bottom: 20px;">Please enter details about the license change (e.g. why they're being applied, etc.)</div><%= text_area_tag(:annotation, @annotation, :size => "50x10") %></div>
+<%= submit_tag("Apply", :id => "submit_tag") %>
+<% end -%> 
+</div>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

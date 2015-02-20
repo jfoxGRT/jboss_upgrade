@@ -1,0 +1,13 @@
+<% unless(sapling_targeting_hidden.sam_customer_id.nil?) %>
+  <input type="hidden" id="sapling_targeting_hidden_<%= sapling_targeting_hidden.id %>" name="sapling_targeting_hidden[sam_customer_id.<%= sapling_targeting_hidden.id %>]" value="<%= sapling_targeting_hidden.sam_customer_id %>.<%= sapling_targeting_hidden.white_list %>" />
+<% end %>
+<% unless(sapling_targeting_hidden.sam_server_id.nil?) %>
+  <input type="hidden" id="sapling_targeting_hidden_<%= sapling_targeting_hidden.id %>" name="sapling_targeting_hidden[sam_server_id.<%= sapling_targeting_hidden.id %>]" value="<%= sapling_targeting_hidden.sam_server_id %>.<%= sapling_targeting_hidden.white_list %>" />
+<% end %>
+<% unless(sapling_targeting_hidden.product_id.nil?) %>
+  <input type="hidden" id="sapling_targeting_hidden_<%= sapling_targeting_hidden.id %>" name="sapling_targeting_hidden[product_id.<%= sapling_targeting_hidden.id %>]" value="<%= sapling_targeting_hidden.product_id %>.<%= sapling_targeting_hidden.white_list %>" />
+<% end %>
+<% if(sapling_targeting_hidden.product_id.nil? and sapling_targeting_hidden.sam_server_id.nil? and sapling_targeting_hidden.sam_customer_id.nil?) %>
+  <input type="hidden" id="sapling_targeting_hidden_<%= sapling_targeting_hidden.id %>" name="sapling_targeting_hidden[global.000]" value="global.<%= sapling_targeting_hidden.white_list %>" />
+<% end %>
+<br><br>

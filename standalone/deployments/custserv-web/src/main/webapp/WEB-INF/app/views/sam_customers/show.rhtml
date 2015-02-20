@@ -1,0 +1,154 @@
+
+<%  @page_title = "SAMC - #{@sam_customer.name}" %>
+
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+          <td id="breadcrumb">
+            <ul class="nav">
+                <li><%= @sam_customer.name %>&nbsp;<%= image_tag("rba-arrow-small-down.gif", :style => "vertical-align: middle;") %>
+                        <ul>
+                                <%= render(:partial => "common/sam_customer_breadcrumb_level_rootnav",
+                                        :locals => {:sam_customer_id => @sam_customer.id,
+                                                                :site_area_code => @site_area_code}) %>
+                        </ul>
+                </li>
+            </ul>
+          </td>
+
+	</tr>
+</table>
+<hr/>
+
+<% if flash[:msg] %>
+    <div style="color: red"><%= flash[:msg] %></div>
+    <hr/>
+<% end %>
+
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %></h2>
+</div>
+<div id="lm_opt-in_pane"></div>
+<%= render(:partial => "sam_customer_details", :object => @sam_customer, 
+    :locals => {:sam_customer_admins => @sam_customer_admins, :license_manager => @license_manager, 
+				:active_server_count => @active_server_count, :src_quiz_preferences => @src_quiz_preferences, 
+				:batch_process_excluded => @batch_process_excluded, 
+				:most_recent_hosting_rules_delivered => @most_recent_hosting_rules_delivered,
+				:pending_hosting_rules_for_server => @pending_hosting_rules_for_server}) %>
+<div class="link_set">
+<%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => nil, :on_target => nil, :not_breadcrumb => true}) %>
+</div>
+<hr/>
+<% if @tasks.length > 0 %>
+	<div class="link_set">
+	<h4>Tasks</h4>
+	<%= render(:partial => "sam_customer_task", :collection => TASK_CONTROLLER_LIST, :locals => {:tasks => @tasks, :sam_customer => @sam_customer}) %></br>
+	<hr/>
+	</div>
+<% end %>
+	
+
+<% if (SeatActivity.find_activity_count(@sam_customer)>0) %>
+	<div class="link_set">
+	<h4>Seat Activity</h4>
+	<%= render(:partial => "sam_customer_seat_pool" ) %></br>
+	<hr/>
+	</div>
+<% end %>
+
+<div class="link_set">
+	<h4>Hosting Rules Activity</h4>
+</div>
+
+<div class="link_set">
+	<% if !@current_user.hasPermission?(Permission.edit) %>
+		<span class="disabled_page_link">
+			Delete<br/>
+			Edit<br/>
+		</span>
+	<% else %>
+	<%= link_to("Delete", sam_customer_path(@sam_customer.id), {:method => :delete, :confirm => "Are you sure you wish to delete this SAM Customer?"}) %><br/>
+	<%= link_to("Edit", edit_sam_customer_path(@sam_customer.id)) %><br/>
+	<% end %>
+    <%= link_to("Use Customer App", use_customer_app_for_sam_customer_path(:id => @sam_customer.id, :redirect_url => "http://#{request.host}:#{request.port}/"), :target => "_blank")%>&nbsp;
+		<%= image_tag("external_link.jpg")%><br/>
+    <a href="/auth/pages/SCLogin?zone=DASH&scid=<%= @sam_customer.id %>" target="_blank">Use Dashboard</a>&nbsp;
+		<%= image_tag("external_link.jpg")%><br/>
+</div>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function () {
+
+		jQuery('.tTip').betterTooltip({speed: 250, delay: 600});
+		
+		jQuery('#toggle_favorite_link').click(function(event) {
+			//event.preventDefault();
+			link_element = jQuery(this);
+			img_element = link_element.children('img').first();
+			add_favorite = jQuery(this).attr('data-add_favorite');
+			img_element.hide("explode",500);
+			jQuery.ajax({
+				url: "<%= url_for(:action => 'toggle_favorite') %>?id=" + <%= @sam_customer.id %> + "&add_favorite=" + add_favorite,
+				success: function(data) {
+					//jQuery("#quick_picks").html(data);
+					jQuery("#favorite_sam_customer_list_table").html(data);
+					if (add_favorite == "true") {
+						link_element.html('<%= image_tag("icon-green-minus-sign.gif", :class => "tTip", :title => "Remove from left sidebar") %>');
+						link_element.attr('data-add_favorite', 'false');
+					}
+					else {
+						link_element.html('<%= image_tag("icon-green-plus-sign.gif", :class => "tTip", :title => "Add to left sidebar!") %>');
+						link_element.attr('data-add_favorite', 'true');
+					}
+					mainmenu();
+					jQuery('.tTip').betterTooltip({speed: 250, delay: 600});
+				},
+				type: 'post'						
+			});	
+			return false;		
+		});
+		
+	});
+	
+	function popup_lm_opt_in() {
+        jQuery('#lm_opt-in_pane').html("<%= escape_javascript(render(:partial => 'lm_opt_in_form')) %>");
+        jQuery('#lm_opt-in_pane').dialog({
+        modal: true,
+        width: 400,
+        height: 400
+        });
+        jQuery.ajax({  
+          type: 'GET',  
+          url: 'sam_customers/',  
+          data: dataVar,  
+          success: function(data)  
+          {                          
+              jQuery('#personPopupContent').html(data);    
+          }  
+      });
+    }
+    
+    function close_dialog() {
+        jQuery('#lm_opt-in_pane').dialog('close');
+    }
+    
+    function popup_lm_opt_out() {
+        jQuery('#lm_opt-in_pane').html("<%= escape_javascript(render(:partial => 'lm_opt_out_form')) %>");
+        jQuery('#lm_opt-in_pane').dialog({
+        modal: true,
+        width: 400,
+        height: 400
+        });
+        jQuery.ajax({  
+          type: 'GET',  
+          url: 'sam_customers/',  
+          data: dataVar,  
+          success: function(data) 
+          {                          
+              jQuery('#personPopupContent').html(data);    
+          }  
+      });
+    }
+	
+</script>

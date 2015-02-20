@@ -1,0 +1,9 @@
+<% if @current_user.hasScholasticPermission(Permission.banner_messaging) %>
+<h2>Historical Messages</h2>
+<br />
+<div align="left"><%= render(:partial => "banner_message_detail_historical") %></div>
+<br />
+<div align="center">
+    <%= button_to("Current Messages", :action => :index) %>
+</div>
+<%end%>

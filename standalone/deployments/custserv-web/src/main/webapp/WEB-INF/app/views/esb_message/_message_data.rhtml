@@ -1,0 +1,47 @@
+<% unless(inbound_message_hash.nil?) %>
+    <div class="table_header">
+    	<h2 class="table_title">Inbound</h2>
+		<span class="super_caption">
+			<% if last_message_received %>
+			<% message_timestamp = last_message_received.message_timestamp %>
+			Last Message Received:&nbsp;&nbsp;<span style="font-weight: normal;"><%= message_timestamp.strftime(DATE_FORM) if message_timestamp %></span>
+			<% end %>
+		</span>
+    </div>
+    <table class="data_table">
+        <thead>
+            <th>Message Class</th>
+            <th>Number of Messages</th>
+            <th>Number of Ignored Messages</th>
+            <th>Time Last Message Received</th>
+        </thead>
+        <tbody>
+            <% inbound_message_hash.each_pair do |k,v| %>
+            <%= render(:partial => "inbound_message_list", :locals => {:message_type => v, :filter_date => date})%>
+            <% end %>
+        </tbody>
+    </table>  
+<% end %>
+<% unless(outbound_message_hash.nil?) %>
+    <div class="table_header">
+    	<h2 class="table_title">Outbound</h2>
+		<span class="super_caption">
+			<% if last_message_sent %>
+			<% message_timestamp = last_message_sent.message_timestamp %>
+			Last Message Sent:&nbsp;&nbsp;<span style="font-weight: normal;"><%= last_message_sent.message_timestamp.strftime(DATE_FORM) if message_timestamp %></span>
+			<% end %>
+		</span>
+    </div>
+    <table class="data_table">
+        <thead>
+            <th>Message Class</th>
+            <th>Number of Messages</th>
+            <th>Time Last Message Sent</th>
+        </thead>
+        <tbody>
+            <% outbound_message_hash.each_pair do |k,v| %>
+            <%= render(:partial => "outbound_message_list", :locals => {:message_type => v, :filter_date => date})%>
+            <% end %>
+        </tbody>
+    </table>  
+<% end %>

@@ -1,0 +1,79 @@
+<%= link_to 'Edit this Document', edit_doc_item_path(@doc_item) %> |
+<%= link_to 'Delete this Document', @doc_item, :confirm => 'Are you sure you want to delete this document item?', :method => :delete %> | 
+<%= link_to 'Create New Document', new_doc_item_path %> |
+<%= link_to 'Back to List', doc_items_path %>
+<br />
+<br />
+
+  <table>
+    <tr>  
+      <td style="text-align: right;"><b>Publish Status:</b></td>
+      <td><%= @doc_item.publish_status_text %></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><b>Document Location(s):</b></td>
+      <td>
+        <% @doc_locations.each do |dl| %>
+          <%= dl.display_location + "<br />" if @doc_item.doc_locations.with_code(dl.code) %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><b>Document Labels(s):</b></td>
+      <td>
+        <% @doc_labels.each do |dl| %>
+          <%= dl.display_text + "<br />" if @doc_item.doc_labels.with_code(dl.code) %>
+        <% end %>
+      </td>
+    </tr>    
+    <tr>
+      <td style="text-align: right;"><b>Target User Type:</b></td>
+      <td><%= @doc_item.user_types.short_desc %></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><b>Display Order:</b></td>
+      <td><%=@doc_item.display_order %></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><b>Document Reference #:</b></td>
+      <td><%= @doc_item.ref_number %></td>
+    </tr>    
+    <tr>
+      <td style="text-align: right;"><b>Document Created:</b></td>
+      <td><%= @doc_item.created_at.strftime(DATE_FORM) %></td>
+    </tr>    
+    <tr>
+      <td style="text-align: right;"><b>Document Last Updated:</b></td>
+      <td><%= @doc_item.updated_at.strftime(DATE_FORM) %></td>
+    </tr>            
+  </table>
+  
+  <br />
+  <hr />
+  <p>
+    <b>Question:</b><br />
+    <%= @doc_item.question %>
+  </p>
+  
+  <br />
+  <hr />
+   <p>
+    <b>Answer (formatting may be different at site location this document is displayed):</b><br />
+    <%= @doc_item.answer %>    
+  </p>
+  
+  <br />
+  <hr />
+  <p>
+    <b>Notes (not displayed on site):</b><br />
+    <%= @doc_item.notes %>
+  </p>
+  <hr />
+
+<br />
+<%= link_to 'Edit this Document', edit_doc_item_path(@doc_item) %> |
+<%= link_to 'Delete this Document', @doc_item, :confirm => 'Are you sure you want to delete this document item?', :method => :delete %> | 
+<%= link_to 'Create New Document', new_doc_item_path %> | 
+<%= link_to 'Back to List', doc_items_path %>
+<br />
+<br />

@@ -1,0 +1,43 @@
+<% items_pending = entitlement_counts[item_count_row.id.to_s + "_1"]
+	items_active = entitlement_counts[item_count_row.id.to_s + "_2"]
+	items_graceperiod = entitlement_counts[item_count_row.id.to_s + "_3"]
+	items_expired = entitlement_counts[item_count_row.id.to_s + "_4"]
+	#if (items_pending.to_i != 0 || items_active.to_i != 0 || items_expired.to_i != 0)	 
+#%>
+<% if (items_pending || items_active || items_graceperiod || items_expired) %>
+<tr>
+	<td style="text-align: left;"><%= item_count_row.description %></td>
+	<td id="<%= item_count_row.id %>_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData(<%= item_count_row.id %>, 'Total', '<%= product_type %>');">
+		<%= entitlement_counts[item_count_row.id.to_s + "_0"].result_count %>
+	</td>
+	<td id="<%= item_count_row.id %>_Pending" class="entitlement_count_cell"
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');"
+		onclick="getEntitlementData(<%= item_count_row.id %>, 'Pending', '<%= product_type %>');">
+		<%= items_pending ? items_pending.result_count : 0 %>
+	</td>
+	<td id="<%= item_count_row.id %>_Active" class="entitlement_count_cell"
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');"
+		onclick="getEntitlementData(<%= item_count_row.id %>, 'Active', '<%= product_type %>');">
+		<%= items_active ? items_active.result_count : 0 %>
+	</td>
+	<td id="<%= item_count_row.id %>_GracePeriod" class="entitlement_count_cell"
+        onmouseover="$(this).toggleClass('cell_highlight');" 
+        onmouseout="$(this).toggleClass('cell_highlight');"
+        onclick="getEntitlementData(<%= item_count_row.id %>, 'Grace Period', '<%= product_type %>');">
+        <%= items_graceperiod ? items_graceperiod.result_count : 0 %>
+    </td>
+	<td id="<%= item_count_row.id %>_Expired" class="entitlement_count_cell"
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');"
+		onclick="getEntitlementData(<%= item_count_row.id %>, 'Expired', '<%= product_type %>');">
+		<%= items_expired ? items_expired.result_count : 0 %>
+	</td>
+	<td><input class="widget_dialog" type="button" value="..see history" element_id="entitlement_event_history" 
+			href="<%= history_for_entitlements_path(:sam_customer_id => sam_customer_id, :product_id => item_count_row.id) %>"/></td>
+</tr>
+	<% end %>

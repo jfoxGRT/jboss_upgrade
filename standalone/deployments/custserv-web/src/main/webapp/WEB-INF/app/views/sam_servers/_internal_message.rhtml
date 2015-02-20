@@ -1,0 +1,9 @@
+<tr>
+	<td><%= internal_message[0].timestamp.strftime(DATE_FORM) %></td>
+	<td><%= internal_message[0].clazz %></td>
+	<td><%= internal_message[0].event_type %></td>
+	<td><%= internal_message[0].token %></td>
+	<td><%= internal_message[0].reason %></td>
+	<td><%= internal_message[0].sam_customer_id %></td>
+	<td><%= render(:partial => "internal_message_params", :collection => internal_message) %></td>
+</tr>

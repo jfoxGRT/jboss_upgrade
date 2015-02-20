@@ -1,0 +1,45 @@
+<% bill_to_org_task = assigned_task_summary[1][0]
+ship_to_org_task = assigned_task_summary[1][1] %>
+<table class="testing_cells" id="task_summary_container_<%= bill_to_org_task.id %>" style="width: 100%; margin: 2px; border: 1px solid white;">
+	<tr>
+		<td id="task_summary_container_cell_<%= bill_to_org_task.id %>" style="border: 0px; padding: 0px;">
+<table class="task_summary_entry" id="<%= bill_to_org_task.id %>" cellspacing="0">
+        <tr>
+            <td style="width:5%;">
+                <%= bill_to_org_task.id %>
+            </td>
+            <td style="width:5%;">
+                <%= bill_to_org_task.priority %>
+            </td>
+            <td style="width:13%;">
+                <%= bill_to_org_task.order_num %>
+            </td>
+            <td style="width:13%;">
+                <%= bill_to_org_task.invoice_num %>
+            </td>
+            <td style="width:9%;">
+                <%= bill_to_org_task.created_at.strftime('%m/%d/%y') %>
+                <BR>
+                <%= bill_to_org_task.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <td style="width:10%;">
+                <%= bill_to_org_task.assigned_user_first_name %>&nbsp;<%= bill_to_org_task.assigned_user_last_name %>
+            </td>
+            <!--<td>
+                <%#= bill_to_org_task.reason_unassigned %>
+            </td>-->
+            <td style="width:17%;">
+            	<%= render(:partial => "orgs/org_summary_info", :object => bill_to_org_task, :locals => {:link => true}) %>
+            </td>
+            <td style="width:17%;">
+                <%= render(:partial => "orgs/org_summary_info", :object => ship_to_org_task, :locals => {:link => true}) %>
+            </td>
+            <td style="width:11%;">
+            	<%= render(:partial => "/tasks/assigned_task_links", :locals => {:task => bill_to_org_task, :view_details => true}) %>
+            </td>
+        </tr>
+</table>
+<%= render(:partial => "view_details", :locals => {:colspan => 6, :bill_to_org_task => bill_to_org_task, :ship_to_org_task => ship_to_org_task, :task_orgs_hash => task_orgs_hash}) %>
+		</td>
+	</tr>
+</table>

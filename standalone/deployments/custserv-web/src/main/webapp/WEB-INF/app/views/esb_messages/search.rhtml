@@ -1,0 +1,21 @@
+<% @page_title = "SAMC - Entitlement Search Results" %>
+<div class="table_header"><h2 class="table_title"><%= @entitlements.length %> entitlement(s)</h2></div>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Entitlement ID</th>
+			<th>TMS Entitlement ID</th>
+			<th>Created At</th>
+			<th>Order Date</th>
+			<th><%= PRODUCT_TERM %></th>
+			<th>Number of Licenses</th>
+			<th>Order #</th>
+			<th>Invoice #</th>
+			<th><%= SAM_CUSTOMER_TERM %></th>
+			<th>State</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "search_result", :collection => @entitlements) %>
+	</tbody>
+</table>

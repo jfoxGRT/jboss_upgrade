@@ -1,0 +1,20 @@
+<% 
+    conversation_id = async_file_upload.async_activity.conversation_instance.id
+    logger.debug "JF: conversation_id = " + conversation_id.to_s
+%>
+
+<tr>
+    <td><%= async_file_upload.id %></td>
+        <% if async_file_upload.status_id == 2 %>
+            <td><%= link_to('Failed', :action => 'async_file_upload_error_stacktrace', :id => conversation_id, :async_file_upload_id => async_file_upload.id ) %></td>       
+        <% else %>
+            <td><%= (async_file_upload.status.nil? ? "-" : async_file_upload.status.name) %> </td>
+        <% end %>
+    <td><%= async_file_upload.file_alias %></td>
+    <td><%= async_file_upload.updated_at.strftime(DATE_FORM) %></td>
+    <td><%= async_file_upload.file_name %></td>
+    <td><%= (async_file_upload.request_date.nil? ? "" : async_file_upload.request_date.strftime(DATE_FORM)) %></td>
+    <td><%= async_file_upload.created_at.strftime(DATE_FORM) %></td>
+    <td><%= (async_file_upload.failure_date.nil? ? "" : async_file_upload.failure_date.strftime(DATE_FORM)) %></td>
+    <td><%= (async_file_upload.expired_on_date.nil? ? "" : async_file_upload.expired_on_date.strftime(DATE_FORM)) %></td>
+</tr>

@@ -1,0 +1,60 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "SRC Quiz Updates Report", :csv_action => "export_src_quiz_updates_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>
+		  <% if (@sort_order == "cust_name") %>
+            <%= link_to("SAM Customer Name", {:action => :src_quiz_updates, :sort => "cust_name_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :src_quiz_updates, :sort => "cust_name"}) %>
+          <% end %>
+        </th>
+        <th>        
+          <% if (@sort_order == "cust_id") %>
+            <%= link_to("SC ID", {:action => :src_quiz_updates, :sort => "cust_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :src_quiz_updates, :sort => "cust_id"}) %>
+          <% end %>
+        </th>
+        <th>        
+          <% if (@sort_order == "ucn") %>
+            <%= link_to("UCN", {:action => :src_quiz_updates, :sort => "ucn_desc"}) %>
+          <% else %>
+            <%= link_to("UCN", {:action => :src_quiz_updates, :sort => "ucn"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "server_name") %>
+            <%= link_to("Server Name", {:action => :src_quiz_updates, :sort => "server_name_desc"}) %>
+          <% else %>
+            <%= link_to("Server Name", {:action => :src_quiz_updates, :sort => "server_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "server_id") %>
+            <%= link_to("Server ID", {:action => :src_quiz_updates, :sort => "server_id_desc"}) %>
+          <% else %>
+            <%= link_to("Server ID", {:action => :src_quiz_updates, :sort => "server_id"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "last_applied_at") %>
+            <%= link_to("Last Applied At", {:action => :src_quiz_updates, :sort => "last_applied_at_desc"}) %>
+          <% else %>
+            <%= link_to("Last Applied At", {:action => :src_quiz_updates, :sort => "last_applied_at"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "last_applied_quiz") %>
+            <%= link_to("Last Applied Quiz", {:action => :src_quiz_updates, :sort => "last_applied_quiz_desc"}) %>
+          <% else %>
+            <%= link_to("Last Applied Quiz", {:action => :src_quiz_updates, :sort => "last_applied_quiz"}) %>
+          <% end %>
+        </th>        
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "src_quiz_update_detail", :collection => @src_quiz_updates)%>
+    </tbody>    
+</table>

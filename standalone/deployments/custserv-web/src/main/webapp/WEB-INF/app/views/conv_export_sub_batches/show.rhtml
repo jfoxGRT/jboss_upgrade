@@ -1,0 +1,153 @@
+<%  @page_title = "SAMC - Batch Central - Sub Batch #{@conv_export_sub_batch.id}" %>
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+
+  <div class="table_header">
+  	<h1 class="table_title">Sub Batch Number: <%=h @conv_export_sub_batch.id %></h2>
+      <% if !params[:ucn].nil? %>
+        <h2 class="table_title">UCN: <%=h params[:ucn] %></h2>
+        <% if !@ucnmap.nil? && @ucnmap.has_key?(params[:ucn]) %>
+          <h3 class="table_title"><%=h @ucnmap[params[:ucn]] %></h2>
+        <% end %>
+      <% end %>
+  </div>
+
+
+  <table class="property_table shadow-large" style="width: 70%;">
+      <tbody>
+        <tr><td><b>ID</b></td>
+            <td><%= link_to(@conv_export_sub_batch.id, conv_export_sub_batch_path(@conv_export_sub_batch.id)) %></td></tr>
+        <tr><td><b>Master Batch ID</b></td>
+            <td><%= link_to(@conv_export_sub_batch.conv_export_master_batch_id, @conv_export_sub_batch.conv_export_master_batch) %></td></tr>
+        <tr><td><b>Drop Dead Date</b></td>
+  		  <td style="color: <%= (@conv_export_sub_batch.drop_dead_date.nil? || (@conv_export_sub_batch.drop_dead_date > DateTime.now)) ? 'green' : 'red' %>">
+              <%=h @conv_export_sub_batch.drop_dead_date.strftime(DATE_FORM) %></td></tr>
+        <tr><td><b>Conv Start Date</b></td>
+            <td><%=h (@conv_export_sub_batch.conv_start_date.nil?) ? "" : @conv_export_sub_batch.conv_start_date.strftime(DATE_FORM) %></td></tr>
+        <tr><td><b>Conv End Date</b></td>
+            <td><%=h (@conv_export_sub_batch.conv_end_date.nil?) ? "" : @conv_export_sub_batch.conv_end_date.strftime(DATE_FORM) %></td></tr>
+        <tr><td><b>Created</b></td>
+            <td><%=h @conv_export_sub_batch.created_at.strftime(DATE_FORM) %></td></tr>
+        <tr><td><b>Updated</b></td>
+            <td><%=h @conv_export_sub_batch.updated_at.strftime(DATE_FORM) %></td></tr>
+        <tr><td><b>Type Code</b></td>
+            <td><%=h @conv_export_sub_batch.type_code %></td></tr>
+        <tr><td><b>Note</b></td>
+            <td><%=h @conv_export_sub_batch.note %></td></tr>
+        <tr>
+          <td><b>Num Orig Conversations:</b></td>
+          <td><%= @conv_export_sub_batch.number_of_original_conversations %></td>
+        </tr>
+
+        <tr>
+          <td><b>Number of Total Conversations:</b></td>
+          <td><%= @conv_export_sub_batch.conversation_instances.length %></td>
+        </tr>
+      </tbody>
+  </table>
+
+
+
+
+
+  <div class="table_header">
+    <h2 class="table_title">Customers</h2>
+  </div>
+  <table class="data_table" style="width: 80%;">
+    <thead>
+        <tr class="data_table_first_row">
+          <td>UCN (click to restrict)</td>
+          <td>Cust Name</td>
+        </tr>
+    </thead>
+    <% if !@ucnmap.nil? %>
+      <tbody>
+      <% @ucnmap.each do |foo_ucn, foo_cust_name| %>
+          <tr>
+            <td>&nbsp;<%= link_to(foo_ucn, conv_export_sub_batch_path(@conv_export_sub_batch.id, :ucn => foo_ucn)) %></td>
+            <td>&nbsp;<%= foo_cust_name %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    <% end %>
+  </table>
+
+
+
+
+  <div class="table_header">
+    <h2 class="table_title">Conversations</h2>
+  </div>
+
+   <div align="center">
+    <%= link_to("Export Table to CSV", {:controller => :conv_export_sub_batches, :action => :export_conv_export_sub_batches_to_csv}) %>
+  </div>
+  <br>
+
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<script> 
+jQuery(document).ready(function(){ 
+jQuery('#conversations_table').dataTable(); 
+});
+</script>
+
+  <table class="data_table" id="conversations_table" style="width: 80%;" align="left">
+    <thead>
+        <tr class="data_table_first_row">
+          <td>UCN</td>
+          <td>Cust Name</td>
+          <td>Sam Server ID</td>
+          <td>Sam Server Name</td>
+          <td>Agent ID</td>
+          <td>Conversation ID</td>
+          <td>Result</td>
+          <td>Create Date</td>
+          <td>Start Date</td>
+          <td>Complete Date</td>
+          <td>Embargo Until</td>
+          <td>Expiration Date</td>
+          <td>Async Activity ID</td>
+          <td>Async Activity Status Name</td>
+          <td>Async Activity Handled On</td>
+        </tr>
+    </thead>
+    <% if !@conv_data_list.nil? %>
+      <tbody>
+      <% @conv_data_list.each do |conv_data| %>
+          <tr>
+            <td>&nbsp;<%=  link_to(conv_data.ucn, org_path(conv_data.root_org_id)) %></td>
+            <td>&nbsp;<%=  link_to(conv_data.cust_name, sam_customer_path(conv_data.sam_customer_id)) %></td>
+            <td>&nbsp;<%=  link_to(conv_data.sam_server_id, sam_server_path(conv_data.sam_server_id)) %></td>
+            <td>&nbsp;<%=h conv_data.sam_server_name %></td>
+            <td>&nbsp;<%=  link_to(conv_data.agent_id, agent_path(conv_data.agent_id)) %></td>
+            <td>&nbsp;<%=  link_to(conv_data.conversation_instance_id, agent_conversation_path(conv_data.agent_id, conv_data.conversation_instance_id)) %></td>
+            <td>&nbsp;<%= conv_data.conversation_result_name %></td>
+            <td>&nbsp;<%=h (conv_data.conversation_create_date.nil?) ? "" :  DateTime.strptime(str=conv_data.conversation_create_date, fmt='%H:%M:%S  %m/%d/%Y').strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%=h (conv_data.conversation_start_date.nil?) ? "" :   DateTime.strptime(str=conv_data.conversation_start_date, fmt='%H:%M:%S  %m/%d/%Y').strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%=h (conv_data.conversation_completed.nil?) ? "" :    DateTime.strptime(str=conv_data.conversation_completed, fmt='%H:%M:%S  %m/%d/%Y').strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%=h (conv_data.embargo_until.nil?) ? "" :             conv_data.embargo_until.strftime(DATE_FORM) %></td>
+  		  <td style="color: <%= (conv_data.expiration_date.nil? || (conv_data.expiration_date > DateTime.now)  ||  (conv_data.conversation_result_code!='N')) ? 'black' : 'red' %>">
+              &nbsp;<%=h (conv_data.expiration_date.nil?) ? "" :           conv_data.expiration_date.strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%=  (conv_data.async_activity_id.nil?) ? "" : link_to(conv_data.async_activity_id, async_activity_path(conv_data.async_activity_id, :convo_id => conv_data.conversation_instance_id)) %></td>
+            <td>&nbsp;<%=h (conv_data.async_activity_status_name.nil?) ? "" : conv_data.async_activity_status_name %></td>
+            <td>&nbsp;<%=h (conv_data.async_activity_handled_on.nil?) ? "" : DateTime.strptime(str=conv_data.async_activity_handled_on, fmt='%H:%M:%S  %m/%d/%Y').strftime(DATE_FORM) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    <% end %>
+  </table>
+
+
+
+
+
+
+
+
+  <br/>
+  <%= link_to 'Back', conv_export_sub_batches_path %>
+
+
+<% end %>                                              

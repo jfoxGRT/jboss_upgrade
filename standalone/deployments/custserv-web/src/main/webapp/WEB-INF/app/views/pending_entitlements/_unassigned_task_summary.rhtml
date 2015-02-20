@@ -1,0 +1,60 @@
+<table class="testing_cells" id="task_summary_container_<%= unassigned_task_summary.id %>" style="width: 100%; margin: 2px; border: 1px solid white;">
+	<tr>
+		<td id="task_summary_container_cell_<%= unassigned_task_summary.id %>" style="border: 0px; padding: 0px;">
+<table class="task_summary_entry" id="<%= unassigned_task_summary.id %>" cellspacing="0">
+        <tr>
+            <td class="task_summary_first_row_cell" style="width:5%;"><%= unassigned_task_summary.id %></td>
+            <td class="task_summary_first_row_cell" style="width:11%;"><%= unassigned_task_summary.product_name %></td>
+            <td class="task_summary_first_row_cell" style="width:8%;">
+                <%= unassigned_task_summary.priority %>
+            </td>
+            <td class="task_summary_first_row_cell" style="width:13%;">
+                <%= unassigned_task_summary.order_num %>
+            </td>
+            <td class="task_summary_first_row_cell" style="width:13%;">
+                <%= unassigned_task_summary.invoice_num %>
+            </td>
+            <td class="task_summary_first_row_cell" style="width:8%;">
+                <%= unassigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= unassigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <!--<td class="task_summary_first_row_cell" style="width:10%;">
+                <%#= unassigned_task_summary.reason_unassigned %>
+            </td>-->
+            <td class="task_summary_first_row_cell" style="width:13%;">
+				<%= render(:partial => "orgs/pending_entitlement_org_summary_info", :locals => {:org_name => unassigned_task_summary.bt_org_name,
+																								:ucn => unassigned_task_summary.bt_ucn,
+																								:address_line_1 => unassigned_task_summary.bt_address_line_1,
+																								:address_line_2 => unassigned_task_summary.bt_address_line_2,
+																								:address_line_3 => unassigned_task_summary.bt_address_line_3,
+																								:city_name => unassigned_task_summary.bt_city_name,
+																								:state_code => unassigned_task_summary.bt_state_code,
+																								:zip_code => unassigned_task_summary.bt_zip_code,
+																								:county_code => unassigned_task_summary.bt_county_code,
+																								:link => false}) %>
+            </td>
+            <td class="task_summary_first_row_cell" style="width:13%;">
+				<%= render(:partial => "orgs/pending_entitlement_org_summary_info", :locals => {:org_name => unassigned_task_summary.st_org_name,
+																								:ucn => unassigned_task_summary.st_ucn,
+																								:address_line_1 => unassigned_task_summary.st_address_line_1,
+																								:address_line_2 => unassigned_task_summary.st_address_line_2,
+																								:address_line_3 => unassigned_task_summary.st_address_line_3,
+																								:city_name => unassigned_task_summary.st_city_name,
+																								:state_code => unassigned_task_summary.st_state_code,
+																								:zip_code => unassigned_task_summary.st_zip_code,
+																								:county_code => unassigned_task_summary.st_county_code,
+																								:link => false}) %>
+            </td>
+            <td class="task_summary_first_row_cell" style="width:13%;">
+            	<%= render(:partial => "/tasks/unassigned_task_links", :locals => {:task => unassigned_task_summary, 
+            																		:unassigned_task_list_path => unassigned_pending_entitlements_path,
+            																		:edit_task_path => edit_pending_entitlement_path(:id => unassigned_task_summary.id), 
+            																		:view_details => true}) %>				
+            </td>
+        </tr>
+</table>
+<%= render(:partial => "view_details_unassigned_pe", :locals => {:colspan => 6, :bill_to_org_task => unassigned_task_summary, :task_orgs_hash => task_orgs_hash}) %>
+		</td>
+	</tr>
+</table>

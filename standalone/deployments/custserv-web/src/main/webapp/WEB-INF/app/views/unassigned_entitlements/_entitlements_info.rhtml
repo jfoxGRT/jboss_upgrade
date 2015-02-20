@@ -1,0 +1,37 @@
+<table class="data_table" width="90%">
+    <thead>
+        <tr class="data_table_first_row">
+        	<td <%= sort_td_class_helper("entitlement_id")%>>
+        		<%= sort_link_helper("Entitlement ID", "entitlement_id", update_element, "update_entitlement_table", status_indicator) %>
+        	</td>
+            <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Created At", "created_at", update_element, "update_entitlement_table", status_indicator)%>
+			</td>
+            <td <%= sort_td_class_helper("order_date")%>>
+                <%= sort_link_helper("Order Date", "order_date", update_element, "update_entitlement_table", status_indicator)%>
+            </td>
+            <td>TMS Entitlement ID</td>
+            <td <%= sort_td_class_helper("product_description")%>>
+                <%= sort_link_helper("#{PRODUCT_TERM} Description", "product_description", update_element, "update_entitlement_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("num_licenses")%>>
+                <%= sort_link_helper("Number Of Licenses", "num_licenses", update_element, "update_entitlement_table", status_indicator)%></td>
+            <td>Order Number</td>
+            <td>Invoice Number</td>
+            <td>Billed To</td>
+            <td>Shipped To</td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "entitlement", :collection => entitlement_collection) %>
+    </tbody>
+</table>
+<div style="margin-top: 20px;"><%= page_list_info(entitlement_collection) %></div>
+<p class="page_links" align="center">
+<%= will_paginate(entitlement_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_entitlement_table") %>
+</p>
+
+

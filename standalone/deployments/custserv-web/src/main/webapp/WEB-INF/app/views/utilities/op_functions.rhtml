@@ -1,0 +1,26 @@
+<% @page_title = "SAMC - OPs Functions" %>
+<div>
+	<h2 align="center">Global Processes</h2>
+	<table class="data_table">
+		<thead>
+			<tr>
+				<th>Process Type</th>
+				<th>Number Completed</th>
+				<th>Number Incomplete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render(:partial => "process_type", :collection => @process_type_hash) %>
+		</tbody>	
+	</table>
+</div>
+<div class="table_header">
+	<h2 class="table_title">DB Health</h2>
+</div>
+<div align="center" id="db_processlist">
+	<%= render(:partial => "db_processlist", :locals => {:db_processes => @db_processes}) %>
+</div>
+<%= periodically_call_remote(
+   :update => "db_processlist",
+   :frequency => 2,
+   :url => { :action => "update_db_processlist" }) %>

@@ -1,0 +1,19 @@
+<% @page_title = "SAMC - #{@subcommunity.name} LCD Auto Resolve Audit" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => LICENSE_COUNTS_CODE, :on_target => nil}) %>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to(@subcommunity.name, sam_customer_subcommunity_path(@sam_customer.id, @subcommunity.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= "Unallocated " if @seat_pool.sam_server.nil? %><%= link_to("Seat Pool: " + @seat_pool.id.to_s, sam_customer_subcommunity_seat_pool_path(@sam_customer.id, @subcommunity.id, @seat_pool.id)) %></span></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">LCD Auto Resolve Audit</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title">License Count Discrepancy Automatic Resolve Audit:&nbsp;&nbsp;Seat Pool <%= @seat_pool.id %></h2></div>
+<%= render(:partial => "lcd_autoresolve_audit_info", :locals => {:lcds => @lcds}) %>

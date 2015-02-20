@@ -1,0 +1,18 @@
+<%  @page_title = "SAMC - Metrics" %>
+<h2 align="center">License Usage - <%= @sam_customer.org_name %></h2>
+<h3 align="center"><%= @license_audits[0].subcommunity.name %></h3>
+<div align="center">
+<table class="data_table">
+<thead>
+    <tr>
+        <th>Total Licenses From Entitlements</th>
+        <th>Total Licenses Allocated</th>
+        <th>Total Licenses Enrolled</th>
+		<th>Date Recorded</th>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "license_audit", :collection => @license_audits, :locals => {:show_product_name => false})%>
+</tbody>
+</table>
+</div>

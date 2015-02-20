@@ -1,0 +1,30 @@
+<table class="data_table">
+<thead>
+    <tr class="data_table_first_row">
+        <td>Server ID</td>
+        <td <%= sort_td_class_helper("name")%>>
+            <%= sort_link_helper("Server Name", "name", update_element, "update_server_table", status_indicator)%>
+        </td>
+        <td <%= sort_td_class_helper("dateregistered")%>>
+            <%= sort_link_helper("Date Registered", "dateregistered", update_element, "update_server_table", status_indicator)%>
+        </td>
+        <td>Number of Schools</td>
+        <td>Address</td>
+        <td>City</td>
+        <td>State</td>
+        <td>Zip Code</td>
+        <td>TMS Entitlement ID used for Registration</td>
+        <td>Installation Code</td>
+        <td>Next Poll At</td>     
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "server", :collection => server_collection) %>
+</tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(server_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_server_table") %>
+</p>

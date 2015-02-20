@@ -1,0 +1,8 @@
+<p>
+  <%= link_to("Profile", edit_user_path(@current_user.id)) %> |
+  <%= link_to("Customer Site", "/") %> |
+    <% if (@current_user.hasScholasticPermission(Permission.scat_access)) %>   
+	  <%= link_to("scat", "/scat") %> |
+	<% end %>
+  <%= link_to("Logout", :action => :logout, :controller => :account) %>
+</p>

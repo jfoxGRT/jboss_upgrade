@@ -1,0 +1,11 @@
+<table class="data_table" style="width: 50%;">
+	<thead>
+		<tr>
+			<th><%= PRODUCT_TERM %> Name</th>
+			<th>Allocated Count According to SAMC</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "license_count_record_for_unregistered_generic", :collection => license_count_info_for_unregistered_generic) %>
+	</tbody>
+</table>

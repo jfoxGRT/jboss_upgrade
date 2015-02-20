@@ -1,0 +1,20 @@
+<% @page_title = "SAMC - Entitlements" %>
+<h2 style="margin-bottom: 10px;"><div align="center">
+<table style="margin: 15px 0 0 0;">
+	<tr>
+		<td class="breadcrumb_cell">
+			Unassigned Entitlements
+		</td>
+	</tr>
+</table>
+</div></h2>
+<div align="center" style="padding: 0px 0 10px 0;">&nbsp;
+<%= generateAjaxIndicator("entitlements_loading_indicator") %></div>
+<div>
+	<%= "<b>#{@entitlements.total_entries} Total Unassigned Entitlements</b><br/><br/>" %>
+	<div id="entitlements_table" style="margin-bottom: 30px;">
+	<%= render(:partial => "entitlements_info", :locals => {:entitlement_collection => @entitlements,
+	                                                            :status_indicator => "entitlements_loading_indicator",
+	                                                            :update_element => "entitlements_table"}) %>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<tr>
+	<td><%= auth_user_ssu.id %></td>
+	<td><%= auth_user_ssu.get_display_type %></td>
+	<td><%= (auth_user_ssu.created_at? ? auth_user_ssu.created_at.strftime(DATE_FORM) : "") %></td>
+	<td><%= (auth_user_ssu.updated_at? ? auth_user_ssu.updated_at.strftime(DATE_FORM) : "") %></td>
+  <td><%= auth_user_ssu.first_name %></td>
+  <td><%= auth_user_ssu.last_name %></td>
+  <td>&nbsp;<%= auth_user_ssu.email %></td>
+	<td>&nbsp;<%= auth_user_ssu.username %></td>
+	<% if @current_user.hasPermission?(Permission.show_auth_password) %>
+		<td><%= auth_user_ssu.password %></td>
+	<% end %>
+	<% sam_server = auth_user_ssu.sam_server %>
+  <td>&nbsp;<%= link_to(sam_server.name, sam_customer_sam_server_path(sam_customer.id, sam_server.id)) %></td>
+	<td><%= auth_user_ssu.enabled %></td>
+  <td><%= auth_user_ssu.district_user_id %></td>
+  <td><%= auth_user_ssu.cleverid %></td>
+</tr>

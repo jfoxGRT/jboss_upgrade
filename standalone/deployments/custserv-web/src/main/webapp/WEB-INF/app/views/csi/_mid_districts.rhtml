@@ -1,0 +1,24 @@
+<table class="data_table">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("org_name")%> style="width: 50%;">
+                <%= sort_link_helper("Organization Name", "org_name", update_element, update_action, status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("num_mid_descendants")%>>
+                <%= sort_link_helper("Number of Descendants", "num_descendants", "update_mid_org_table", status_indicator)%>
+            </td>
+            <td>Registered with SAM Connect</td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "large_top_org", :collection => tlo_collection) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(tlo_collection, :renderer => "RemoteLinkRenderer",
+                  :loading_indicator => status_indicator,
+                  :params => {:action => :update_mid_org_table}) %>
+</p>
+
+

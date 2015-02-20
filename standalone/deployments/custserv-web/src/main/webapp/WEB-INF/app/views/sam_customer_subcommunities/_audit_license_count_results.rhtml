@@ -1,0 +1,18 @@
+<% if @audit_reports.nil? %>
+	<span style="color: red;">A license count audit is currently in progress.  Please try again in a minute.</span>
+<% elsif @audit_reports.size() > 0 %>
+	Audit Complete.<br/><br/>
+	<span style="color: red;">
+	<% for i in @audit_reports %>
+		<%= i.getTaskType().getDescription() %> for <%= i.getSubcommunity().getName() %>
+		<% server = i.getServer()
+		 if (!(server.nil?)) %>
+			on server <%= server.getName() %>
+		<% end %>
+		<br/>
+	<% end %>
+	</span>
+<% else %>
+	Audit Complete<br/>
+	<span style="color: green;">No license count problems found</span>
+<% end %>

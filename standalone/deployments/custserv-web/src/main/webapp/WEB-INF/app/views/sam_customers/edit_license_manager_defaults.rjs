@@ -1,0 +1,1 @@
+page.replace_html 'license_manager_defaults_block', :partial => "edit_license_manager_defaults", :locals => { :current_license_manager_version => @current_license_manager_version }

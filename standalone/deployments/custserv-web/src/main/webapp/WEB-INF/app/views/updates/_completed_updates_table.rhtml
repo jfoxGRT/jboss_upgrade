@@ -1,0 +1,20 @@
+<table class="data_table" style="width: 90%;">
+	<thead>
+		<tr class="data_table_first_row">	
+			<td>Day</td>	
+			<td>Hour</td>
+			<td>Completed Updates</td>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "completed_update", 
+		           :collection => completed_updates) unless completed_updates.empty? %>
+		<% if completed_updates.empty? %>
+		  <tr>
+		    <td colspan="3" style="text-align: center;">
+		      No Updates Completed
+		    </td>
+		  </tr>
+		<% end %>
+	</tbody>
+</table>

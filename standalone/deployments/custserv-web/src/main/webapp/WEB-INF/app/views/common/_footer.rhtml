@@ -1,0 +1,8 @@
+<% logger.info("our controller name is: " + controller.action_name()) %>
+<div id="fineprint" <%= 'style="padding-left: 50px;"' if (controller.action_name() != "login" and controller.action_name() != "reset_password" and controller.action_name() != "password_reset_response") %>>
+  |&nbsp;<a href="http://www.scholastic.com/privacy.htm" target="_blank">privacy statement</a>&nbsp;
+  |&nbsp;<a href="http://www.scholastic.com/terms.htm" target="_blank">terms of service</a>&nbsp;|
+</div>
+<div id="samversion">
+  SAM Connect release ${project.version} (${build.number}) &nbsp; &copy; <%= Time.now.year %> Scholastic Inc. All rights reserved.
+</div>

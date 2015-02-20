@@ -1,0 +1,21 @@
+<div id="login">
+  <% form_tag :action => :login do -%>		    
+    <p>
+      <label>Email</label><br />
+      <%= text_field_tag ('email', nil, {:size => 30, :id => "email_field"}) %> 
+    </p>
+    <p>
+      <label>Password</label> <br />
+      <%= password_field_tag ('password', nil, {:size => 30}) %>
+    </p>
+    <p>
+      <input type="submit" class="submit" value="Login" />      
+    </p>
+  <% end -%>    
+ 
+  <br />
+  <%= link_to("I forgot my password", :action => :reset_password)%>
+  <br />
+  <br />
+  <br />
+</div> <!-- end of "login" -->

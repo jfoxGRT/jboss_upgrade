@@ -1,0 +1,45 @@
+<% @page_title = "SAMC - Reports" %>
+<div>
+    <%= link_to ("1 - Customer Registration Report", {:action => :customer_registration}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This report lists SAM Connect customers with their registration dates and other information (including their Lincense Manager and Update Manager activation information).\n\nData is initially sorted by descending registered server count.") %>
+	<br/><br/>
+	<%= link_to("2 - Server Registration Report (by date)", {:action => :server_registration}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This report lists the server registration count by date. Data is initially sorted by latest date appearing first.") %>
+	<br/><br/>
+	<%= link_to("3 - Unmatched Schools Report (for non-hosted customers)", {:action => :unmatched_schools}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This report lists all unmatched schools which belong to non-hosted customers.") %>
+	<br/><br/>
+	<%= link_to("4 - Unmatched Schools Report (for hosted customers)", {:action => :unmatched_schools_hosted}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This report lists all unmatched schools which belong to hosted customers.") %>
+	<br/><br/>
+	<%= link_to("5 - Deactivated Servers Report", {:action => :deactivated_servers}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This report lists all servers which have been deactivated so far, including the customer that each server belongs to.") %>
+	<br/><br/>
+	<%= link_to("6 - SRC Quiz Updates Report", {:action => :src_quiz_updates}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This reports lists all servers that are receiving the SRC Quiz content, along with their customer information. ") %>
+	<br/><br/>
+	<%= link_to("7 - System Corrected Clone Report", {:action => :corrected_clones}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This reports lists all clones which were detected and automatically corrected by SAM Connect. The report also provides information about the parents of the clones.") %>
+	<br/><br/>
+	<%= link_to("8 - Alerts (aka Notifications) Report", {:action => :alerts_report}, {:target => "_new"}) %>
+	<%= image_tag("question_mark_small_blue.png", :title => "This reports lists all alerts and notifications which were detected by SAM Connect.") %>
+  <br/><br/>
+  <%= link_to("9 - Child SAM Connect Organizations Report", {:action => :child_sc_orgs}, {:target => "_new"}) %>
+  <%= image_tag("question_mark_small_blue.png", :title => "This reports lists all organizations that are a SAM Customer and have a CSI-based parent organization.  Every organization is review, and relationships are analysed for one-up (e.g., parent, not grand-parent and beyond).  This means a parent in one row can correctly be reported as a child (with it's parent) in another row.") %>
+  <br/><br/>
+  <%= # link_to("10 - CSI Messages for Organizations - Change Report", {:action => :csi_messages, :report_id => "csi-2"}, {:target => "_new"}) 
+  %>
+  <span id="restrictedReport_new" title="Contact SAM Connect development team for CSI or custom reports.">10 - CSI Messages for Organizations - New, End and Merge Report</span>
+  <%= image_tag("question_mark_small_blue.png", :title => "This reports lists all CSI messages received by SAM Connect that involve the creation (new), termination (end), or merging (merge) of an organization.") %>
+  <br/><br/>
+  <% # link_to("11 - Child SAM Connect Organizations Report", {:action => :child_sc_orgs}, {:target => "_new"}) 
+  %>
+  <span id="restrictedReport_change" title="Contact SAM Connect development team for CSI or custom reports.">11 - CSI Messages for Organizations - Change Report</span>
+  <%= image_tag("question_mark_small_blue.png", :title => "This reports lists all CSI messages received by SAM Connect that involve the change of organization information.") %>
+  <br/><br/>
+  <%= link_to("12 - Cloned Servers Report for Review - Exact License Check", {:action => :cloned_servers_review, :exact_license_check => "yes"}, {:target => "_new"}) %>
+  <%= image_tag("question_mark_small_blue.png", :title => "This reports lists all clones that match some specific criteria, which would identify them for cleanup. Run the report to view the specific criteria.") %>
+  <br/><br/>
+  <%= link_to("13 - Cloned Servers Report for Review 1 - No License Check", {:action => :cloned_servers_review}, {:target => "_new"}) %>
+  <%= image_tag("question_mark_small_blue.png", :title => "This reports lists all clones that match some specific criteria, which would identify them for cleanup. Run the report to view the specific criteria.") %>
+</div>

@@ -1,0 +1,16 @@
+<% if (@agent.nil?) %>
+<div style="color: red;">This server is not bound to an agent.</div>
+<% else %>
+<table class="data_table" style="margin-bottom: 30px;">
+    <thead>
+        <tr class="data_table_first_row">
+            <th>Agent Plugin ID</th>
+            <th>Plugin Name</th>
+            <th>Plugin Version</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "agent_plugin", :collection => @agent.agent_plugins) %>
+    </tbody>
+</table>
+<% end %>

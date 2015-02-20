@@ -1,0 +1,20 @@
+<div align="center" style="margin: 0px;">
+<table style="margin-top: 30px;">
+	<tr>
+		<td class="breadcrumb_cell"><%= sam_customer.org_name %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">
+			<%= link_to("Entitlements", entitlements_path(:sam_customer_id => sam_customer.id)) %><br/>
+			SAM Servers
+		</td>
+	</tr>
+</table>
+</div>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+<%= generateAjaxIndicator("servers_loading_indicator") %></div>
+<div id="sam_customer_servers_table">
+<%= render(:partial => "sam_customer_servers_table", :locals => {:server_collection => sam_servers,
+                                                            :status_indicator => "servers_loading_indicator",
+                                                            :update_element => "sam_customer_servers_table",
+                                                            :sam_customer_id => sam_customer.id}) %>
+</div>

@@ -1,0 +1,4 @@
+<tr>
+	<td><%= link_to(event_type.value, group_by_event_type_notifications_path(:alert_id => alert_id, :sam_server_id => sam_server_id, :event_type => event_type.value)) %></td>
+	<td><%= event_type.the_count %></td>
+</tr>

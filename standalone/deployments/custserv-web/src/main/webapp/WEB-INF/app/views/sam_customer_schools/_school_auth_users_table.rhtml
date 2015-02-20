@@ -1,0 +1,27 @@
+<table class="data_table" width="80%">
+  <thead>
+    <tr class="data_table_first_row">
+       <td <%= sort_td_class_helper("auth_user_id_reverse")%>>
+         <%= sort_link_helper("Auth User ID", "auth_user_id_reverse", update_element, "update_school_auth_users", status_indicator)%>
+       </td>
+       <td <%= sort_td_class_helper("username")%>>
+         <%= sort_link_helper("Username", "username", update_element, "update_school_auth_users", status_indicator) %>
+       </td>
+       <td <%= sort_td_class_helper("auth_user_type")%>>
+         <%= sort_link_helper("Type", "auth_user_type", update_element, "update_school_auth_users", status_indicator) %>
+       </td>
+       <td <%= sort_td_class_helper("created_at")%>>
+         <%= sort_link_helper("Created At", "created_at", update_element, "update_school_auth_users", status_indicator)%>
+       </td>
+       <td <%= sort_td_class_helper("updated_at")%>>
+         <%= sort_link_helper("Last Updated", "updated_at", update_element, "update_school_auth_users", status_indicator)%>
+       </td>
+       <td <%= sort_td_class_helper("enabled")%>>
+         <%= sort_link_helper("Profile Merge Ok?", "enabled", update_element, "update_school_auth_users", status_indicator) %>
+       </td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "school_auth_user", :collection => auth_user_collection, :locals => {:school_id => school_id}) %>
+  </tbody>
+</table>

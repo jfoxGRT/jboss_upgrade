@@ -1,0 +1,2 @@
+module SamcAuditsHelper
+end

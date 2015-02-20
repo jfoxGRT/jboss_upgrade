@@ -1,0 +1,17 @@
+<div align="center">
+<h2 align="center">Tasks - License Count Discrepancies</h2>
+<% if (@lcd_alerts.length > 0) %>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>SAM Customer ID</th>
+            <th>SAM Customer Name</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "lcd_alert", :collection => @lcd_alerts) %>
+    </tbody>
+</table>
+<% end %>
+</div>

@@ -1,0 +1,38 @@
+<%  @page_title = "SAMC Entitlement ID: #{@entitlement.tms_entitlementid}" %>
+<% if (@sam_customer) %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false})%>
+		<td>&raquo;</td>
+		<td><span id="current_page_title"><%= @entitlement.tms_entitlementid %></span></td>
+	</tr>
+</table>
+<hr/>
+<% end %>
+<div class="table_header">
+	<h2 class="table_title">Entitlement: <%= @entitlement.tms_entitlementid %></h2>
+</div>
+<%= render(:partial => "entitlement_details", :object => @entitlement) %>
+<% if (@entitlement.isVirtual?) %>
+<% entitlement_audit = @entitlement.entitlement_audit %>
+<div class="table_header">
+	<h3 class="table_title">Annotation</h2>
+</div>
+<table class="property_table" style="width: 30%;">
+	<tbody>
+		<tr>
+			<td>Comment</td>
+			<td><%= entitlement_audit.annotation %></td>
+		</tr>
+		<tr>
+			<td>Performed By</td>
+			<% user = entitlement_audit.user %>
+			<td><%= user.first_name if user %> <%= user.last_name if user %></td>
+		</tr>
+	</tbody>
+</table>
+<% end %>

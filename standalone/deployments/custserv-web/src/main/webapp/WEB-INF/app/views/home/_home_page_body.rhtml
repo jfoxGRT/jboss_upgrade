@@ -1,0 +1,66 @@
+<script type="text/javascript">
+	/*jQuery(function() {
+		jQuery('#ss_regs_container').draggable({
+			stop: function() {
+				pos = jQuery('#ss_regs_container').position();	
+				jQuery.post('<%= escape_javascript(url_for(:controller => :home, :action => :save_widget_coordinates)) %>', {x_offset: pos.left, y_offset: pos.top, widget_code: "SS_REG", page_code: "H"})
+			}
+		});
+		jQuery('#new_sc_container').draggable();
+	});*/
+</script>
+<table style="width: 100%; margin-top: 30px;">
+	<tr>
+		<td style="width: 50%; text-align: center; border-bottom: 0px;">
+			<div id="ss_regs_container" style="width: 50%; margin-left: auto; margin-right: auto;">
+				<span class="super_caption">SAM Server Registrations</span><br/><br/>
+				<img border="0" src="http://chart.apis.google.com/chart?cht=lc&chxt=x,y&chxl=0:<%= @x_labels %>&chxr=1,0,<%= @y_max %>,<%= @y_max / 10 %>&chd=t:<%= @sorted_stats %>&chds=0,<%= @y_max %>&chs=300x170" />
+			</div>
+		</td>
+		<td style="width: 50%; text-align: center; border-bottom: 0px;">
+			<div id="new_sc_container" style="width: 50%; margin-left: auto; margin-right: auto;">
+				<span class="super_caption">Newly Registered <%= SAM_CUSTOMER_TERM %>s</span><br/><br/>
+				<img border="0" src="http://chart.apis.google.com/chart?cht=lc&chxt=x,y&chxl=0:<%= @sc_x_labels %>&chxr=1,0,<%= @sc_y_max %>,<%= @sc_y_max / 10 %>&chd=t:<%= @sc_sorted_stats %>&chds=0,<%= @sc_y_max %>&chs=300x170" />
+			</div>
+		</td>
+	</tr>
+</table>
+<hr/>
+<div id="accordion" class="shadow">
+	<h3 class="head" href="<%= url_for(:controller => :home, :action => :license_manager_data) %>" >License Manager</h3>
+	<div style="overflow: auto;">
+		<div>
+			<input type="button" value="Refresh" href="<%= url_for(:controller => :home, :action => :license_manager_data) %>" onclick="refresh_data(this);"/>&nbsp;&nbsp;
+			<span id="license_manager_loading">Please wait..&nbsp;<%= image_tag("wait16trans.gif", {:style => "vertical-align: top;"}) %></span>
+		</div>
+		<div>&nbsp;</div>
+	</div>
+	<h3 class="head">Update Manager</h3>
+	<div>
+		Coming soon..
+	</div>
+	<h3 class="head">Auth Manager</h3>
+	<div>
+		Coming soon..
+	</div>
+	<h3 class="head">Scholastic U</h3>
+	<div>
+		Coming soon..
+	</div>
+	<h3 class="head" href="<%= url_for(:controller => :home, :action => :samc_users_data) %>">SAMC Users</h3>
+	<div style="overflow: auto;">
+		<div>
+			<input type="button" value="Refresh" href="<%= url_for(:controller => :home, :action => :samc_users_data) %>" onclick="refresh_data(this);"/>&nbsp;&nbsp;
+			<span>Please wait..&nbsp;<%= image_tag("wait16trans.gif", {:style => "vertical-align: top;"}) %></span>
+		</div>
+		<div>&nbsp;</div>
+	</div>
+	<h3 class="head" href="<%= url_for(:controller => :home, :action => :schools_on_sam_servers_data) %>">Schools on SAM Servers</h3>
+	<div style="overflow: auto;">
+		<div>
+			<input type="button" value="Refresh" href="<%= url_for(:controller => :home, :action => :schools_on_sam_servers_data) %>" onclick="refresh_data(this);"/>&nbsp;&nbsp;
+			<span>Please wait..&nbsp;<%= image_tag("wait16trans.gif", {:style => "vertical-align: top;"}) %></span>
+		</div>
+		<div>&nbsp;</div>
+	</div>
+</div>

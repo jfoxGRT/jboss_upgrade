@@ -1,0 +1,15 @@
+<tr>
+    <td> 
+        <a class="Edit" style="text-decoration: underline; cursor: pointer" onclick="javascript:popup_edit_dialog(<%= auth_zone.id %>, '<%= auth_zone.code.to_s %>'); return false;"><%= auth_zone.code %> </a>
+     </td>
+    <td> <%= auth_zone.desc %> </td>
+    <td> <%= auth_zone.login_path %> </td>
+    <td> <%= auth_zone.error_path %> </td>
+    <td> <%= auth_zone.password %> </td>
+    <td> <%= auth_zone.profile_enabled %> </td>
+    <td align="left">    
+        <button class="View" type="button" onclick="javascript:popup_view_dialog(<%= auth_zone.id %>, '<%= auth_zone.code.to_s %>'); return false;">View <%= auth_zone.code %> Zone URLs</button>  
+        <% form_remote_tag(:url => url_for(:action => :delete_auth_zone, :id => auth_zone.id)) do -%>
+            <%= submit_tag "Delete #{auth_zone.code} Auth Zone", :confirm => "Are you sure you want to delete this Auth Zone?"%>    </td>
+        <% end %>
+</tr>

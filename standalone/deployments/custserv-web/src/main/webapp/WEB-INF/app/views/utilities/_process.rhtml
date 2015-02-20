@@ -1,0 +1,12 @@
+<tr>
+	<td><%= process.id %></td>
+	<td><%= link_to(process.process_token, :action => :process_details, :id => process.id) %></td>
+	<td><%= process.started_at.strftime(DATE_FORM) if process.started_at %></td>
+	<td><%= process.validated_at.strftime(DATE_FORM) if process.validated_at %></td>
+	<td id="completed_at_<%= process.id %>"><%= process.completed_at.strftime(DATE_FORM) if process.completed_at %></td>
+	<td><%= process.pct_complete %></td>
+	<td><%= process.email %></td>
+	<td><%= button_to_remote("Interrupt", {:complete => "$('interrupt_button_#{process.id}').hide();", :update => "completed_at_#{process.id}" ,
+	:url => url_for(:action => :interrupt_process, :id => process.id)},
+	{:id => "interrupt_button_#{process.id}"}) if process.completed_at.nil? %></td>
+</tr>

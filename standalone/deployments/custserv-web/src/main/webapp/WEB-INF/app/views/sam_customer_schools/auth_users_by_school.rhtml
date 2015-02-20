@@ -1,0 +1,28 @@
+<% @page_title = "SAMC - Auth Users By School" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span class="breadcrumb_level"><%= link_to(params[:school_name], sam_customer_school_path(@sam_customer.id, params[:school_id])) %></span></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Auth Users</span>		
+	</td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= params[:school_name].to_s %>&nbsp;&nbsp;-&nbsp;&nbsp;Auth Users</h2>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("auth_users_loading_indicator") %>
+	</div>
+</div>
+<div id="school_auth_users_table">
+	<%= render(:partial => "school_auth_users_table", :locals => {:auth_user_collection => @auth_users_by_school, 
+																															:products_collection => @products, 
+	                                                            :status_indicator => "auth_users_loading_indicator",
+	                                                            :update_element => "school_auth_users_table",
+	                                                            :school_id => params[:school_id]}) %>
+</div>

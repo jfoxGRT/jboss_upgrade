@@ -1,0 +1,2 @@
+module EntitlementKnownDestinationsHelper
+end

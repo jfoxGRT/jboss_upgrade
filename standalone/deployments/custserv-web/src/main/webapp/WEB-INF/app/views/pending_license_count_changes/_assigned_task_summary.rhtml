@@ -1,0 +1,32 @@
+<table id="<%= assigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:5%;">
+                <%= assigned_task_summary.id %>
+            </td>
+            <td style="width:8%;">
+                <%= assigned_task_summary.priority %>
+            </td>
+            <td style="width:20%;">
+                <%= assigned_task_summary.sam_customer_name %>
+            </td>
+			<td style="width:14%;">
+                <%= assigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= assigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+			<td style="width: 13%;">
+				<%= assigned_task_summary.first_name %> <%= assigned_task_summary.last_name %>
+			</td>
+            <td style="width:12%;">
+                <%= assigned_task_summary.state_name %>
+            </td>            
+            <td style="width:12%;">
+                <%= assigned_task_summary.delta %>
+            </td>
+            <td style="width:16%;">
+                <%= render(:partial => "/tasks/assigned_task_links", :locals => {:task => assigned_task_summary, :view_details => false}) %>
+            </td>
+		<%#= render(:partial => "view_details", :locals => {:colspan => 7, :assigned_task_summary => assigned_task_summary}) %>
+    </tbody>
+</table>

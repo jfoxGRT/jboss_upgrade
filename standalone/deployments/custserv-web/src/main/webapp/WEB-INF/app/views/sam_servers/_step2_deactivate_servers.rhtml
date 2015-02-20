@@ -1,0 +1,22 @@
+<h3 style="text-align: left;" id="step2" >Deactivating Servers..</h3>
+<% if (failure && error_descriptions.length > 0) %>
+	The server deactivate did not get initiated because of the following reasons:<br/><br/>
+	<% error_descriptions.each do |ed| %>
+		-<%= ed %><br/>
+	<% end %>
+<% elsif (failure) %>
+	The server deactivate failed because of an unexpected error.  Please contact an SAMC administrator.
+<% else %>
+  <% if multiple_servers %>
+    <div align="center">Request for deactivation submitted successfully. Progress updates are not available for multiple server deactivation.<br/><br/></div>
+  <% else %>
+    <div align="center">You may freely navigate away from this page while the process continues to run in the background.<br/><br/></div>
+    <div align="center"><span id="process_msg_indicator">Running process (can take a few secs to start)..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0") %></span></div>
+    <table id="process_thread_table">
+      <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </table>
+  <% end %>
+<% end %>
+<br>
+<br>
+<br>

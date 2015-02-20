@@ -1,0 +1,37 @@
+<div align="center">
+<br /><br />
+<% if @sam_customer.is_awaiting_license_manager_approval? %>
+    Pending License Manager approval request exists. <br />
+
+<% elsif SamServer.active_server_count(@sam_customer) == 0 %>
+    At least one Enterprise Edition SAM Server must be registered to SAM Connect 
+    before you can activate License Manager  <br />
+
+<%else%>
+    <% if @unmatched_school_count > 0 %>
+        This customer has unmatched schools. You may initiate this request, however, all schools will need to be matched before the request will be approved. <br /><br />
+    <%end%>       
+    <% form_tag(url_for(:action => :lm_opt_in)) do -%>
+    <table align="center">  
+        <tr>
+            <td><h4>First Name:</h4></td>
+            <td><%= text_field_tag(:first_name, "", :size => 20) %></td>
+        </tr>
+        <tr>
+            <td><h4>Last Name:</h4>
+            <td><%= text_field_tag(:last_name, "", :size => 20) %></td>
+        </tr>
+        <tr>
+            <td><h4>Title:</h4>
+            <td><%= text_field_tag(:job_title, "", :size => 20) %></td>
+        </tr>
+        <tr>
+            <td><h4>Telephone Number:</h4>
+            <td><%= text_field_tag(:telephone_number, "", :size => 20) %></td>    
+        </tr>
+    </table> 
+    <br /><br />  <input type="hidden" id="sc_id" name="sc_id" value ="<%= @sam_customer.id %>">  
+        <%= submit_tag("Request Opt In") %>
+    <% end %>
+<%end%>    
+    </div>    

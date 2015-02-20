@@ -1,0 +1,13 @@
+<% targetNav = (@chosen_alert_instance.alert == @ueAlertType) ? "entitlement_assign_nav" : "sam_customer_assign_nav" %>
+<%= render(:partial => targetNav, :object => @chosen_alert_instance) %>
+<div id="org_panel" style="padding-top: 30px;">
+    <%= render(:partial => "org_hierarchy_breadcrumb", :object => @breadcrumbArray)%>
+    <% form_tag({:action => @targetSubmitAction}, {:name => "alert_form", :onsubmit => "return showSubmitStatus();"}) do %>
+    <%= hidden_field_tag("selected_alert", @chosen_alert_instance.id) %>
+    <%= render(:partial => "org_info", :locals => {:org_list => @orgList, :org_name => @org.name}) %>
+    <div style="padding-top: 30px; text-align: center;">
+    <%= submit_tag("Assign Selected Org", {:class => "submit"}) %>
+    </div>
+    <% end %>
+    <div id="submit_indicator" align="center" style="padding-top: 10px; color: red; display: none;">Please wait..</div>
+</div>

@@ -1,0 +1,3 @@
+<%= link_to("Recent Seat Activity Failures ", sam_customer_seat_activities_path(@sam_customer.id, :status => 5)) %> (<%= SeatActivity.find_activity_count(@sam_customer) %>)<br/>
+
+

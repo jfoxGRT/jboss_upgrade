@@ -1,0 +1,350 @@
+<%
+  def get_transition_request_string(pending_deactivation_request)
+    transition_request_string = "- Flagged for Deactivation"
+    transition_request_string += (" by " + pending_deactivation_request.user.email)
+		transition_request_string += (" at " + pending_deactivation_request.created_at.strftime(DATE_FORM))
+    transition_request_string += (": \"" + pending_deactivation_request.comment + "\"") if (pending_deactivation_request.comment && !pending_deactivation_request.comment.empty?)
+		return transition_request_string
+  end
+%>
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js"></script>
+
+<script type="application/javascript" charset="utf-8">
+  jQuery(document).ready(function() {
+  	
+  	<% if current_user.hasPermission?(Permission.edit) %>
+      jQuery('#uri_scheme').editable(
+    								<%= sam_server_info.id %>, {
+					    									      method: 'PUT',
+					    									      id: 'update_field',
+					    									      name : 'uri_scheme',
+					    									      indicator : '<img src="/custserv/images/indicator_smallwaitanim.gif">',
+					    									      tooltip   : 'Click to edit; Enter to save.',
+					    									      placeholder : ''
+         							                           }
+                                    );
+      jQuery('#uri_host').editable(
+    								<%= sam_server_info.id %>, {
+    									        method: 'PUT',
+    									        id: 'update_field',
+    									        name : 'uri_host',
+    									        indicator : '<img src="/custserv/images/indicator_smallwaitanim.gif">',
+    									        tooltip   : 'Click to edit; Enter to save.',
+    									        placeholder : ''
+         							          }
+                                  );
+      jQuery('#uri_port').editable(
+    								<%= sam_server_info.id %>, {
+    									        method: 'PUT',
+    									        id: 'update_field',
+    									        name : 'uri_port',
+    									        indicator : '<img src="/custserv/images/indicator_smallwaitanim.gif">',
+    									        tooltip   : 'Click to edit; Enter to save.',
+    									        placeholder : ''
+         							          }
+                                  );
+      jQuery('#uri_path_prefix').editable(
+    								<%= sam_server_info.id %>, {
+    									        method: 'PUT',
+    									        id: 'update_field',
+    									        name : 'uri_path_prefix',
+    									        indicator : '<img src="/custserv/images/indicator_smallwaitanim.gif">',
+    									        tooltip   : 'Click to edit; Enter to save.',
+    									        placeholder : ''
+         							          }
+                                          );
+    <% end %>
+  });
+
+function connectNow(server_id, alertMode, mode) {
+    my_path = "/custserv/sam_servers/" + server_id +"/request_agent_connect_now?mode=" + mode;
+    jQuery.getJSON(my_path, function(result) {        
+        if (result && result.message && result.status) {
+            if (alertMode) {
+                alert(result.message + " (code " + result.status + ")" )
+            } 
+        } else {
+            if (alertMode) {
+                if(jQuery.hasData(result)){
+                    val = data
+                }
+                else {
+                    val = "no data returned"
+                }
+                alert("Agent will not connect. (default action) return value is: " + val)
+            }
+        }           
+    });
+}
+
+jQuery( function() {
+    jQuery('.cnow').on("click", function() {
+        server_id = this.id.replace(/^\s*cnow-|\s+$/g, "");
+        if (jQuery('#std_noop_radio').is(':checked')) {
+            action = "std_noop";
+        }
+        if (jQuery('#lic_mini_noop_radio').is(':checked')) {
+            action = "lic_mini_noop";
+        }
+        connectNow(server_id, true, action);
+    });
+});
+
+function popup_set_time_dialog() {
+            jQuery('#popup_pane').html("<%= escape_javascript(render(:partial => 'set_customer_sync_time', :locals => {:sam_server_info => sam_server_info})) %>");
+                jQuery('#popup_pane').dialog({
+                modal: true,
+                width: 350,
+                height: 300
+            });
+    }
+</script>
+<div id="popup_pane"></div>
+<table class="property_table shadow" style="width: 50%; font-size: 10px;">
+    <tbody>
+    	<tr>
+            <td>SAM Server Name</td>
+            <td>
+				<table class="inner_table" style="width: 60%;">
+					<tr>						
+						<td style="text-align: right;">
+							<%= image_tag("choice-no.gif", :title => "Inactive") if sam_server_info.status == 'i' %>
+							<%= image_tag("choice-transitioning.png", :title => "Transitioning") if sam_server_info.status == 't' %>
+							<%= image_tag("hard_drive_clone.png", :style => "width: 20px; height: 20px; vertical-align: bottom;", :title => "Clone") if !sam_server_info.clone_parent.nil? %>
+							<%= image_tag("icon_aggregation_server.gif", :style => "vertical-align: top;", :title => "Aggregation Server") if (!sam_server_info.agg_server.nil? && sam_server_info.agg_server == true) %>
+							<%= image_tag("icon_hosted_server.gif", :style => "vertical-align: top;", :title => "Hosted") if sam_server_info.is_hosted_server? %>
+						</td>
+						<td>
+        					<span id="server_name_block">
+          					<%= render :partial => "server_name", :object => sam_server_info %>        
+        					</span>       
+      					</td>
+					</tr>
+				</table>
+			</td>
+        </tr>
+        <tr>
+            <td>SAM Server ID</td>
+            <td>&nbsp;<%= sam_server_info.id %></td>
+        </tr>
+		<%  class_def = ""
+			class_def = "table_row_problem" if(sam_server_info.agent.nil?) %>
+                        <tr class='<%= class_def %>'>
+                    <td>IP Address</td>
+                                <% if(!sam_server_info.agent.nil?) %>
+                        <td>&nbsp;<%= sam_server_info.agent.last_ip %></td>
+                                <% else %>
+                                        <td>&nbsp;No Agent</td>
+                                <% end %>
+                </tr>
+
+		<% if (@current_user.hasPermission?(Permission.advanced_debug)) %>
+			<tr class='<%= class_def %>'>
+	            <td>Agent ID</td>
+				<% if(!sam_server_info.agent.nil?) %>
+	            	<td>&nbsp;<%= link_to(sam_server_info.agent.id, agent_path(sam_server_info.agent)) %></td>
+				<% else %>
+					<td>No Agent</td>
+				<% end %>
+	        </tr>
+		<% end %>
+        <tr>
+            <td>Registered At</td>
+            <td>&nbsp;<%= sam_server_info.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<tr>
+            <td>Last Updated</td>
+            <td>&nbsp;<%= sam_server_info.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+            <td>GUID</td>
+            <td>&nbsp;<%= sam_server_info.guid %></td>
+        </tr>
+        <tr>
+            <td>Installation Code</td>
+            <td>&nbsp;<%= sam_server_info.installation_code %></td>
+        </tr>
+        <% if sam_server_info.is_local_server? %>
+        <tr>
+            <td>S3 Version</td>
+            <td>&nbsp;<%= sam_server_info.s3version %>
+        </tr>
+        <% end %>
+        <% if (@current_user.hasPermission?(Permission.connect_now)) %>
+        <% if (sam_server_info.is_hosted_server? or (sam_server_info.is_local_server? and sam_server_info.s3version and !sam_server_info.s3version.empty?)) %>
+            <tr>
+                <td>Connect Now Options</td>
+                <td>
+                    <input name="cn_options" type="radio" id="std_noop_radio" checked="checked">Standard NOOP</input>&nbsp;<input name="cn_options" type="radio" id="lic_mini_noop_radio">Licensing Mini-NOOP</input>
+                    <br/><br/><button class="cnow" type="button" id="cnow-<%=sam_server_info.id%>">Connect Now</button>
+                </td>
+            </tr>
+        <% end %>
+        <% end %>
+		<tr>
+			<td>Registration Token</td>
+			<td>&nbsp;<%= sam_server_info.reg_token %></td>
+		</tr>
+		<tr>
+			<td>Registration Token Used At</td>
+			<td>&nbsp;<%= sam_server_info.reg_token_used_at.strftime(DATE_FORM) if sam_server_info.reg_token_used_at %></td>
+		</tr>
+        <tr>
+            <td>Registration Entitlement ID</td>
+			<% reg_entitlement = sam_server_info.registration_entitlement %>
+            <td>&nbsp;<%= link_to(reg_entitlement.id, sam_customer_entitlement_path(sam_server_info.sam_customer, reg_entitlement)) if !reg_entitlement.nil? %></td>
+        </tr>
+		<tr>
+            <td>LDAP Server</td>
+            <td>&nbsp;<%= boolean_icon(sam_server_info.ldap_server) %></td>
+        </tr>
+        <% if sam_server_info.ldap_server %>
+            <tr>
+	            <td>LDAP URI Scheme</td>
+	            <td id="uri_scheme" ><%= sam_server_info.uri_scheme %></td>
+	        </tr>
+	        <tr>
+	            <td>LDAP URI Host</td>
+	            <td id="uri_host" ><%= sam_server_info.uri_host %></td>
+	        </tr>
+	        <tr>
+	            <td>LDAP URI Port Port</td>
+	            <td id="uri_port" ><%= sam_server_info.uri_port %></td>
+	        </tr>
+	        <tr>
+	            <td>LDAP URI Prefix</td>
+	            <td id="uri_path_prefix" ><%= sam_server_info.uri_path_prefix %></td>
+	        </tr>
+        <% end %>
+		<tr>
+			<td>Auth-Vetted?</td>
+			<td>&nbsp;<%= boolean_icon(sam_server_info.auth_vetted) %></td>
+		</tr>
+		<tr>
+			<td>School-Info Digest</td>
+			<td>&nbsp;<%= sam_server_info.school_info_digest %></td>
+		</tr>
+		<tr>
+			<td>Teacher Digest</td>
+			<td>&nbsp;<%= sam_server_info.teacher_digest %></td>
+		</tr>
+		<tr>
+			<td>School-Teacher Digest</td>
+			<td>&nbsp;<%= sam_server_info.school_teacher_digest %></td>
+		</tr>
+		<tr>
+			<td>E21-Student Digest</td>
+			<td>&nbsp;<%= sam_server_info.e21_student_digest %></td>
+		</tr>
+		<tr>
+			<td>School-E21-Student Digest</td>
+			<td>&nbsp;<%= sam_server_info.school_e21_student_digest %></td>
+		</tr>
+		<tr>
+			<td>Admin Digest</td>
+			<td>&nbsp;<%= sam_server_info.admin_digest %></td>
+		</tr>
+		<tr>
+			<td>Clone Of</td>
+			<td>&nbsp;<%= @clone_parent.id.to_s + " - " + link_to(@clone_parent.name, sam_customer_sam_server_path(@clone_parent.sam_customer_id, @clone_parent.id)) if @clone_parent %></td>
+		</tr>
+        <tr>
+            <td>Enforce School Max Enroll Cap</td>
+            <td>&nbsp;<%= boolean_icon(sam_server_info.enforce_school_max_enroll_cap) %></td>
+        </tr>
+		<tr>
+            <td>Automatic License Count Discrepancy Resolution</td>
+            <td>&nbsp;<%= boolean_icon(sam_server_info.auto_resolve_lcd) %></td>
+        </tr>
+        <tr>
+            <td>SRC Quiz Preferences Activation Date</td>
+            <% if(@src_quiz_preferences != nil and @src_quiz_preferences.activation_date != nil) %>
+              <td><%= @src_quiz_preferences.activation_date.strftime(DATE_FORM) %></td>
+            <% else %>
+              <td>N/A</td>
+            <% end %>
+        </tr>
+        <tr>
+        	<td>Status</td>
+        	<td>&nbsp;<%= translate_status_text(sam_server_info.status) %>
+            <% if sam_server_info.flagged_for_deactivation? %>
+              <span style='color: red; font-weight: bold;'><%= get_transition_request_string(sam_server_info.get_pending_deactivation_request) %></span>
+              <% if sam_server_info.flagged_for_deactivation_by_user?(@current_user) %>
+                <% form_tag :action => 'cancel_deactivation_request', :id => sam_server_info.id do %>
+                    <%= submit_tag("Cancel") %>
+                <% end %>
+              <% elsif @current_user.hasScholasticPermission(Permission.customer_resource_edit) %>
+                <% form_tag :action => 'revoke_deactivation_request', :id => sam_server_info.id do %>
+                    <%= submit_tag("Revoke") %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+        	<td>Dashboard Export Blacklisted (by Server)?</td>
+        	<td>&nbsp;<%= sam_server_info.is_dashboard_export_blacklisted %>
+
+              <% if @current_user.hasPermission?(Permission.export_batch_blacklist_edit) %>
+                &nbsp; 
+                <% if sam_server_info.is_dashboard_export_blacklisted %>
+                  <% form_tag :action => 'removeServerFromExportBlacklist', :id => sam_server_info.id  do %>
+                     <%= submit_tag("unBlacklist Server", :confirm => 'Are you sure you want to remove this server from Blacklist?') %>
+                  <% end %>
+  	            <% else %>
+                  <% form_tag :action => 'addServerToExportBlacklist', :id => sam_server_info.id  do %>
+                     <%= submit_tag("Blacklist Server", :confirm => 'Are you sure you want to blacklist this server?') %>
+                  <% end %>
+               <% end %>
+             <% end %>
+
+            </td>
+        </tr>
+		<tr>
+			<td>Next Classmappings Date:</td>
+            <td>&nbsp;<%= sam_server_info.update_teacher_classmappings_at.strftime(DATE_FORM) if !sam_server_info.update_teacher_classmappings_at.nil? %>
+            <% form_tag :action => 'updateClassMappingTime', :id => sam_server_info.id, :name => sam_server_info.name do %>
+                <%= submit_tag("Update At Next Checkin") %>
+            <% end %>
+            </td>
+		</tr>
+		<tr>
+			<td>Next SAM User Full Sync Date:</td>
+			<td>&nbsp;<%= sam_server_info.update_users_at.strftime(DATE_FORM) if sam_server_info.update_users_at %>
+				<% form_tag :action => 'update_sam_users_sync_time', :id => sam_server_info.id, :name => sam_server_info.name do %>
+					<%= submit_tag("Sync SAM Users At Next Checkin") %>
+				<% end %>
+			</td>
+		</tr>
+		<% if sam_server_info.is_local_server?  && @current_user.hasPermission?(Permission.edit_customer_sync_time)%>
+		<tr>
+            <td>Set Customer Full Sync Time:</td>
+            <td>&nbsp; <%= "Daily Sync Hour: " + sam_server_info.customer_set_sync_hour.to_s + ":00 (UTC)" if sam_server_info.customer_set_sync_hour %> <br/>
+                <button type="button" onclick="popup_set_time_dialog(); return false;">Set Daily Sync Time</button>
+            </td>
+        </tr>
+        <%end%>
+		<tr>
+			<td>Next Codex Enrollment Full Sync Date:</td>
+			<td>&nbsp;<%= sam_server_info.update_subcommunity_user_mappings_at.strftime(DATE_FORM) if sam_server_info.update_subcommunity_user_mappings_at %>
+				<% form_tag :action => 'update_subcommunity_user_mappings_time', :id => sam_server_info.id, :name => sam_server_info.name do %>
+					<%= submit_tag("Sync Codex Enrollment At Next Checkin") %>
+				<% end %>
+			</td>
+		</tr>
+		<% if @current_user.isAdminType %>
+			<tr>
+				<td>Admin Data</td>
+				<td><input class="widget_dialog" type="button" value="Show Internal Messages" element_id="internal_messages" 
+						href="<%= internal_messages_for_sam_server_path(:sam_server_id => sam_server_info.id) %>"/>
+				</td>
+			</tr>	
+		<% end %>
+		<tr>
+		    <td>Hosted Terms Accepted</td>
+		    <td>&nbsp;<%= boolean_icon(@sc_hosting_agreement_info) %></td>
+		</tr>
+		
+    </tbody>
+</table>
+	

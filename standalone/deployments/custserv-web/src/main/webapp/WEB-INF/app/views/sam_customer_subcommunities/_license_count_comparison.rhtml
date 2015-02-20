@@ -1,0 +1,44 @@
+<%  count_mismatch = (license_count_comparison.seat_activity_id.nil? && @lm_version == 2 && (license_count_comparison.server_allocated_count.to_i != license_count_comparison.pool_count.to_i))
+	mirror_problem = mirror_hash[license_count_comparison.installation_code] > 1 %>
+<tr class='<%= (count_mismatch || mirror_problem) ? "mirror_problem" : "" %>'>
+	<% pool_id = license_count_comparison.pool_id %>
+	<td>&nbsp;<%= license_count_comparison.server_id %></td>
+	<% server_id = license_count_comparison.server_id %>
+	<td style="text-align: left;">
+		<%  if server_id %>
+			<table class="inner_table">
+				<tr>
+					<td style="text-align: left;"><%= link_to(license_count_comparison.server_name, sam_customer_sam_server_path(sam_customer.id, server_id)) %></td>
+					<td style="text-align: right;">
+						<%= image_tag("hard_drive_clone.png", :style => "width: 20px; height: 20px; vertical-align: bottom;", :title => "Clone") if !license_count_comparison.clone_parent_id.nil? %>
+						<%= image_tag("icon_aggregation_server.gif", :style => "vertical-align: top;", :title => "Aggregation Server") if (!license_count_comparison.agg_server.nil? && license_count_comparison.agg_server.to_i == 1) %>
+						<%= image_tag("icon_hosted_server.gif", :style => "vertical-align: top;", :title => "Hosted") if license_count_comparison.server_type == SamServer::TYPE_HOSTED %>
+					</td>
+				</tr>
+			</table>
+		<% end %>
+	</td>
+	<td><%= license_count_comparison.installation_code %></td>
+	<% if @current_user.isAdminType %>
+		<td>&nbsp;<%= license_count_comparison.sssi_id %></td>
+	<% end %>
+	<td>&nbsp;
+		<% if (@current_user.isAdminType && (!pool_id.nil?)) %>
+			<%= link_to(license_count_comparison.pool_count, sam_customer_subcommunity_seat_pool_path(sam_customer.id, subcommunity.id, pool_id)) %>
+		<% else %>
+			<%= license_count_comparison.pool_count %>
+		<% end %>
+	</td>
+	<td>&nbsp;<%= license_count_comparison.server_allocated_count %></td>
+	<td>&nbsp;<%= license_count_comparison.server_enrolled_count %></td>
+	<td>&nbsp;<%= license_count_comparison.delta %></td>
+	<td>&nbsp;<% if(license_count_comparison.seat_activity_id) %>
+					Pending reallocation<br/>
+				<%  elsif(count_mismatch) %>
+					Counts out of sync!<br/>
+				<% end 
+				if(mirror_problem) %>
+				Duplicate Installation Code
+				<% end %>
+	</td>
+</tr>

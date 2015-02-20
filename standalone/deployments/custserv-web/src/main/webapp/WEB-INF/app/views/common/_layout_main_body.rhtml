@@ -1,0 +1,31 @@
+<div id="main" class="line">
+	<div class="item column" id="sidebar-left">
+		<div class="sap-content">
+			<div id="block-user-0" class="block block-user">
+				<%= render(:partial => "common/left_sidebar", :locals => {:favorite_sam_customers => @favorite_sam_customers}) %>
+			</div> <!-- end block-user-0 -->
+		</div>
+	</div> <!-- end sidebar-left -->
+	<div class="item column" id="maincontent">
+		<div class="sap-content">
+			<div id="node-1" class="node clear-block">
+				<div class="content" id="the-body">
+					<div id="cs_notice_block">
+					<% if flash[:notice] %>
+                        	<div id="<%= (flash[:msg_type] == 'info') ? 'cs_notice_message' : 'cs_error_message' %>"><br/>
+								<%= flash[:notice] %><br/><br/>
+							</div>
+						
+                    <% end %>
+					</div>
+                    <%= yield(:layout) %>								
+				</div>
+			</div>
+		</div>
+		<!--<div class="item column" id="sidebar-right">
+			<div class="sap-content">
+				<div id="block-user-3" class="block block-user"></div>
+			</div>
+		</div>--> <!-- end sidebar-right -->
+	</div> <!-- end maincontent -->
+</div> <!-- end main -->

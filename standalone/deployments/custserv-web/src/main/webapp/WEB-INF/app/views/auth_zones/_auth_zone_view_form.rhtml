@@ -1,0 +1,36 @@
+<div align="center">
+<table align="center"><br /> 
+    <td>
+        <tr><h4><u>Login URL:</u> 
+            <% if (auth_zone_view.url.nil? || auth_zone_view.url == "") %> No entry in database.
+            <% else %>
+            <%=  auth_zone_view.url %>
+            <% end %>
+        </tr></h4><br />
+        <tr><h4><u>Root URL:</u>            
+            <% if (auth_zone_view.root_url.nil? || auth_zone_view.root_url == "") %> No entry in database.
+            <% else %>
+            <%= auth_zone_view.root_url %>
+            <% end %></tr></h4><br />
+        <tr><h4><u>Logout URL:</u>            
+            <% if (auth_zone_view.logout_url.nil? || auth_zone_view.logout_url == "") %> No entry in database.
+            <% else %>
+            <%= auth_zone_view.logout_url %>
+            <% end %></tr></h4><br />
+        <tr><h4><u>Usage URL:</u>
+            <% if (auth_zone_view.usage_url.nil? || auth_zone_view.usage_url == "") %> No entry in database.
+            <% else %>
+            <%= auth_zone_view.usage_url %>
+            <% end %></tr></h4><br />
+        <tr><h4><u>SAML URL:</u>
+            <% if (auth_zone_view.saml_url.nil? || auth_zone_view.saml_url == "") %> No entry in database.
+            <% else %> 
+            <%= auth_zone_view.saml_url %>
+            <% end %>
+        </tr></h4><br />
+     </td>
+     <input type="button" onclick="close_dialog()" value="Close Window" />
+
+     <br />
+</table>
+</div>

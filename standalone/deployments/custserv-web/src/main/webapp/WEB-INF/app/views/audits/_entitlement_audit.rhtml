@@ -1,0 +1,12 @@
+<% the_entitlement = entitlement_audit.entitlement %>
+<% the_user = entitlement_audit.user %>
+<tr>
+	<td><%= entitlement_audit.id %></td>
+	<td><%= the_entitlement.tms_entitlementid %></td>
+	<td style="text-align: left;"><%= the_entitlement.product.description %></td>
+	<td><%= the_entitlement.license_count %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if entitlement_audit.initial_conversion %></td>
+	<td><%= the_user.last_name%>, <%= the_user.first_name %></td>
+	<td><%= the_entitlement.created_at.strftime(DATE_FORM) %></td>
+	<td style="text-align: left;"><%= entitlement_audit.annotation %></td>
+</tr>

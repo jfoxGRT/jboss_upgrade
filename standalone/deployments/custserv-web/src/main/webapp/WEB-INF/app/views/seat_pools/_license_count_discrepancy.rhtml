@@ -1,0 +1,8 @@
+<tr>
+	<td><%= license_count_discrepancy.id %></td>
+	<td><%= license_count_discrepancy.created_at.strftime(DATE_FORM) %></td>
+	<td><%= license_count_discrepancy.sam_server_count %></td>
+	<td><%= license_count_discrepancy.seat_pool_count %></td>
+	<td><%= license_count_discrepancy.entitlement_id %></td>
+	<td>&nbsp;<%= link_to("..see LCD message(s)", {:action => :find_LCD_messages, :lcd_id => license_count_discrepancy.id}, {:target => "_new"}) %></td>
+</tr>

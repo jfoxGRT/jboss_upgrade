@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<%= stylesheet_link_tag("master") %>
+	<%= stylesheet_link_tag("jeff_stuff") %>
+	<%= render(:partial => "/common/org_finder_ui_styles") %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+    <title><%= @page_title %></title>
+    
+  </head>
+  <% home_page_link = url_for(:controller => :account, :action => :login) %>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+    <div id="samconnectThickbox"></div> <%# Empty div tag with id - fix to let dashboard popups to work in IE6 %>  
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<div id="samlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></div>
+			<dl>
+				<dt class="schlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></dt>
+				<dt></dt>
+			</dl>
+			<div class="hide">
+				<a href="#content" title="skip navigation" accesskey="2">Skip Navigation</a>
+			</div>
+			<div id="meta">
+			    <%= render(:partial => "/common/header_top_links") %>
+				<p>Logged in as <strong><%= @current_user.first_name %> <%= @current_user.last_name %></strong></p>
+		  	</div> <!-- end meta -->
+			<div class="line" id="navigation">
+	  			<div class="item" id="primary-nav">
+	    			<div class="sap-content">
+	    				<%= render(:partial => "/common/app_tabs_with_ucn_search") %>
+					</div>
+	  			</div> <!-- end primary-nav -->
+			</div> <!-- end navigation -->
+			<div id="subtabnav"></div>
+			<div id="main" class="line">
+				<div class="item column" id="maincontent">
+
+		   				<div class="tabs">
+		   				</div>
+					   	<div id="node-1" class="node clear-block">
+							<div class="meta">
+							</div>
+							<div class="content" id="the-body">
+								<div id="cs_notice_block">
+									<% logger.info("Flash Notice: #{flash[:msg_type]}") %>
+									<%= render(:partial => "/common/flash_area", :locals => {:flash_notice => flash[:notice], :flash_type => flash[:msg_type]}) %>
+								</div>
+	                            <%= yield(:layout) %>								
+							</div>
+						</div>
+
+					<div class="item column" id="sidebar-right">
+						<div class="sap-content">
+							<div id="block-user-3" class="block block-user"></div>
+						</div>
+					</div> <!-- end sidebar-right -->
+				</div> <!-- end maincontent -->
+			</div> <!-- end main -->
+		</div> <!-- end header -->
+                
+        <div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer -->
+	</div> <!-- end canvas -->
+	<!-- snippet from layout was here -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-4047083-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+  </body>
+</html>

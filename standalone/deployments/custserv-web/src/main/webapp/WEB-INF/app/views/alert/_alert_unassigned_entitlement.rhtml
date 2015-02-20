@@ -1,0 +1,66 @@
+     <% assigned_alert_instance = !alert_unassigned_entitlement.assigned_user.nil?
+        handled = !alert_unassigned_entitlement.status.nil? %>
+        <% form_tag(:action => :assign_revoke_task) do -%>
+        <%= hidden_field_tag("alert_instance_id", alert_unassigned_entitlement.id) %>
+        <% if (assigned_alert_instance || handled) %>
+        <tr class="dispatched_alert_instance">
+        <% else %>
+        <tr class="undispatched_alert_instance">
+        <% end %>
+        <td style="text-align: center;"><%= alert_unassigned_entitlement.id %></td>
+        <td style="text-align: center;"><%= alert_unassigned_entitlement.entitlement.tms_entitlementid %></td>
+        <td style="text-align: center;"><%= alert_unassigned_entitlement.entitlement.order_num %></td>
+        <td style="text-align: center;"><%= alert_unassigned_entitlement.entitlement.invoice_num %></td>
+        <td><%= (alert_unassigned_entitlement.entitlement.product.nil?) ? "-" : alert_unassigned_entitlement.entitlement.product.description %></td>
+        <td style="text-align: center;"><%= alert_unassigned_entitlement.entitlement.license_count %></td>
+        <td><%= alert_unassigned_entitlement.long_message %></td>
+        <td style="text-align: center;">
+            <% if (assigned_alert_instance) %>
+            <%= alert_unassigned_entitlement.assigned_user.email %>
+            <% else %>
+            -
+            <% end %>
+        </td>
+        <td style="text-align: center;">
+        <% if (handled) %>
+			<%= image_tag("closed.gif") %>
+        <% elsif (assigned_alert_instance) %>
+            <%= image_tag("wip.gif") %>
+        <% else %>
+            -
+        <% end %>
+        </td>
+        <td style="text-align: center;">
+        <% if (handled && !alert_unassigned_entitlement.entitlement.sam_customer.nil?) %>
+            <%= alert_unassigned_entitlement.entitlement.sam_customer.root_org.name.strip.upcase %><br>(UCN&nbsp;=&nbsp;
+            <%= alert_unassigned_entitlement.entitlement.sam_customer.root_org.customer.ucn %>)
+        <% else %>
+            -
+        <% end %>
+        </td>
+        
+        <% if(current_user.hasScholasticPermission(Permission.assign_tasks) and current_user.hasScholasticPermission(Permission.edit)) %>
+        <td style="vertical-align: middle;">&nbsp;
+           <%= select("user", "id", user_map) if (!assigned_alert_instance && !handled)%>
+        </td>
+        <td style="vertical-align: middle;">&nbsp;
+        <% if (assigned_alert_instance && !handled) %>
+        <%= hidden_field_tag("revoke_task", "1") %>
+        <%= submit_tag("Revoke Task") %>
+        <% elsif (!assigned_alert_instance && !handled) %>
+        <%= hidden_field_tag("assign_task", "1") %>
+        <%= submit_tag("Assign Task") %>
+        <% end %>
+        </td>		
+        
+        <% elsif(current_user.hasScholasticPermission(Permission.edit)) %>
+        <td style="vertical-align: middle;">
+        <% if (assigned_alert_instance || handled) %>
+        <%= submit_tag("Take ownership", :disabled => "disabled") %>
+        <% else %>
+        <%= submit_tag("Take ownership") %>
+        <% end %>
+        </td>
+        <% end %>
+    </tr>
+    <% end -%>

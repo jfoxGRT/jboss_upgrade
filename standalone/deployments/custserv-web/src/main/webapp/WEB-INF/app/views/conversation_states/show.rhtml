@@ -1,0 +1,58 @@
+<%  @page_title = "SAMC Conversations" %>
+<h2 style="margin-bottom: 30px;"><div align="center">
+<table style="margin: 15px 0 0 0;">
+	<tr>
+		<td class="breadcrumb_cell"><%= @sam_customer.name %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">
+			<%= link_to("Entitlements", sam_customer_entitlements_path(@sam_customer)) %><br/>
+			<%= link_to("License Counts", sam_customer_subcommunities_path(@sam_customer.id)) %><br/>
+			<span style="background-color: #dddddd;"><%= link_to("SAM Servers & Agents", sam_customer_sam_servers_path(@sam_customer.id)) %></span><br/>
+			<%= link_to("Seat Activity", sam_customer_seat_activities_path(@sam_customer.id)) %>
+		</td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">
+			<span style="background-color: #dddddd;"><%= link_to("Agent ID #{@agent.id}", agent_path(@agent.id)) %></span><br/>
+			<%= link_to("SAM Server ID #{@sam_server.id}", sam_customer_sam_server_path(@sam_customer.id, @sam_server.id)) %>
+		</td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell"><%= link_to("Conversations", agent_conversations_path(@agent.id)) %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell"><%= link_to("Conversation Instance ID #{@conversation.id}", agent_conversation_path(@agent.id, @conversation.id)) %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">Conversation State ID <%= @conversation_state.id %></td>
+	</tr>
+</table>
+</div></h2>
+
+<h2>Command Properties</h2>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Command Property ID</th>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "conversation_command_property", :collection => @conversation_command.conversation_command_properties) %>
+    </tbody>
+</table>
+
+
+<h2>Command Errors</h2>
+<table class="data_table">
+  <thead>
+    <tr>
+      <th>Command ID</th>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "conversation_command_error", :collection => @conversation_command.conversation_command_error) %>
+  </tbody>
+</table>
+
+
+</div>

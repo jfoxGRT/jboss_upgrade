@@ -1,0 +1,16 @@
+<tr>
+    <td>
+        <%= alert_dispatched.id %>
+    </td>
+    <td>
+        <% if (alert_dispatched.alert.code == "INDETERMINABLE_ROOT_ORG") %>
+            <%= link_to("Unassigned Entitlement", {:action => :top_level_districts, :controller => :alert, :alert_instance_id => alert_dispatched.id})%>
+        <% elsif (alert_dispatched.alert.code == "NO_USERS") %>
+            <%= link_to("No Users", {:action => :add_user, :controller => :alert, :alert_instance_id => alert_dispatched.id})%>
+        <% elsif (alert_dispatched.alert.code == "UNASSIGNED_SAM_CUSTOMER") %>
+            <%= link_to("Unassigned Account", {:action => :top_level_districts, :controller => :alert, :alert_instance_id => alert_dispatched.id})%>
+        <% elsif (alert_dispatched.alert.code == "UNRECOGNIZED_ITEM_NUMBER") %>
+            <%= link_to("Unrecognized TMS Item", {:action => :handle_unrecognized_tms_item, :controller => :alert, :alert_instance_id => alert_dispatched.id}) %>
+        <% end %>
+    </td>
+</tr>

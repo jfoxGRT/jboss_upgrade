@@ -1,0 +1,99 @@
+<% if (!sam_server_address_info.nil?)
+	state_province = sam_server_address_info.state_province
+	country = sam_server_address_info.country 
+	suffix = sam_server_address_info.suffix 
+	salutation = sam_server_address_info.salutation %>
+<table class="property_table shadow" style="width: 85%; font-size: 10px;">
+    <tbody>
+    	<tr>
+            <td>Date Created</td>
+            <td>&nbsp;<%= sam_server_address_info.created_at.strftime(DATE_FORM) if !sam_server_address_info.created_at.nil? %></td>
+        </tr>
+    	<tr>
+            <td>Date Updated</td>
+            <td>&nbsp;<%= sam_server_address_info.updated_at.strftime(DATE_FORM) if !sam_server_address_info.updated_at.nil? %></td>
+        </tr>
+        <tr>
+            <td>Address Line 1</td>
+            <td>&nbsp;<%= sam_server_address_info.address_line_1 %></td>
+        </tr>
+		<tr>
+            <td>Address Line 2</td>
+            <td>&nbsp;<%= sam_server_address_info.address_line_2 %></td>
+        </tr>
+        <tr>
+            <td>Address Line 3</td>
+            <td>&nbsp;<%= sam_server_address_info.address_line_3 %></td>
+        </tr>
+		<tr>
+            <td>City Name</td>
+            <td>&nbsp;<%= sam_server_address_info.city_name %></td>
+        </tr>
+        <tr>
+            <td>State / Province</td>
+            <td>&nbsp;<%= state_province.name if (state_province) %></td>
+        </tr>
+        <tr>
+            <td>Postal Code</td>
+            <td>&nbsp;<%= sam_server_address_info.postal_code %></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>&nbsp;<%= country.name if (country) %></td>
+        </tr>
+        <tr>
+            <td>Organization Name</td>
+            <td>&nbsp;<%= sam_server_address_info.org_name %></td>
+        </tr>
+        <tr>
+            <td>Organization Phone #</td>
+            <td>&nbsp;<%= sam_server_address_info.org_phone_number %></td>
+        </tr>
+        <tr>
+            <td>Salutation</td>
+            <td>&nbsp;<%= salutation.description if (salutation) %></td>
+        </tr>
+		<tr>
+            <td>First Name</td>
+            <td>&nbsp;<%= sam_server_address_info.first_name %></td>
+        </tr>
+		<tr>
+            <td>Middle Name</td>
+            <td>&nbsp;<%= sam_server_address_info.middle_name %></td>
+        </tr>
+		<tr>
+            <td>Last Name</td>
+            <td>&nbsp;<%= sam_server_address_info.last_name %></td>
+        </tr>
+		<tr>
+            <td>Suffix</td>
+            <td>&nbsp;<%= suffix.description if (suffix) %></td>
+        </tr>
+		<tr>
+            <td>Email Address</td>
+            <td>&nbsp;<%= sam_server_address_info.email_address %></td>
+        </tr>
+		<tr>
+            <td>Phone Number</td>
+            <td>&nbsp;<%= sam_server_address_info.phone_number %></td>
+        </tr>
+		<tr>
+            <td>Updated At</td>
+            <td>&nbsp;<%= sam_server_address_info.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<tr>
+            <td>Created At</td>
+            <td>&nbsp;<%= sam_server_address_info.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<tr>
+            <td>Change Indicator</td>
+            <td>&nbsp;<%= sam_server_address_info.change_indicator %></td>
+        </tr>
+    </tbody>
+</table>
+<% else %>
+<div align="center">
+No Address Information Available
+</div>
+<% end %>
+	

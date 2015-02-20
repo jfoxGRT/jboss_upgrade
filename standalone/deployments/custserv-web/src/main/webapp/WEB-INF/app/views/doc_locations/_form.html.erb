@@ -1,0 +1,34 @@
+<% form_for(@doc_location) do |f| %>
+
+  <font color="red">
+    <%= f.error_messages %>
+  </font>
+  
+  <p>
+    <%= f.label :code %>
+    <img style="padding: 5px; height: 15px; width: 15px;" src="../images/question_mark_small_blue.png" title="Code value must match hardcoded-value in rhtml page which searches for doc_items.  Example: 'C-FAQS'.  [Convention: C- is short for Customer Site; CS- is short for Customer Service Site]">  
+    <br /> 
+    <%= f.text_field :code %>
+  </p>
+  <p>
+    <%= f.label :display_location %>
+    <img style="padding: 5px; height: 15px; width: 15px;" src="../images/question_mark_small_blue.png" title="Display Location is shown in a drop-down list when editing doc items to explain where this location is.  Example: 'Customer Site -> Home -> Sidebar' [Convention: Describe location from site down to specific page with '->' between navigation points]">      
+    <br />
+    <%= f.text_field :display_location, :size => "50" %>
+  </p>
+  <p>
+    <%= f.label :display_text %>
+    <img style="padding: 5px; height: 15px; width: 15px;" src="../images/question_mark_small_blue.png" title="Text the user sees on the website; usually displayed as a page or section header.  Example: 'Frequently Asked Questions' followed by a list of doc_items">      
+    <br />    
+    <%= f.text_area :display_text, :size => "75x3"  %>
+  </p>
+
+  <p>
+    <% if :action == "new" %>
+      <%= f.submit "Create" %>
+    <% else %>
+      <%= f.submit "Update" %>    
+    <% end %>
+  </p>
+
+<% end %>

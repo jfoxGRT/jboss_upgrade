@@ -1,0 +1,9 @@
+<tr>
+    <td>&nbsp;<%= clone_review_report_detail.customer_name %></td>
+    <td>&nbsp;<%= clone_review_report_detail.ucn %></td>
+    <td>&nbsp;<%= clone_review_report_detail.clone_parent_name %></td>
+    <td>&nbsp;<%= (clone_review_report_detail.customer_id.nil? || clone_review_report_detail.clone_parent_id.nil?) ? "" : link_to(clone_review_report_detail.clone_parent_id, sam_customer_sam_server_path(clone_review_report_detail.customer_id, clone_review_report_detail.clone_parent_id)) %></td>
+    <td>&nbsp;<%= clone_review_report_detail.parent_last_checkin %></td>
+    <td>&nbsp;<%= clone_review_report_detail.clone_name %></td>
+    <td>&nbsp;<%= (clone_review_report_detail.customer_id.nil? || clone_review_report_detail.clone_id.nil?) ? "" : link_to(clone_review_report_detail.clone_id, sam_customer_sam_server_path(clone_review_report_detail.customer_id, clone_review_report_detail.clone_id)) %></td>
+</tr>

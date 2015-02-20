@@ -1,0 +1,130 @@
+<%  @page_title = ("SAMC Agent - #{@agent.id} - Diagnostic Page") %>
+<table id="breadcrumb_container">
+    <tr>
+        <%= render(:partial => "common/breadcrumb_first_three_levels", 
+                    :locals => {:sam_customer => @sam_customer, 
+                                :state => @state, 
+                                :site_area_code => @site_area_code,
+                                :on_target => false}) %>
+    <td>&raquo;</td>
+    <td><span id="current_page_title"><%= link_to("Agent: " + @agent.id.to_s , agent_path(@agent.id)) %></span></td>
+    </tr>
+</table>
+<hr/>
+<div class="table_header">
+    <h2 class="table_title">Schedule Agent Diagnostics</h2>
+</div>
+
+<%# Note: Diagnostic plugin is not valid on hosted servers after MDS implemented in fall 2012 / spring 2013.     %>
+<%#       This page should not be accessible for hosted servers, but in event it is, all check boxes and submit  %>
+<%#       are disabled for hosted servers.                                                                       %>
+
+<center>
+  <% if @no_diag_plugin %><%end%>
+
+  <% form_tag :action => :schedule_diagnostic do -%>
+    <input name="agent_id" type="hidden" value="<%= @agent.id %>" />  
+    <table border="none">
+      <tr>
+        <td colspan="3">For SAM Server: <b><%= link_to(@agent.sam_server.name, sam_customer_sam_server_path(@agent.sam_server.sam_customer, @agent.sam_server)) %></b></td>        
+      </tr>
+      <tr>  
+        <td colspan="3">Installation Type:
+          <% if @agent.sam_server.is_hosted_server? %>
+            <b>Hosted</b> <i>(Note: Diagnostics for hosted servers is no longer available.  Please contact the Customer Maintenance group for log files and other agent diagnostic help)</i>
+          <% elsif @agent.sam_server.is_local_server? %>
+            <b>Local</b>
+          <% else %>
+            <b>Unknown</b>
+          <% end %>
+        </td>
+      </tr>    
+      <tr>
+        <td colspan="3"><b>Agent</b></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td title="ScholasticAgent Directory: (1) log/sami.log*  -- (2) conf/*.xml -- (3) conf/*.properties " >
+          <input type="checkbox" name="AgentFiles" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+        </td>        
+        <td>Logs and configuration files</td>
+      </tr>
+      <tr>
+        <td></td>
+          <td title="SAM Server Directory: (1) *.properties ">
+            <input type="checkbox" name="SSPropFiles"  <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+          </td>
+          <td>Agent related property files in the SAM Server's directory</td>
+     </tr>
+     <tr>
+        <td colspan="3"><b>SAM Server</b></td>
+     </tr>
+     <tr>
+        <td></td>
+        <td title="MySQL Lycea DB - Tables: (1) current datestamp via select now() now; -- (2) slms_samcentral -- (3) slms_server_assets -- (4) ic_community -- (5) slms_sam_connect_cache -- (6) src_quiz ">
+           <input type="checkbox" name="MySQLTables" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+        </td>
+        <td>SAM Connect related MySQL tables</td>
+      </tr>
+      <tr>
+        <td></td>      
+        <td title="SAM Server Directory: (1) log/*mysql* -- (2) mysql/my.cnf ">        
+          <input type="checkbox" name="MySQLFiles" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+        </td>
+        <td>MySQL logs and properties Files</td>
+      </tr>
+      <tr>
+        <td></td>      
+        <td title="SAM Server Directory: (1) [pre-craft release] jboss/server/lycea/log/server.log -- (2) [craft and later releases] jboss/scholastic/log/server.log  -- (3) log/*jboss* ">
+           <input type="checkbox" name="JBossLog" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+        </td>
+        <td>JBoss log file (the most recent one)</td>
+      </tr>
+      <tr>
+        <td></td>      
+        <td title="SAM Server Directory: (1) *InstallLog.log -- (2) log/*Install* ">                        
+           <input type="checkbox" name="SSInstallLogFiles" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%> />
+        </td>
+        <td title="SAM Server Product Installation Log Files">Product installation log files</td>
+      </tr>            
+      <% if (@show_raw_input) %>
+        <tr>
+          <td></td>      
+          <td title="Raw Command String --> Only use if you really know what your are doing ... really!">                        
+             <input type="checkbox" name="RawCommandCheckbox" />
+          </td>
+          <td>
+             Raw Command String: <input type="text" size="150" name="RawCommandString" />
+          </td>
+        </tr>
+      <% end %>            
+      <tr>
+        <td colspan="2"></td>
+        <td>
+          <input type="submit" id="schedule" name="schedule" value="Schedule" <%= @is_hosted_server || !@has_diag_plugin ? 'disabled="disabled"' : ''%>/>&nbsp;&nbsp;
+          <input type="submit" id="reset"    name="reset"    value="Clear Form"/>
+      </tr>
+    </table>
+    <hr/>
+    <div class="table_header">
+    	<h2 class="table_title">Recently Scheduled Agent Diagnostics</h2>
+	</div>
+	<% if @prev_diags %>
+    <table class="data_table">
+		<thead>
+			<tr>
+			  <th>Started</th>
+			  <th>Completed</th>
+			  <th>Result</th>
+			</tr>
+		</thead>				
+		<tbody>
+			<%= render(:partial => "previous_diagnostics_row", :collection => @prev_diags) %>
+		</tbody>
+	</table>
+	<% else %>
+		<h4>No recent diagnostics have been scheduled at this agent.</h4>
+	<% end %>
+  <% end %> <!-- form -->  
+</center>
+  

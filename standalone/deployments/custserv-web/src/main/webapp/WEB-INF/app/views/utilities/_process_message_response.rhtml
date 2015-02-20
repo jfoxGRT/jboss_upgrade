@@ -1,0 +1,11 @@
+<tr>
+	<td><%= process_message_response.id %></td>
+	<td><%= process_message_response.process_message_id %></td>
+	<td><%= process_message_response.process_participator_code %></td>
+	<td><%= process_message_response.created_at.strftime(DATE_FORM) if process_message_response.created_at %></td>
+	<td id="completed_at_<%= process_message_response.id %>"><%= process_message_response.completed_at.strftime(DATE_FORM) if process_message_response.completed_at %></td>
+	<td><%= process_message_response.phase %></td>
+	<td><%= button_to_remote("Interrupt", {:complete => "$('interrupt_button_#{process_message_response.id}').hide();", :update => "completed_at_#{process_message_response.id}" ,
+	:url => url_for(:action => :interrupt_process_message_response, :id => process_message_response.id)},
+	{:id => "interrupt_button_#{process_message_response.id}"}) if process_message_response.completed_at.nil? %></td>
+</tr>

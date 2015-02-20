@@ -1,0 +1,91 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Unmatched Schools (for non-hosted customers)", :csv_action => "export_unmatched_schools_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+		<th>
+		  <% if (@sort_order == "cust_name") %>
+            <%= link_to("SAM Customer Name", {:action => :unmatched_schools, :sort => "cust_name_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :unmatched_schools, :sort => "cust_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "cust_id") %>
+            <%= link_to("SC ID", {:action => :unmatched_schools, :sort => "cust_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :unmatched_schools, :sort => "cust_id"}) %>
+          <% end %>
+        </th>        
+		<th>
+		  <% if (@sort_order == "ucn") %>
+            <%= link_to("UCN", {:action => :unmatched_schools, :sort => "ucn_desc"}) %>
+          <% else %>
+            <%= link_to("UCN", {:action => :unmatched_schools, :sort => "ucn"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "server_name") %>
+            <%= link_to("Server Name", {:action => :unmatched_schools, :sort => "server_name_desc"}) %>
+          <% else %>
+            <%= link_to("Server Name", {:action => :unmatched_schools, :sort => "server_name"}) %>
+          <% end %>
+        </th>
+        <th>
+         <% if (@sort_order == "server_id") %>
+            <%= link_to("Server ID", {:action => :unmatched_schools, :sort => "server_id_desc"}) %>
+          <% else %>
+            <%= link_to("Server ID", {:action => :unmatched_schools, :sort => "server_id"}) %>
+          <% end %>
+        </th>                                
+		<th>
+		  <% if (@sort_order == "school_name") %>
+            <%= link_to("School Name", {:action => :unmatched_schools, :sort => "school_name_desc"}) %>
+          <% else %>
+            <%= link_to("School Name", {:action => :unmatched_schools, :sort => "school_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "school_id") %>
+            <%= link_to("School ID", {:action => :unmatched_schools, :sort => "school_id_desc"}) %>
+          <% else %>
+            <%= link_to("School ID", {:action => :unmatched_schools, :sort => "school_id"}) %>
+          <% end %>
+        </th>                
+        <th>
+          <% if (@sort_order == "address1") %>
+            <%= link_to("School Address", {:action => :unmatched_schools, :sort => "address1_desc"}) %>
+          <% else %>
+            <%= link_to("School Address", {:action => :unmatched_schools, :sort => "address1"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "city") %>
+            <%= link_to("City", {:action => :unmatched_schools, :sort => "city_desc"}) %>
+          <% else %>
+            <%= link_to("City", {:action => :unmatched_schools, :sort => "city"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "state") %>
+            <%= link_to("State", {:action => :unmatched_schools, :sort => "state_desc"}) %>
+          <% else %>
+            <%= link_to("State", {:action => :unmatched_schools, :sort => "state"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "zip") %>
+            <%= link_to("Zip", {:action => :unmatched_schools, :sort => "zip_desc"}) %>
+          <% else %>
+            <%= link_to("Zip", {:action => :unmatched_schools, :sort => "zip"}) %>
+          <% end %>
+        </th>
+        <th>
+          Match
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "unmatched_school_detail", :collection => @unmatched_schools)%>
+    </tbody>    
+</table>

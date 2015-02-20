@@ -1,0 +1,85 @@
+<%  task = assigned_task_summary.task
+	entitlements = assigned_task_summary.entitlement_set if task.code == TaskType.UNASSIGNED_ENTITLEMENT_CODE %>
+<table id="<%= task.id %>"  cellspacing="1" class="new_jeff_def" style="width: 100%;">
+	<tbody>
+		<tr>
+		    <td><%= (entitlements) ? "Unassigned Entitlement" : task.description %></td>
+		    <td><%= task.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+		    <td><%= Time.parse(task.date_assigned).strftime('%I:%M:%S %p %m/%d/%y') %></td>
+		    <td><%= task.source_user_first_name %> <%= task.source_user_last_name %></td>
+		    <td>
+		        <a href=# onClick='viewDetails("task_details_<%= task.id %>","<%= task.id %>")';>View Details</a><br/>
+				<%= link_to("Edit", edit_task_path(task.id)) %><br/>
+				<%= link_to("Release It", unassign_task_path(task.id), :method => :put) %>				
+		    </td>
+		</tr>
+		
+		<% if (entitlements) %>
+		
+		<tr style="visibility: hidden;display:none" id="task_details_<%= task.id %>">
+			<td colspan=5 style="border-bottom:0px;">
+				<!-- start of work area for selected active task including details, search, etc.-->
+				<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+  					<thead>
+    					<tr class="parent">
+      						<td style="background:#99A36B;"> Task Details</td>
+    					</tr>
+  					</thead>
+				</table>
+				<!-- select on alert here -->
+				
+				
+				<table id="serverlisthead" cellspacing="0" style="width:98%;">
+  					<thead>
+     					<tr >
+         					<td>Order #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+          					<td>Invoice #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+		      				<td>Reason<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+         					<td>B/T Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+             				<td >S/T Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+    					</tr>
+  					</thead>
+				</table>
+				<% entitlement = entitlements[0] %>
+				<table id="4625638"  cellspacing="1" style="margin-top:5px;width:98%;">
+					<tbody>
+ 	 					<tr>
+    						<td><%= assigned_task_summary.order_num %></td>
+							<td><%= assigned_task_summary.invoice_num %></td>
+							<td><%= assigned_task_summary.reason %></td>
+							<td><%= assigned_task_summary.bill_to_org_name %><br/>UCN: <%= assigned_task_summary.bill_to_ucn %></td>
+							<td><%= assigned_task_summary.ship_to_org_name %><br/>UCN: <%= assigned_task_summary.ship_to_ucn %></td>
+						</tr>
+  						<!-- PUT TFOOT HERE -->
+						<tr >
+							<td colspan=5 style="border-bottom:0px;">
+								<table class="entitlementCat">
+									<tr>
+										<td class="entitlement">Entitlement ID</td>
+										<td class="entitlement">TMS ID</td>
+										<td class="entitlement">Date Created</td>
+										<td class="entitlement"><%= PRODUCT_TERM %> Name</td>
+										<td class="entitlement">License Count</td>
+									</tr>
+								</table>
+								<%= render(:partial => "assigned_task_entitlement", :collection => entitlements) %>
+							</td>
+						</tr>
+						<tr id="server-submit-1" style="display:none">
+  							<td align="center" colspan="5">
+    							<input name="commit" type="submit" value="Save Changes"/>
+  							</td>
+						</tr>
+						<tr id="server-submit-1" style="display:none">
+	  						<td align="center" colspan="5">
+	    						<input name="commit" type="submit" value="Save Changes"/>
+	  						</td>
+						</tr>
+					</tbody>
+				</table> <!-- end 4625638 -->
+			</td>
+		</tr>
+		<% end %>
+		<!-- end of work area for selected active task including details, search, etc.-->
+	</tbody>
+</table>

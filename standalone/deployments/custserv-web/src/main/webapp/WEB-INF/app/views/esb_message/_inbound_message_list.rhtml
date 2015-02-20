@@ -1,0 +1,7 @@
+<tr>
+    <td style="text-align: left;"><%= link_to(message_type[0].message_class, {:action => :inbound_message_class, :message_type => message_type[0].message_class,
+                                                                                  :filter_date => filter_date}, {:target => "_new"}) %></td>
+    <td><%= message_type.length.to_s %></td>
+    <td><%= message_type.num_ignored %></td>
+    <td><%= (message_type[0].message_timestamp.nil?) ? "-" : message_type[0].message_timestamp.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+</tr>

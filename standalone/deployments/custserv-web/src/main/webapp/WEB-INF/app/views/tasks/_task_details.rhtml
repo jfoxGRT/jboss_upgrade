@@ -1,0 +1,60 @@
+<%  task_result = task[1][0] %>
+<tr>
+	<% form_for(:task, :url => assign_task_path(task_result.id), :html => {:method => :put}) do |f| -%>
+	<%= f.hidden_field(:source_user_id, :value => current_user.id) %>
+	<td><%= task_result.id %></td>
+	<td><%= task_result.priority %></td>
+	<td><%= translateTaskStatus(task_result) %></td>
+	<td><%= task_result.order_num %></td>
+	<td><%= task_result.invoice_num %></td>
+	<td>
+		<table class="data_table" style="width: 100%;">
+			<thead>
+			<tr>
+				<th style="width: 13%;">TMS Entitlement ID</th>
+				<th style="width: 15%;"><%= PRODUCT_TERM %></th>
+				<th style="width: 7%;">License Count</th>
+				<th style="width: 25%;">Bill-To</th>
+				<th style="width: 9%;">Bill-To UCN</th>
+				<th style="width: 25%;">Ship-To</th>
+				<th>Ship-To UCN</th>
+			</tr>
+			</thead>
+			<tbody>
+				<%
+					bill_to_record = nil
+					ship_to_record = nil
+					task[1].each do |tr|
+						if (tr.entitlement_org_type_description == "BILL_TO")
+							bill_to_record = tr
+						elsif (tr.entitlement_org_type_description == "SHIP_TO")
+							ship_to_record = tr
+						end
+						if (bill_to_record && ship_to_record) %>
+							<%= render(:partial => "task_result", :object => task[1], :locals => {:bill_to_record => bill_to_record, :ship_to_record => ship_to_record}) %>
+							<% bill_to_record = nil
+							ship_to_record = nil
+						end
+					end
+				%>
+			</tbody>
+		</table>
+	</td>
+	<td><%= task_result.reason_unassigned %></td>
+	<td>
+		<% button_text = "Take Ownership"
+		   if (task_result.status == Task.UNASSIGNED) 
+			if (current_user.hasScholasticPermission(Permission.assign_tasks))
+				button_text = "Assign" %>
+				<%= f.select(:target_user_id, user_map, :selected => current_user.id) %>
+		 <% else %>
+		 	&nbsp;
+		 <% end 
+		   else	
+			assigned_user = task_result.currently_assigned_user %>
+			<%= assigned_user.last_name %>, <%= assigned_user.first_name %>
+		<% end %>
+	</td>
+	<td>&nbsp;<%= submit_tag(button_text) if (task_result.status == Task.UNASSIGNED) %></td>
+	<% end -%>
+</tr>

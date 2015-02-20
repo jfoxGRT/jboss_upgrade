@@ -1,0 +1,36 @@
+<h1 style="margin-bottom: 10px; text-align: center">Adjust Virtual Counts</h1><hr/>
+<div align="center">
+        <% form_tag(url_for(:action => :license_counts_for_ucn)) do -%>
+                <table class="form_table">
+                       <tr>
+				<td style="text-align: right; padding-right: 10px;">Enter UCN : </td>
+                		<td><%= text_field_tag(:ucn) %></td>
+                		<td><%= submit_tag("Submit") %></td>
+                		<td>&nbsp;</td>
+                        </tr>
+                 </table>
+	<% end %>
+        <hr/>
+        <% if !@sam_customer.nil? %> 
+          <div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;License Counts</h2></div>
+          <% form_tag(url_for(:action => :really_adjust_virtuals)) do -%>
+          <%= hidden_field_tag("hidden_ucn", @ucn) %>
+          <table class="data_table" style="width: 97%; margin-bottom: 40px;">
+            <thead>
+              <tr>
+                <th style="width: 20%;"><%= (@current_user.isAdminType) ? "Subcommunity" : PRODUCT_TERM %></th>
+                <th style="width: 10%; vertical-align: top;">Unallocated Count</th>
+                <th style="width: 10%; vertical-align: top;">Total Virtual Count</th>
+                <th style="width: 10%; vertical-align: top;">Number of Virtual Licenses to add. (Note: enter a negative number to remove virtual licenses. eg: -100)</th>
+               </tr>
+             </thead>
+             <tbody>
+               <%= render(:partial => "custom_license_table", :collection => @custom_license_table, :locals => {:sam_customer => @sam_customer}) %>
+                <td colspan="5" style="text-align:center;"><%= submit_tag("Adjust Total Licenses", :confirm => "Please doublecheck the information entered.  Are you sure you want to continue?", :id => "adjust_licenses_button") %></td>
+             </tbody>
+        </table>
+        <% end %>
+      <% end %>
+
+</div>
+

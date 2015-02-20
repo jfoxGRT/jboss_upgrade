@@ -1,0 +1,5 @@
+<% form_remote_tag(:url => {:action => "save_server_name"}) do -%>
+  <%= hidden_field_tag :serverId, edit_server_name.id %>
+  <%= text_field_tag (:server_name, edit_server_name.name, {:size => 30, :maxlength => 254} ) %>
+  <%= submit_tag "Save" %>
+<% end -%>

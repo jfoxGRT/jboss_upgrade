@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+	<%= render(:partial => "/common/layout_static_resources") %>
+	<%= stylesheet_link_tag("dock") %>
+	<title><%= @page_title %></title>
+  </head>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<%= render(:partial => "/common/layout_primary_navigation_block") %>
+			<div id="subtabnav" style="margin-left: 60px;">
+				<table style="width: 100%;">
+					<tr>
+						<td style="padding: 0px; border: 0px; font-size: 1.0em;">
+				<ul style="padding-left: 0px;">
+	                <% if (@current_user.hasScholasticPermission(Permission.utilities_qa_functions)) %>
+	                   <li><%= link_to("QA Functions", {:controller => :utilities, :action => :qa_functions}, {:id => "st-qafns"}) %></li>
+	                <% end %>
+	                <li><%= link_to("OP Functions", {:controller => :utilities, :action => :op_functions}, {:id => "st-opfns"}) if @current_user.isAdminType %> </li>    
+	                <li><%= link_to("Reports", {:controller => :utilities, :action => :reports}, {:id => "st-reports"}) %></li>
+	                <% if (@current_user.hasScholasticPermission(Permission.cust_maint_functions)) %>
+	                   <li><%= link_to("Cust. Maintenance", {:controller => :utilities, :action => :cust_maint_functions}, {:id => "st-custmaint"}) %></li>
+	                <% end %>
+	                <% if @current_user.hasScholasticPermission(Permission.banner_messaging) %>
+	                   <li><%= link_to("Banner Message", :controller => :banner_message)%></li>
+	                <%end%>
+	                <% if @current_user.isAdminType %>
+                       <li><%= link_to("Auth Zones", :controller => :auth_zones)%></li>
+                       <li><%= link_to("Manage Email Types", {:controller => :utilities, :action => :manage_emails})%></li>
+                    <%end%>  
+	            </ul>
+						</td>
+						<%= render(:partial => "common/sam_customer_search") %>
+					</tr>
+				</table>
+			</div>
+		</div> <!-- end header -->	
+		<%= render(:partial => "common/dock") %>
+		<%= render(:partial => "/common/layout_main_body_with_docking") %>
+		<%= render(:partial => "/common/widget_container_creator", :object => @widget_list) %>
+        <div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer -->
+	</div>
+	<%= render(:partial => "/common/org_finder_ui_container") %>
+	<%= render(:partial => "/common/google_analytics") %>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<h1 style="text-align: center; font-size: 36px;">The Control Room</h1>
+<table class="lined_table">
+	<% form_tag(url_for(:action => :decentralize_sam_customer)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Decentralize <%= SAM_CUSTOMER_TERM %> ID:</td>
+		<td><%= text_field_tag(:id) %></td>
+		<td><%= submit_tag("Decentralize", :confirm => "Please doublecheck the ID entered.  Are you sure you want to continue?") %></td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :centralize_sam_customer)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Centralize <%= SAM_CUSTOMER_TERM %> ID:</td>
+		<td><%= text_field_tag(:id) %></td>
+		<td><%= submit_tag("Centralize", :confirm => "Please doublecheck the ID entered.  Are you sure you want to continue?") %></td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :broadcast_license_counts)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Broadcast License Counts for <%= SAM_CUSTOMER_TERM %> ID:</td>
+		<td><%= text_field_tag(:id) %></td>
+		<td><%= submit_tag("Broadcast License Counts", :confirm => "Please doublecheck the ID entered.  Are you sure you want to continue?") %></td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :move_servers)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Move SAM Server ID's:</td>
+		<td>
+			<%= text_field_tag(:sam_server_ids, "", :size => 25) %><br/>
+			<%= submit_tag("Move Servers", :confirm => "Please doublecheck the information entered.  Are you sure you want to continue?") %>
+		</td>
+		<td style="padding-right: 10px;">to <%= SAM_CUSTOMER_TERM %> ID:</td>
+		<td><%= text_field_tag(:new_sam_customer_id) %></td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :deactivate_servers)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Deactivate SAM Servers (Enter comma separated SAM Server IDs):</td>
+		<td>
+			<%= text_field_tag(:sam_server_ids, "", :size => 25) %><br/>
+			<%= submit_tag("Deactivate Servers", :confirm => "Please check that the following conditions have been met for the servers you wish to deactivate. \n\n -- Doublecheck the information you entered \n -- Make sure that there are no open license count discrepancy tasks for customers that these servers belong to \n -- Make sure that there are no open license count integrity tasks for customers that these servers belong to \n -- Make sure that there are no open PLCCs for customers that these servers belong to \n\n ****You will also need to manually discard all virtual licenses.*** \n\n Are you sure you want to continue?") %>
+		</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :move_entitlements)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Move Entitlement ID's:</td>
+		<td>
+			<%= text_field_tag(:entitlement_ids, "", :size => 25) %><br/>
+			<%= submit_tag("Move Entitlements", :confirm => "Please doublecheck the information entered.  Are you sure you want to continue?") %>
+		</td>
+		<td style="padding-right: 10px;">to <%= SAM_CUSTOMER_TERM %> ID:</td>
+		<td><%= text_field_tag(:e_new_sam_customer_id) %></td>
+	</tr>
+	<% end %>
+	<% form_tag(url_for(:action => :convert_licenses)) do -%>
+	<tr>
+		<td style="text-align: right; padding-right: 10px;">Convert Licenses:</td>
+		<td>
+			<%= text_field_tag(:number_of_licenses, "", :size => 8) %>&nbsp;&nbsp;licenses to convert<br/>
+			<%= submit_tag("Convert Licenses", :confirm => "Please doublecheck the information entered.  Are you sure you want to continue?") %>
+		</td>
+		<td style="padding-right: 10px;">from conversion license pool ID:</td>
+		<td><%= text_field_tag(:conversion_license_pool_id) %></td>
+	</tr>
+	<% end %>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Refresh Entitlements", {:action => :refresh_entitlements}, {:confirm => "Are you sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Broadcast All License Counts", {:action => :broadcast_all_license_counts}, {:confirm => "Are you sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% form_tag(url_for(:action => :scrub_license_manager_data)) do -%>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= submit_tag("Scrub License Manager data", {:confirm => "Are you sure you want to continue?"}) %>&nbsp;&nbsp;<%= check_box_tag("scrub_all_entitlements") %>&nbsp;Delete subscription entitlements</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Send Updated Server Information", {:action => :send_updated_server_information}, {:confirm => "Are you sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Prep for LMv2", {:action => :prep_for_license_manager}, {:confirm => "Are you REALLY sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Convert Everybody to LMv2!! <let us pray>", {:action => :convert_everybody_to_lmv2}, {:confirm => "Are you REALLY sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= button_to("Resolve LCD Tasks", {:action => :resolve_lcd_tasks}, {:confirm => "Are you REALLY sure you want to continue?"}) %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% form_tag(url_for(:action => :delete_condemned_entitlements)) do -%>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= submit_tag("Delete Condemned Entitlements", {:confirm => "Are you sure you want to continue?"}) %>&nbsp;&nbsp;<%= check_box_tag("dont_recalculate_renewals") %>&nbsp;Don't recalculate renewals</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% end %>
+</table>

@@ -1,0 +1,93 @@
+<%= render(:partial => "common/display_calendar_js") %>
+
+<%  @page_title = "SAMC - Batch Central" %>
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+  <% if !@conv_export_master_batches[0].nil? %>
+
+  <script type="text/javascript">
+
+    jQuery(document).ready(function() {
+      jQuery( "#open_master_batch_sam_customers" ).autocomplete({
+        source: "<%= url_for(:controller => :conv_export_master_batches, :id => @conv_export_master_batches[0].id, :action => :open_master_batch_sam_customers) %>",
+        minLength: 2,
+        delay: 100,
+        select: function( event, ui ) {
+          jQuery("#autocomplete_loader").toggle();
+          ucn_url = "<%= conv_export_master_batch_path(:id => @conv_export_master_batches[0].id) %>?ucn=";
+          ucn_url += ui.item.samc_ucn;
+          window.location = ucn_url;
+        }
+        }).data( "autocomplete" )._renderItem = function( ul, item ) {
+          return $( "<li></li>" )
+          .data( "item.autocomplete", item )
+          .append( "<a>" + item.label + ", " + item.state_province_code + ", " + item.samc_ucn + "</a>" )
+          .appendTo( ul );
+        };
+      };
+    });
+
+  </script>
+  
+  <div class="rounded_border shadow samc_component" id="master_batch_central_container" style="margin-left: auto; margin-right: auto; margin-top: 30px; width: 75%; padding: 10px;">
+  	<h2 class="table_title" style="text-align: center;">Master Batch Central</h2>
+	<table class="property_table shadow" style="margin-top: 20px;">
+		<tbody>
+			<tr>
+				<td>ID</td>
+				<td>
+				  <%= link_to(@conv_export_master_batches[0].id, @conv_export_master_batches[0]) %>
+          <% if @conv_export_master_batches[0].created_at.to_i > (Time.now.to_i - 3*60*60) # if within last 3 hours
+           %> 
+            <span style="font-weight: bold; font-style: italic; color: green;" >&nbsp;new!</span>
+          <% end %>
+        </td>
+			</tr>
+			<tr>
+				<td>Created At</td>
+				<td><%= (@conv_export_master_batches[0].created_at.nil?) ? "" : @conv_export_master_batches[0].created_at.strftime(DATE_FORM) %></td>
+			</tr>
+			<tr>
+				<td>Updated At</td>
+				<td><%= (@conv_export_master_batches[0].updated_at.nil?) ? "" : @conv_export_master_batches[0].updated_at.strftime(DATE_FORM) %></td>
+			</tr>
+				<td>Open?</td>
+				<td><%= (@conv_export_master_batches[0].closed) ? image_tag("choice-no.gif") : image_tag("choice-yes.gif") %></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div align="center">
+	<div class="ui-widget" style="margin-top: 30px; margin-bottom: 30px;">
+		<label for="open_master_batch_sam_customers"><%= SAM_CUSTOMER_TERM %>: </label>
+		<input id="open_master_batch_sam_customers" type="search" size="52" />
+		<div style="height: 25px; margin-top: 20px; vertical-align: bottom;"><span id="autocomplete_loader" style="display:none; vertical-align: bottom;">Please wait..&nbsp;<%= image_tag("indicator_smallwaitanim.gif") %></span></div>
+	</div>
+	</div>
+
+  	<table cellspacing="0" style="padding: 0px; margin-left: auto; margin-right: auto; border: 1px; margin-top: 20px; width: 98%;">
+		<thead>
+	    <tr>
+	      <th style="text-align: center; border: 0px; color: #006699;">Export Range End</h4></th>
+	      <th style="text-align: center; border: 0px; color: #006699;">Export Range 1w begin</th>
+	      <th style="text-align: center; border: 0px; color: #006699;">Export Range 4w begin</th>
+	    </tr>
+		</thead>
+		<tbody>
+	  	<%= render(:partial => "conv_export_master_batch", :collection => @conv_export_master_batches) %>
+		</tbody>
+	  </table>
+		
+	</div>
+	
+<% else %>
+    NO DATA TO DISPLAY
+<% end %>
+
+  <div class="link_set">
+    <br />
+    <%= link_to("Show Current UCNs from Dashboard", {:action => :show_dash_customers, :controller => :dashboard }) %>
+    <br />
+    <%= link_to("Dashboard Batch Manual Override", {:action => :batch_manual_override, :controller => :dashboard }) if @current_user.isAdminType %>
+  </div>
+<% end %>

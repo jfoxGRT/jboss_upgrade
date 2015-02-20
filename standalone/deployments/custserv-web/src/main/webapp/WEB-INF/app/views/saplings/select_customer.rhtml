@@ -1,0 +1,36 @@
+<div id="TBHead">
+<h2>Select SAM Customer</h2>
+</div>
+<div id="TBBody">
+  <div id="instructions"><b>Make sure "Target Customer" is enabled on the main page before selecting customer.</b><br /><br /> Enter complete or partial SAM customer name and click Search.  A list of matching customer names will appear below.  Choose "Select" to select the customer.</div>
+    <% form_remote_tag(:url => url_for(:action => :find_customer_by_name), :before => "$('search_results').hide();$('search_button').disable();",
+					   :html => {:name => "sam_customer_lookup"}) do -%>
+      <table>
+	    <tr>
+		  <td style="text-align: left; vertical-align: bottom; height: 50px;">Customer Name:&nbsp;&nbsp;<%= text_field_tag(:key_string) %>&nbsp;&nbsp;<%= submit_tag("Search", :id => "search_button", :onclick => "$('server_status_indicator').show();") %></td>
+		  <td id="search_results_count" style="font-weight: bold; vertical-align: bottom;">&nbsp;</td>
+		</tr>
+	  </table>
+	 	<div id="server_status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+	</div>		
+	  <div id="search_results" style="display: none;">
+	    <table id="search_results_table" style="text-align: left; vertical-align: bottom">
+ 		  <thead style="text-align: left; vertical-align: bottom">
+		    <tr>
+    		  <td style="text-align: left; vertical-align: bottom">ID</td>
+    		  <td style="text-align: left; vertical-align: bottom">Customer Name</td>
+    		  <td style="text-align: left; vertical-align: bottom">Action</td>
+  			</tr>
+  		  </thead>
+  		  <tbody id="search_results_rows">
+  		    <tr>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			</tr>	
+  		  </tbody>			
+		</table>
+	  </div>
+    <% end -%>
+</div>

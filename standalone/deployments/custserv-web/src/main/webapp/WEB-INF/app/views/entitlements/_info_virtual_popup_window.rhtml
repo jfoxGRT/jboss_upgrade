@@ -1,0 +1,16 @@
+<% sam_customer_id = entitlement.sam_customer.id %>
+<table class="popup_one_table_pane">
+      <thead>
+          <tr>
+        	<th>Created At</th>
+			<th>License Delta</th>
+			<th>Reason</th>
+			<th>Performed By</th>
+			<th>SAM Server</th>
+			<th>User Comment</th>
+          </tr>
+      </thead>
+      <tbody>
+	<%= render(:partial => "virtual_entitlement_audit", :collection => audits, :locals => {:sam_customer_id => sam_customer_id}) %>
+</tbody>
+</table>

@@ -1,0 +1,5 @@
+<tr>
+    <td style="text-align: left;"><%= link_to(state.name.upcase, {:action => :top_level_orgs, :id => state.id}, {:onclick => "showStatus()"} ) %></td>
+    <td><%= state.country_name.upcase %></td>
+    <td><%= state.sam_customer_count %></td>
+</tr>

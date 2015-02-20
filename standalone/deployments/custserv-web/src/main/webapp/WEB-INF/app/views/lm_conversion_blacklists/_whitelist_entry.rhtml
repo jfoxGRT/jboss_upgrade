@@ -1,0 +1,13 @@
+<tr id="conversion_whitelist_entry_<%= whitelist_entry.id %>">
+	<td><%= whitelist_entry.id %></td>
+	<td><%= whitelist_entry.ucn %></td>
+	<td style="text-align: left;"><%= whitelist_entry.name %></td>
+	<td>&nbsp;
+		<% if @current_user.isAdminType %>
+			<%= button_to_remote("..delete", {:condition => "confirm('Are you sure you wish to delete this entry from the LMv2 Conversion whitelist?')",
+					:before => "$$('input.form_button').each(Form.Element.disable);",
+					:complete => "$$('input.form_button').each(Form.Element.enable);",
+					:url => lm_conversion_blacklists_path(:id => whitelist_entry.id), :method => :post}, {:class => "form_button"}) %>
+		<% end %>
+	</td>
+</tr>

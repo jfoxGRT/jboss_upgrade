@@ -1,0 +1,262 @@
+<% @page_title = "SAMC - License Count Integrity Problem Task" %>
+
+<% 	last_task_event = @task.last_task_event
+	date_assigned = last_task_event.created_at
+	assigning_user = last_task_event.source_user
+%>
+
+<h1>Work Task</h1>    
+<div id="all-servers-table">
+	<% form_tag(license_count_integrity_problem_path(@task.id), {:method => :put, :id => "task_resolution_form", :name => "task_resolution"}) do %>
+<!-- start of  Orders table -->
+
+<!-- active tasks list table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;">
+    	<thead>
+        	<tr class="parent">
+				<td >Active Task</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" >
+		<thead>
+        	<tr>
+     			<td style='width:25%;'>Task ID</td>
+				<td style='width:25%;'>Task Type</td>
+				<td style='width:25%;'>Date Assigned</td>
+				<td style='width:25%;'>Assigned By</td>
+			</tr>
+		</thead>
+	</table>
+
+<!-- start of tasks table query and result -->
+	<table id="5"  cellspacing="1" style="border:1px solid black;">
+		<tbody>
+      		<tr>
+				<td style='width:25%;'><%= @task.id %></td>
+				<td style='width:25%;'><%= @task.task_type.description %></td>
+				<td style='width:25%;'>
+					<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+				</td>
+				
+				<td style='width:25%;'><%= assigning_user.first_name %> <%= assigning_user.last_name %></td>
+			</tr>
+      		<!-- PUT TFOOT HERE -->
+			<tr>
+				<td colspan=2 style="border-bottom:0px;">
+				<!-- start of details area for selected active task -->
+					<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+        					<tr class="parent"  >
+          						<td style="background:#99A36B;">Task Details</td>
+        					</tr>
+      					</thead>
+    				</table>
+					<table id="4250712"  cellspacing="1" style="margin-top:5px;width:98%;">
+						<tbody>
+							<tr>
+								<td  style="width:13%" class='workDetails'><%= SAM_CUSTOMER_TERM %> ID:</td>
+                 				<td style="width:37%" class='basicModallink'><%= @sam_customer.id %></td>
+		                		<td style="width:15%" class='workDetails' class='basicModallink'><%= SAM_CUSTOMER_TERM %>:</td>
+	 		                 	<td style="width:35%" class='basicModallink'>
+	 		                 		<%= link_to(@org_details.org_name, sam_customer_path(@sam_customer.id)) %>
+									<br>UCN: <%= @org_details.ucn %><br>
+				 					<%= @org_details.city_name %>, <%= @org_details.state_code %> <%= @org_details.zip_code %><br>
+				 					County Code: <%= @org_details.county_code %>
+				         		</td>
+        					</tr>
+      						<tr>
+            					<td class='workDetails'><%= PRODUCT_TERM %>:</td>
+          						<td><%= @subcommunity.name %></td>
+								<td class='workDetails'>Unallocated Pool Count:</td>
+								<td><%= @unallocated_count %></td>
+        					</tr>
+							<tr>
+             					<td class='workDetails'>Total Entitlement Count:</td>
+        						<td><%= @entitlement_count %></td>
+            					<td class='workDetails'>Total Seat Pool Count:</td>
+          						<td><%= @seat_pool_count %></td>
+        					</tr>
+							<tr>
+								<td class='workDetails'>Net PLCC Count:</td>
+								<td><%= @net_plcc_count %></td>
+								<td class='workDetails'>Conversion Adjustment Factor:</td>
+								<td><%= @conversion_adjustment_count %></td>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#999;"> Task History</td>
+		        			</tr>
+      					</thead>
+    				</table>
+		    		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+						<tr class='workDetails'>
+							<td  colspan=4 >The following C/S representatives have worked this task:	 </td>
+		       			</tr>
+		      			<tr class='workDetails'>
+		             		<td class='workDetails' style='width:25%;'>C/S Rep:</td>
+							<td class='workDetails'style='width:15%;'>Take</td>
+		
+		 					<td class='workDetails' style='width:15%;'>Released</td>
+		          			<td class='workDetails' style='width:45%;'>Comments</td>
+		
+		        		</tr>
+		              	<tr class='workDetails'>
+		
+				        	<td ><%= @current_user.first_name %> <%= @current_user.last_name %></td>
+		
+		
+				        	<td><%= date_assigned.strftime('%m/%d/%y') %>
+                					<br/>
+                				<%= date_assigned.strftime('%I:%M:%S %p') %>
+							</td>
+		
+							<td> <span class="release_link"  id="3_<%= @task.id %>" href="<%= unassign_task_path(:id => @task.id, :target_user_id => @current_user.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span></td>
+		
+		 			 		<td id='commentModallink'><!--<a href='#' id=67_4815 style='display:block' >View/Add Comments</a>-->&nbsp;</td>        
+						</tr>
+		  			</table>
+		
+		
+					<!-- end of details area for selected active task-->
+				</td>
+				<td colspan=2 style="border-bottom:0px;">
+					<!--start of task tools areas for selected active task -->
+		
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		      			<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#666;"> Task Tools</td>
+		        			</tr>
+		      			</thead>
+		    		</table>
+		      		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+		
+						<tbody>
+							<tr class='workDetails' >
+								<td colspan=2 >The license count difference can be resolved by changing either the total Entitlement Count OR the total Seat Pool count, with the following restrictions:<br>
+                                - To reduce Entitlement Count, the Virtual Count must be greater than or equal to the difference.<br>
+                                - To reduce Seat Pool count, the Unallocated Count must be greater than or equal to the difference.</td>
+		        	</tr>
+							<tr>
+								<td class='workDetails' style="width: 15%;">
+									Difference:
+								</td>
+								<td style="width: 85%;">
+									<%= @difference %>
+								</td>
+							</tr>
+							<tr>
+							  <% disabled = ""
+							     color = "black"
+							     if (@difference.to_i < 0) && (@virtual_count.to_i < @difference.to_i.abs)
+										# if the entitlement count is greater but we can't decrease entitlement count enough to close the gap
+										disabled = "disabled"
+    						    color = "gray"
+							     end
+								%>
+								<td class='workDetails' style="width: 10%;">
+									<input type=radio name=balance_option value='1' id='Match_to_seat_pool_count'
+											<%= (@balance_option == '1') ? 'checked' : '' %> style='width:9px;' <%= disabled %> />
+								</td>
+								<td style="font-weight: bold; vertical-align: bottom; color:<%= color %>">
+									Match Entitlement Count to Seat Pool Count
+								</td>
+							</tr>
+							<tr>
+							  <% disabled = ""
+							     color = "black"
+							     if (@difference.to_i > 0) && (@unallocated_count.to_i < @difference.to_i.abs)
+										# if the seat pool count is greater but we can't decrease unallocated count enough to close the gap
+										disabled = "disabled"
+    						    color = "gray"
+							     end
+								%>
+								<td class='workDetails' style="width: 10%;">
+									<% puts "my balance_option = #{@balance_option}" %>
+									<input type=radio name=balance_option value='2' id='Match_to_entitlement_count' 
+											<%= (@balance_option == '2') ? 'checked' : '' %> style='width:9px;' <%= disabled %> />
+								</td>
+								<td style="font-weight: bold; vertical-align: bottom; color:<%= color %>">
+									Match Seat Pool Count to Entitlement Count
+								</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 10%;">
+									<span style="color: red;">*</span>&nbsp;&nbsp;<label for="user_email">Reason:</label>
+								</td>
+								<td>
+									<textarea id="balance_reason" name="reason" value="" rows="5" cols="50"><%= @reason %></textarea>
+								</td>
+							</tr>							
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		  				<thead>
+		    				<tr class="parent" >
+		      					<td style="background:#CC6600;">Task Resolution</td>
+		    				</tr>
+		  				</thead>
+		
+					</table>
+		
+					<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_resolve">
+						<tr class='workDetails'>
+							<td  colspan=3 >Please follow the steps below to resolve and close out the task </td>
+		
+		    			</tr>
+		  				<tr class='workDetails'>
+		
+		         			<td class='workDetails'  style='width:50%; vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;">Step 1:<br>
+		
+		        					<span style='font-weight:normal'>
+		        						Please verify that the above information is correct.
+									</span>
+								</div>
+								<input type=hidden name='task_page_path' value="<%= edit_task_path(@task.id) %>" />
+								<span id='assigned_name' style="margin-top:8px;padding-top:8px;display:block;"></span>
+								<span id='assigned_ucn' style="margin-top:8px;padding-top:8px;"></span>
+							</td>
+							<td class='workDetails'  style='width:50%;vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;" class='step3' >Step
+									<span id='num'>2</span>:<br>
+									<span style='font-weight:normal'> Resolve Integrity Problem and Close Task </span>
+								</div>
+		         				<div class='buttons'>
+				 					<div class='resolve' style="padding-top:8px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Close Task</div>
+								</div>
+		         			</td>
+		
+		
+		
+		    			</tr>
+					</table>
+		
+		
+				
+		
+		
+		
+			<!-- end of task tooks area for selected active task -->
+		
+				</td>
+		
+			</tr>
+		</tbody>
+		
+	</table>
+		
+		
+		<!-- end of active tasks list table -->
+		
+		
+		
+		<!-- end of Orders table -->
+	<% end %>
+</div>

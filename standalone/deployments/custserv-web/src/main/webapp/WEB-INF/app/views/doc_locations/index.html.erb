@@ -1,0 +1,32 @@
+<center><h1>Document Locations</h1></center>
+<center><%= link_to 'New Document Location', new_doc_location_path %></center>
+<br />
+
+<table class="data_table">
+  <thead>
+    <tr>
+      <th>Code</th> 
+      <th>Display location</th>
+      <th>Display text</th>
+      <th colspan=2>Actions</th>      
+    </tr>
+  </thead>
+
+<% @doc_locations.each do |doc_location| %>
+  <tbody>
+    <tr>
+      <td style="text-align: left;"><%= doc_location.code %></td>
+      <td style="text-align: left;"><%= doc_location.display_location %></td>
+      <td style="text-align: left;"><%= doc_location.display_text %></td>
+      <td><%= link_to 'Show', doc_location %></td>
+      <td><%= link_to 'Edit', edit_doc_location_path(doc_location) %></td>
+      <!--<td><%= link_to 'Destroy', doc_location, :confirm => 'Are you sure?', :method => :delete %></td>-->
+    </tr>
+  </tbody>
+<% end %>
+</table>
+
+<br />
+<center><%= link_to 'New Document Location', new_doc_location_path %></center>
+<br />
+<br />

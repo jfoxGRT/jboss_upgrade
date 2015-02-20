@@ -1,0 +1,64 @@
+<%= render(:partial => "report_header", :locals => {:report_title => @report_title})%>
+
+<div align="center">
+  <%= link_to("Export Table to CSV", {:action => :export_csi_messages_to_csv, :report_id => @report_id}) %>
+</div>
+<br>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>    
+          <% if (@sort_order == "org_name") %>
+            <%= link_to("Org Name", {:action => :csi_messages, :report_id => @report_id, :sort => "org_name_desc"}) %>
+          <% else %>
+            <%= link_to("Org Name", {:action => :csi_messages, :report_id => @report_id, :sort => "org_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "c_ucn") %>
+            <%= link_to("UCN", {:action => :csi_messages, :report_id => @report_id, :sort => "c_ucn_desc"}) %>
+          <% else %>
+            <%= link_to("UCN", {:action => :csi_messages, :report_id => @report_id, :sort => "c_ucn"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "em_transaction_type") %>
+            <%= link_to("Transaction Type", {:action => :csi_messages, :report_id => @report_id, :sort => "em_transaction_type_desc"}) %>
+          <% else %>
+            <%= link_to("Transaction Type", {:action => :csi_messages, :report_id => @report_id, :sort => "em_transaction_type"}) %> 
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "em_received") %>
+            <%= link_to("Message Received", {:action => :csi_messages, :report_id => @report_id, :sort => "em_received_desc"}) %>
+          <% else %>
+            <%= link_to("Message Received", {:action => :csi_messages, :report_id => @report_id, :sort => "em_received"}) %>
+          <% end %>
+        </th>
+        <th>        
+          <% if (@sort_order == "em_id") %>
+            <%= link_to("ESB Message ID", {:action => :csi_messages, :report_id => @report_id, :sort => "em_id_desc"}) %>
+          <% else %>
+            <%= link_to("ESB Message ID", {:action => :csi_messages, :report_id => @report_id, :sort => "em_id"}) %>
+          <% end %>
+        </th>
+        <th>        
+          <% if (@sort_order == "sc_name") %>
+            <%= link_to("SAM Customer Name", {:action => :csi_messages, :report_id => @report_id, :sort => "sc_name_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :csi_messages, :report_id => @report_id, :sort => "sc_name"}) %>
+          <% end %>
+        </th>
+        <th>  
+          <% if (@sort_order == "sc_id") %>
+            <%= link_to("SC ID", {:action => :csi_messages, :report_id => @report_id, :sort => "sc_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :csi_messages, :report_id => @report_id, :sort => "sc_id"}) %>
+          <% end %>
+        </th>                
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "csi_messages_detail", :collection => @csi_messages)%>
+    </tbody>    
+</table>

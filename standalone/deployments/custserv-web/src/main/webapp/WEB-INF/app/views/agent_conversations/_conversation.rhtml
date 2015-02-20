@@ -1,0 +1,14 @@
+<tr>
+    <td>&nbsp;<%= conversation.id %></td>
+    <td>&nbsp;<%= conversation.adapter_identifier %></td>
+    <td>&nbsp;<%= link_to(conversation.conversation_identifier, agent_conversation_path(agent_id, conversation.id)) %></td>
+    <td>&nbsp;<%= (conversation.started.nil?) ? "" : conversation.started.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= (conversation.completed.nil?) ? "" : conversation.completed.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= conversation.result_type.name %></td>
+    <td>&nbsp;<%= conversation.result_msg %></td>
+    <td>&nbsp;<%= (conversation.retry_timeout_end.nil?) ? "" : conversation.retry_timeout_end.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= conversation.retry_parent_conversation_instance_id %></td>
+    <td>&nbsp;<%= conversation.retry_original_conversation_instance_id %></td>
+    <td>&nbsp;<%= conversation.priority %></td>
+	<td>&nbsp;<%= translate_conversation_result_code(conversation.result_code) if !conversation.result_code.nil? %></td>
+</tr>

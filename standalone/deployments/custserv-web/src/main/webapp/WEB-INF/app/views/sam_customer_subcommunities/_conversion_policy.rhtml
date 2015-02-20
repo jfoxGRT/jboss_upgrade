@@ -1,0 +1,89 @@
+<% if conversion_license_pool %>
+<h2 style="text-align: center; margin-top: 15px;"><%= subcommunity.name %></h2>
+<table style="width: 100%; border: 0px;">
+	<tr>
+		<td style="border: 0px;">
+			<h3 style="text-align: center; margin-bottom: 20px; margin-top: 15px; font-size: 15px; color:#006699;">Conversion Data</h3>
+			<table class="data_table shadow">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Unconverted Count</td>
+						<td><%= conversion_license_pool.unconverted_count %></td>
+					</tr>
+					<tr>
+						<td>Converted Count</td>
+						<td><%= conversion_license_pool.converted_count %></td>
+					</tr>
+					<tr>
+						<td>Sum of Pending License Reallocations</td>
+						<td>Not Implemented Yet</td>
+					</tr>
+					<tr>
+						<td>Total Virtual Licenses</td>
+						<td><%= virtual_entitlement_count %></td>
+					</tr>
+					<tr>
+						<td>Net PLCC Delta</td>
+						<td><%= net_plcc_count.nil? ? 0 : net_plcc_count %></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		<td style="border: 0px;">
+			<h3 style="text-align: center; margin-bottom: 20px; margin-top: 15px; font-size: 15px; color:#006699;">Conversion Info</h3>
+			<table class="data_table shadow">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th>Product</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Pre-Converted Product</td>
+						<td><%= conversion_product_mapping.pre_converted_product.description %></td>
+					</tr>
+					<tr>
+						<td>Post-Converted Product</td>
+						<td><%= conversion_product_mapping.post_converted_product.description %></td>
+					</tr>
+					<tr>
+						<td>Conversion Product</td>
+						<td><%= conversion_product_mapping.product.description %></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+</table>
+<br/>
+<hr/>
+<h3 align="center" style="margin-bottom: 20px; margin-top: 20px; font-size: 15px; color:#006699;">Conversion History</h3>
+<table style="width: 90%;" class="data_table shadow">
+	<thead>
+		<tr>
+			<th>Created At</th>
+			<th>Starting Converted Count</th>
+			<th>Ending Converted Count</th>
+			<th>Starting Unconverted Count</th>
+			<th>Ending Unconverted Count</th>
+			<th>Source User</th>
+			<th>Source Entitlement ID</th>
+			<th>Reason Code</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "conversion_policy_audit", :collection => conversion_audits) %>
+	</tbody>
+</table>
+<% else %>
+<div align="center" style="padding-top: 50px;">
+	No Conversion Licenses Available
+</div>
+<% end %>

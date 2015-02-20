@@ -1,0 +1,10 @@
+<% link_text = "#{count} "
+	case (task_status)
+		when "unassigned" then link_text += "Unassigned"
+		when "assigned" then link_text += "Assigned"
+		when "user" then link_text += "Active"
+	end
+	link_text += " Tasks" 
+	path = (task_status + "_" + task_type + "_path")
+	path += "(:id => @current_user.id)" if (task_status == "user") %>
+<%= link_to(link_text, eval(path), {:id => "#{task_type}_#{task_status}"}) %>

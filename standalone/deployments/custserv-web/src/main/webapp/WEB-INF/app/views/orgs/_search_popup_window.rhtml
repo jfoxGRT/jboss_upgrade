@@ -1,0 +1,31 @@
+<div style='display:none' id=contact-content style='width:650px;margin:0px;padding:0px;height:500px;'>
+	<div class='contact-content' style='width:650px;margin:0px;padding:0px;height:500px;'>
+    <table id="serverview" class="view" cellspacing="0" style="width:100%;margin:0px;padding:0px;">
+        <thead>
+            <tr class="parent">
+                <td style="background:#CC6600;"> Organization Information for: </td>
+            </tr>
+        </thead>
+    </table>
+    <table style='width:100%;text-align: left; margin-bottom: 30px;border-bottom:none;'>
+        <thead>
+            <tr>
+                <td style='text-align: left; font-weight: bold;width:35%;border-right:1px solid #e1e1e1;' colspan=3>
+                    <select name='assign_ucn' class='assign_ucn' style='font-size:12px;margin-top:3px;' href="<%= change_selected_org_path %>">
+						<%= render(:partial => "ucn_option", :collection => @drop_down_list, :locals => {:selected_ucn => @org.ucn}) %>
+					</select>
+                </td>
+            </tr>
+        </thead>
+        <tbody id='ucn_info'>
+            <%= render(:partial => "orgs/org_detailed_info") %>
+        </tbody>
+    </table>
+	<input type=hidden name=who value="<%= @org.ucn %>" />
+	<input type=hidden name=option_type value="<%= @number %>" />
+    <div class='buttons'>
+        <div class='yes' id="<%= @org.ucn %>" href="<%= add_to_task_org_path %>" route="" style='padding-top:6px;' onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Use UCN</div>
+		<div class='no modalClose' style='padding-top:6px;' onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Cancel</div>
+    </div>
+	</div>
+</div>

@@ -1,0 +1,61 @@
+<table class="data_table" width="90%">
+    <thead>
+        <tr class="data_table_first_row">
+        	<% if (sam_server.nil? && @current_user.isAdminType) %>
+        		<td>Seat Pool ID</td>
+			<% end %>
+        	<td <%= sort_td_class_helper("seat_activity_id")%>>
+                <%= sort_link_helper("Seat Activity ID", "seat_activity_id", update_element, "update_seat_activities", status_indicator)%>
+            </td>
+			<% if (show_subcommunity) %>
+			<td <%= sort_td_class_helper("subcommunity_name")%>>
+				<%= sort_link_helper(@subcommunity_term, "subcommunity_name", update_element, "update_seat_activities", status_indicator)%>			
+			</td>
+			<% end %>
+			<% if (sam_server.nil?) %>
+			<td <%= sort_td_class_helper("server_name")%>>
+				<%= sort_link_helper("Server Name", "server_name", update_element, "update_seat_activities", status_indicator) %>			
+			</td>
+			<% end %>
+            <td <%= sort_td_class_helper("starting_count")%>>
+                <%= sort_link_helper("Starting Count", "starting_count", update_element, "update_seat_activities", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("delta")%>>
+                <%= sort_link_helper("Delta", "delta", update_element, "update_seat_activities", status_indicator)%>
+            </td>
+            <% if @current_user.isAdminType %>
+				<td>Conversation ID</td>
+			<% end %>
+			<td <%= sort_td_class_helper("status")%>>
+                <%= sort_link_helper("Status", "status", update_element, "update_seat_activities", status_indicator)%>
+            </td>
+			<td>Result</td>
+            <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Performed At", "created_at", update_element, "update_seat_activities", status_indicator) %>
+            </td>
+            <td <%= sort_td_class_helper("user")%>>
+                <%= sort_link_helper("Performed By..", "user", update_element, "update_seat_activities", status_indicator) %>
+            </td>
+			<td>
+				Activity Type
+			</td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "seat_pools/seat_activity", :collection => seat_activity_collection, :locals => {:sam_customer_id => sam_customer_id, :sam_server => sam_server, :show_subcommunity => show_subcommunity}) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(seat_activity_collection, :renderer => "RemoteLinkRenderer",
+				:status_indicator => status_indicator,
+				:before_callback => "Element.show('" + status_indicator + "')",
+				:success_callback => "Element.hide('" + status_indicator + "')",
+                  :update_element => update_element,
+                  :action => "update_seat_activities",
+					:params => {:sam_customer_id => sam_customer_id},
+				  :sam_customer_id => sam_customer_id,
+				  :show_subcommunity => show_subcommunity) %>
+</p>
+
+

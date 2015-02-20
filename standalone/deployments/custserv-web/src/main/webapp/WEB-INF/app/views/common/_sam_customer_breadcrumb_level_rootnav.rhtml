@@ -1,0 +1,11 @@
+<% site_areas = Array.new(SAM_CUSTOMER_SITE_AREAS)
+if site_area_code
+	target_site_area = site_areas.delete(site_areas.detect{|scsa| scsa[:code] == site_area_code})
+	site_areas.unshift(target_site_area)
+end %>
+<% site_areas.each do |scsa| %>
+	<% if (scsa[:code] != site_area_code) %>
+		<li><%= link_to(scsa[:name], eval(SAM_CUSTOMER_SINGULAR_CONTROLLER_NAME + "_" + scsa[:controller_name] + "_path(sam_customer_id)")) %></li>		
+	<% end %>
+<% end %>
+<li style="border-top: 1px solid white;"><%= link_to("Use Customer App", use_customer_app_for_sam_customer_path(:id => sam_customer_id, :redirect_url => "http://#{request.host}:#{request.port}/"), :target => "_blank") %></li>

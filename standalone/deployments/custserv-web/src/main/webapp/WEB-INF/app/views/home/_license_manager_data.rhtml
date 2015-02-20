@@ -1,0 +1,9 @@
+<div class="table_header">
+	<h4 class="table_title">Out of Compliance Instances</h4>
+</div>
+<div id="out_of_compliance_table">
+<%= render(:partial => "out_of_compliance_info", :locals => {:out_of_compliance_counts => out_of_compliance_counts,
+                                                 :current_user => @current_user,
+                                                 :status_indicator => "license_manager_loading",
+                                                 :update_element => "out_of_compliance_table"}) %>
+</div>

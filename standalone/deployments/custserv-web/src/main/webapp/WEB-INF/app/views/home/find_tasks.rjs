@@ -1,0 +1,2 @@
+page[:task_activity_panel].replace_html(:partial => "task_activity_panel", 
+           :locals => {:summary_date => @summary_date, :day1_activity => @day1_stats, :day2_activity => @day2_stats})

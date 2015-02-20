@@ -1,0 +1,26 @@
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Ordered Date</th>
+            <th>Shipped Date</th>
+            <th>TMS Entitlement ID</th>
+            <th>SAM Customer</th>
+            <th>Item Description</th>
+            <th>Number of Licenses</th>
+            <th>Order #</th>
+            <th>Invoice #</th>
+            <th>Billed To</th>
+            <th>Shipped To</th>
+            <th>Entitlement Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "entitlement", :collection => entitlements) %>
+    </tbody>
+</table>
+<div id="views_entitlement_index_paginator" align="center" style="margin-top: 20px;">
+<%= will_paginate(entitlements, :renderer => "RemoteLinkRenderer",
+                  :loading_indicator => "entitlement_loading_indicator",
+                  :update_element => "entitlement_block",
+                  :params => {:action => :update_entitlement_block_2}) %>
+</div>

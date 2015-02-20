@@ -1,0 +1,39 @@
+<% samc = assigned_task_summary.sam_customer %>
+<table id="<%= assigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:5%; text-align: left;">
+                <%= assigned_task_summary.id %>
+            </td>
+            <td style="width:6%; text-align: left;">
+                <%= assigned_task_summary.priority %>
+            </td>
+            <td style="width:20%; text-align: left;">
+                <%= assigned_task_summary.sam_customer_name %>
+            </td>
+			<td style="width:12%; text-align: left;">
+                <%= assigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= assigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+			<td style="width: 13%; text-align: left;">
+				<%= assigned_task_summary.first_name %> <%= assigned_task_summary.last_name %>
+			</td>
+            <td style="width:12%; text-align: left;">
+                <%= assigned_task_summary.state_name %>
+            </td>            
+            <td style="width:19%; text-align: left;">
+                <% if (assigned_task_summary.admin_permission_requested == "1") %>
+					Admin Permission Requested
+				<% elsif (samc.users.length == 0) %>
+					No Super Admins Currently Exist
+				<% else %>
+					Unknown
+				<% end %>
+            </td>
+            <td style="width:13%; text-align: left;">
+                <%= render(:partial => "/tasks/assigned_task_links", :locals => {:task => assigned_task_summary, :view_details => false}) %>
+            </td>
+		<%#= render(:partial => "view_details", :locals => {:colspan => 7, :assigned_task_summary => assigned_task_summary}) %>
+    </tbody>
+</table>

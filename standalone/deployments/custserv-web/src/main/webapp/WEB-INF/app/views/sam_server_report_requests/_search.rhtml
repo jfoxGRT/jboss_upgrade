@@ -1,0 +1,128 @@
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+<script>
+jQuery(document).ready(function() {
+    jQuery('#results_table').dataTable({
+        "aaSorting": [[0, "desc"]],
+        "oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             },
+             "sEmptyTable": "No report requests match the Finder search criteria.",
+             "sZeroRecords": "No report requests match the filter criteria."
+        },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+          "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+          "aButtons": [
+            <% # if result set is small enough, use built-in tabletools CSV generation. make request to
+               # server iff not all results were delivered to the DataTable. we don't have back end handling
+               # for XLS and PDF.
+               if @num_rows_reported < FINDER_LIMIT %>
+            {
+              "sExtends": "copy",
+              "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+                return getCleanedText(sValue);
+              }
+            },
+            {
+              "sExtends": "csv",
+              "sFileName": "<%= REPORT_FINDER_RESULTS_FILENAME %>.csv",
+              "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+                return getCleanedText(sValue);
+              }
+            },
+            {
+              "sExtends": "xls",
+              "sFileName": "<%= REPORT_FINDER_RESULTS_FILENAME %>.xls",
+              "sButtonText": "XLS",
+              "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+                return getCleanedText(sValue);
+              }
+            },
+            {
+    					"sExtends": "pdf",
+    					"sPdfOrientation": "landscape",
+              "sFileName": "<%= REPORT_FINDER_RESULTS_FILENAME %>.pdf",
+              "sTitle": "<%= REPORT_FINDER_RESULTS_FILENAME %>",
+              "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+                return getCleanedText(sValue);
+              }
+    				},
+            "print"
+            <% else %>
+            {
+              "sExtends": "text",
+              "sButtonText": "Copy",
+              "sToolTip": "Too many results to copy."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "CSV",
+              "sToolTip": "Too many results for CSV export."
+              <% # TODO: there isn't currently an implementation for server-side CSV generation of server report
+                 # request results, one should probably be added.
+              %>
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "XLS",
+              "sToolTip": "Too many results for XLS export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "PDF",
+              "sToolTip": "Too many results for PDF export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "Print",
+              "sToolTip": "Too many results to print."
+            }
+            <% end %>
+    		]
+  		}
+    });
+} );
+</script>
+<%= hidden_field_tag(:pull_the_blinds, "1") %>
+<%= render(:partial => "common/search_header", :locals => {:report_title => "SAMC - SAM Server Report Request Search Results"})%>
+<% if (@errors.length < 1) %>
+<table class="data_table filterable_table" id="results_table" align="left">
+  <thead>
+    <tr class="data_table_first_row">
+      <th>Report Id</th>
+      <th>Report Type</th>
+      <th>Request Type</th>
+      <th>Conversation Details</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Embargo Until</th>
+      <th>Expiration Date</th>
+      <th>Receive Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @server_report_requests.first == "Server Report Request Record with #{@server_id} is not present" %>
+      <tr>
+        <td>
+        <p><%= "Server Report Record with #{@server_id} cannot be found." %> </p>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% else %>
+      <%= render(:partial => "sam_server_report_requests/server_report_request_search_result", :collection => @server_report_requests, :as => :report_requests_row)%>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

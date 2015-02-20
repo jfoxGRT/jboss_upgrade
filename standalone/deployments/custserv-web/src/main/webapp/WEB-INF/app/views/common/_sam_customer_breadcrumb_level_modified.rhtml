@@ -1,0 +1,9 @@
+<% site_areas = Array.new(SAM_CUSTOMER_SITE_AREAS)
+if site_area_code
+	target_site_area = site_areas.detect{|scsa| scsa[:code] == site_area_code}
+end %>
+<% if (!on_target.nil? && on_target) %>
+	<span id="current_page_title" style="vertical-align: middle;"><%= target_site_area[:name] %></span>
+<% else %>
+	<%= link_to(target_site_area[:name], eval(SAM_CUSTOMER_SINGULAR_CONTROLLER_NAME + "_" + target_site_area[:controller_name] + "_path(@sam_customer.id)"), :style => "vertical-align: middle") %>
+<% end %>

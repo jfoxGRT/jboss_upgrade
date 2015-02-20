@@ -1,0 +1,31 @@
+<%  @page_title = "SAMC - Usage Statistics" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+
+
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Current Statistics</h2>
+</div>
+<table class="data_table">
+<thead>
+    <tr>
+        <th><%= PRODUCT_TERM %> Name</th>
+        <th>Total Licenses From Entitlements</th>
+        <th>Total Licenses Allocated</th>
+        <th>Total Licenses Enrolled</th>
+		<th>Date Recorded</th>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "license_audit", :collection => @current_license_audit_for_subcommunity, :locals => {:show_product_name => true}) %>
+</tbody>
+</table>
+</div>

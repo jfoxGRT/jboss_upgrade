@@ -1,0 +1,18 @@
+<% if seat_pool_msgs.empty? %>
+	<div align="center" style="padding-top: 20px; margin-right: auto; margin-left: auto; color: red;">No entries</div>
+<% else %>
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>Message ID</th>
+			<th>Date Created</th>
+			<th>Seat Count</th>
+			<th>Action</th>
+			<th>Additional Info</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "seat_pool_count_message", :collection => seat_pool_msgs, :locals => {:all_seat_pools => false}) %>
+	</tbody>
+</table>
+<% end %>

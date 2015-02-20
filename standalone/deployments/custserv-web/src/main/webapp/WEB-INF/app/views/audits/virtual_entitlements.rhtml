@@ -1,0 +1,33 @@
+<% @page_title = "SAM Connect - Virtual Entitlements" %>
+<h2>Virtual Entitlements</h2>
+<table class="data_table">
+	<tr>
+		<th>Licensing Activation ID</th>
+		<th>SAM Customer</th>
+		<th>SAM Customer ID</th>
+		<th>Performed At..</th>
+		<th>Performed By..</th>
+	</tr>
+	<tr>
+		<% the_sam_customer = @licensing_activation.sam_customer %>
+		<% the_user = @licensing_activation.user %>
+		<td><%= @licensing_activation.id %></td>
+		<td><%= the_sam_customer.root_org.name.strip %></td>
+		<td><%= the_sam_customer.id %></td>
+		<td><%= @licensing_activation.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+		<td><%= the_user.last_name%>, <%= the_user.first_name %></td>
+	</tr>
+</table>
+<table class="data_table" style="width: 90%; margin-top: 30px;">
+	<tr>
+		<th>Entitlement Audit ID</th>
+		<th>Entitlement ID</th>
+		<th><%= PRODUCT_TERM %></th>
+		<th>License Count</th>
+		<th>Initial Activation</th>
+		<th>Added By..</th>
+		<th>Added At..</th>
+		<th style="width: 40%;">Annotation</th>
+	</tr>
+	<%= render(:partial => "entitlement_audit", :collection => @entitlement_audits) %>
+</table>

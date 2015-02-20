@@ -1,0 +1,44 @@
+<%= render(:partial => "sapling_js") %>
+<h2>Add Sapling</h2>
+<%= error_messages_for :sapling %>
+<% form_for(:sapling, :url => saplings_path, :html => {:multipart => true, :method => :post, :onsubmit => "$('status_indicator').show(); Form.Element.disable('submit_tag')"}) do |f| -%>
+  	<table align="center">
+    	<tr><td style="text-align: left;"><label for="sapling_type">Sapling Type:</label></td><td style="text-align: left;"><%= f.select(:sapling_type, Sapling::SAPLING_TYPES) %></td></tr>
+		<tr><td style="text-align: left;"><label for="sapling_code">Sapling Code:</label></td><td style="text-align: left;"><%= f.select(:sapling_code, Sapling::SAPLING_CODES) %></td></tr>
+    	<tr><td style="text-align: left;"><label for="version">Sapling Version:</label></td><td style="text-align: left;"><%= f.text_field :version %></td></tr>
+		<tr><td style="text-align: left;"><label for="os_family">OS Family:</label></td><td style="text-align: left;"><%= f.select(:os_family, Sapling::OS_FAMILY_TYPES) %></td></tr>
+		<tr><td style="text-align: left;"><label for="os_series">OS Series:</label></td><td style="text-align: left;"><%= f.select(:os_series, Sapling::OS_SERIES_TYPES) %></td></tr>
+		<tr><td style="text-align: left;"><label for="cpu_type">CPU Type:</label></td><td style="text-align: left;"><%= f.select(:cpu_type, Sapling::CPU_TYPES) %></td></tr>
+		<tr><td style="text-align: left;"><label for="cpu_bits">CPU Bits:</label></td><td style="text-align: left;"><%= f.select(:cpu_bits, Sapling::CPU_BIT_TYPES) %></td></tr>
+		<tr><td style="text-align: left;"><label for="sapling_file">Sapling File:</label></td><td style="text-align: left;"><%= f.file_field :sapling_file %></td></tr>
+	</table>
+	<p><%= f.check_box("scheduled", :checked => @sapling.scheduled ? 'checked' : 'notchecked') %> Publish</p>
+	<table align="center" style="margin-bottom: 20px;">
+		<tr>
+			<td style="text-align: left;"><label for="sapling_meta_name">Meta Data Name:</label></td><td style="text-align: left; padding-right: 20px;"><input type="text" id="meta_name"/></td>
+			<td style="text-align: left;"><label for="sapling_meta_value">Meta Data Value:</label></td><td style="text-align: left; padding-right: 20px;"><input type="text" id="meta_value"/></td>
+			<td style="text-align: left; padding-right: 20px;"><input type="button" value="Add Meta Data" onclick="insertMetaData(trim($('meta_name').value), trim($('meta_value').value))" /></td>
+		</tr>
+	</table>
+	<table class="data_table" id="meta_data_table">
+		<tbody id="meta_data_table_body">
+			<tr>
+				<th>Meta Name</th>
+				<th>Meta Value</th>
+				<th>Action</th>
+			</tr>
+			<% unless(@sapling_meta_data.nil?) %>
+			<%= render(:partial => "sapling_meta", :collection => @sapling_meta_data) %>
+			<% end %>
+		</tbody>
+	</table>
+	<div id="meta_data_container">
+		<% unless(@sapling_meta_data.nil?) %>
+		<%= render(:partial => "sapling_meta_hidden", :collection => @sapling_meta_data) %>		
+		<% end %>		
+	</div>
+  <p><%= submit_tag("Add Sapling", :id => "submit_tag") %></p>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

@@ -1,0 +1,50 @@
+<% alert_instance = @task.alert_instances[0] %>
+<% @page_title = "SAMC - Unassigned Entitlement Task" %>
+<h3>Unassigned Order Task</h3>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Task ID</th>
+			<th>Task Priority</th>
+			<th>Order Number</th>
+			<th>Invoice Number</th>
+			<th>Bill-To Org</th>
+			<th>Ship-To Org</th>
+			<th>Task Details</th>
+			<th>Reason Unassigned</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "uo_details", :object => @task) %>
+	</tbody>
+</table>
+<p style="margin-top: 30px;">The following organizations are the most likely candidates for managing this order.&nbsp;&nbsp;Please select one from the list, or if a different organization should
+manage the order, please specify that organization's UCN below.</p>
+<% form_tag(task_path(@task.id), {:method => :put, :name => "alert_form", :onsubmit => "return showSubmitStatus('ucn_field');"}) do %>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Organization Name</th>
+			<th>UCN</th>
+			<th>Organization Group</th>
+			<th>Organization Type</th>
+			<th>Organization Status</th>
+			<th>SAM Connect Customer?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "task_org_link", :collection => @task_orgs, :locals => {:alert_instance => alert_instance}) %>
+	</tbody>
+</table>
+<div align="center" style="margin-top: 20px;">Instead use UCN:&nbsp;&nbsp;<%= text_field_tag("ucn", "", :id => "ucn_field") %><br/><br/>
+	Always use the selected UCN for this SHIP-TO / BILL-TO combination?&nbsp;&nbsp;<%= radio_button_tag("known_destination", "yes", "yes") %>&nbsp;Yes
+		<%= radio_button_tag("known_destination", "no", "no") %>&nbsp;No</div>
+    <div id="alert_submit_button" align="center" style="padding-top: 30px;">
+    	<%= submit_tag("Assign Org", {:class => "submit_button"}) %>
+	</div>
+	<div id="submit_indicator" align="center" style="padding-top: 10px; color: red; display: none;">Please wait..<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></div>
+</div>
+<% end %>
+

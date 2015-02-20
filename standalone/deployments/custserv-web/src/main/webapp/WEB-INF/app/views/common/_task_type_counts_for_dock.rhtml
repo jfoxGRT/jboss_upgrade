@@ -1,0 +1,15 @@
+<style type="text/css">
+
+    td.task_count {
+        border-bottom-width: 0px;
+    }
+    
+</style>
+<% if ((task_counts!= nil) && task_counts[task_type_counts_for_dock[0]]) && (@current_user.isAdminType || @current_user.user_type == task_counts[task_type_counts_for_dock[0]].user_type) %>
+    
+    <td class="task_count">
+		<h3><%= task_counts[task_type_counts_for_dock[0]].task_type_description %></h3>
+			<%= link_to(task_counts[task_type_counts_for_dock[0]].unassigned.to_s + " Unassigned Tasks", eval("unassigned_#{task_type_counts_for_dock[1]}_path"), {:id => "#{task_type_counts_for_dock[1]}_unassigned"}) %><br>
+			<%= link_to(task_counts[task_type_counts_for_dock[0]].assigned.to_s + " Assigned Tasks", eval("assigned_#{task_type_counts_for_dock[1]}_path"), {:id => "#{task_type_counts_for_dock[1]}_assigned"}) %>
+	</td>
+<% end %>

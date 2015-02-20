@@ -1,0 +1,59 @@
+<% title_suffix = (@sam_customer.nil?) ? "" : "for #{@sam_customer.name}"%>
+<% @page_title = "SAMC - PLCC's #{title_suffix}" %>
+<!-- start of table insert test -->
+    <h1>Pending License Count Changes</h1>
+<% if (!params[:sam_customer_id].nil?) %>
+    <div id="all-servers-table"  >
+	<h3 style="margin-top: 0px; margin-bottom: 15px;"><%= @sam_customer.name %>
+		<% if (!params[:product_id].nil?) %>
+			<% product = Product.find(params[:product_id]) %>
+			<% if !product.nil? %>
+				,&nbsp; <%= product.description %>
+			<% end %>
+		<% end %>
+	</h3>
+<!-- start of  Orders table -->
+<table id="serverview" class="view" cellspacing="0"  style="width: 100%; margin-top:5px;">
+    <thead>
+        <tr class="parent">
+          <td>Open </td>
+        </tr>
+      </thead>
+
+    </table>
+    <table id="serverlisthead" cellspacing="0" style="width:100%;">
+      <thead>
+
+        <tr >
+    <td style="width:5%;">Task ID</td>
+	<td style="width:8%;">Task Date</td>
+    <td style="width:15%;"><%= SAM_CUSTOMER_TERM %></td>
+    <td style="width:8%;">State / Province</td>
+	<td style="width:11%;"><%= PRODUCT_TERM %></td>
+	<td style="width:8%;">SAM Server</td>
+	<td style="width:10%;">Current Seat Count</td>
+	<td style="width:8%;">Pending License Delta</td>
+	<td style="width:12%;">Reason</td>
+    <td style="width:13%;">Action</td>
+        </tr>
+      </thead>
+    </table>
+	<%= render(:partial => "unassigned_task_summary", :collection => @tasks) %>
+</div>
+<% else %>
+	<table class="view">
+		<thead>
+			<tr class="parent">
+				<td><%= SAM_CUSTOMER_TERM %> Name</td>
+				<td><%= SAM_CUSTOMER_TERM %> State/Province</td>
+				<td>UCN</td>
+				<td>Open Task Count</td>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render(:partial => "open_plcc_counts", :collection => @open_plcc_counts) %>
+		</tbody>		
+	</table>
+<% end %>
+
+<!--start of Open Orders Tasks table -->

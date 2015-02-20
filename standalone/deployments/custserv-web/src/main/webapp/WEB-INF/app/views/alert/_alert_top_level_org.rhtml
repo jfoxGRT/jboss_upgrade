@@ -1,0 +1,9 @@
+<% linkId = "p" + alert_top_level_org.id.to_s 
+   jsBlock = "$('selected_rootorg').replace('<span id=\"selected_rootorg\">" + alert_top_level_org.name + "</span>');\n"
+   updateInputIdjs = "$('chosen_org_div').replace('<div id=\"chosen_org_div\"><input id=\"chosen_org\" name=\"chosen_org\" type=\"hidden\" value=\"" + alert_top_level_org.id.to_s + "\" /></div>')"
+   jsBlock = jsBlock + updateInputIdjs
+%>
+<%= link_to_remote(alert_top_level_org.name, {:update => pane, 
+                                              :url => {:action => "entitlement_alert_sub1orgs", :id => alert_top_level_org.id.to_s },
+                                              :before => "$('selected_rootorg').replace('<span id=\"selected_rootorg\" style=\"color: red;\">Loading..</span>')",
+                                              :complete => jsBlock}, :id => linkId) %><br>

@@ -1,0 +1,52 @@
+
+<script type="text/javascript"> 
+    function close_dialog() {
+        jQuery('#auth_zone_pane').dialog('close');
+    }
+    
+    function popup_view_dialog(auth_zone_id, auth_zone_code) {
+            jQuery("#auth_zone_pane").dialog({
+                title: "View " + auth_zone_code + " Zone URLs",
+                modal: true,
+                width: 650,
+                height: 220
+            });
+            jQuery.get('<%= url_for(:controller => :auth_zones, :action => :view_zone) %>?id=' + auth_zone_id , function(data) {
+                jQuery('#auth_zone_pane').html(data); 
+            });     
+    }	
+	function popup_edit_dialog(auth_zone_id, auth_zone_code) {
+        jQuery("#auth_zone_pane").dialog({
+                title: "Edit " + auth_zone_code + " Zone Details",
+                modal: true,
+                width: 550,
+                height: 500
+            });
+            jQuery.get('<%= url_for(:controller => :auth_zones, :action => :edit_zone) %>?id=' + auth_zone_id , function(data) {
+                jQuery('#auth_zone_pane').html(data); 
+            }); 
+     }
+     function popup_create_dialog() {
+        jQuery("#auth_zone_pane").dialog({
+                title: "Create New Auth Zone",
+                modal: true,
+                width: 550,
+                height: 500
+            });
+            jQuery.get('<%= url_for(:controller => :auth_zones, :action => :create_zone) %>' , function(data) {
+                jQuery('#auth_zone_pane').html(data); 
+            }); 
+     }    
+</script>
+
+<div id="auth_zone_pane"></div>
+
+<% @page_title = "SAMC - Auth Zones" %>
+<h2 align="center">Auth Zones</h2>
+<p align="center" style="font-style: italic">Note: To change current auth zone information, click the link in the Code column.</p>
+<br />
+<center><button class="Create" type="button" onclick="popup_create_dialog(); return false;">Create New Auth Zone</button></center>
+<div align="left">
+    <%= render(:partial => "auth_zone_detail") %>
+</div>
+<br />

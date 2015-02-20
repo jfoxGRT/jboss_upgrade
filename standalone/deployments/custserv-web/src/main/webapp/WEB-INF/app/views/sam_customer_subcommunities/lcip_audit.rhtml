@@ -1,0 +1,17 @@
+<% @page_title = "SAMC - #{@subcommunity.name} LCIP Audit" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => LICENSE_COUNTS_CODE, :on_target => nil}) %>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to(@subcommunity.name, sam_customer_subcommunity_path(@sam_customer.id, @subcommunity.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">License Count Integrity Audit</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title">License Count Integrity Audit:&nbsp;&nbsp;<%= @subcommunity.name %></h2></div>
+<%= render(:partial => "lcip_audit_info", :locals => {:entitlements => @entitlements, :entitlement_events => @entitlement_events, :seat_pool_msgs => @seat_pool_msgs}) %>

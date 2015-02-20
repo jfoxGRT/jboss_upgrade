@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <%= stylesheet_link_tag "cs_sam_central" %>
+    <%= %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+    <%= javascript_include_tag :defaults %>
+    <title><%= @page_title %></title>
+    <script type="text/javascript">
+    
+        function showStatus() {
+            $('status_indicator').show();
+        }
+        
+        function showSubmitIndicator() {
+            if ($('submit_indicator'))
+                $('submit_indicator').show();
+        }
+    
+        function showSubmitStatus(text_field) {
+        
+			text_field_value = document.getElementById(text_field).value;
+            selected_org_radio = document.alert_form.selected_org;
+            size = selected_org_radio.length;
+            selected = false;
+            if (size == null) {
+                selected = selected_org_radio.checked;
+            }
+            else {
+                i = 0;
+                while ((selected == false) && (i < size)) {
+                    if (selected_org_radio[i].checked)
+                        selected = true;
+                    i++;
+                }
+            }
+            if (selected == false && text_field_value == "") {
+                alert("You must select an organization or specify a value.");
+                return false;
+            }
+            $('submit_indicator').show();
+			$$('input.submit_button').each(Form.Element.disable);
+            return true;
+        }
+    
+        function reset_status_indicator() {
+            if ($('status_indicator')) {
+                $('status_indicator').hide();
+            }
+            if ($('submit_indicator')) {
+                $('submit_indicator').hide();
+            }
+        }
+    </script>
+  </head>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+    <table id="cs_page_container_table" cellspacing="0" cellpadding="0">
+        <tr>
+            <td id="cs_header_cell">
+                <h1 id="cs_interface_heading">CUSTOMER SERVICE PORTAL</h1>
+                <div id="cs_status_block"><%= render(:partial => "/common/cs_status") %></div>
+            </td>
+        </tr>
+        <tr>
+            <td id="cs_content_cell">
+                <table id="cs_bottom_table" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td id="cs_main_content_cell">
+                            <div id="cs_main_nav_block">
+                                <%= render(:partial => '/common/app_tabs') %>
+                            </div>
+                            <% if flash[:notice] -%>
+                                <div id="cs_notice_block"><%= flash[:notice] %></div>
+                            <% end %>
+                            <div id="cs_view_block">
+                                <%= yield(:layout) %>
+                            </div>
+                            <div id="cs_footer_block">
+                            </div>
+                        </td>
+                        <%= render(:partial => "/layouts/assigned_tasks") %>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4047083-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+  </body>
+</html>

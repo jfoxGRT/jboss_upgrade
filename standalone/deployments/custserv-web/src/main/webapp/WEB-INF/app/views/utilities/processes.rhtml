@@ -1,0 +1,18 @@
+<h2 align="center"><%= translate_process_code(params[:id]) %></h2>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Process ID</th>
+			<th>Process Token</th>
+			<th>Started At</th>
+			<th>Validated At</th>
+			<th>Completed At</th>
+			<th>% Synchronous Complete</th>
+			<th>Initiated By</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "process", :collection => @processes) %>
+	</tbody>
+</table>

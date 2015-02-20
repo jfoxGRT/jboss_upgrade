@@ -1,0 +1,110 @@
+	<% form_for(:org, :url => {:controller => :orgs, :action => :search}, :remote => true, :html => {:name => "org_form", :id => "org_form"}) do |f| -%>
+		<table style="width:100%;">
+			<tr>
+				<td colspan="2" style="text-align: left;"><h2>Organization Search</h2></td>
+			</tr>
+			<tr>
+				<td class="label_cell" style="width:25%;">
+					<label for="ucn">UCN</label>
+				</td>
+				<td class="field_cell" style="width:75%;">
+					<%= f.text_field(:ucn, {:id => "ucn"}) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_name">Name</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:name) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_position">Hierarchy Category</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:position, TopLevelOrg.ORG_HIERARCHY_POSITIONS, :selected => "AO") %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_customer_group_id">Organization Group</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:customer_group_id, customer_group_list, {}, {:style => "width: 7em;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_customer_type_id">Organization Type</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:customer_type_id, customer_type_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_address">Address</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:address) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_city">City</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:city) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_state_id">State / Province</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:state_id, state_province_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_zip_code">Zip Code (5-digit)</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:zip_code) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="org_status">Organization Status</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:status, customer_status_list) %>
+				</td>
+			</tr>			
+			<tr>
+                                <td style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+				<td style="text-align: center;"><%= submit_tag("Search") %></td>
+			</tr>
+		</table>
+
+<script type = "text/javascript">
+	jQuery(document).ready(function() {
+                    jQuery("#org_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+	</script>
+	<%= javascript_include_tag "jquery.dataTables" %>
+    <% end %>

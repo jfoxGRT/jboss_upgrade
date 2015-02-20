@@ -1,0 +1,15 @@
+<tr>
+  <td><%= link_to(auth_users_search_result.id, sam_customer_auth_user_path(auth_users_search_result.sam_customer_id, auth_users_search_result.id)) %></td>
+  <td><%= auth_users_search_result.username %></td>
+  <td><%= auth_users_search_result.type %></td>
+  <td><%= auth_users_search_result.uuid %></td>
+  <td><%= auth_users_search_result.created_at.strftime(DATE_FORM) %></td>
+  <td><%= auth_users_search_result.updated_at.strftime(DATE_FORM) %></td>
+  <% # the hack below allows DataTables TableTools to export true or false to CSV/PDF, while the website UI displays the icon
+  %>
+  <td><%= image_tag("choice-yes.gif") if auth_users_search_result.enabled %><span style="visibility:hidden; display:none;"><%= auth_users_search_result.enabled %></span></td>
+  <td><%= link_to(auth_users_search_result.sam_customer_id, sam_customer_path(auth_users_search_result.sam_customer_id)) %></td>
+  <td style="text-align: left; width: 15%">
+  <%= auth_users_search_result.samServerNames %>
+  </td>
+</tr>

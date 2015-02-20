@@ -1,0 +1,2 @@
+module LicenseCountIntegrityProblemsHelper
+end

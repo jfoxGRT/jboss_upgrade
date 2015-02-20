@@ -1,0 +1,102 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Customer Registration Report", :csv_action => "export_customer_registration_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>
+          <% if (@sort_order == "customer") %>
+            <%= link_to("SAM Customer Name", {:action => :customer_registration, :sort => "customer_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :customer_registration, :sort => "customer"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "customer_id") %>
+            <%= link_to("SC ID", {:action => :customer_registration, :sort => "customer_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :customer_registration, :sort => "customer_id"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "state") %>
+            <%= link_to("State", {:action => :customer_registration, :sort => "state_desc"}) %>
+          <% else %>
+            <%= link_to("State", {:action => :customer_registration, :sort => "state"}) %>
+          <% end %>
+        </th>
+		<th>
+		  <% if (@sort_order == "num_servers") %>
+            <%= link_to("Number of Servers", {:action => :customer_registration, :sort => "num_servers_desc"}) %>
+          <% else %>
+            <%= link_to("Number of Servers", {:action => :customer_registration, :sort => "num_servers"}) %>
+          <% end %>
+        </th>
+		<th>
+		  <% if (@sort_order == "earliest_reg") %>
+            <%= link_to("Earliest Registration", {:action => :customer_registration, :sort => "earliest_reg_desc"}) %>
+          <% else %>
+            <%= link_to("Earliest Registration", {:action => :customer_registration, :sort => "earliest_reg"}) %>
+          <% end %>
+        </th>
+		<th>
+		  <% if (@sort_order == "latest_reg") %>
+            <%= link_to("Latest Registration", {:action => :customer_registration, :sort => "latest_reg_desc"}) %>
+          <% else %>
+            <%= link_to("Latest Registration", {:action => :customer_registration, :sort => "latest_reg"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "lm_activated") %>
+            <%= link_to("LM Activated?", {:action => :customer_registration, :sort => "lm_activated_desc"}) %>
+          <% else %>
+            <%= link_to("LM Activated?", {:action => :customer_registration, :sort => "lm_activated"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "lm_activated_date") %>
+            <%= link_to("LM Activated Date", {:action => :customer_registration, :sort => "lm_activated_date_desc"}) %>
+          <% else %>
+            <%= link_to("LM Activated Date", {:action => :customer_registration, :sort => "lm_activated_date"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "um_activated") %>
+            <%= link_to("UM Activated?", {:action => :customer_registration, :sort => "um_activated_desc"}) %>
+          <% else %>
+            <%= link_to("UM Activated?", {:action => :customer_registration, :sort => "um_activated"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "um_activated_date") %>
+            <%= link_to("UM Activated Date", {:action => :customer_registration, :sort => "um_activated_date_desc"}) %>
+          <% else %>
+            <%= link_to("UM Activated Date", {:action => :customer_registration, :sort => "um_activated_date"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "school_count") %>
+            <%= link_to("School Count", {:action => :customer_registration, :sort => "school_count_desc"}) %>
+          <% else %>
+            <%= link_to("School Count", {:action => :customer_registration, :sort => "school_count"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "ucn") %>
+            <%= link_to("UCN", {:action => :customer_registration, :sort => "ucn_desc"}) %>
+          <% else %>
+            <%= link_to("UCN", {:action => :customer_registration, :sort => "ucn"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "sc_admin_exists") %>
+            <%= link_to("SC Admin Exists?", {:action => :customer_registration, :sort => "sc_admin_exists_desc"}) %>
+          <% else %>
+            <%= link_to("SC Admin Exists?", {:action => :customer_registration, :sort => "sc_admin_exists"}) %>
+          <% end %>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "customer_registration_detail", :collection => @customer_registrations)%>
+    </tbody>        
+</table>

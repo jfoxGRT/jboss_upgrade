@@ -1,0 +1,16 @@
+<tr>
+	<td><%= license_count_record.name %></td>
+	<td>
+		<% if (license_count_record.seat_pool_id) %>
+			<%= link_to(license_count_record.sc_allocated_count, sam_customer_subcommunity_seat_pool_path(sam_customer.id, license_count_record.subcommunity_id, license_count_record.seat_pool_id)) %>
+		<% else %>
+			<%= license_count_record.sc_allocated_count %>
+		<% end %>
+	</td>
+	<td><%= license_count_record.ss_allocated_count %></td>
+	<td><%= license_count_record.ss_enrolled_count %></td>
+	<% initial_allocated_count = license_count_record.initial_ss_allocated_count 
+		initial_enrolled_count = license_count_record.initial_ss_enrolled_count %>
+	<td><%= (initial_allocated_count.nil?) ? "Not Available" : initial_allocated_count %></td>
+	<td><%= (initial_enrolled_count.nil?) ? "Not Available" : initial_enrolled_count %></td>
+</tr>

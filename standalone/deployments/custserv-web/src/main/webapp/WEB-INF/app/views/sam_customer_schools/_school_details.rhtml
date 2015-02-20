@@ -1,0 +1,80 @@
+<table class="property_table" style="width: 30%;">
+    <tbody>
+        <tr>
+            <td>School Info ID</td>
+            <td>&nbsp;<%= school_details.id %></td>
+        </tr>
+		<tr>
+            <td>School Name</td>
+            <td>&nbsp;<%= school_details.name %></td>
+        </tr>
+		<tr>
+            <td>Address Line 1</td>
+            <td>&nbsp;<%= school_details.address1 %></td>
+        </tr>
+		<tr>
+            <td>Address Line 2</td>
+            <td>&nbsp;<%= school_details.address2 %></td>
+        </tr>
+		<tr>
+            <td>Address Line 3</td>
+            <td>&nbsp;<%= school_details.address3 %></td>
+        </tr>
+		<tr>
+            <td>City</td>
+            <td>&nbsp;<%= school_details.city %></td>
+        </tr>
+		<tr>
+            <td>State</td>
+            <td>&nbsp;<%= school_details.state %></td>
+        </tr>
+		<tr>
+            <td>Zip Code</td>
+            <td>&nbsp;<%= school_details.postal_code %></td>
+        </tr>
+		<tr>
+            <td>Phone Number</td>
+            <td>&nbsp;<%= school_details.phone %></td>
+        </tr>
+		<tr>
+            <td>SAM School ID</td>
+            <td>&nbsp;<%= school_details.sam_school_id %></td>
+        </tr>
+		<tr>
+            <td>School Number</td>
+            <td>&nbsp;<%= school_details.school_number %></td>
+        </tr>
+		<tr>
+            <td>Student Count</td>
+            <td>&nbsp;<%= school_details.student_count %></td>
+        </tr>
+		<tr>
+            <td>Contact Title</td>
+            <td>&nbsp;<%= school_details.title %></td>
+        </tr>
+		<tr>
+            <td>Contact First Name</td>
+            <td>&nbsp;<%= school_details.first_name %></td>
+        </tr>
+		<tr>
+            <td>Contact Middle Name</td>
+            <td>&nbsp;<%= school_details.middle_name %></td>
+        </tr>
+		<tr>
+            <td>Contact Last Name</td>
+            <td>&nbsp;<%= school_details.last_name %></td>
+        </tr>
+		<tr>
+            <td>Contact Email</td>
+            <td>&nbsp;<%= school_details.email %></td>
+        </tr>
+        <tr>
+            <td>Date Created</td>
+            <td>&nbsp;<%= school_details.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+        </tr>
+		<tr>
+            <td>Date Updated</td>
+            <td>&nbsp;<%= school_details.updated_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+        </tr>        
+    </tbody>
+</table>

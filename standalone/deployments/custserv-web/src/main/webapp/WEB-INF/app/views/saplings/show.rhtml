@@ -1,0 +1,12 @@
+<h2>Meta Data for Sapling ID: <%= @sapling.id %></h2>
+<table class="data_table" id="meta_data_table">
+		<tbody id="meta_data_table_body">
+			<tr>
+				<th>Meta Name</th>
+				<th>Meta Value</th>
+			</tr>
+			<% unless(@sapling_meta_data.nil?) %>
+			<%= render(:partial => "sapling_meta_view", :collection => @sapling_meta_data) %>
+			<% end %>
+		</tbody>
+</table>

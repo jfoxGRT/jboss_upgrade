@@ -1,0 +1,271 @@
+<script type="text/javascript">
+	
+	function insertMetaData(meta_name, meta_value) {
+		
+		if (meta_name != '' && meta_value != '') {
+		
+			var nextRowElement = new Element("tr", {
+				"id": meta_name
+			});
+			var nextRowNameCell = new Element("td").update(meta_name);
+			var nextRowValueCell = new Element("td").update(meta_value);
+			var inputButton = new Element("input", {
+				"type": "button",
+				"value": "Remove"
+			});
+			inputButton.onclick = function(){
+				removeMetaData(meta_name, "sapling_meta_" + meta_name);
+			}
+			var removeCell = new Element("td").update(inputButton);
+			
+			nextRowElement.insert(nextRowNameCell);
+			nextRowElement.insert(nextRowValueCell);
+			nextRowElement.insert(removeCell);
+			
+			$('meta_data_table_body').insert(nextRowElement);
+			
+			var inputElement = new Element("input", {
+				"type": "hidden",
+				"id": "sapling_meta_" + meta_name,
+				"name": "sapling_meta[" + meta_name + "]",
+				"value": meta_value
+			});
+			$('meta_data_container').insert(inputElement);
+		}
+		
+		$('meta_name').select();
+		$('meta_name').focus();	
+		return true;
+	}
+	
+	function removeMetaData(row_id, input_id) {
+		$(row_id).remove();
+		$(input_id).remove();
+		$('meta_name').select();
+			
+	}
+	
+	function trim(stringToTrim) {
+		return stringToTrim.replace(/^\s+|\s+$/g,"");
+	}
+	
+	function insertTargetingRule(customer_id, server_id, product_id, white_list) {
+			var rowId = "";
+			if (customer_id != '') {
+			  var nextRowCustomerIdCell = new Element("td").update(customer_id);
+			  rowId = rowId + customer_id;
+			}
+			else {
+			  var nextRowCustomerIdCell = new Element("td").update('');
+			  rowId = rowId + "0";
+			}
+			if(server_id != '') {
+			  var nextRowServerIdCell = new Element("td").update(server_id);
+			  rowId = rowId + server_id;
+			}
+			else {
+			  var nextRowServerIdCell = new Element("td").update('');
+			  rowId = rowId + "0";
+			}
+			if(product_id != '') {
+			  var nextRowProductIdCell = new Element("td").update(product_id);
+			  rowId = rowId + product_id;
+			}
+			else {
+			  var nextRowProductIdCell = new Element("td").update('');
+			  rowId = rowId + "0";
+			}
+			var nextRowWhiteListCell = new Element("td").update(white_list)
+			var inputButton = new Element("input", {
+				"type": "button",
+				"value": "Remove"
+			});
+			inputButton.onclick = function(){
+				removeTargetingRule(rowId, "sapling_targeting_hidden_" + rowId);
+			}
+			var removeCell = new Element("td").update(inputButton);
+			var nextRowElement = new Element("tr", {
+				"id": rowId
+			});
+			nextRowElement.insert(nextRowCustomerIdCell);
+			nextRowElement.insert(nextRowServerIdCell);
+			nextRowElement.insert(nextRowProductIdCell);
+			nextRowElement.insert(nextRowWhiteListCell);
+			nextRowElement.insert(removeCell);
+			
+			$('sapling_targeting_table_body').insert(nextRowElement);
+			
+			if(customer_id != '') {
+			  var inputElementCustomerId = new Element("input", {
+				"type": "hidden",
+				"id": "sapling_targeting_hidden_" + rowId,
+				"name": "sapling_targeting_hidden[sam_customer_id." + rowId + "]",
+				"value": customer_id + "." + white_list
+			  }); 
+			  $('target_data_container').insert(inputElementCustomerId);
+			}
+			else if(server_id != '') {
+			  var inputElementServerId = new Element("input", {
+				"type": "hidden",
+				"id": "sapling_targeting_hidden_" + rowId,
+				"name": "sapling_targeting_hidden[sam_server_id." + rowId + "]",
+				"value": server_id + "." + white_list
+			  });
+			  $('target_data_container').insert(inputElementServerId);			
+			}
+			else if(product_id != '') {
+			  var inputElementProductId = new Element("input", {
+				"type": "hidden",
+				"id": "sapling_targeting_hidden_" + rowId,
+				"name": "sapling_targeting_hidden[product_id." + rowId + "]",
+				"value": product_id + "." + white_list
+			  });
+			  $('target_data_container').insert(inputElementProductId);
+			}
+			else {
+			  var inputElementProductId = new Element("input", {
+				"type": "hidden",
+				"id": "sapling_targeting_hidden_" + rowId,
+				"name": "sapling_targeting_hidden[global." + rowId + "]",
+				"value": "global." + white_list
+			  });
+			  $('target_data_container').insert(inputElementProductId);
+			}
+
+		//$('customer_name').select();
+		//$('customer_name').focus();	
+		$('break').insert(new Element("br"));
+		$('break').insert(new Element("br"));
+		return true;
+	}
+	
+	function removeTargetingRule(row_id, input_id) {	
+	  $(row_id).remove();
+	  $(input_id).remove();
+	}
+	
+	function removeAllTargetingRules(row_ids) {
+	    var row_id = row_ids.split(",");
+	    for (i=0;i<row_id.length;i++) {
+	        var input_id = 'sapling_targeting_hidden_' + String(row_id[i]);
+	        $(row_id[i]).remove();
+	        $(input_id).remove();
+	    }
+    }
+	
+	function targetCustomer(checked) {
+	  if(checked) {
+	    $('customer_id').disabled = false;
+	    $('server_id').disabled = true;
+	    $('product_id').disabled = true;
+	    $('target_server').checked = false;
+	    $('target_product').checked = false;
+	    $('server_id').value = '';
+	    $('product_id').value = '';
+	  }
+	  else {
+	    $('customer_id').disabled = true;
+	    $('customer_id').value = '';
+	  }
+	}
+
+	function targetServer(checked) {
+	  if(checked) {
+	    $('server_id').disabled = false;
+	    $('customer_id').disabled = true;
+	    $('product_id').disabled = true;
+	    $('target_customer').checked = false;
+	    $('target_product').checked = false;
+	    $('customer_id').value = '';
+	    $('product_id').value = '';
+	  }
+	  else {
+	    $('server_id').disabled = true;
+	    $('server_id').value = '';
+	  }
+	}	
+
+	function targetProduct(checked) {
+	  if(checked) {
+	    $('product_id').disabled = false;
+	    $('server_id').disabled = true;
+	    $('customer_id').disabled = true;
+	    $('target_customer').checked = false;
+	    $('target_server').checked = false;
+	    $('customer_id').value = '';
+	    $('server_id').value = '';
+	  }
+	  else {
+	    $('product_id').disabled = true;
+	    $('product_id').value = '';
+	  }
+	}
+	
+	function setCustomerId(id) {
+	  if($('customer_id').disabled == false) {
+	    $('customer_id').value = id;
+	  }
+	  jQuery('#target_sapling').dialog('close');
+	}
+
+    function setServerId(id) {
+      if($('server_id').disabled == false) {
+        $('server_id').value = id;
+      }
+      jQuery('#target_sapling').dialog('close');
+    }
+    	
+    function setProductId(id) {
+      if($('product_id').disabled == false) {
+        $('product_id').value = id;
+      }
+      jQuery('#target_sapling').dialog('close');
+    }
+    
+    function selectCustomer() {
+    	jQuery('#target_sapling').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+			jQuery("#target_sapling").dialog({
+				modal: true,
+				width: 700,
+				height: 600
+			});
+			jQuery.get('<%= url_for(:action => :select_customer) %>' , function(data) {
+				jQuery('#target_sapling').html(data); 
+			});
+			return false;
+    }
+    
+    function selectServer() {
+    	jQuery('#target_sapling').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+			jQuery("#target_sapling").dialog({
+				modal: true,
+				width: 700,
+				height: 600
+			});
+			jQuery.get('<%= url_for(:action => :select_server) %>' , function(data) {
+				jQuery('#target_sapling').html(data); 
+			});
+			return false;
+    }
+    
+    function selectProduct() {
+    	jQuery('#target_sapling').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+			jQuery("#target_sapling").dialog({
+				modal: true,
+				width: 700,
+				height: 600
+			});
+			jQuery.get('<%= url_for(:action => :select_product) %>' , function(data) {
+				jQuery('#target_sapling').html(data); 
+			});
+			return false;
+    }
+    
+  function showTip() {
+    if (document.getElementById('sapling_auto_target').checked)
+      document.getElementById('pro_tip').style.display = "none";
+    else
+      document.getElementById('pro_tip').style.display = "block";
+  }
+        
+</script>

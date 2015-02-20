@@ -1,0 +1,115 @@
+<%  @page_title = "SAMC - Batch Central - Batch Manual Override" %>
+
+<% # available locally as DateJS_min.js, jquery/jquery-ui-timepicker-addon.min.js, jquery/jquery-ui-timepicker-addon.min.css
+ %>
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" ></script>
+
+<%
+  # dashboard batch defaults are:
+  #   export_date_range_end: beginning (midnight) of coming Saturday, UTC
+  #   export_date_range_1w_begin: exactly one week before export_date_range_end
+  #   export_date_range_4w_begin: exactly four weeks before export_date_range_end
+  #   conv_start_date: beginning (midnight) of coming Saturday, EDT
+  #   conv_end_date: exactly one day from conv_start_date
+  #   drop_dead_date: 25 hours from conv_end_date (1am next Monday EDT)
+%>
+<script type="application/javascript"> 
+  var beginningOfComingSaturday = Date.parse('next saturday');
+  
+  var beginningOfComingSaturdayUTC = new Date(beginningOfComingSaturday.getTime());
+  beginningOfComingSaturdayUTC.setTimezone('UTC');
+  
+  var beginningOfOneWeekRange = new Date(beginningOfComingSaturdayUTC.getTime()); // initialize to beginningOfComingSaturday, then subtract 7 days 
+  beginningOfOneWeekRange.setDate(beginningOfOneWeekRange.getDate() - 7);
+  
+  var beginningOfFourWeeksRange = new Date(beginningOfComingSaturdayUTC.getTime()); // initialize to beginningOfComingSaturday, then subtract 28 days 
+  beginningOfFourWeeksRange.setDate(beginningOfFourWeeksRange.getDate() - 28);
+  
+  
+  var midnightEasternOfComingSaturday = new Date(beginningOfComingSaturday.getTime());
+  midnightEasternOfComingSaturday.setHours(midnightEasternOfComingSaturday.getHours() + 4);
+  
+  var midnightEasternOfComingSunday = new Date(midnightEasternOfComingSaturday.getTime());
+  midnightEasternOfComingSunday.setDate(midnightEasternOfComingSunday.getDate() + 1);
+  
+  var oneAMEasternOfComingMonday = new Date(midnightEasternOfComingSunday.getTime());
+  oneAMEasternOfComingMonday.setDate(oneAMEasternOfComingMonday.getDate() + 1);
+  oneAMEasternOfComingMonday.setHours(oneAMEasternOfComingMonday.getHours() + 1);
+  
+  jQuery(function() {
+    // date format console warnings generated here seem to be a bug with datetimepicker
+    jQuery( "#export_date_range_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", beginningOfComingSaturdayUTC);
+    jQuery( "#export_date_range_1w_begin_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", beginningOfOneWeekRange);
+    jQuery( "#export_date_range_4w_begin_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", beginningOfFourWeeksRange);
+    jQuery( "#conv_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", midnightEasternOfComingSaturday);
+    jQuery( "#conv_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", midnightEasternOfComingSunday);
+    jQuery( "#drop_dead_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' }).datetimepicker("setDate", oneAMEasternOfComingMonday);
+  });
+  
+  
+  jQuery(document).ready(function() {
+    jQuery('#submit_td').betterTooltip();
+  } );
+</script>
+
+<h2 style="text-align: center;">Batch Manual Override</h2>
+<div style="text-align: center; font-style: italic;">Note:  All times should be specified with a time zone of <%= @current_time_zone %></div>
+<% form_tag(url_for(:action => :post_batch_manual_override), {:onsubmit => "jQuery('#submit_button').attr('disabled','disabled')"}) do -%>
+                
+        <table style="border: 1px solid black; width:50%; margin-top: 20px; margin-right: auto; margin-left: auto;" class="form_table">
+            <tr>
+                <td class="label_cell"><label for="bmo_export_date_range_end">Export Date Range End (YYYY-MM-DD)</label></td>
+                <td class="field_cell">
+					<%= text_field_tag(:export_date_range_end, params[:export_date_range_end], {:id => "export_date_range_end_field"}) %>
+				</td>
+            </tr>
+			<tr>
+            	<td class="label_cell">
+                    <label for="bmo_export_date_range_1w_begin">Export Date Range 1W Begin (YYYY-MM-DD)</label>
+                </td>
+                <td class="field_cell">
+                    <%= text_field_tag(:export_date_range_1w_begin, params[:export_date_range_1w_begin], {:id => "export_date_range_1w_begin_field"}) %>
+                </td>
+            </tr> 
+			<tr>           
+            	<td class="label_cell">
+                    <label for="bmo_export_date_range_4w_begin">Export Date Range 4W Begin (YYYY-MM-DD)</label>
+                </td>
+                <td class="field_cell">
+                    <%= text_field_tag(:export_date_range_4w_begin, params[:export_date_range_4w_begin], {:id => "export_date_range_4w_begin_field"}) %>
+                </td>
+            </tr>
+			<tr>                        
+            	<td class="label_cell">
+                    <label for="bmo_conv_start_date">Conv Start Date (YYYY-MM-DD)</label>
+                </td>
+                <td class="field_cell">
+                    <%= text_field_tag(:conv_start_date, params[:conv_start_date], {:id => "conv_start_date_field"}) %>
+                </td>
+            </tr> 
+            <tr>
+            	<td class="label_cell">
+                    <label for="bmo_conv_end_date">Conv End Date (YYYY-MM-DD)</label>
+                </td>
+                <td class="field_cell">
+                    <%= text_field_tag(:conv_end_date, params[:conv_end_date], {:id => "conv_end_date_field"}) %>
+                </td>
+            </tr>
+            <tr>
+            	<td class="label_cell">
+                	<label for="bmo_drop_dead_date">Drop Dead Date (YYYY-MM-DD)</label>
+                </td>
+                <td class="field_cell">
+                    <%= text_field_tag(:drop_dead_date, params[:drop_dead_date], {:id => "drop_dead_date_field"}) %>
+                </td>
+            </tr>
+            <tr>
+              <% if @is_new_manual_override_allowed %>
+                <td colspan="2" style="text-align: center;"><%= submit_tag("Submit", :confirm => "Are you sure you wish to submit a batch?", :id => "submit_button") %></td>
+              <% else %>
+                <td id="submit_td" title='New batch cannot be submitted until the current batch reaches its drop dead date.' colspan="2" style="text-align: center;"><%= submit_tag("Submit", :id => "submit_button", :disabled => "disabled" ) %></td>
+              <% end %>
+            </tr>
+        </table>
+<% end %>
+

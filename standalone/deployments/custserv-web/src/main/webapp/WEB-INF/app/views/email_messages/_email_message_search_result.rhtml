@@ -1,0 +1,10 @@
+<tr>
+	<td><%= link_to email_message_search_result.id, email_message_path(email_message_search_result.id), :target => "_new" %></td>
+	<td><%= email_message_search_result.description %></td>
+	<td><%= (email_message_search_result.user_id.nil?) ? "" : link_to(email_message_search_result.user_id, user_path(email_message_search_result.user_id)) %></td>
+	<td><%= email_message_search_result.recipient_address %></td>
+	<td><%= (email_message_search_result.generated_date.nil?) ? "" : email_message_search_result.generated_date.strftime(DATE_FORM) %></td>
+	<td><%= (email_message_search_result.sent_date.nil?) ? "" : email_message_search_result.sent_date.strftime(DATE_FORM) %></td>
+	<td><%= (email_message_search_result["cust_id"].nil?) ? "" : link_to(email_message_search_result["cust_id"], sam_customer_path(email_message_search_result["cust_id"])) %></td>
+	<td><%= email_message_search_result["cust_name"] %></td>
+</tr>

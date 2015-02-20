@@ -1,0 +1,77 @@
+<% phone_num = org_info.telephone_number %>
+   <h2 align="center" style="margin-bottom: 30px;"><%= org_info.name.strip %></h2>
+<table class="data_table" style="text-align: left; margin-bottom: 30px;">
+    <tbody>
+    	<tr>
+            <td style="text-align: left; font-weight: bold;">Src Ref Customer ID</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.id %></td>
+        </tr>
+		<tr>
+			<td style="text-align: left; font-weight: bold;">Org ID</td>
+			<td style="text-align: left;">&nbsp;<%= org_info.org_id %></td>
+		</tr>
+		<tr>
+			<td style="text-align: left; font-weight: bold;">SAM EE Customer</td>
+			<td style="text-align: left;">&nbsp;<%= link_to(org_info.sam_customer_name, sam_customer_path(org_info.sam_customer_id)) if org_info.sam_customer_id %></td>
+		</tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">UCN</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.ucn %></td>
+        </tr>
+		<tr>
+            <td style="text-align: left; font-weight: bold;">Address</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.address_line_1 %><br/>
+										  &nbsp;<%= org_info.address_line_2 %><br/>
+										  &nbsp;<%= org_info.address_line_3 %><br/>
+										  &nbsp;<%= org_info.address_line_4 %><br/>
+										  &nbsp;<%= org_info.address_line_5 %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">City</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.city_name %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">State</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.state_name %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Zip Code</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.postal_code %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">County Code</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.county_code %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Country</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.country_name %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Phone Number</td>
+            <td style="text-align: left;">&nbsp;<%= "(#{phone_num.slice(0,3)})#{phone_num.slice(3,3)}-#{phone_num.slice(6,4)}" if (phone_num) %></td>
+        </tr>
+   		<tr>
+            <td style="text-align: left; font-weight: bold;">Group</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.group_description %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Type</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.type_description %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Status</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.status_description %></td>
+        </tr>
+        <tr>
+            <td style="text-align: left; font-weight: bold;">Added Date</td>
+			<% customer_added_date = org_info.customer_added_date %>
+            <td style="text-align: left;">&nbsp;<%= customer_added_date.strftime(DATE_FORM) if (customer_added_date) %></td>
+        </tr>
+		<% if (@current_user.isAdminType) %>
+		<tr>
+            <td style="text-align: left; font-weight: bold;">Top Level Org ID</td>
+            <td style="text-align: left;">&nbsp;<%= org_info.top_level_org_id %></td>
+        </tr>
+		<% end %>
+    </tbody>
+</table>

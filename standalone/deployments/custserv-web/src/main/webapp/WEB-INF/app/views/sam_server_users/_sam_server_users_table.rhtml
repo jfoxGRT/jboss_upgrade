@@ -1,0 +1,78 @@
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery.dataTables.api.min.js" %>
+<%= javascript_include_tag "Scroller.min.js" %>
+<%= javascript_include_tag "jquery/jquery.debouncedresize.min.js" %>
+
+<script type="text/javascript" charset="utf-8">
+  var lastReloadMillis = (new Date()).getTime();
+  jQuery(document).ready(function() {
+    var oTable = jQuery('#sam_server_user_table').dataTable( { // this name has to be different from the div name
+      "sScrollY": "700px",
+      "sAjaxSource": "../update_sam_server_users_table_data/" + <%= sam_server.id %>,
+      "bServerSide": true,
+      "sDom": "frtiS",
+      "bDeferRender": true,
+      "bProcessing": true,
+      "bCollapse": true,
+      "bScrollCollapse": true,
+      "bAutoWidth": false,
+      "oLanguage": {
+         "sProcessing": "<span style='font-size: 16px;'>Fetching SAM Server Users... </span> <img alt='Indicator_smallwaitanim' id='status_image' src='/custserv/images/indicator_smallwaitanim.gif' />",
+         "sZeroRecords": "No SAM Server Users match the search criteria.",
+         "sEmptyTable": "No users synced for this SAM Server."
+       },
+      "fnInitComplete": function(){this.fnSetFilteringDelay(500);},
+    } );
+        
+    // two things going on here:
+    //  1. debouncing resize for all browsers, don't fire a bunch of resize events milliseconds apart,
+    //     wait till they stop and act on the final one.
+    //  2. IE8 (and possibly other IE versions) has an issue where it throws constant window resize 
+    //     events when new data is loaded, which causes crippling performance propblems. doing hack
+    //     here to ignore the stream of fake resize events.
+    var currentWindowHeight = jQuery(window).height();
+    var currentWindowWidth = jQuery(window).width();
+    
+    jQuery(window).bind('debouncedresize', function( event ) {
+      if (jQuery.browser.msie) { // we could do this logic for all browsers, but only IE is an issue for now 
+        var newHeight = jQuery(window).height();
+        var newWidth = jQuery(window).width();
+        
+        if(newHeight != currentWindowHeight || newWidth != currentWindowWidth) { //IE was really resized, proceed
+          oTable.fnAdjustColumnSizing(false);
+          currentWindowHeight = newHeight;
+          currentWindowWidth = newWidth;
+        }
+        // else, IE lied to us!
+      }
+      else // we're trusting that other browsers work right, not interfering
+        oTable.fnAdjustColumnSizing(false);
+    });
+   
+  } );
+</script>
+
+<div style="overflow: auto">
+  <table class="data_table" id="sam_server_user_table" style="margin-bottom: 0px;">
+    <thead>
+      <tr class="data_table_first_row">
+        <th>SAM Server User ID</th>
+        <th>Type</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Auth User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Username</th>
+        <% if @current_user.hasPermission?(Permission.show_auth_password) %>
+          <th>Password</th>
+        <% end %>
+        <th>Enabled</th>
+        <th>District User ID</th>
+        <th>Clever ID</th>
+      </tr>
+    </thead>
+  </table>
+</div>

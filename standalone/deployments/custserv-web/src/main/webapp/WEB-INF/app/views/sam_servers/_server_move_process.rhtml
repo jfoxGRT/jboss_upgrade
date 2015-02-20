@@ -1,0 +1,7 @@
+<tr>
+	<td><%= server_move_process.started_at.strftime(DATE_FORM)%></td>
+	<td><%= server_move_process.completed_at.strftime(DATE_FORM)%></td>
+	<td class="standard_link_style"><%= link_to(server_move_process.name, sam_customer_sam_server_path(server_move_process.current_sam_customer_id, server_move_process.id)) %></td>
+	<td class="standard_link_style"><%= link_to(server_move_process.old_sam_customer, sam_customer_path(server_move_process.old_sam_customer_id))%></td>
+	<td class="standard_link_style"><%= link_to(server_move_process.new_sam_customer, sam_customer_path(server_move_process.new_sam_customer_id))%></td>
+</tr>

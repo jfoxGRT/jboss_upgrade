@@ -1,0 +1,218 @@
+<%
+  multiple_servers = (@sam_servers.length > 1)
+  subtitle = "#{@operation} SAM Server#{ multiple_servers ? 's' : '' }"
+  @page_title = "SAMC - #{subtitle}"
+  @sam_server = @sam_servers[0]
+  params[:id] = @sam_server.id
+%>
+
+<script type="application/javascript">
+
+  jQuery(document).ready(function() {
+    jQuery('#lcd_tasks_span').betterTooltip();
+    jQuery('#seat_activity_ids_span').betterTooltip();
+    jQuery('#plcc_tasks_span').betterTooltip();
+  } );
+  
+  
+  //these are to store the keep and discard counts for each row that the page rendered with.
+  //see _sam_server_pool.rhtml
+	var default_licenses_to_keep = [];
+	var default_licenses_to_discard = [];
+	
+	function swap_license_values(option) {
+    if (option == 1) {
+      $$('.licenses_to_keep').each(function(s) {
+        s.value = "0";
+      });
+      $$('.licenses_to_discard').each(function(s) {
+        s.update((s.previous(1).innerHTML));
+      })
+    }
+    else if (option == 2 || option == 3) {
+      var index=0;
+      $$('.licenses_to_keep').each(function(s) {
+        s.value = default_licenses_to_keep[index];
+        index++;
+      });
+      
+      index=0;
+      $$('.licenses_to_discard').each(function(s) {
+        s.update(default_licenses_to_discard[index]);
+        index++;
+      })
+    }
+    else {
+      $$('.licenses_to_keep').each(function(s) {
+        s.value = (s.up().previous().innerHTML);
+      });
+      $$('.licenses_to_discard').each(function(s) {
+        s.update("0");
+      })
+    }
+  }
+  
+  
+  function enable_all_text_boxes() {
+    var formCount = document.forms.length;
+    for (formIndex = 0; formIndex < formCount; formIndex++) {
+      var elementCount = document.forms[formIndex].elements.length;
+      for (elementIndex = 0; elementIndex < elementCount; elementIndex++) {
+        var element = document.forms[formIndex].elements[elementIndex];
+        if (element.type == "text")  element.disabled = false;
+      }
+    }
+  }
+
+</script>
+
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<% unless multiple_servers %>
+    <td><span class="breadcrumb_level"><%= link_to(@sam_server.name, sam_server_path(@sam_server)) %></span></td>
+    <td>&raquo;</td>
+  <% end %>
+	<td>
+		<span id="current_page_title"><%= subtitle %></span>
+	</td>
+	</tr>
+</table>
+
+<h1 style="margin-bottom: 10px; text-align: center">
+  <%= subtitle %>
+</h1>
+<hr/>
+<br/>
+
+<div align="center">
+
+	<% if @operation == "Move" %>
+		<h3 style="text-align: left;">Step #1 of 2</h3>
+		<br/>
+		<% if(@hosted_server_involved && !@current_user.hasScholasticPermission(Permission.find_by_code(Permission::CODE_MANAGE_SITEIDS))) %>
+			<span style="color: red;">You do not have permission to move all of these SAM Servers.</span>
+		<% else %>
+			Please confirm that you wish to move the SAM Server(s) listed below and that the appropriate customer admins are aware of this operation.<br/><br/>
+			<% if(@hosted_server_involved && @sam_customer.siteid) %>
+				<b>Important Note:</b>&nbsp;&nbsp;You will be moving a Hosted server from a <%= SAM_CUSTOMER_TERM %> that has a Hosted Site ID defined.&nbsp;&nbsp;This move operation
+				will move the Hosted Site ID at the source <%= SAM_CUSTOMER_TERM %> to the target <%= SAM_CUSTOMER_TERM %>.<br/><br/>
+			<% end %>
+			<% form_remote_tag(:url => url_for(:action => "look_up_new_sam_customer"), :before => "show_loading_msg('step2_container'); Effect.ScrollTo('step2_container', 0.4);") do %>
+				<%= hidden_field_tag(:sam_server_ids, @sam_server_id_list) %>
+				<span style="font-weight: bold; font-size: 12px;">Enter a new SAM EE Customer ID for these SAM Servers:&nbsp;</span><%= text_field_tag(:new_sam_customer_id) %>&nbsp;
+				<%= submit_tag("Lookup", :id => "lookup_button") %>
+				<br/>
+				<%= render(:partial => "sam_server_banner", :object => @sam_servers) %>
+			<% end %>
+			<br/>
+			<hr/>
+			<div id="step2_container"></div>
+			<div id="step3_container"></div>
+		<% end %>
+	<% elsif @operation == "Deactivate" %>
+    <%= render(:partial => "sam_server_banner", :object => @sam_servers) %>
+		<% unless @license_problems %>
+			<h3 style="text-align: left;">Select Action on License Counts</h3>
+			<br/>
+			<% form_remote_tag(:url => url_for(:action => :deactivate), :before => "enable_all_text_boxes(); Form.Element.disable('deactivate_servers_button'); show_loading_msg('step2_container'); Effect.ScrollTo('step2_container');") do -%>
+				<%= hidden_field_tag(:sam_server_ids, @sam_server_id_list) %>
+				<br/>
+				<b><%= multiple_servers ? 'Only default license handling is available when deactivating multiple servers.  Deactivate servers individually to enable other options.' : 'Please select an option for the license counts on this SAM Server:' %></b>
+        <br/>
+				<br/>
+				<table>
+          <tr><td style="border: 0px; padding: 0px;"><%= radio_button_tag(:license_counts_option, "3", true, {:disabled => multiple_servers, :onclick => "$$('.licenses_to_keep').invoke('disable'); swap_license_values(3);"})%>&nbsp;&nbsp;Discard virtual count, unallocate remainder (default)</td></tr>
+          <tr><td style="border: 0px; padding: 0px;"><%= radio_button_tag(:license_counts_option, "0", false, {:disabled => multiple_servers, :onclick => "$$('.licenses_to_keep').invoke('disable'); swap_license_values(0);"}) %>&nbsp;&nbsp;Unallocate Licenses</td></tr>
+          <tr><td style="border: 0px; padding: 0px;"><%= radio_button_tag(:license_counts_option, "1", false, {:disabled => multiple_servers, :onclick => "$$('.licenses_to_keep').invoke('disable'); swap_license_values(1);"})%>&nbsp;&nbsp;Subtract licenses from <%= SAM_CUSTOMER_TERM %>'s totals</td></tr>
+          <tr><td style="border: 0px; padding: 0px;"><%= radio_button_tag(:license_counts_option, "2", false, {:disabled => multiple_servers, :onclick => "$$('.licenses_to_keep').invoke('enable'); swap_license_values(2);"})%>&nbsp;&nbsp;Select number of licenses to keep with <%= SAM_CUSTOMER_TERM %></td></tr>
+        </table>
+        <br/>
+        Comment: <input id="comment" name="comment" size="80" type="text" />
+        <br/>
+				<% unless multiple_servers %>
+  				<br/>
+          <br/>
+  				<%= render(:partial => "splitting_licenses_on_server", :locals => {:sam_server_deactivation_info => @sam_server_deactivation_info, :enabled => false}) %>
+    			<br/>
+			  <% end %>
+			  <br/>
+			  <br/>
+			  <%= submit_tag("Deactivate", :id => "deactivate_servers_button", :confirm => ( multiple_servers ? 'Progress updates, as well as any server-specific error messages will not be available for multiple server deactivation. Proceed?' : false ) ) %>
+			<% end %> <!-- end of form -->
+			<br/>
+		<% else %> <!-- there are license problems -->
+			<span style="color: red;">You must resolve the following issues before proceeding:</span>
+			<br/>
+			<br/>
+			<% if @lcd_tasks.any? %>
+			  <% if multiple_servers %>
+				  <span id="lcd_tasks_span" title="Navigate to servers individually, or deactivate individually, to view the license count discrepancies." ><%= "License Count Discrepancies (#{@lcd_tasks.length})" %></span>
+				<% else %>
+				  <%= link_to("License Count Discrepancies (#{@lcd_tasks.length})", unassigned_license_count_discrepancies_path(:sam_customer_id => @sam_customer.id, :sam_server_id => @sam_server.id)) %>
+				<% end %>
+				<br/>
+				<br/>
+  		<% end %>
+  		<% if @lcip_tasks.any? %>
+        <%= link_to("License Count Integrity Problems (#{@lcip_tasks.length})", unassigned_license_count_integrity_problems_path(:sam_customer_id => @sam_customer.id)) %>
+        <br/>
+        <br/>
+      <% end %>
+      <% if @seat_activity_ids.any? %>
+        <% if multiple_servers %>
+          <span id="seat_activity_ids_span" title="Navigate to servers individually, or deactivate individually, to view the pending license transactions." ><%= "Pending License Transactions (#{@seat_activity_ids.length})" %></span>
+        <% else %>
+          <%= link_to("Pending License Transactions (#{@seat_activity_ids.length})", sam_customer_sam_server_seat_activities_path(@sam_customer.id, @sam_server.id)) %>
+        <% end %>
+        <br/>
+        <br/>
+      <% end %>
+      <% if @plcc_tasks.any? %>
+        <% if multiple_servers %>
+          <span id="plcc_tasks_span" title="Navigate to servers individually, or deactivate individually, to view the pending license count changes." ><%= "Pending License Count Changes (#{@plcc_tasks.length})" %></span>
+        <% else %>
+          <%= link_to("Pending License Count Changes (#{@plcc_tasks.length})", unassigned_pending_license_count_changes_path(:sam_customer_id => @sam_customer.id, :sam_server_id => @sam_server.id)) %>
+        <% end %>
+        <br/>
+        <br/>
+      <% end %>
+      <br/>
+		<% end %>  <!-- end of license problems check -->
+		<br/>
+		<hr/>
+		<br/>
+		<div id="step2_container" align="center" />
+  <% end %> <!-- end move vs deactivate check -->
+</div>
+<br/>
+<br/>
+<div align="center" >
+  <% if @current_user.hasScholasticPermission(Permission.cust_maint_functions) %>
+    <% form_tag :action => :cancelPendingReportRequests, :id => @sam_server.id  do %>
+     <%= submit_tag("Cancel Pending Report Requests", :confirm => 'Are you sure you want to cancel all pending report requests?', :disabled => !SamServer.servers_have_pending_reports?(@sam_servers) )%>
+    <% end %>
+    <br>
+    <% form_tag :action => :cancelScheduledUpdateRequests, :sam_server_ids => @sam_servers.collect{ |sam_server| sam_server.id } do %>
+     <%= submit_tag("Cancel Scheduled Update Requests", :confirm => 'Are you sure you want to cancel all scheduled update requests?', :disabled => !SamServer.servers_have_pending_scheduled_updates?(@sam_servers) )%>
+    <% end %>
+    <br>
+    <% form_tag :controller => :sam_customer_seat_activities, :action => :cancel_all_seat_activities, :seat_activity_ids => @seat_activity_ids, :operation => "Deactivate" do %>
+     <%= submit_tag("Cancel Pending License Transactions", :confirm => 'Are you sure you want to cancel all pending transaction requests?', :disabled => @seat_activity_ids.empty? ) %>     
+    <% end %>
+    <br>
+  <% end %> <!-- end permissions check -->
+</div>
+<br>
+<br>
+
+<script type="application/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading...&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span><br><br><br><br>");
+	}
+</script>

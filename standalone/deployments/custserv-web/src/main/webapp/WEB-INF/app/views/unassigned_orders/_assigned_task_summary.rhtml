@@ -1,0 +1,41 @@
+<% task = assigned_task_summary.task
+  puts "task: #{task.to_yaml}"
+ assigned_user = task.current_user   %>
+<table id="<%= task.id %>"  cellspacing="1" style="width: 100%;">
+		<tbody>
+      		<tr>
+				<td><%= assigned_task_summary.order_num %></td>
+				<td><%= assigned_task_summary.invoice_num %></td>
+				<td><%= task.created_at.strftime('%m/%d/%y') %><br/><%= task.created_at.strftime('%I:%M:%S %p ') %></td>
+				<td><%= assigned_user.first_name %> <%= assigned_user.last_name %></td>
+				<td><%= Time.parse(task.date_assigned).strftime('%I:%M:%S %p %m/%d/%y') %></td>
+				<td><%= assigned_task_summary.reason %></td>
+				<td><%= assigned_task_summary.bill_to_org_name %><br/>UCN:  <%= assigned_task_summary.bill_to_ucn %></td>
+				<td><%= assigned_task_summary.ship_to_org_name %><br/>UCN:  <%= assigned_task_summary.ship_to_ucn %></td>
+				<td>
+					<%= link_to("Release It", unassign_task_path(task.id), :method => :put) if (task.current_user.id == @current_user.id) %><br/>
+					<a href=# onClick='viewDetails("task_details_<%= task.id %>","<%= task.id %>")';>View Details</a>
+				</td>
+			</tr>
+			<!-- PUT TFOOT HERE -->
+			<tr style="visibility: hidden;display:none" id="task_details_<%= task.id %>">
+				<td colspan=9 style="border-bottom:0px;">
+					<table class="entitlementCat">
+						<tr>
+  							<td class="entitlement">Entitlement ID</td>
+							<td class="entitlement">TMS ID</td>
+							<td class="entitlement">Date Created</td>
+							<td class="entitlement"><%= PRODUCT_TERM %> Name</td>
+							<td class="entitlement">License Count</td>
+						</tr>
+					</table>
+					<%= render(:partial => "/tasks/assigned_task_entitlement", :collection => assigned_task_summary.entitlement_set) %>
+				</td>
+			</tr>
+			<tr id="server-submit-1" style="display:none">
+				<td align="center" colspan="9">
+					<input name="commit" type="submit" value="Save Changes"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>

@@ -1,0 +1,316 @@
+<% @page_title = "SAMC - SC-Licensing Activation Task" %>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function () {
+	
+		jQuery("input[name='other_reason_checkbox']").click(function(e) {
+			if (this.checked) {
+				document.getElementById("other_reason").disabled = false;
+				jQuery("textarea[name='other_reason']").removeAttr("disabled");
+				jQuery("textarea[name='other_reason']").show();
+				jQuery("textarea[name='other_reason']").focus();
+				jQuery("#task_action").text("Request Denied");
+			}
+			else {
+			    if(document.getElementById("not_here").value == "matched") {
+			        jQuery("#task_action").text("Request Approved");
+			    }
+			    else {
+			        jQuery("#task_action").text("Request Denied");
+			    }
+				document.getElementById("other_reason").disabled = true;
+				jQuery("textarea[name='other_reason']").hide()
+			}
+		});
+		
+	});
+
+</script>
+
+<% 	last_task_event = @task.last_task_event
+	date_assigned = last_task_event.created_at
+	assigning_user = last_task_event.source_user 
+	phone_number = @org_details.telephone_number
+%>
+
+<h1>Work Task</h1>    
+<div id="all-servers-table">
+	<% form_tag(sc_licensing_activation_path(@task.id), {:method => :put, :id => "task_resolution_form", :name => "alert_form"}) do %>
+	<!--<form name='task_resolution' id='task_resolution' >-->
+<!-- start of  Orders table -->
+
+<!-- active tasks list table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;">
+    	<thead>
+        	<tr class="parent">
+				<td >Active Task</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" >
+		<thead>
+        	<tr>
+     			<td style='width:25%;'>Task ID</td>
+				<td style='width:25%;'>Task Type</td>
+				<td style='width:25%;'>Date Assigned</td>
+				<td style='width:25%;'>Assigned By</td>
+			</tr>
+		</thead>
+	</table>
+
+<!-- start of tasks table query and result -->
+	<table id="5"  cellspacing="1" style="border:1px solid black;">
+		<tbody>
+      		<tr>
+				<td style='width:25%;'><%= @task.id %></td>
+				<td style='width:25%;'><%= @task.task_type.description %></td>
+				<td style='width:25%;'>
+					<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+				</td>
+				
+				<td style='width:25%;'><%= assigning_user.first_name %> <%= assigning_user.last_name %></td>
+			</tr>
+      		<!-- PUT TFOOT HERE -->
+			<tr>
+				<td colspan=2 style="border-bottom:0px;">
+				<!-- start of details area for selected active task -->
+					<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+        					<tr class="parent"  >
+          						<td style="background:#99A36B;">Task Details</td>
+        					</tr>
+      					</thead>
+    				</table>
+					<table id="4250712"  cellspacing="1" style="margin-top:5px;width:98%;">
+						<tbody>
+							<tr>
+								<td style="width:13%" class='workDetails'><%= SAM_CUSTOMER_TERM %>:</td>
+                 				<td style="width:37%" class='basicModallink'>
+                 					<%= link_to(@org_details.org_name, show_summary_info_for_org_path(@org_details.ucn), :id => @org_details.ucn) %>
+									<br>UCN: <%= @org_details.ucn %><br>
+				 					<%= @org_details.city_name %>, <%= @org_details.state_code %> <%= @org_details.zip_code %><br>
+				 					County Code: <%= @org_details.county_code %>
+                 				</td>
+		                		<td style="width:15%" class='workDetails' class='basicModallink'>Main Phone Number:</td>
+	 		                 	<td style="width:35%" class='basicModallink'>
+	 		                 		<% if phone_number %>	
+									<%= "(#{phone_number.slice(0,3)})#{phone_number.slice(3,3)}-#{phone_number.slice(6,4)}" if phone_number %>
+									<% else %>
+										&nbsp;
+									<% end %>
+				         		</td>
+        					</tr>
+      						<tr>
+             					<td class='workDetails'>SC Admin Who Made The Request:</td>
+        						<td>
+        							<% if(@requesting_user) %>
+	        							<%= @requesting_user.first_name %> <%= @requesting_user.last_name %><br/>
+	        							<%= @requesting_user.email %><br/>
+	        							Phone: <%= @requesting_user.phone %>
+	        						<% elsif(@creator_name)%>
+                                        <%= @creator_name.value %> <br />
+                                        Title: <%= @title.value %> <br/>
+                                        Phone: <%= @telephone_num.value %>
+	        						<% else %>
+	        							&nbsp;
+	        						<% end %>
+								</td>
+            					<td class='workDetails'>Number Of Registered SAM Servers:</td>
+          						<td><%= @sam_customer.number_of_active_sam_servers %></td>
+        					</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#999;"> Task History</td>
+		        			</tr>
+      					</thead>
+    				</table>
+		    		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+						<tr class='workDetails'>
+							<td  colspan=4 >The following C/S representatives have worked this task:	 </td>
+		       			</tr>
+		      			<tr class='workDetails'>
+		             		<td class='workDetails' style='width:25%;'>C/S Rep:</td>
+							<td class='workDetails'style='width:15%;'>Take</td>
+		
+		 					<td class='workDetails' style='width:15%;'>Released</td>
+		          			<td class='workDetails' style='width:45%;'>Comments</td>
+		
+		        		</tr>
+		              	<tr class='workDetails'>
+		
+				        	<td ><%= @current_user.first_name %> <%= @current_user.last_name %></td>
+		
+		
+				        	<td><%= date_assigned.strftime('%m/%d/%y') %>
+                					<br/>
+                				<%= date_assigned.strftime('%I:%M:%S %p') %>
+							</td>
+		
+							<td> <span class="release_link"  id="3_<%= @task.id %>" href="<%= unassign_task_path(:id => @task.id, :target_user_id => @current_user.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span></td>
+		
+		 			 		<td id='commentModallink'><!--<a href='#' id=67_4815 style='display:block' >View/Add Comments</a>-->&nbsp;</td>        
+						</tr>
+		  			</table>
+		
+		
+					<!-- end of details area for selected active task-->
+				</td>
+				<td colspan=2 style="border-bottom:0px;">
+					<!--start of task tools areas for selected active task -->
+		              
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		      			<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#666;"> Schools Matched?</td>
+		        			</tr>
+		      			</thead>
+		    		</table>
+                    <table cellspacing="0" style="margin-top:5px;width:98%;" id="task_edit">
+                        <tbody>
+                            <tr class='workDetails'>
+                                <% if(!@unmatched_schools.empty?) %>
+                                <td>You have unmatched schools. You cannot approve this request until all schools are matched.
+                                    <input type="hidden" name="not_here" id="not_here" value="unmatched">    
+                                </td>
+                                <% else %>
+                                <td>All schools are matched. You may approve this request.
+                                    <input type="hidden" name="not_here" id="not_here" value="matched">
+                                </td>
+                                <%end%>
+                            </tr>
+                            <tr style="display: none">
+                                <td>
+                                	<input type="hidden" name="sync_steps_status_link" value="<%= sync_steps_status_for_sc_licensing_activation_path %>" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		  				<thead>
+		    				<tr class="parent"  >
+		      					<td style="background:#CC6600;">Task Resolution</td>
+		    				</tr>
+		  				</thead>
+		
+					</table>
+		
+					<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_resolve">
+						<tr class='workDetails'>
+							<td  colspan=2 >Please complete the task when ready.</td>
+		
+		    			</tr>
+		  				<tr class='workDetails'>
+		
+		         			<td class='workDetails' style='width:50%; vertical-align:top'>
+								<div id="action_container" style="margin:0px;padding:0px;">Action:<br/><br/>
+									
+		        					<div id="reason_for_action" style='margin: 0px; padding: 0px; font-weight:normal'>
+		        					    <% if(!@unmatched_schools.empty?) %>
+		        					         <span id="task_action">Request Denied</span><br/><br/>
+		        					    <%else%>
+		        					         <span id="task_action">Request Approved</span><br/><br/>
+		        					    <%end%>          
+									</div>
+									<%= check_box_tag("other_reason_checkbox") %>&nbsp;Deny Request for other reasons<br/><br/>
+									<textarea name="other_reason" id="other_reason" rows="6" cols="24" disabled="disabled" style="display: none;"></textarea>
+								</div>
+								<input type=hidden name='task_page_path' value="<%= edit_task_path(@task.id) %>" />
+								<input type="hidden" name="number_boxes_checked" value="0" />
+							</td>
+							<td class='workDetails'  style='width:50%;vertical-align:top'>
+								<div class='buttons'>
+				 					<div class='resolve' style="padding-top:8px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Complete Task</div>
+								</div>
+		         			</td>
+		
+		
+		
+		    			</tr>
+					</table>
+		
+		
+				
+		
+		
+		
+			<!-- end of task tooks area for selected active task -->
+		
+				</td>
+		
+			</tr>
+		</tbody>
+		
+	</table>
+		
+		
+		<!-- end of active tasks list table -->
+		
+		
+		
+		<!-- end of Orders table -->
+	<% end %>
+	<!--</form>-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

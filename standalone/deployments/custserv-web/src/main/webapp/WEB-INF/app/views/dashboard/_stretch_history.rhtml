@@ -1,0 +1,15 @@
+<tr>
+          <!-- <td><%= link_to(stretch_history.samCustomerUcn, {:action => :goto_sam_cust_via_ucn, :ucn => stretch_history.samCustomerUcn }) %></td> -->
+          <td><%= link_to(stretch_history.samCustomerUcn, conv_export_master_batch_path(stretch_history.batchNumber, :ucn => stretch_history.samCustomerUcn)) %></td>
+          <td><%= link_to(stretch_history.batchNumber, conv_export_master_batch_path(stretch_history.batchNumber)) %></td>
+  		  <td style="color: <%= (stretch_history.status=='e') ? 'red' : 'black' %>">
+              <%=h stretch_history.statusDesc %></td>
+          <td><%=h (stretch_history.statusDate.nil?) ? "" : stretch_history.statusDate %></td>
+          <td><%=h stretch_history.archive %></td>
+          <td><%=h stretch_history.loaded %></td>
+          <td><%=h (stretch_history.nextAttemptAt.nil?) ? "" : stretch_history.nextAttemptAt %></td>
+          <td><%=h (stretch_history.lastAttemptedAt.nil?) ? "" : stretch_history.lastAttemptedAt %></td>
+          <td><%=h (stretch_history.finalTryAfterDate.nil?) ? "" : stretch_history.finalTryAfterDate %></td>
+          <td><%=h stretch_history.createdAt %></td>
+          <td><%=h stretch_history.updatedAt %></td>
+</tr>

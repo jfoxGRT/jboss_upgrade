@@ -1,0 +1,32 @@
+<table id="<%= unassigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:5%;">
+                <%= unassigned_task_summary.id %>
+            </td>
+            <td style="width:5%;">
+                <%= unassigned_task_summary.priority %>
+            </td>
+			<td style="width:8%;">
+                <%= unassigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= unassigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <td class="standard_link_style" style="width:14%;">
+                <%= link_to(unassigned_task_summary.sam_customer_name, sam_customer_path(unassigned_task_summary.sam_customer_id)) %>
+            </td>
+            <td style="width:8%;">
+                <%= unassigned_task_summary.state_name %>
+            </td>
+            <td style="width:11%;">
+				<%= unassigned_task_summary.subcommunity_name %>
+			</td>
+            <td style="width:7%;">
+                <%= render(:partial => "/tasks/unassigned_task_links", :locals => {:task => unassigned_task_summary, 
+            																		:unassigned_task_list_path => unassigned_license_count_integrity_problems_path,
+            																		:edit_task_path => edit_license_count_integrity_problem_path(:id => unassigned_task_summary.id),
+            																		:view_details => false}) %>
+            </td>
+		<%#= render(:partial => "view_details", :locals => {:colspan => 7, :unassigned_task_summary => unassigned_task_summary}) %>
+    </tbody>
+</table>

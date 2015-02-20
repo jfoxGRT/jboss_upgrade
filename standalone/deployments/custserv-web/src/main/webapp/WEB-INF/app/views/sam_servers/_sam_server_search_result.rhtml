@@ -1,0 +1,23 @@
+<%
+  def get_transition_request_string(sam_server_search_result)
+		transition_request_string = nil
+    transition_request_string = ("Flagged for Deactivation by " + sam_server_search_result["email"]) if sam_server_search_result["email"]
+    transition_request_string += (": \"" + sam_server_search_result["comment"] + "\"") if (sam_server_search_result["comment"] && !sam_server_search_result["comment"].empty?)
+		return transition_request_string
+  end
+%>
+
+<tr>
+	<td><%= link_to(sam_server_search_result.id, sam_customer_sam_server_path(sam_server_search_result.sam_customer_id, sam_server_search_result.id)) %></td>
+	<td><%= sam_server_search_result.name %></td>
+	<td><%= sam_server_search_result.created_at.strftime(DATE_FORM)  if sam_server_search_result.created_at %></td>
+  <td><%= sam_server_search_result["value"] %></td>
+	<td><%= sam_server_search_result.get_display_status %></td>
+	<td><%= link_to(sam_server_search_result.sam_customer_id, sam_customer_path(sam_server_search_result.sam_customer_id)) %></td>
+	<td><%= (sam_server_search_result["agent_id"].nil?) ? "" : link_to(sam_server_search_result["agent_id"], agent_path(sam_server_search_result["agent_id"])) %></td>
+	<td><%= sam_server_search_result.sam_customer_name %></td>
+	<td><%= sam_server_search_result.ucn %></td>
+  <td><%= sam_server_search_result.guid %></td>
+  <td><%= sam_server_search_result["code"] %></td>
+  <td><%= get_transition_request_string(sam_server_search_result) %></td>
+</tr>

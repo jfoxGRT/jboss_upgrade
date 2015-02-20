@@ -1,0 +1,2 @@
+module SchoolEnrollmentSeatPoolsHelper
+end

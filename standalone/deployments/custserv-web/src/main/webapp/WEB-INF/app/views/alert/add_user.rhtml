@@ -1,0 +1,50 @@
+<%= render(:partial => "no_user_assign_nav", :object => @chosen_alert_instance)%>
+
+<script type="text/javascript">
+    
+    function validateAndSubmit() {
+        
+            firstName = document.getElementById("user_first_name").value
+            lastName = document.getElementById("user_last_name").value
+            email = document.getElementById("user_email").value
+            
+            valid = true;
+            
+            if ((firstName == null || firstName == "") || (lastName == null || lastName == "") ||
+                (email == null || email == ""))
+                valid = false;
+            
+            if (valid == false) {
+                alert("You must fill out all the required information.");
+                return false;
+            }
+            
+            showSubmitIndicator();
+            return true;
+        }
+</script>
+<div id="alert_instructions" align="center">A primary contact person at the customer account needs to be added.&nbsp;&nbsp;Please contact 
+the account and submit appropriate information for this person.  Please inform him/her that all SAM Servers should be registered with SAM
+Connect by <%= getSamCustomerCutoverDate(@chosen_alert_instance.sam_customer) %>.</div>
+
+
+<%= error_messages_for :user %>
+<% form_for(:user, :url => { :action => "new_user" }, :html => {:onsubmit => "return validateAndSubmit();"}) do |f| -%>
+<%= f.hidden_field(:alert_instance_id, :value => @chosen_alert_instance.id)%>
+<table align="center" border="0" class="form_table" style="margin-top: 20px;">
+    <tr>
+        <td class="label_cell"><label for="first_name">First Name:</label></td>
+        <td><%= f.text_field :first_name %></td>
+        <td class="label_cell"><label for="last_name">Last Name:</label></td>
+        <td><%= f.text_field :last_name %></td>
+    </tr>
+    <tr>
+        <td class="label_cell"><label for="email">Email Address:</label></td>
+        <td><%= f.text_field :email %></td>
+        <td class="label_cell" colspan="2"></td>
+    </tr>
+</table>
+<p align="center"><%= submit_tag("Add User") %></p>
+<div id="submit_indicator" align="center" style="padding-top: 10px; color: red; display: none;">Please wait..</div>
+<% end -%>
+<script type="text/javascript"> document.getElementById("user_first_name").focus();</script>

@@ -1,0 +1,58 @@
+<% @page_title = "SAMC - Licensing Activation" %>
+
+<% if (@sam_customer.sc_licensing_activated) %>
+
+
+<div>
+	This customer has somehow already been activated for SC-Licensing.  Please report this to a SAM Connect administrator.
+</div>
+
+
+<% else %>
+
+<h3>SC-Licensing Activation for:&nbsp;&nbsp; <%= @sam_customer.name %></h3>
+<table class="data_table" style="text-align: left; margin-bottom: 30px;">
+	<tr>
+		<td style="font-weight: bold;">Number of SAM Servers</td>
+		<td><%= @sam_customer.number_of_sam_servers %></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold;">Number of Entitlements</td>
+		<td><%= @sam_customer.number_of_entitlements %></td>
+	</tr>
+</table>
+
+<div align="center" style="margin-bottom: 30px;">
+	<script type="text/javascript">
+    	confirm_message = "Are you sure you wish to activate this customer for Sc-Licensing?  If you click OK, then the entitlement license counts will be synchronized with the counts reported from the servers.";
+	</script>   
+	</script>
+	<% if (@syncable) %>
+	<%= button_to("Activate SC-Licensing for #{@sam_customer.name.strip}", task_path(@task.id), {:method => :put, :onclick => "return confirmAndShowStatus('submit_tag', confirm_message)", :id => "submit_tag"}) %>
+	<% else %>
+	<%= button_to("Activate SC-Licensing for #{@sam_customer.name.strip}", "", {:disabled => "disabled", :id => "submit_tag"}) %><br/>
+	<span style="color: red; font-size: 12px;">There are one or more products for which the internal license counts are not consistent.  Please notify a SAMC Administrator.  You will not be able to activate this <%= SAM_CUSTOMER_TERM %> for License Manager
+	until all products' license counts are consistent.</span>
+	<% end %>
+</div>
+<div style="height: 1.5em; margin-bottom: 1em;">&nbsp;<span id="status_indicator" style="vertical-align: middle; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</span></div>
+
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Subcommunity</th>
+            <th>Total Count From SAM Servers</th>
+			<th>Total Entitlement Count</th>
+			<th>Difference</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "la_subcommunity_scale", :collection => @license_count_comparisons, :locals => {:sam_customer => @sam_customer}) %>
+    </tbody>
+</table>
+
+
+<% end %>

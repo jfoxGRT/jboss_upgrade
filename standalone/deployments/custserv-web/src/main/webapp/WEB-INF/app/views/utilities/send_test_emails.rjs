@@ -1,0 +1,3 @@
+page["step2_container"].replace_html(:partial => "/utilities/step2_send_test_emails", :locals => {:failure => @failure, :failure_reason => @failure_reason})
+
+page["send_emails_button"].enable

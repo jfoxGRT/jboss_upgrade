@@ -1,0 +1,41 @@
+<h1>Documentation Items</h1>
+<%= link_to 'New Document Item', new_doc_item_path %>
+<br />
+<br />
+
+<table class="data_table">
+  <thead>
+    <tr>
+      <th>Ref #</th>
+      <th>User Type</th>
+      <th>Question</th>
+      <th>Publish Status</th>      
+      <th colspan=3>Actions</th>
+    </tr>
+  </thead>
+
+<% for doc_item in @doc_items %>
+  <tbody>
+    <tr>
+      <td><%= doc_item.ref_number %></td>
+      <td><%=doc_item.user_types.short_desc %></td>
+      <td style="text-align: left;"><%= doc_item.question %></td>
+      <td><%= doc_item.publish_status_text %></td>
+      <td><%= link_to 'Show', doc_item %></td>
+      <td><%= link_to 'Edit', edit_doc_item_path(doc_item) %></td>
+      <td><%= link_to 'Delete', doc_item, :confirm => 'Are you sure you want to delete this document item?', :method => :delete %></td>
+    </tr>
+  </tbody>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Document Item', new_doc_item_path %>
+
+<br />
+<br />
+
+
+
+

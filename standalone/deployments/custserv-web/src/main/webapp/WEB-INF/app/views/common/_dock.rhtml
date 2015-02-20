@@ -1,0 +1,14 @@
+<ul id="dock">
+	<% #I took out the tasks stuff that was commmented out here to save page load speed, it's in git if we need it back - MOD %>
+	<% sam_customers_docked = (session[:sam_customers_dock_status] && session[:sam_customers_dock_status] == 1) %>
+	<li id="sam_customers">
+        <ul id="dock_code_SC" class="<%= sam_customers_docked ? 'docked' : 'free' %> dock_panel" style="overflow: scroll;">
+            <li class="header dock_block">
+				<a href="#" class="dock" <%= sam_customers_docked ? 'style="display: none;"' : '' %>>Dock</a>
+				<a href="#" class="undock" <%= !sam_customers_docked ? 'style="display: none;"' : '' %>>Undock</a>
+				SAM Customers
+			</li>
+			<%= render(:partial => "common/sam_customers_dock") %>
+       </ul>
+    </li>
+</ul>

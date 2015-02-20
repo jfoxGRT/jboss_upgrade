@@ -1,0 +1,57 @@
+<% @page_title = "SAMC - Scholastic User Activity" %>
+<script type="text/javascript" charset="utf-8">
+
+    function showTaskDetailsPopup(taskid) {
+        jQuery('#task_details_popup').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+        jQuery("#task_details_popup").dialog({
+            modal: true,
+            width: 600,
+            height: 600
+        });
+        jQuery.get('/tasks/get_task_details?task_id=' + taskid, function(data) {
+            jQuery('#task_details_popup').html(data); 
+        });
+        return true;
+    }
+</script>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title" style="margin-bottom: 30px;"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Scholastic User Activity</h2>
+	<span class="super_caption">Licensing Activations</span>
+</div>
+<table class="data_table">
+	<tr>
+		<th>Licensing Activation ID</th>
+		<th>Performed At..</th>
+		<th>Performed By..</th>
+		<th>-</th>
+	</tr>
+	<%= render(:partial => "licensing_activation", :collection => @licensing_activations) %>
+</table>
+
+<div id="task_details_popup" title="">
+</div>
+<div class="table_header">
+	<span class="super_caption">Tasks</span>
+</div>
+<table class="data_table">
+	<tr>
+		<th>Task ID</th>
+		<th>Task Type</th>
+		<th>State / Province</th>
+		<th>Created At</th>
+		<th>Status</th>
+		<th>Current Assigned User</th>
+		<th>-</th>
+	</tr>
+	<%= render(:partial => "task", :collection => @tasks) %>
+</table>

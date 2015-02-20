@@ -1,0 +1,7 @@
+<tr>
+	<td><%= nsa_details.id %></td>
+	<td><%= nsa_details.priority %></td>
+	<td><%= sam_customer.id %></td>
+	<td><%= sam_customer.name %></td>
+	<td><%= button_to("Cancel", unassign_task_path(nsa_details.id), {:method => :get}) %></td>
+</tr>

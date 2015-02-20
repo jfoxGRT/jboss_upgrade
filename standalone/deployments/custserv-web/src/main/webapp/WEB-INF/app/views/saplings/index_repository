@@ -1,0 +1,18 @@
+<h1>Sapling Repository</h1>
+<div class="cs_loading_indicator_container">&nbsp;
+  <%= generateAjaxIndicator("users_status_indicator") %>
+</div>
+<div>
+  <a href="/commander/sapling-repository/reindex" target="_blank">Reindex Sapling Repository</a>&nbsp;&nbsp;
+  <% if (current_user.isAdminType) %>
+  <%= link_to("Custom Targeting Utility", {:controller => :saplings, :action => :index_custom_targeting}) %>&nbsp;&nbsp;
+  <%= link_to("SQL Batch Targeting Utility", {:controller => :saplings, :action => :index_batch_targeting}) %>&nbsp;&nbsp;
+  <%end%>
+</div>
+<br>
+<div id="saplings_table">
+<%= render(:partial => "saplings_info", :locals => {:saplings_collection => @saplings,
+                                                 	:current_user => @current_user,
+                                                 	:status_indicator => "users_status_indicator",
+                                                 	:update_element => "saplings_table"}) %>
+</div>

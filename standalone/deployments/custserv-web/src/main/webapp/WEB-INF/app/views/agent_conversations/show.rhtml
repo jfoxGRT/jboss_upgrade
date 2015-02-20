@@ -1,0 +1,166 @@
+<%  @page_title = "SAMC Conversations" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => SAM_SERVERS_CODE, :on_target => nil}) %>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to("Agent: #{@agent.id}", agent_path(@agent.id)) %></span>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to("Conversations", agent_conversations_path(@agent.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Conversation: <%= @conversation.id %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Conversation: <%= @conversation.id %></h2>
+</div>
+<table class="property_table" style="margin-top: 20px;">
+	<tr>
+		<td>Conversation Instance ID</td>
+		<td><%= @conversation.id %></td>
+	</tr>
+	<tr>
+		<td>Adapter Identifier</td>
+		<td><%= @conversation.adapter_identifier %></td>
+	</tr>
+	<tr>
+		<td>Created</td>
+		<td><%= (@conversation.created_at.nil?) ? "" : @conversation.created_at.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Updated</td>
+		<td><%= (@conversation.updated_at.nil?) ? "" : @conversation.updated_at.strftime(DATE_FORM) %></td>
+	</tr>
+
+	<tr>
+		<td>Conversation Identifier</td>
+		<td><%= @conversation.conversation_identifier %></td>
+	</tr>
+	<tr>
+		<td>Started</td>
+		<td><%= (@conversation.started.nil?) ? "not started" : @conversation.started.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Completed</td>
+		<td><%= (@conversation.completed.nil?) ? "not completed" : @conversation.completed.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Result Type</td>
+		<td><%= @conversation.result_type.name %></td>
+	</tr>
+	<tr>
+		<td>Result Message</td>
+		<td><%= @conversation.result_msg %></td>
+	</tr>
+	<tr>
+		<td>Retry Timeout</td>
+		<td><%= (@conversation.retry_timeout_end.nil?) ? "" : @conversation.retry_timeout_end.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Result Parent Conversation ID</td>
+		<td><%= @conversation.retry_parent_conversation_instance_id %></td>
+	</tr>
+	<tr>
+		<td>Result Original Conversation ID</td>
+		<td><%= @conversation.retry_original_conversation_instance_id %></td>
+	</tr>
+	<tr>
+		<td>Conversation Priority</td>
+		<td><%= @conversation.priority %></td>
+	</tr>
+	<tr>
+		<td>Express Conversation?</td>
+		<td><%= @conversation.express_conversation %></td>
+	</tr>
+	<tr>
+		<td>Ignore Conversation?</td>
+		<td><%= (@conversation.ignore_conversation.nil?) ? "-" : @conversation.ignore_conversation %></td>
+	</tr>
+	<tr>
+		<td>Embargo Until</td>
+		<td><%= (@conversation.embargo_until.nil?) ? "" : @conversation.embargo_until.strftime(DATE_FORM) %></td>
+	</tr>
+
+	<tr>
+		<td>Expiration Date</td>
+		<td style="color: <%= (@conversation.expiration_date.nil? || (@conversation.expiration_date > DateTime.now)  ||  (@conversation.result_type.code!='N')) ? 'black' : 'red' %>">
+          <%= (@conversation.expiration_date.nil?) ? "" : @conversation.expiration_date.strftime(DATE_FORM) %>
+        </td>
+	</tr>
+
+
+
+
+
+
+
+
+
+
+	<% if(!@conversation.async_activity.nil?) %>
+	  <tr>
+		<td>Conversation AsyncActivity</td>
+		<td>
+          <%= link_to(@conversation.async_activity.id, async_activity_path(@conversation.async_activity.id, :convo_id => @conversation.id)) %>
+          <br/>Status: <%= (@conversation.async_activity.status.nil? ? "-" : @conversation.async_activity.status.name) %>
+          <br/>Handled On: <%= (@conversation.async_activity.handled_on.nil? ? "unhandled" : @conversation.async_activity.handled_on.strftime(DATE_FORM)  ) %>
+        </td>
+	  </tr>
+	<% end %>
+
+
+
+
+
+</table>
+<div class="link_set">
+	<%= link_to("Alert Instances", agent_conversation_alerts_path(@agent.id, @conversation.id)) %><br/>
+  <% # TODO: Related Agent Events removed from here, as we no longer keep that data in the scholastic database and it
+     # was a performance problem even to get very old data. if needed, implement something tied into SCAT here instead.
+	%>
+</div>
+<div class="table_header">
+	<h3 class="table_title">Conversation Variables</h3>
+</div>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Conversation Variable ID</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Additional Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "conversation_variable", :collection => @conversation.conversation_instance_variables) %>
+    </tbody>
+</table>
+
+<div class="table_header">
+	<h3 class="table_title">Conversation States</h3>
+	<span class="super_caption">Current State: <%= (@conversation.conversation_current_state.nil?) ? "-" : @conversation.conversation_current_state.conversation_state_instance.state_identifier %></span>
+</div>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>State ID</th>
+        <th>State Identifier</th>
+        <th>Command ID</th>
+        <th>Plugin ID</th>
+        <th>Success?</th>
+        <th>Created At</th>
+        <th>Entered</th>
+        <th>Exited</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "conversation_state", :collection => @conversation.conversation_state_instances,
+					:locals => {:agent_id => @agent.id, :conversation_id => @conversation.id}) %>
+    </tbody>
+</table>
+</div>

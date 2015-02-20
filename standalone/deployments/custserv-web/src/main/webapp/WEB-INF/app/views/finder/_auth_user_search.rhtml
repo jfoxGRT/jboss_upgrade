@@ -1,0 +1,93 @@
+<script>
+        jQuery(function() {
+                jQuery( "#created_at_start_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#created_at_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<% form_for(:auth_user, :url => {:controller => "auth_users", :action => "search"}, :html => {:id => "auth_user_form", :name => "auth_user_form"}) do |f| -%>
+<table style="width:100%; margin-top: 20px;" class="search_table">
+  <tr>
+    <td colspan="4" style="text-align: center;"><h3>Auth User Search</h3></td>
+  </tr>
+  <tr>
+    <td class="label_cell"><label for="id">Auth User ID</label></td>
+    <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:id, {:id => "id"}) %></td>
+    <td class="label_cell"><label for="sam_customer_id">SAM Customer ID</label></td>
+    <td class="field_cell"><%= f.text_field(:sam_customer_id, {:id => "sam_customer_id"}) %></td>
+  </tr>
+  <tr>
+    <td class="label_cell"><label for="sam_customer_name">SAM Customer Name</label></td>
+    <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:sam_customer_name, {:id => "sam_customer_name"}) %></td>
+    <td class="label_cell"><label for="sam_customer_name">Customer UCN</label></td>
+    <td class="field_cell"><%= f.text_field(:customer_ucn, {:id => "customer_ucn"}) %></td>
+  </tr>
+  <tr>
+    <td class="label_cell"><label for="username">Username</label></td>
+    <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:username, {:id => "username"}) %></td>
+    <td class="label_cell"><label for="first_name">First Name</label></td>
+    <td class="field_cell"><%= f.text_field(:first_name, {:id => "first_name"}) %></td>
+  </tr>
+  <tr>
+    <td class="label_cell"><label for="last_name">Last Name</label></td>
+    <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:last_name, {:id => "last_name"}) %></td>
+    <td class="label_cell"><label for="email">Email</label></td>
+    <td class="field_cell"><%= f.text_field(:email, {:id => "email"}) %></td>
+  </tr>
+  <tr>
+	<td class="label_cell"><label for="type">Type</label></td>
+	<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:type, auth_user_type_list) %></td>
+	<td class="label_cell"><label for="type">Related School UCN</label></td>
+	<td class="field_cell"><%= f.text_field(:school_ucn, {:id => "school_ucn"}) %></td>
+	</tr>
+	<tr>
+		<td class="label_cell"><label for="type">Related SAM Server ID</label></td>
+		<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:sam_server_id, {:id => "sam_server_id"}) %></td>
+		<td class="label_cell"><label for="type">Related SAM Server Name</label></td>
+		<td class="field_cell"><%= f.text_field(:sam_server_name, {:id => "sam_server_name"}) %></td>
+	</tr>
+  <tr>
+    <td class="label_cell">
+      <label for="em_generated_date">Created Between</label>
+    </td>
+    <td class="field_cell" colspan="3">
+      <%= f.text_field(:created_at_start, {:id => "created_at_start_field", :style => "width: 30%;"}) %>
+      <span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+      <%= f.text_field(:created_at_end, {:id => "created_at_end_field", :style => "width: 30%;"}) %>
+    </td>
+  </tr>
+  <tr>
+   <td class="label_cell">
+      <label for="em_uuid">UUID</label>
+    </td>
+    <td class="field_cell" colspan="3">
+      <%= f.text_field(:uuid)%>
+    </td>
+
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+    <td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+                    jQuery("#auth_user_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+<% end %>

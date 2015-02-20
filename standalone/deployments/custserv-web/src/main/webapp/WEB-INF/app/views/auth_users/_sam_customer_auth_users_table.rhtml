@@ -1,0 +1,104 @@
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery.dataTables.api.min.js" %>
+<%= javascript_include_tag "Scroller.min.js" %>
+<%= javascript_include_tag "jquery/jquery.debouncedresize.min.js" %>
+
+<script type="text/javascript" charset="utf-8">
+  var lastReloadMillis = (new Date()).getTime();
+  jQuery(document).ready(function() {
+    var oTable = jQuery("#auth_users_table").dataTable( {
+      "sScrollY": "700px",
+      "sAjaxSource": "../update_auth_users_table_data/" + <%= sam_customer_id %>,
+      "bServerSide": true,
+      "sDom": "frtiS",
+      "bDeferRender": true,
+      "bProcessing": true,
+      "bCollapse": true,
+      "bScrollCollapse": true,
+      "bAutoWidth": false,
+      "oLanguage": {
+         "sProcessing": "<span style='font-size: 16px;'>Fetching Auth Users... </span> <img alt='Indicator_smallwaitanim' id='status_image' src='/custserv/images/indicator_smallwaitanim.gif' />",
+         "sZeroRecords": "No Auth Users match the search criteria.",
+         "sEmptyTable": "This SAM Customer has no Auth Users."
+       },
+      "aoColumnDefs": [
+          { 'bSortable': false, 'aTargets': [ 8,9 ] } //turn off click-to-sort on rightmost 2 columns
+       ],
+      "fnInitComplete": function(){this.fnSetFilteringDelay(500);},
+      "fnServerData": function (sSource, aoData, fnCallback) {
+        aoData.push({ "name": "includeEmptyAuthUsers", "value": document.getElementById("includeEmptyAuthUsers").checked });
+        jQuery.getJSON(sSource, aoData, function (json) {
+        fnCallback(json);
+      });
+      },
+    } );
+        
+    // debouncing multiple captured checkbox click events that result from datatable redrawing, not sure of cause
+    jQuery("#includeEmptyAuthUsers").click( function () {
+      currentMillis = (new Date).getTime();
+      if(currentMillis - lastReloadMillis < 200) { // if there has already been an event caught in the last 200 milliseconds
+        // a reload was just requested and is in progress, do nothing
+      }
+      else {
+        oTable.fnReloadAjax(); // reload the datatable since the user changed whether to show empty auth users or not, external filter
+        lastReloadMillis = (new Date()).getTime();
+      }
+    } );
+        
+    // two things going on here:
+    //  1. debouncing resize for all browsers, don't fire a bunch of resize events milliseconds apart,
+    //     wait till they stop and act on the final one.
+    //  2. IE8 (and possibly other IE versions) has an issue where it throws constant window resize 
+    //     events when new data is loaded, which causes crippling performance propblems. doing hack
+    //     here to ignore the stream of fake resize events.
+    var currentWindowHeight = jQuery(window).height();
+    var currentWindowWidth = jQuery(window).width();
+    
+    jQuery(window).bind("debouncedresize", function( event ) {
+      if (jQuery.browser.msie) { // we could do this logic for all browsers, but only IE is an issue for now 
+        var newHeight = jQuery(window).height();
+        var newWidth = jQuery(window).width();
+        
+        if(newHeight != currentWindowHeight || newWidth != currentWindowWidth) { //IE was really resized, proceed
+          oTable.fnAdjustColumnSizing(false);
+          currentWindowHeight = newHeight;
+          currentWindowWidth = newWidth;
+        }
+        // else, IE lied to us!
+      }
+      else // we're trusting that other browsers work right, not interfering
+        oTable.fnAdjustColumnSizing(false);
+    });
+    
+    // the tooltip for the "Include Empty Auth Users" checkbox
+    jQuery("#includeEmptyAuthUsersLabel").betterTooltip();
+  } );
+</script>
+
+<div align="center">
+  <%= link_to("Export Table to CSV", {:action => "export_auth_users_customer_page_to_csv"}) %>
+</div>
+<div align="right">
+  <label id="includeEmptyAuthUsersLabel" title="Show or Hide Auth Users whose SAM Server User(s) have been deleted">Include Empty Auth Users</label>
+  <input id="includeEmptyAuthUsers" name="includeEmptyAuthUsers" type="checkbox" />
+</div>
+
+<div style="overflow: auto">
+  <table class="data_table" id="auth_users_table" style="margin-bottom: 0px;">
+    <thead>
+      <tr class="data_table_first_row">
+        <th>Auth User ID</th>
+        <th>Username</th>
+        <th>Type</th>
+        <th>Created</th>
+        <th>Last Updated</th>
+        <th>Profile Merge</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>SAM Servers</th>
+        <th>Check Auth</th>
+      </tr>
+    </thead>
+  </table>
+</div>

@@ -1,0 +1,36 @@
+<div id="user_profile">
+<h2>User Profile</h2>
+
+<%= error_messages_for :user %>
+<% form_for :user do |f| -%>
+<%= f.hidden_field :id %>
+    
+<p><label for="org">Organization</label><br/>
+<%= f.select :org_id, Org.root_organizations.collect {|p| [ p.name, p.id ] } %></p>
+
+<p><label for="email">Email</label><br/>
+<%= f.text_field :email %></p>
+    
+<p><label for="first_name">First Name</label><br/>
+<%= f.text_field :first_name %></p>
+    
+<p><label for="last_name">Last Name</label><br/>
+<%= f.text_field :last_name %></p>
+    
+<p><label for="password">Password</label><br/>
+<%= f.password_field :password %></p>
+    
+<p><label for="password_confirmation">Confirm Password</label><br/>
+<%= f.password_field :password_confirmation %></p>
+    
+<p><%= submit_tag 'Edit Profile' %></p>
+
+<% end -%>
+
+</div>
+
+<div id="user_type">
+  <h2>User Type: Administrator</h2> 
+
+
+</div>

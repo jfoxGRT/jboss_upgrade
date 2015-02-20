@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <%= stylesheet_link_tag "cs_sam_central" %>
+    <%= stylesheet_link_tag "cs_application-tabs" %>
+    <%= stylesheet_link_tag "nav_tabs" %>
+    <%= stylesheet_link_tag "admin" %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "nav_tabs" %>
+    <title><%= @page_title %></title>
+  </head>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">    
+    <div id="header">
+      <h2 id="title">SAM Central</h2>
+      <div id="status">
+        <%= render :partial => "/home/status" %>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <% if flash[:notice] -%>
+      <div id="notice"><%= flash[:notice] %></div>
+    <% end %>
+    <div id="application-tabs">
+      <%= render :partial => "/home/app_tabs" %>
+    </div>
+    <div id="main_content">
+      <%= yield :layout %>
+      <div class="clear">&nbsp;</div>
+    </div>
+    
+    <div id="footer">
+       <%= render :partial => "/common/footer" %>
+    </div> <!-- end footer -->
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4047083-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+  </body>
+</html>

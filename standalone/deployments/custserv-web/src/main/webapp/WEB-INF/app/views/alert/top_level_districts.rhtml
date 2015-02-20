@@ -1,0 +1,20 @@
+<% targetNav = (@chosen_alert_instance.alert == @ueAlertType) ? "entitlement_assign_nav" : "sam_customer_assign_nav" %>
+<%= render(:partial => targetNav, :object => @chosen_alert_instance) %>
+<div id="org_panel" style="padding-top: 30px;">
+    <table id="alert_breadcrumb" class="breadcrumb_table" border="0" cellspacing="0" cellpadding="0" style="vertical-align: middle;" align="center">
+        <tr>
+            <td>TOP-LEVEL ORGANIZATIONS</td>
+        </tr>
+    </table>
+    <% form_tag({:action => @targetSubmitAction}, {:name => "alert_form", :onsubmit => "return showSubmitStatus();"}) do %>
+    <%= hidden_field_tag("selected_alert", @chosen_alert_instance.id) %>
+    <%= render(:partial => "org_info", :locals => {:org_list => @topLevelOrgList, :org_name => "TOP-LEVEL ORGANIZATIONS"}) %>
+	<div align="center" style="margin-top: 20px;">Instead use UCN:&nbsp;&nbsp;<%= text_field_tag("ucn") %><br/><br/>
+	Always use the selected UCN for this SHIP-TO / BILL-TO combination?&nbsp;&nbsp;<%= radio_button_tag("entitlement", "known_destination", "yes") %>&nbsp;Yes
+		<%= radio_button_tag("entitlement", "known_destination", "no") %>&nbsp;No</div>
+    <div id="alert_submit_button" align="center" style="padding-top: 30px;">
+    <%= submit_tag("Assign Org", {:class => "submit"}) %>
+    </div>
+    <% end %>
+    <div id="submit_indicator" align="center" style="padding-top: 10px; color: red; display: none;">Please wait..<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></div>
+</div>

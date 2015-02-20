@@ -1,0 +1,67 @@
+<script>
+  jQuery(function() {
+                jQuery( "#server_report_request_created_at_start" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#server_report_request_created_at_end" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<% form_for(:server_report_request, :url => {:controller => "sam_server_report_requests", :action => "search"}, :remote => true, :html => {:id => "sam_server_report_request_form", :name => "sam_server_report_request_form"}) do |f| -%>
+<table style="width:100%; margin-top: 20px;" class="search_table">
+  <tr>
+    <td colspan="4" style="text-align: center;"><h3>SAM Server Report Request Search</h3></td>
+  </tr>
+   <tr>
+      <td class="label_cell"><label for="id">SAM Server Report Request Id</label></td>
+      <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:id, {:id => "id"}) %></td>
+    </tr>
+
+   <tr>
+      <td class="label_cell">
+        <label for="em_generated_date">Created Between</label>
+      </td>
+      <td class="field_cell" colspan="3">
+        <%= f.text_field(:created_at_start, {:created_at_start => "created_at_start", :style => "width: 30%;"}) %>
+        <span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+        <%= f.text_field(:created_at_end, {:created_at_end => "created_at_end", :style => "width: 30%;"}) %>
+      </td>
+  </tr>
+   <tr>
+      <td class="label_cell"><label for="id">SAM Server Report Type</label></td>
+      <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:report_type, ["any","xml","pdf"]) %></td>
+    </tr>
+   <tr>
+      <td class="label_cell"><label for="id">SAM Server Report Status Type</label></td>
+      <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:status, ["any","complete","expired","failed","pending"]) %></td>
+    </tr>
+ <tr>
+      <td class="label_cell"><label for="id">SAM Server Report Request Type</label></td>
+      <td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:request_type, ["any","groupinator","report_scheduler"]) %></td>
+    </tr>
+
+
+   <tr>
+      <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+      <td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+    </tr>
+
+ </table>
+
+<script type="text/javascript">
+            jQuery(document).ready(function() {
+                    jQuery("#sam_server_report_request_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+<% end %>

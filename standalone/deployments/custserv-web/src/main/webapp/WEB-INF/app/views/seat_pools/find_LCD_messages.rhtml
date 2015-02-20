@@ -1,0 +1,20 @@
+<div class="table_header">
+	<h2 class="table_title">License Count Discrepancy Messages (LCD ID : <%= @lcd_id %>)</h2>
+</div>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>Audit Message ID</th>
+        <th>Created Date</th>
+        <th>Clazz</th>
+		<th>Event Type</th>
+		<th>Token</th>
+		<th>Resource ID</th>
+        <th>Reason</th>
+        <th>Message Properties</th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "lcd_message_detail", :collection => @lcd_messages)%>
+    </tbody>    
+</table>

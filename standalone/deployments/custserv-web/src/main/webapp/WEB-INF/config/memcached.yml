@@ -1,0 +1,31 @@
+defaults:
+  ttl: 1800
+  readonly: false
+  urlencode: false
+  c_threshold: 10000
+  compression: true
+  debug: true
+  namespace: custserv
+  sessions: false
+  fragments: false
+  servers: localhost:11211
+  benchmarking: true
+
+development:
+  disabled: true
+
+# turn off caching
+test: 
+  disabled: true
+
+production_migrations:
+  benchmarking: false
+  servers: 
+    - 10.17.21.29:11211
+    - 10.17.21.20:11211
+
+production:
+  benchmarking: false
+  servers: 
+    - 10.17.21.29:11211
+    - 10.17.21.20:11211

@@ -1,0 +1,27 @@
+<% @page_title = "SAMC - Async File Upload Error Stacktrace" %>
+
+    <div class="table_header">
+      <h2 class="table_title">Error Stacktrace for </br>
+          Async File Upload ID: <%= @async_file_upload.id %></h2>
+    </div>
+
+    <table class="data_table" style="width:80%; table-layout:fixed;">
+      <thead>
+        <tr class="data_table_first_row">
+          <td>Error</td>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td style="text-align:left;">
+              <% if @async_file_upload.file_extension == 'xml' %>
+                  CAUSE:</br><%= @exception_cause %></br></br>
+                  STACKTRACE:</br><%= @stack_trace %></br></br>
+                  ADDITIONAL INFO:</br><%= @additional_info %></br>
+              <% elsif @async_file_upload.file_extension == 'csv' %>
+                  CAUSE:</br><%= @exception_cause %></br>
+              <% end %>
+            </td>
+      </tr>
+     
+    </table>

@@ -1,0 +1,104 @@
+<table cellspacing="0" cellpadding="0" style="width:100%;">
+    <% if !session[:from_landscape_page].nil? and session[:from_landscape_page] == 'true' %>
+        <tr>
+            <td colspan="2" align="center"><a href="/licensing/index_landscape_move">Go back to Landscape Licensing</a></td>
+        </tr>
+    <% end %>
+	<tr>
+		<td id="tabnav" style="padding: 0px; border: 0px; margin: 0px;">
+			<ul>
+				<li><%= link_to("Home", {:action => :index, :controller => :home}, {:id => "t-home"}) %></li>
+				<li><%= link_to("Tasks", tasks_path, {:id => "t-tasks"}) %></li>
+
+				<% if (current_user.isAdminType) %>
+				  <li><%= link_to("ESB Messages", {:action => :index, :controller => :esb_message}, {:id => "t-esb_messages"}) %></li>
+        <% end %>
+        <% if current_user.hasPermission?(Permission.advanced_debug) %>
+				  <li><%= link_to("TwinzMQ Dashboard", sam_central_messages_path, {:id => "t-twinzmq_dashboard"}) %></li>
+				<% end %>
+
+				<li><%= link_to(SAM_CUSTOMER_TERM + "s", states_sam_customers_path, {:id => "t-sam_ee_customers"}) %></li>
+				<li><%= link_to("Scholastic Users", users_path, {:id => "t-users"}) %></li>
+		        <li><%= link_to("Utilities", {:action => :index, :controller => :utilities}, {:id => "t-utilities"}) %></li>
+				<% if (current_user.isAdminType || current_user.hasPermission?(Permission.manage_saplings)) %>
+		          <li><%= link_to("Sapling Repository", {:action => :index, :controller => :saplings}, {:id => "t-sapling_repository"}) %></li>
+				<% end %>
+				<li><%= link_to("Reference Data", {:action => :index, :controller => :agent_server_queries}, {:id => "t-agent_diagnostics"}) %></li>
+		    	<% if current_user.hasPermission?(Permission.show_export_batch_data) %>
+		          <li><%= link_to("Batch Central", {:action => :index, :controller => :conv_export_master_batches}, {:id => "t-batch"}) %></li>
+				<% end %>
+				<li id="findernav">
+					<ul class="nav">
+						<li style="font-size: 1.0em; margin: 0px; padding: 0px;"><p>Finder</p>
+							<ul style="border: 1px solid #006699; padding: 0px; margin: 0px;">
+								<li style="font-size: 0.9em; width: 16em; padding: 0px; margin: 0px;">
+									<form action="" onsubmit="do_quick_search(this); return false;" >
+										<table cellspacing="0" cellpadding="0" style="margin-left: 7px;">
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="sam_customers" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :sam_customer_finder) %>', '<%= SAM_CUSTOMER_TERM %> Search'); return false;"><%= SAM_CUSTOMER_TERM %>s</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by UCN, ID, or name", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="entitlements" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :entitlement_finder) %>', 'Entitlement Search'); return false;">Entitlements</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by TMS ID or order number", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="sam_servers" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :sam_server_finder) %>', 'SAM Server Search'); return false;">SAM Servers</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by ID or name", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="emails" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :email_finder) %>', 'Email Search'); return false;">Emails</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by message ID or email address", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="tasks" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :task_finder) %>', 'Task Search'); return false;">Tasks</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by Task ID", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="auth_users" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :auth_user_finder) %>', 'Auth User Search'); return false;">Auth Users</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by ID or user name", :width => "16", :height => "16") %></a></td>
+                                            </tr>                                                  
+ 											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="sam_server_report_request" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :sam_server_report_request_finder) %>', 'SAM Server Report Requests Search'); return false;">SAM Server Report Requests</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by SAM Server Report Request ID", :width => "16", :height => "16") %></a></td>
+											</tr>
+											<tr class="finder_category">
+												<td><input type="radio" name="search_category" value="processes" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :processes_finder) %>', 'Processes Search'); return false;">Processes</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by Process ID", :width => "16", :height => "16") %></a></td>
+											</tr>
+											 <tr class="finder_category">
+												<td><input type="radio" name="search_category" value="orgs" /></td>
+												<td class="finder_category_name"><a href="#" onclick="popup_advanced_search('<%= url_for(:controller => :finder, :action => :orgs_finder) %>', 'Organizations Search'); return false;">Organizations</a></td>
+												<td class="info_graphic"><a href="#"><%= image_tag("question_mark_small_blue.png", :class => "finderTip", :title => "Search by Organization UCN", :width => "16", :height => "16") %></a></td>
+											</tr>
+                                            <tr>
+												<td colspan="3"><input type="search" id="finder_key" name="search_key"/></td>
+											</tr>
+											<tr>
+												<td colspan="3"><input type="submit" id="finder_submit" value="Quick Search"/></td>
+											</tr>
+										</table>
+									</form>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+		        <!--<li><%# link_to("Help", {:action => :index, :controller => :doc_items}, {:id => "t-help"}) %></li>-->
+			</ul>
+		</td>
+		<td style="vertical-align: top; padding: 0px 10px 0px 0px; border: 0px; text-align: right;">
+			<% form_tag("", :onsubmit => "popup_org_dialog(jQuery('#ucn_search_field').val()); return false;") do -%>
+			Organization UCN: <input type="search" id="ucn_search_field" size="19" />&nbsp;&nbsp;<%= submit_tag("Lookup") %>
+			<% end -%>
+		</td>
+	</tr>
+</table>

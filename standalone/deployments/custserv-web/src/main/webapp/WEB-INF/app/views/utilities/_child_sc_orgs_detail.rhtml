@@ -1,0 +1,12 @@
+<tr>
+    <td>&nbsp;<%= child_sc_orgs_detail.child_ucn %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.child_name %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.child_account_type %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.number_of_entitlements_at_child %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.number_of_servers_at_child %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.parent_ucn %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.parent_name %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.parent_account_type %></td>
+    <td>&nbsp;<%= (child_sc_orgs_detail.parent_sam_customer_id.nil?) ? "" : link_to(child_sc_orgs_detail.parent_sam_customer_id, sam_customer_path(child_sc_orgs_detail.parent_sam_customer_id)) %></td>
+    <td>&nbsp;<%= child_sc_orgs_detail.child_is_parent %></td>
+</tr>                                

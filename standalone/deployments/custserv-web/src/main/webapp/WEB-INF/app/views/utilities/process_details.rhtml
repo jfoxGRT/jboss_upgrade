@@ -1,0 +1,30 @@
+<h2 align="center">Global Process ID: <%= @process.id %></h2>
+<h4 align="center">Context Variables</h4>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "process_context", :collection => @process_contexts) %>
+	</tbody>
+</table>
+<h4 align="center">Responses</h4>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Process Message Response ID</th>
+			<th>Process Message ID</th>
+			<th>Process Participator</th>
+			<th>Created At</th>
+			<th>Completed At</th>
+			<th>Phase</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "process_message_response", :collection => @process_message_responses) %>
+	</tbody>
+</table>

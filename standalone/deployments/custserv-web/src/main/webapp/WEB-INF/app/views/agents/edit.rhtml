@@ -1,0 +1,68 @@
+<% @page_title = "SAMC - Edit Agent" %>
+<script type="text/javascript" charset="utf-8">
+  jQuery(function() {
+    jQuery( "#unignore_agent_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    jQuery( "#poll_override_expire_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  });
+  
+  function resetChatterCount() {
+    document.getElementById('agent_command_chatter_count').value=1;
+    return false;
+  }
+</script>
+
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to("Agent: #{@agent.id}", agent_path(@agent.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Edit</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Edit Agent <%= @agent.id %></h2>
+</div>
+<%= error_messages_for :agent %>
+<%= render(:partial => "agent_core_info", :locals => {:agent_core_info => @agent, :sam_server => @sam_server}) %>
+<% form_for(:agent, :url => agent_path(@agent), :html => {:method => :put, :onsubmit => "showStatus(); Form.Element.disable('submit_tag')"}) do |f| -%>
+    <%= f.hidden_field :id %>
+  	<table class="form_table">
+  		<tr>
+  			<td class="label_cell">Ignore Agent</td>
+        <% if (@agent.sam_server && @agent.sam_server.transitioning?) %>
+          <td class="field_cell"><%= f.check_box(:ignore_agent, :disabled => "disabled" ) %><span style="color:grey; font-style:italic"> server is transitioning; can't edit agent ignore status</td></td>
+        <% else %>
+			<td class="field_cell"><%= f.check_box(:ignore_agent) %></td>
+        <% end %>
+  		</tr>
+		<tr>
+			<td class="label_cell">Unignore Agent Date<br/>(YYYY-MM-DD)</td>
+      <% if (@agent.sam_server && @agent.sam_server.transitioning?) %>
+			  <td class="field_cell"><%= f.text_field(:unignore_agent_date_part, {:id => "unignore_agent_date", :disabled => "disabled"}) %>&nbsp;&nbsp;<b>at (HH:MM:SS)</b>&nbsp;<%= f.text_field(:unignore_agent_time_part, :disabled => "disabled") %></td>
+      <% else %>
+        <td class="field_cell"><%= f.text_field(:unignore_agent_date_part, {:id => "unignore_agent_date"}) %>&nbsp;&nbsp;<b>at (HH:MM:SS)</b>&nbsp;<%= f.text_field(:unignore_agent_time_part) %></td>
+      <% end %>
+		</tr>
+		<tr>
+			<td class="label_cell">Command Chatter Count</td>
+			<td class="field_cell"><%= f.text_field(:command_chatter_count, :readonly => "readonly") %> <input type="button" value="Reset" onclick="resetChatterCount()"></button></td>
+		</tr>
+		<tr>
+			<td class="label_cell">Poll Override</td>
+			<td class="field_cell"><%= f.text_field(:poll_override) %></td>
+		</tr>
+		<tr>
+			<td class="label_cell">Poll Override Expires At<br/>(YYYY-MM-DD)</td>
+			<td class="field_cell"><%= f.text_field(:poll_override_expires_at_date, {:id => "poll_override_expire_date"}) %>&nbsp;&nbsp;<b>at (HH:MM:SS)</b>&nbsp;<%= f.text_field(:poll_override_expires_at_time) %></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;"><%= submit_tag("Update Agent", :id => "submit_tag", :onclick => "return confirm('Please review your changes.  Are you sure you wish to continue?')") %></td>
+		</tr>
+  	</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

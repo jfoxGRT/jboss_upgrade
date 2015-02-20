@@ -1,0 +1,13 @@
+<% class_definition = ""
+	difference = la_subcommunity_scale.server_count - la_subcommunity_scale.entitlement_count
+   class_definition = "table_row_problem" if (la_subcommunity_scale.license_count_integrity_problem?) %>
+<tr class="<%= class_definition %>">
+    <td style="text-align: left;"><%= la_subcommunity_scale.subcommunity.name %></td>
+	<td><%= la_subcommunity_scale.server_count %></td>
+    <td><%= la_subcommunity_scale.entitlement_count %></td>
+	<td><%= difference %></td>
+    <td style="color: red;">&nbsp;
+		<%= "Licenses Not Installed?<br/>" if (difference < 0) %>
+		<%= "Internal license counts are not consistent.  Please notify SAMC Administrator" if (la_subcommunity_scale.license_count_integrity_problem?) %>
+    </td>
+</tr>

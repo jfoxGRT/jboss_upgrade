@@ -1,0 +1,22 @@
+<ul>
+  <li>Allow for User Search:
+    <ul>
+      <li>Search by Name</li>
+      <li>Search by Customer</li>
+      <li>Search by Email Address</li>
+    </ul>
+  </li>
+  <li><%= link_to "Create New User", :action => "create_user" %></li>    
+</ul>
+
+
+<div id="email_form" >
+  <% remote_form_for :user, :url => {:action => 'user_list'} do |f| %>
+    Search: <%= f.text_field 'search' %><br/>
+    <%= submit_tag "Refine Search" %>
+  <% end -%>
+</div>
+
+<div id="user_list">
+  <%= render :partial => "user_list" %>
+</div>

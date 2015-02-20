@@ -1,0 +1,10 @@
+<tr class="workDetails">
+	<td><%= edit_pe_task_event.source_user_email %></td>
+	<td><%= translateTaskEventAction(edit_pe_task_event) %></td>
+	<td><%= edit_pe_task_event.target_user_email %></td>
+	<td>
+		<%= edit_pe_task_event.created_at.strftime('%m/%d/%y') %><br/>
+		<%= edit_pe_task_event.created_at.strftime('%I:%M:%S %p') %>
+	</td>
+	<td><%= edit_pe_task_event.comment %></td>
+</tr>

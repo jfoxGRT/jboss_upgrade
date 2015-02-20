@@ -1,0 +1,21 @@
+<% @page_title = "SAM Connect Login" %>
+
+<div id="wrap-login">
+<div id="the-body">
+<div id="content">
+
+<h1><% if flash[:heading] %><%= flash[:heading] %><% else %>Customer Service Portal<% end %></h1>
+<% if flash[:notice] %>
+   <h3 style="color:red;"><%= flash[:notice] %></h3>
+<% end %>
+</div> <!-- end of "content" -->
+</div> <!-- end of "the-body" -->
+</div> <!-- end of "wrap-login" -->
+
+<div id="sidebar">
+  <%= render :partial => "login_box" %>
+</div>
+
+<script type="text/javascript">
+	$('email_field').focus();
+</script>

@@ -1,0 +1,8 @@
+<% the_user = licensing_activation.user %>
+<% sam_customer_id = licensing_activation.sam_customer.id %>
+<tr>
+<td><%= licensing_activation.id %></td>
+<td><%= licensing_activation.created_at.strftime(DATE_FORM) %></td>
+<td><%= the_user.last_name%>, <%= the_user.first_name %></td>
+<td><%= link_to("see details..", sam_customer_audit_path(sam_customer_id, licensing_activation.id)) %></td>
+</tr>

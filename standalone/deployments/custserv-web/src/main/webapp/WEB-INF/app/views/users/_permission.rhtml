@@ -1,0 +1,1 @@
+<%= check_box("permission", permission.id, :checked => user.permissions.with_code(permission.code) ? 'checked' : 'notchecked') %>&nbsp;&nbsp;<%= permission.name %><br/>

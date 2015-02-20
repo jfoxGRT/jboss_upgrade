@@ -1,0 +1,27 @@
+<h3 align="center">Please Assign a Root Organization To the Following Entitlement:</h3>
+<table class="data_table">
+<thead>
+    <tr>
+        <th>Task ID</th>
+        <th>TMS Entitlement ID</th>
+        <th>Order #</th>
+        <th>Invoice #</th>
+        <th><%= PRODUCT_TERM %></th>
+        <th>License Count</th>
+        <th>Task Details</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td style="text-align: center;"><%= entitlement_assign_nav.id %></td>
+        <td style="text-align: center;"><%= entitlement_assign_nav.entitlement.tms_entitlementid %></td>
+        <td style="text-align: center;"><%= entitlement_assign_nav.entitlement.order_num %></td>
+        <td style="text-align: center;"><%= entitlement_assign_nav.entitlement.invoice_num %></td>
+        <td><%= entitlement_assign_nav.entitlement.item.description %></td>
+        <td style="text-align: center;"><%= entitlement_assign_nav.entitlement.license_count %></td>
+        <td id="entitlement_assign_nav_heading"><%= entitlement_assign_nav.long_message %></td>
+        <td style="text-align: center;"><%= button_to("Cancel", {:action => :cancel_entitlement_assign, :id => entitlement_assign_nav.id}) %></td>
+    </tr>
+</tbody>
+</table>

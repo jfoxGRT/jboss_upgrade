@@ -1,0 +1,56 @@
+<tr>
+   <td><%= link_to report_requests_row.id, sam_server_report_request_path(report_requests_row.sam_server.id,report_requests_row.id) %></td>
+  <% if report_requests_row.report_type == "x" %>
+    <td>xml</td>
+  <% elsif report_requests_row.report_type == "p" %>
+    <td>pdf</td>
+  <% end %>
+
+  <% if report_requests_row.request_type == "g" %>
+    <td>groupinator</td>
+  <% elsif report_requests_row.request_type == "s" %>
+    <td>report scheduler</td>
+  <% end %>
+
+  <% if report_requests_row.conversation_instance_id.nil? %>
+    <td></td>
+  <% else %>
+    <td><%= link_to report_requests_row.conversation_instance_id, agent_conversation_path(agent_id,report_requests_row.conversation_instance_id) %>
+
+    </td>
+  <% end %>
+  <td><%= report_requests_row.created_at.strftime(DATE_FORM) %></td>
+  <td><%= report_requests_row.updated_at.strftime(DATE_FORM) %></td>
+  <td><%= report_requests_row.embargo_until.strftime(DATE_FORM) if report_requests_row.embargo_until %>
+  <td><%= report_requests_row.expiration_date.strftime(DATE_FORM) if report_requests_row.expiration_date %></td>
+  <td><%= report_requests_row.receive_date.strftime(DATE_FORM) if report_requests_row.receive_date %></td>
+
+  <% if(report_requests_row.status == "c") %>
+    <td>Completed</td>
+  <% elsif(report_requests_row.status == "f") %>
+    <td>Failed</td>
+  <% elsif(report_requests_row.status == "p") %>
+    <td>Pending</td>
+  <% elsif(report_requests_row.status == "x") %>
+    <td>Expired</td>
+  <% else %>
+    <td></td>
+  <% end %>
+    
+    <% async_file_upload = async_file_uploads[report_requests_row.id] 
+       conversation_id = conversation_instance_ids[report_requests_row.id]
+    %>
+    <% if !async_file_upload.nil? %>
+        <% if(async_file_upload.status_id == 1) %>
+          <td>Completed</td>
+        <% elsif(async_file_upload.status_id == 2) %>
+            <td><%= link_to('Failed', :controller => :async_activities, :action => 'async_file_upload_error_stacktrace', :id => conversation_id, :async_file_upload_id => async_file_upload.id ) %></td>    
+        <% elsif(async_file_upload.status_id == 3) %>
+            <td>Expired</td>    
+        <% else %>
+          <td></td>
+        <% end %>
+    <% else %>
+        <td></td>
+    <% end %>
+</tr>

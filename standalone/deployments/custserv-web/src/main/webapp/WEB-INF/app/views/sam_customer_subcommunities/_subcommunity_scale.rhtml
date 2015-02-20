@@ -1,0 +1,47 @@
+<% class_definition = ""
+	total_pool_count = (subcommunity_scale.allocated_pool_count + subcommunity_scale.unallocated_pool_count)
+   class_definition = "table_row_problem" if (@lm_version == 2 && subcommunity_scale.license_count_discrepancy? && subcommunity_scale.seat_pool_pending_reallocations.nil?) 
+	style_definition = (subcommunity_scale.net_plcc_count != 0) ? "color:blue;" : "" %>
+<tr class="<%= class_definition %>">
+	<% subcommunity = subcommunity_scale.subcommunity %>
+    <td style="text-align: left;">
+		<table style="width: 100%; border: 0px; padding: 0px;" cellspacing="0">
+			<tr>
+				<td style="padding: 0px; text-align: left; font-size: 1em; border: 0px;"><%= link_to(subcommunity.name, sam_customer_subcommunity_path(sam_customer.id, subcommunity.id)) %></td>
+				<td style="padding: 0px; text-align: right; border: 0px;">
+					<% if (!subcommunity_scale.seat_pool_pending_reallocations.nil?) %>
+						<a href="#"><%= image_tag("question_mark_small_blue.png", :class => "tTip", :title => "License reallocations in progress", :width => "16", :height => "16") %></a>
+					<% elsif (subcommunity_scale.license_count_integrity_problem?) %>
+						<a href="#"><%= image_tag("exclamation_red_frame.png", :class => "tTip", :title => "Internal SAMC license counts are inconsistent.  Please contact an SAMC administrator.") %></a>
+					<% elsif (@lm_version == 2 && subcommunity_scale.license_count_discrepancy?) %>
+						<a href="#"><%= image_tag("exclamation_red_frame.png", :class => "tTip", :title => "Counts out of sync.  Please resolve license count discrepancies.") %></a>
+					<% end %>
+					&nbsp;
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td><%= total_pool_count %></td>
+	<td>
+		<% if subcommunity_scale.net_plcc_count != 0 %>
+			<%= link_to(subcommunity_scale.net_plcc_count, unassigned_pending_license_count_changes_path(:sam_customer_id => sam_customer.id, :product_id => subcommunity_scale.subcommunity.product.id)) %>
+		<% else %>
+			0
+		<% end %>
+	</td>
+	<td>
+		<% if subcommunity_scale.conversion_factor != 0 %>
+			<a class="widget_dialog"
+				element_id="conversion_policy" 
+				href="<%= license_conversion_policy_for_sam_customer_subcommunities_path(:sam_customer_id => sam_customer.id, :subcommunity_id => subcommunity.id) %>">
+				<%= subcommunity_scale.conversion_factor %></a>
+		<% else %>
+			0
+		<% end %>
+	</td>
+	<td><%= subcommunity_scale.entitlement_count %></td>
+    <td><%= subcommunity_scale.unallocated_pool_count %></td>
+	<td><%= subcommunity_scale.allocated_pool_count %></td>
+	<td><%= subcommunity_scale.server_count + subcommunity_scale.unregistered_pool_count %></td>
+	<td><%= subcommunity_scale.enrollment_count %></td>
+</tr>

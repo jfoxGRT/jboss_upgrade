@@ -1,0 +1,6 @@
+<tr>
+    <td>&nbsp;<%= link_to(outbound_message_type_detail.id, :action => :message_detail, :id => outbound_message_type_detail.id) %></td>
+    <td>&nbsp;<%= (outbound_message_type_detail.corpid_value.nil?) ? "-" : outbound_message_type_detail.corpid_value %></td>
+	<td>&nbsp;<%= outbound_message_type_detail.transaction_type %></td>
+    <td>&nbsp;<%= (outbound_message_type_detail.message_timestamp.nil?) ? "-" : outbound_message_type_detail.message_timestamp.strftime(DATE_FORM) %></td>
+</tr>

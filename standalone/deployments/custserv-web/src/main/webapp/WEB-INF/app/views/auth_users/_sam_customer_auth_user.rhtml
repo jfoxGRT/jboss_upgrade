@@ -1,0 +1,28 @@
+<tr>
+  <td>&nbsp;<%= link_to(sam_customer_auth_user.id, sam_customer_auth_user_path(sam_customer_id, sam_customer_auth_user.id)) %></td>
+  <td>&nbsp;<%= sam_customer_auth_user.username %></td>
+  <td>&nbsp;<%= sam_customer_auth_user.get_display_type %></td>
+  <td>&nbsp;<%= sam_customer_auth_user.created_at.strftime(DATE_FORM) %></td>
+  <td>&nbsp;<%= sam_customer_auth_user.updated_at.strftime(DATE_FORM) %></td>
+  <td>&nbsp;
+    <% if sam_customer_auth_user.enabled %>
+      <a class="widget_dialog" element_id="profile_status" href="<%= profile_status_for_auth_users_path(:auth_user_id => sam_customer_auth_user.id) %>">
+        <%= image_tag("choice-yes.gif") %>
+      </a>
+    <% else %>
+      <a class="widget_dialog" element_id="profile_status" href="<%= profile_status_for_auth_users_path(:auth_user_id => sam_customer_auth_user.id) %>">
+        <%= image_tag("choice-no.gif") %>
+      </a>
+    <% end %>
+  </td>
+  <td style="text-align: left; width: 15%">
+    <% sam_servers_list = sam_customer_auth_user.sam_server_users %>
+    <%= "&nbsp;" if sam_servers_list.length == 0 %>
+    <% sam_servers_list.each do |ssu| %>
+      <%= ssu.sam_server.name %><br/>
+    <% end %>
+  </td>
+  <td><input class="widget_dialog" type="button" value="check auth" element_id="auth_status"
+  		href="<%= status_for_auth_users_path(:auth_user_id => sam_customer_auth_user.id	) %>"/>
+  </td>
+</tr>

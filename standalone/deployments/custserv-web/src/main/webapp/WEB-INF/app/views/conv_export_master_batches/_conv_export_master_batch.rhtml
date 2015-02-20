@@ -1,0 +1,22 @@
+<tr>
+<td>
+	<script type="text/javascript">
+		setCal(new Date(<%= conv_export_master_batch.export_date_range_end.year() %>, <%= conv_export_master_batch.export_date_range_end.month() %>, <%= conv_export_master_batch.export_date_range_end.day() %>, <%= conv_export_master_batch.export_date_range_end.hour() %>, <%= conv_export_master_batch.export_date_range_end.min() %>, <%= conv_export_master_batch.export_date_range_end.sec() %>));
+	</script>
+</td>
+  <td>
+  	<script type="text/javascript">
+		setCal(new Date(<%= conv_export_master_batch.export_date_range_1w_begin.year() %>, <%= conv_export_master_batch.export_date_range_1w_begin.month() %>, <%= conv_export_master_batch.export_date_range_1w_begin.day() %>));
+	</script>
+  </td>
+  <td>
+  	<script type="text/javascript">
+		setCal(new Date(<%= conv_export_master_batch.export_date_range_4w_begin.year() %>, <%= conv_export_master_batch.export_date_range_4w_begin.month() %>, <%= conv_export_master_batch.export_date_range_4w_begin.day() %>, <%= conv_export_master_batch.export_date_range_4w_begin.hour() %>, <%= conv_export_master_batch.export_date_range_4w_begin.min() %>, <%= conv_export_master_batch.export_date_range_4w_begin.sec() %>));
+	</script>
+  </td>
+<!--
+  <td><%= link_to 'Show', conv_export_master_batch %></td>
+  <td><%= link_to 'Edit', edit_conv_export_master_batch_path(conv_export_master_batch) %></td>
+  <td><%= link_to 'Destroy', conv_export_master_batch, :confirm => 'Are you sure?', :method => :delete %></td>
+  -->
+</tr>

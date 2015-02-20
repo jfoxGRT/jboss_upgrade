@@ -1,0 +1,95 @@
+<%
+def get_auth_user_id_link_string(auth_user)
+  html_string = link_to(auth_user.id, sam_customer_auth_user_path(auth_user.sam_customer_id, auth_user.id))
+  html_string.gsub('"',"'") #we want single quotes around our HTML attributes to not confuse the JSON interpreter
+end
+
+
+def get_full_name_string(auth_user)
+  full_name_string = nil
+  distinct_values_so_far = nil
+  auth_user.sam_server_users.each do |sam_server_user|
+    if sam_server_user.enabled  # just a shortcut to avoid doing the more expensive logic
+      full_name_string = sam_server_user.first_name + " " + sam_server_user.last_name
+      break
+    end
+
+    if sam_server_user.first_name || sam_server_user.last_name #first and last names are nullable in schema, not bothering with trim and isEmpty for speed
+        distinct_values_so_far = Array.new unless distinct_values_so_far
+        concatenated_name = sam_server_user.first_name + " " + sam_server_user.last_name
+        if full_name_string          
+          full_name_string += ", " + concatenated_name unless distinct_values_so_far.include?(concatenated_name)
+        else
+          full_name_string = concatenated_name
+        end
+        distinct_values_so_far << concatenated_name
+    end
+
+  end
+  return full_name_string
+end
+
+
+def get_email_string(auth_user)
+  email_string = nil
+  distinct_values_so_far = nil
+  auth_user.sam_server_users.each do |sam_server_user|
+    if sam_server_user.email #email is nullable in schema, not bothering with trim and isEmpty? for speed
+      if sam_server_user.enabled
+        email_string = sam_server_user.email
+        break
+      else
+        distinct_values_so_far = Array.new unless distinct_values_so_far
+
+        if email_string          
+          email_string += ", " + sam_server_user.email unless distinct_values_so_far.include?(sam_server_user.email)
+        else
+          email_string = sam_server_user.email.escape_json
+        end
+
+        distinct_values_so_far << sam_server_user.email
+      end
+    end
+  end
+  return email_string
+end
+
+
+def get_enabled_html_string(auth_user)
+  html_string = "<a class='widget_dialog' element_id='profile_status' href='"
+  html_string += profile_status_for_auth_users_path(:auth_user_id => auth_user.id)
+  html_string += "'>"
+
+  if auth_user.enabled
+    html_string += image_tag("choice-yes.gif")
+  else
+    html_string += image_tag("choice-no.gif")
+  end
+  html_string += "</a>"
+  
+  html_string.gsub('"',"'") #we want single quotes around our HTML attributes to not confuse the JSON interpreter
+end
+%>
+
+{
+"sEcho": <%=h @sEcho %>,
+"iTotalRecords": <%= @iTotalRecords %>,
+"iTotalDisplayRecords": <%= @iTotalDisplayRecords %>,
+"aaData" : [ 
+<% @auth_users.each do |auth_user| %>
+   [   "<%= get_auth_user_id_link_string(auth_user) %>",
+       "<%=h auth_user.username.escape_json %>",
+       "<%=h auth_user.get_display_type %>",
+       "<%=h auth_user.created_at.strftime(DATE_FORM) %>",
+       "<%=h auth_user.updated_at.strftime(DATE_FORM) %>",
+       "<%= get_enabled_html_string(auth_user) %>",
+       <% full_name = get_full_name_string(auth_user)%>
+       "<%=h full_name.nil? ? full_name : full_name.escape_json %>",
+       "<%=h get_email_string(auth_user) %>",
+       "<%=h auth_user.get_sam_servers_string %>",
+       "<%= "<input class='widget_dialog' type='button' value='check' element_id='auth_status' href='" + status_for_auth_users_path(:auth_user_id => auth_user.id ) + "' />" %>"
+   <%= "]," unless auth_user == @auth_users.last %>
+<% end %>
+<%= "]" unless @auth_users.empty? %>
+]
+}

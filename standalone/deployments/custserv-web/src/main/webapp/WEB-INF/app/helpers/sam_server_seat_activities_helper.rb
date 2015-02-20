@@ -1,0 +1,2 @@
+module SamServerSeatActivitiesHelper
+end

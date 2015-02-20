@@ -1,0 +1,97 @@
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/plugins/tabletools.download.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+<script>
+jQuery(document).ready(function() {
+    jQuery('#results_table').dataTable({
+        "aaSorting": [[0, "asc"]],
+        "oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             },
+             "sEmptyTable": "No SAM customers match the Finder search criteria.",
+             "sZeroRecords": "No SAM customers match the filter criteria."
+        },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+          "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+          "aButtons": [
+            <% # if result set is small enough, use built-in tabletools CSV generation. make request to
+               # server iff not all results were delivered to the DataTable. we don't have back end handling
+               # for XLS and PDF.
+               if @num_rows_reported < FINDER_LIMIT %>
+            "copy",
+            {
+              "sExtends": "csv",
+              "sFileName": "<%= CUSTOMER_FINDER_RESULTS_FILENAME %>.csv"
+            },
+            {
+              "sExtends": "xls",
+              "sFileName": "<%= CUSTOMER_FINDER_RESULTS_FILENAME %>.xls",
+              "sButtonText": "XLS"
+            },
+            {
+    					"sExtends": "pdf",
+    					"sPdfOrientation": "landscape",
+              "sFileName": "<%= CUSTOMER_FINDER_RESULTS_FILENAME %>.pdf",
+              "sTitle": "<%= CUSTOMER_FINDER_RESULTS_FILENAME %>"
+    				},
+            "print"
+            <% else %>
+            {
+              "sExtends": "text",
+              "sButtonText": "Copy",
+              "sToolTip": "Too many results to copy."
+            },
+            {
+              "sExtends": "download",
+              "sButtonText": "CSV",
+              "sUrl": "<%= APP_CONTEXT_PATH %>/sam_customers/export_sam_customers_to_csv"
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "XLS",
+              "sToolTip": "Too many results for XLS export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "PDF",
+              "sToolTip": "Too many results for PDF export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "Print",
+              "sToolTip": "Too many results to print."
+            }
+            <% end %>
+    		]
+  		}
+    });
+} );
+</script>
+
+<%= hidden_field_tag(:pull_the_blinds, "1") %>
+<%= render(:partial => "common/search_header", :locals => { :report_title => "SAMC - #{SAM_CUSTOMER_TERM} Search Results" })%>
+<% if (@errors.length < 1) %>
+	<table class="data_table filterable_table" id="results_table" align="left">
+		<thead>
+			<tr class="data_table_first_row">
+				<th>Name</th>
+	      <th>Hosted Site ID</th>
+	      <th>State</th>
+	      <th>UCN</th>
+	      <th style="width:6%;">Status</th>
+	      <th style="width:6%;">Fake?</th>
+	      <th style="width:12%;">SC Registration Date</th>
+	      <th style="width:10%;">License Manager Status</th>
+				<th style="width:10%;">Auth Status</th>
+	      <th style="width:10%;">Update Manager Status</th>
+	      <th style="width:10%;">Update Quizzes As Available</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render(:partial => "sam_customers/sam_customer_with_state", :collection => @sam_customers) %>
+		</tbody>
+	</table>
+<% end %>

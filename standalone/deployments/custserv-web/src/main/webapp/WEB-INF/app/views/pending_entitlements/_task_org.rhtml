@@ -1,0 +1,42 @@
+<tr>
+    <td style="margin:0px;padding:0px;text-align: left;vertical-align:top;padding:4px;" class='basicModallink'>
+        <%= link_to(task_org.name, show_summary_info_for_org_path(task_org.ucn)) %>
+        <br>
+		UCN: <%= task_org.ucn %><br>
+        <%= task_org.city_name %>, <%= task_org.code %> <%= task_org.zip_code %>
+        <br>
+        County Code: <%= task_org.county_code %>
+        </td>
+    <td><%= task_org.entitlement_org_type_description %></td>
+    <td>
+        <%= task_org.group_description %>
+        <br> <%= task_org.type_description %></td>
+    <td>
+        <div class='status_div'>
+            <span class='status_span'> SAM EE</span>
+            <% if (task_org.sam_customer_id) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+        <div class='status_div'>
+            <span class='status_span'> Registered:</span>
+            <% if (task_org.registration_date) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+    </td>
+    <td>
+        <div class='status_div'>
+            <span class='status_span'> Lic. Mgr.</span>
+            <% if (task_org.sc_licensing_activated) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,8 @@
+<% favorite_sam_customers = @current_user.favorite_sam_customer_set %>
+<li class="dock_block">
+<div style="border-top: 3px solid #666;">
+	<table id="favorite_sam_customer_list_table" style="color: black;">	
+		<%= render(:partial => "common/favorite_sam_customer_in_dock", :collection => favorite_sam_customers) %>
+	</table>
+</div>
+</li>

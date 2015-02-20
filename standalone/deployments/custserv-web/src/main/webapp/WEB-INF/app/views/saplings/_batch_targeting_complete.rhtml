@@ -1,0 +1,7 @@
+<% if(flash[:save_successful]) -%>
+  <%= flash[:save_successful] %>
+<% elsif(flash[:save_unsuccessful])  %>
+  <%= flash[:save_unsuccessful] %>
+<% else %>
+  <%= flash[:nothing_to_save]%>
+<% end %>

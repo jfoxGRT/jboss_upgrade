@@ -1,0 +1,31 @@
+<table style="width:100%;" class="data_table">
+	<thead>
+		<tr>
+			<td><%= PRODUCT_TERM %></td>
+			<td id="Services_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Total', 'Services');">Total Plans</td>
+			<td id="Services_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Pending', 'Services');">Pending Plans</td>
+			<td id="Services_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Active', 'Services');">Active Plans</td>
+            <td id="Licenses_Grace_Period" class="entitlement_count_cell" 
+        onmouseover="$(this).toggleClass('cell_highlight');" 
+        onmouseout="$(this).toggleClass('cell_highlight');" 
+        onclick="getEntitlementData('All', 'Grace Period', 'Services');">Grace Period Plans</td>		
+			<td id="Services_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Expired', 'Services');">Expired Plans</td>
+			<td>History</td>
+		</tr>
+	<thead>
+	<tbody>
+		<%= render(:partial => "item_count_row", :collection => product_list, :locals => {:sam_customer_id => sam_customer_id, :entitlement_counts => entitlement_counts, :product_type => 'Services'}) %>
+	</tbody>
+</table>

@@ -1,0 +1,10 @@
+<%= @sam_customer.name %> 
+
+<% form_remote_tag :url => {:action => "add_exception" }, :update => "sam_customers" do -%>
+  <%= hidden_field_tag( :sam_customer_id,  @sam_customer.id ) %>
+  Update Manager Active: <%= check_box_tag(:active) %>
+  <%= submit_tag 'Add Exception' %>
+<% end -%>   
+ 
+<div id="sam_customers">
+</div>

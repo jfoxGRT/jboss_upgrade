@@ -1,0 +1,7 @@
+<% billed_to = entitlement.billed_to_entitlement_org
+	shipped_to = entitlement.shipped_to_entitlement_org %>
+<tr>
+	<td><%= entitlement.tms_entitlementid %></td>
+	<td><%= entitlement.product.description %></td>
+	<td><%= entitlement.license_count %></td>
+</tr>

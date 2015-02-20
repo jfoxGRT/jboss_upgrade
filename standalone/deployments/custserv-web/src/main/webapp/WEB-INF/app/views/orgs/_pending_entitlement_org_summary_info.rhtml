@@ -1,0 +1,16 @@
+<% if (link) %>
+	<%= link_to(org_name, show_summary_info_for_org_path(ucn), :id => ucn) %>
+<% else %>
+	<%= org_name %>
+<% end %>
+<br>UCN: <%= ucn %><br>
+<% if (city_name.empty? && state_code.empty? && zip_code.empty?) %>
+	<%= address_line_1 %><br/>
+	<%= address_line_2 %><br/>
+	<%= address_line_3 %><br/>
+<% else %>
+	<%= "#{city_name}" if !city_name.empty? %><%= "," if (city_name && !state_code.empty?) %><%= " #{state_code}" if !state_code.empty? %><%= " #{zip_code}" %>
+	<% if !county_code.empty? %>
+		<%= "<br/>County Code: #{county_code}" %>
+	<% end %>
+<% end %>

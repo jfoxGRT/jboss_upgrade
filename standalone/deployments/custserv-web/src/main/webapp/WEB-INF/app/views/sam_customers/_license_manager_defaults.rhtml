@@ -1,0 +1,5 @@
+<%= license_manager_version %>
+<% if current_user.isAdminType %>
+  &nbsp;&nbsp;
+  <%= link_to_remote("(change)", :url => { :action => "edit_license_manager_defaults" }) %>
+<% end %>

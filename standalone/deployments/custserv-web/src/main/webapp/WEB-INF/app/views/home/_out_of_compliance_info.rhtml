@@ -1,0 +1,31 @@
+<% loading_indicator = 'Please wait..&nbsp;' + image_tag("wait16trans.gif", {:style => "vertical-align: top;"}) %>
+<table class="data_table">
+    <thead>
+      <tr class="data_table_first_row">
+      	<td><%= SAM_CUSTOMER_TERM %> ID</td>
+		<td <%= sort_td_class_helper("sam_customer_name") %>>
+			<%= sort_link_helper(SAM_CUSTOMER_TERM + " Name", "sam_customer_name", update_element, "update_out_of_compliance_table", 
+					status_indicator, "jQuery('#" + status_indicator + "').html('" + loading_indicator + "');", "jQuery('#" + status_indicator + "').html(current_time_formatted);") %>
+		</td>
+        <td <%= sort_td_class_helper("product_name")%>>
+                <%= sort_link_helper("Product", "product_name", update_element, "update_out_of_compliance_table", 
+					status_indicator, "jQuery('#" + status_indicator + "').html('" + loading_indicator + "');", "jQuery('#" + status_indicator + "').html(current_time_formatted);") %>
+        </td>
+        <td <%= sort_td_class_helper("out_of_compliance_count")%>>
+                <%= sort_link_helper("Out of Compliance", "out_of_compliance_count", update_element, "update_out_of_compliance_table", 
+					status_indicator, "jQuery('#" + status_indicator + "').html('" + loading_indicator + "');", "jQuery('#" + status_indicator + "').html(current_time_formatted);") %>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "out_of_compliance", :collection => out_of_compliance_counts) %>
+    </tbody>
+  </table>
+<p class="page_links" align="center">
+<%=	will_paginate(out_of_compliance_counts, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+					:before_callback => "jQuery('#" + status_indicator + "').html('" + loading_indicator + "');",
+					:success_callback => "jQuery('#" + status_indicator + "').html(current_time_formatted);",
+                  :update_element => update_element, 
+                  :action => "update_out_of_compliance_table") %>
+</p>

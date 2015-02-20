@@ -1,0 +1,20 @@
+<table align="center" border="1" style="width: 100%;">
+        <tr id="data_table_first_row">
+            <td style="vertical-align: top; width: 50%; border: 0; text-align: center;">
+                <p><b><%= (summary_date - 1).strftime("%A, %B %d, %Y") %></b></p>
+                <%= render(:partial => "daily_task_info", :object => day1_activity) %>
+            </td>
+            <td style="vertical-align: top; width: 50%; border: 0; text-align: center;">
+                <p><b><%= summary_date.strftime("%A, %B %d, %Y") %></b></p>
+                <%= render(:partial => "daily_task_info", :object => day2_activity) %>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;">
+                <%= render(:partial => "user_summary_table", :locals => {:summary_date => (summary_date - 1), :user_stats_list => day1_activity.user_stats_array}) %>
+            </td>
+            <td>
+                <%= render(:partial => "user_summary_table", :locals => {:summary_date => summary_date, :user_stats_list => day2_activity.user_stats_array}) %>
+            </td>
+        </tr>
+</table>

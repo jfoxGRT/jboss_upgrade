@@ -1,0 +1,10 @@
+<%
+	started = previous_diagnostics_row.started
+	completed = previous_diagnostics_row.completed
+	result = previous_diagnostics_row.result
+%>
+<tr>
+	<td><%= (started.nil?) ? "" : started.strftime('%I:%M:%S %p %m/%d/%y').to_s %></td>
+	<td><%= (completed.nil?) ? "" : started.strftime('%I:%M:%S %p %m/%d/%y').to_s %></td>
+	<td><%= result.to_s %></td>
+</tr>

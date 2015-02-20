@@ -1,0 +1,70 @@
+<% full_name = banner_message.last_name + ', ' + banner_message.first_name %>
+<tr class="<%= (banner_message.end_datetime > Time.now && banner_message.start_datetime <= Time.now && banner_message.is_historical == false) ? 'table_row_active' : '' %>
+    <%= (banner_message.end_datetime > Time.now && banner_message.start_datetime > Time.now && banner_message.is_historical == false) ? 'table_row_pending' : '' %>">
+    <td> <%= banner_message.id %> </td>
+    <td style="width: 100%;"> <%= banner_message.message_name%></td>
+    <td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap">&nbsp;<%= banner_message.message %></td>
+    
+    <td>&nbsp;<%= banner_message.updated_at.to_formatted_s(:db) %></td>
+    <%if banner_message.start_datetime.nil? %>
+    	<td>&nbsp;</td>
+    <%else%>
+    	<td><%= banner_message.start_datetime.to_formatted_s(:db) %></td>
+    <%end%>
+    <%if banner_message.end_datetime.nil? %>
+    	<td>&nbsp;</td>
+    <%else%>
+    	<td><%= banner_message.end_datetime.to_formatted_s(:db) %></td>
+    <%end%>
+    <td>
+        <% users = banner_message.creator %>
+        <%= link_to(full_name, {:controller => :users, :action => :show, :id => users}, :target => "_blank")%>
+    </td>		
+    <% if banner_message.post_to_sam_client %>
+    	<td>&nbsp;X</td>
+    <%else%>
+    	<td>&nbsp;</td>
+    <%end%>
+  <!--  <%if banner_message.post_to_dashboard %>
+    	<td>&nbsp;X</td>
+    <%else%>
+		<td>&nbsp;</td>
+    <%end%> 
+    <%if banner_message.post_to_studentaccess %>
+    	<td>&nbsp;X</td>
+    <%else%>
+		<td>&nbsp;</td>
+    <%end%> -->
+    <%if banner_message.post_to_educatoraccess %>
+    	<td>&nbsp;X</td>
+    <%else%>
+		<td>&nbsp;</td>
+    <%end%>
+    <%if banner_message.post_to_scholasticcentral %>
+        <td>&nbsp;X</td>
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+    <%if banner_message.server_scope.nil?%>
+    	<td>All</td>
+    <%else%>
+    	<td><%= banner_message.server_scope %></td>	
+    <%end%>	
+    <%if banner_message.end_datetime.nil? %>
+    	<td>Active</td>
+    <%else%>
+    	<%if banner_message.end_datetime < Time.now || banner_message.is_historical%>
+    		<td>Expired</td>
+    	<%elsif banner_message.start_datetime > Time.now %>
+    		<td>Pending</td>
+    	<%else%>		
+    		<td>Active</td>
+    	<%end%>	
+    <%end%>	
+        <td>	
+    <%if banner_message.is_historical == false %>
+    	<button type="button" onclick="javascript:popup_dialog('<%= url_for (:action => :edit_message, :id => banner_message.id)%>'); return false;">Edit</button>  
+    <%end%>
+    	<button type="button" onclick="javascript:popup_view_dialog('<%= url_for (:action => :view_message, :id => banner_message.id)%>'); return false;">View</button></td>
+	   </td>
+</tr>

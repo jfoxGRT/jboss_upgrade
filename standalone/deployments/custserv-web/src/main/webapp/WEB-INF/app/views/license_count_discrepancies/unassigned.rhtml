@@ -1,0 +1,43 @@
+<% title_suffix = (@sam_customer.nil?) ? "" : "for #{@sam_customer.name}" %>
+<% @page_title = "SAMC - LCD's #{title_suffix}" %>
+<!-- start of table insert test -->
+
+    <h1>License Count Discrepancies</h1>
+
+    <div id="all-servers-table"  >
+	<% if (@sam_customer) %>
+		<h3 style="margin-top: 0px; margin-bottom: 15px;"><%= @sam_customer.name %></h3>
+	<% end %>
+
+<!-- start of  Orders table -->
+
+<table id="serverview" class="view" cellspacing="0"  style="width: 100%; margin-top:5px;">
+    <thead>
+        <tr class="parent">
+          <td>Open </td>
+        </tr>
+      </thead>
+
+    </table>
+    <table id="serverlisthead" cellspacing="0" style="width:100%;">
+      <thead>
+
+        <tr >
+    <td style="width:5%;">Task ID</td>
+    <td style="width:5%;">Priority</td>
+	<td style="width:8%;">Task Date</td>
+    <td style="width:14%;"><%= SAM_CUSTOMER_TERM %></td>
+    <td style="width:8%;">State / Province</td>
+	<td style="width:11%;"><%= PRODUCT_TERM %></td>
+	<td style="width:12%;">SAM Server</td>
+	<td style="width:9%;">Seat Pool Count</td>
+	<td style="width:9%;">SAM Server Count</td>
+	<td style="width:9%;">Difference</td>
+    <td style="width:7%;">Action</td>
+        </tr>
+      </thead>
+    </table>
+	<%= render(:partial => "unassigned_task_summary", :collection => @tasks) %>
+</div>
+
+<!--start of Open Orders Tasks table -->

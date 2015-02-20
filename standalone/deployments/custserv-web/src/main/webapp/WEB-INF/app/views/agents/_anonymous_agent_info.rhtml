@@ -1,0 +1,57 @@
+<table class="data_table" style="width: 90%; margin-bottom: 30px;">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("agent_id")%>>
+                <%= sort_link_helper("Agent ID", "agent_id", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("date_created")%>>
+                <%= sort_link_helper("Date Created", "date_created", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("date_updated")%>>
+                <%= sort_link_helper("Date Last Updated", "date_updated", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("last_ip_address")%>>
+                <%= sort_link_helper("Last IP Address", "last_ip_address", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("cookie")%>>
+                <%= sort_link_helper("Cookie", "cookie", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("cookie_verified")%>>
+                <%= sort_link_helper("Cookie Verified", "cookie_verified", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("jre_version")%>>
+                <%= sort_link_helper("JRE Version", "jre_version", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("microloader_version")%>>
+                <%= sort_link_helper("Microloader Version", "microloader_version", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("os_series")%>>
+                <%= sort_link_helper("OS Series", "os_series", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("next_poll_at")%>>
+                <%= sort_link_helper("Next Poll At", "next_poll_at", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("cpu_bits")%>>
+                <%= sort_link_helper("CPU Bits", "cpu_bits", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("os_family")%>>
+                <%= sort_link_helper("OS Family", "os_family", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("cpu_type")%>>
+                <%= sort_link_helper("CPU Type", "cpu_type", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("last_verified_cookie")%>>
+                <%= sort_link_helper("Last Verified Cookie", "last_verified_cookie", update_element, "update_anonymous_agent_table", status_indicator)%>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "anonymous_agent", :collection => agent_collection) %>
+    </tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(agent_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_anonymous_agent_table") %>
+</p>

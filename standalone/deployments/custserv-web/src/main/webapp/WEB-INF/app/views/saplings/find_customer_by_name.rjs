@@ -1,0 +1,6 @@
+page[:search_results_rows].replace_html :partial => "customer_list", :collection => @sam_customers
+page[:search_results_count].replace_html (@sam_customers.length.to_s + " customer(s)")
+page[:search_results_count].show
+page[:search_results].visual_effect :blind_down, :duration => 1.3
+page[:search_button].enable
+page[:server_status_indicator].hide

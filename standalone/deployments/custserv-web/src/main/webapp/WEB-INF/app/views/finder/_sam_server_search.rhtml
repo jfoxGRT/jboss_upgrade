@@ -1,0 +1,273 @@
+<script>
+	jQuery(function() {
+		jQuery( "#sam_server_registered_at_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_registered_at_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_updated_at_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_updated_at_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_agent_created_at_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_agent_created_at_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_poll_override_exp_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_poll_override_exp_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+		jQuery( "#sam_server_last_checkin_date" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+	});
+  
+  var old_community_min_version1_options = [];
+  var old_community_max_version1_options = [];
+  var old_community_min_version2_options = [];
+  var old_community_max_version2_options = [];
+  
+  // when the user changes the major release version radio button selection, narrow down the options in the version dropdown accordingly 
+  jQuery("[name=sam_server\\[community_major_release_1\\]]").on('click', function () {
+    jQuery("#community_min_version1").append(old_community_min_version1_options);
+    jQuery("#community_max_version1").append(old_community_max_version1_options);
+    
+    old_community_min_version1_options = jQuery("#community_min_version1 option:not(:contains(" + jQuery(this).val() + "))").detach();
+    old_community_max_version1_options = jQuery("#community_max_version1 option:not(:contains(" + jQuery(this).val() + "))").detach();
+  });
+  
+  jQuery("[name=sam_server\\[community_major_release_2\\]]").on('click', function () {
+    jQuery("#community_min_version2").append(old_community_min_version2_options);
+    jQuery("#community_max_version2").append(old_community_max_version2_options);
+    
+    old_community_min_version2_options = jQuery("#community_min_version2 option:not(:contains(" + jQuery(this).val() + "))").detach();
+    old_community_max_version2_options = jQuery("#community_max_version2 option:not(:contains(" + jQuery(this).val() + "))").detach();
+  });
+  
+</script>
+
+<% form_for(:sam_server, :url => {:controller => :sam_servers, :action => :search}, :remote => true, :html => {:method => :get, :name => "sam_server_form", :id => "sam_server_form"}) do |f| -%>
+		<table style="width:100%; margin-top: 20px;" class="search_table">
+			<tr>
+				<td colspan="4" style="text-align: center;"><h3>SAM Server Search</h3></td>
+			</tr>
+			<tr>
+				<td class="label_cell" style="width: 30%;"><label for="sam_server_sam_server_id">SAM Server ID</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc; width: 20%;"><%= f.text_field(:sam_server_id, {:id => "sam_server_id"}) %></td>
+				<td class="label_cell"><label for="sam_server_name">SAM Server Name</label></td>
+				<td class="field_cell"><%= f.text_field(:name, {:id => "sam_server_name"}) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_active">Activated?</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:active, true_or_false_options) %></td>
+				<td class="label_cell"><label for="sam_server_aggregation">Aggregation?</label></td>
+				<td class="field_cell"><%= f.select(:aggregation, true_or_false_options) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_hosted">Hosted?</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:hosted, true_or_false_options) %></td>
+				<td class="label_cell"><label for="sam_server_unregistered">_UNREGISTERED_?</label></td>
+				<td class="field_cell"><%= f.select(:unregistered, true_or_false_options) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_guid">GUID Contains</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:guid) %></td>
+				<td class="label_cell"><label for="sam_server_installation_code">Installation Code</label></td>
+				<td class="field_cell"><%= f.text_field(:installation_code) %></td>
+			</tr>
+      <tr>
+				<td class="label_cell"><label for="sam_server_state"><%= SAM_CUSTOMER_TERM %> ID</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:sam_customer_id) %></td>
+				<td class="label_cell"><label for="sam_server_state">State / Province</label></td>
+				<td class="field_cell"><%= f.select(:state_id, state_province_list) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="registration_siteid">Registration Hosted Site ID</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:registration_siteid) %></td>
+				<td class="label_cell"><label for="registration_entitlement_tms_id">Registration Entitlement TMS ID</label></td>
+				<td class="field_cell"><%= f.text_field(:registration_entitlement_tms_id, :size => "10") %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_agent_id">Agent ID</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:agent_id, {:id => "agent_id"}) %></td>
+				<td class="label_cell"><label for="sam_server_os_family">OS Family</label></td>
+				<td class="field_cell"><%= f.select(:os_family, os_family_options) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_cpu_bits">CPU Bits</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:cpu_bits, cpu_bits_options) %></td>
+				<td class="label_cell"><label for="sam_server_os_series">OS Series</label></td>
+				<td class="field_cell"><%= f.select(:os_series, os_series_options) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="sam_server_last_ip">Last IP Address Starts With</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:ip_address, {:id => "ip_address"}) %></td>
+				<td class="label_cell"><label for="sam_server_poll_override">Poll Override Active?</label></td>
+				<td class="field_cell"><%= f.select(:poll_override_active, true_or_false_options) %></td>
+			</tr>
+      <tr>
+        <td class="label_cell"><label for="sam_server_enforce_school_max_enroll_cap">Implementing School Caps?</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:enforce_school_max_enroll_cap, true_or_false_options) %></td>
+				<td class="label_cell"><label for="sam_server_agent_cluster_id">Cluster Id</label></td>
+				<td class="field_cell"><%= f.text_field(:cluster_id, :size => "10") %></td>
+				
+      </tr>
+			<tr>
+				<td class="label_cell" align="left" style="vertical-align:middle">
+					<label for="last_checkin_date">Has checked in since</label>
+		          <br>
+		          <br>
+		          <label for="last_checkin_date">Has not checked in since</label>
+				</td>
+				<td class="field_cell" align="left" style="vertical-align:middle" colspan="3">
+							<%= radio_button_tag("sam_server[checked_in_since]", "1", true) %>  <%= f.text_field(:last_checkin_date, {:id => "sam_server_last_checkin_date", :style => "width: 30%;"}) %>
+		          <br>
+							<%= radio_button_tag("sam_server[checked_in_since]", "0") %>
+		        </td>
+			</tr>			
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_registered_at_start_date_field">Registered for SAMC between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:registered_at_start_date, {:id => "sam_server_registered_at_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:registered_at_end_date, {:id => "sam_server_registered_at_end_date_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_updated_at_start_date_field">Server Record Updated between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:updated_at_start_date, {:id => "sam_server_updated_at_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:updated_at_end_date, {:id => "sam_server_updated_at_end_date_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>				
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_community_name1">Having Build Number of</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.select(:community_name1, community_list) %>
+          <br/>
+          <table>
+            <tr>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="JB" />JerBul</td>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="CR" />Craft</td>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="DU" />Duke<br/></td>
+            </tr>
+            <tr>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="AG" />AquaGrill</td>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="BZ" />Balthazar</td>
+              <td><input name="sam_server[community_major_release_1]" type="radio" value="EA" />Eataly</td>
+            </tr>
+          </table>
+          <br/>
+          between (inclusive)
+          <select id="community_min_version1" name="sam_server[community_min_version1]">
+            <%= render( :partial => "sam_server_search_versions" )%>
+          </select>
+          &nbsp;&nbsp;<span style="font-weight: bold; text-align: center;">-and-</span>&nbsp;&nbsp;
+          <select id="community_max_version1" name="sam_server[community_max_version1]">
+            <%= render( :partial => "sam_server_search_versions" )%>
+          </select>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_community_name2">Having Build Number of</label>
+				</td>
+				<td class="field_cell" colspan="3" style="{vertical-align: top}" >
+					<%= f.select(:community_name2, community_list) %>
+          <br/>
+          <table>
+            <tr>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="JB" />JerBul</td>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="CR" />Craft</td>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="DU" />Duke<br/></td>
+            </tr>
+            <tr>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="AG" />AquaGrill</td>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="BZ" />Balthazar</td>
+              <td><input name="sam_server[community_major_release_2]" type="radio" value="EA" />Eataly</td>
+            </tr>
+          </table>
+          <br/>
+					between (inclusive)
+					<select id="community_min_version2" name="sam_server[community_min_version2]">
+            <%= render( :partial => "sam_server_search_versions" )%>
+          </select>
+          &nbsp;&nbsp;<span style="font-weight: bold; text-align: center;">-and-</span>&nbsp;&nbsp;
+          <select id="community_max_version2" name="sam_server[community_max_version2]">
+            <%= render( :partial => "sam_server_search_versions" )%>
+          </select>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_agent_created_at_start_date_field">Agent Created Between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:agent_created_at_start_date, {:id => "sam_server_agent_created_at_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:agent_created_at_end_date, {:id => "sam_server_agent_created_at_end_date_field", :style => "width: 30%;"}) %>			
+				</td>
+			</tr>	
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_poll_override_exp_start_date_field">Poll Override Expiration Between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:poll_override_exp_start_date, {:id => "sam_server_poll_override_exp_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:poll_override_exp_end_date, {:id => "sam_server_poll_override_exp_end_date_field", :style => "width: 30%;"}) %>			
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="sam_server_agent_plugin">Having Agent Plugin</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.select(:agent_plugin, agent_plugins_list) %>
+					&nbsp;between Version
+					<%= f.text_field(:agent_plugin_min_version, :size => "10") %>
+					&nbsp;&nbsp;<span style="font-weight: bold; text-align: center;">-and-</span>
+					<%= f.text_field(:agent_plugin_max_version, :size => "10") %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell" style="width: 30%;">
+					<label for="sam_server_ignore_agent">Agent Ignored?</label>
+				</td>
+				<td class="field_cell" style="border-right: 1px solid #ccc; width: 20%;">
+					<%= f.select(:ignore_agent, true_or_false_options) %>
+				</td>
+				<td class="label_cell"><label for="flagged_for_deactivation">Flagged for Deactivation?</label></td>
+				<td class="field_cell">
+					<%= f.select(:flagged_for_deactivation, true_or_either_options) %>
+				</td>
+			</tr>
+			<tr>
+        <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+				<td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+			</tr>
+		</table>
+<% end %>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    // start with no options in the version drow-downs; make user select a major release first 
+    old_community_min_version1_options = jQuery("#community_min_version1 option").detach();
+    old_community_max_version1_options = jQuery("#community_max_version1 option").detach();
+    old_community_min_version2_options = jQuery("#community_min_version2 option").detach();
+    old_community_max_version2_options = jQuery("#community_max_version2 option").detach();
+    
+		jQuery("#sam_server_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+				jQuery('#org_widget_pane').hide();
+				jQuery('#org_widget_pane').html(data);
+				jQuery('#org_widget').dialog('option', 'width', 1100);
+				jQuery('#org_widget').dialog('option', 'height', 650);
+				jQuery('#org_widget').dialog('option', 'position', 'center');
+				jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+			});
+			return false;
+		});
+		
+	});
+	
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>

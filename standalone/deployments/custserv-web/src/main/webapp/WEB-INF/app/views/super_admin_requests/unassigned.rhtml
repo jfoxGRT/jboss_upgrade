@@ -1,0 +1,100 @@
+<% @page_title = "SAMC - Super Admin Requests" %>
+
+
+
+<% if params[:scholastic_index].nil? %>
+
+	<h1>Super Admin Requests</h1>
+
+	<table class="view">
+		<thead>
+			<tr class="parent">
+				<td><%= SAM_CUSTOMER_TERM %> Group</td>
+				<td>Number of Open Tasks</td>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render(:partial => "task_group", :collection => @task_groups) %>
+		</tbody>
+	</table>
+
+
+<% else %>
+
+<!-- start of table insert test -->
+
+    <h1>Super Admin Requests</h1>
+    <div id="all-servers-table"  >
+	<h3 style="margin-top: 0px; margin-bottom: 15px;"><%= translate_scholastic_index(params[:scholastic_index]) %></h3>
+
+<!-- start of  Orders table -->
+
+<table id="serverview" class="view" cellspacing="0"  style="width: 100%; margin-top:5px;">
+    <thead>
+        <tr class="parent">
+          <td>Open </td>
+        </tr>
+      </thead>
+
+    </table>
+    <table id="serverlisthead" cellspacing="0" style="width:100%;">
+      <thead>
+
+        <tr >
+    <td style="width:5%;">
+    <% if (@sort_order == "id") %>
+      <%= link_to("Task ID", unassigned_super_admin_requests_path(:sort => "id_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") %>
+    <% else %>
+      <%= link_to("Task ID", unassigned_super_admin_requests_path(:sort => "id", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") if (@sort_order == "id_desc") %>
+    <% end %>
+    </td>
+
+    <td style="width:8%;">
+    <% if (@sort_order == "priority_desc") %>
+      <%= link_to("Priority", unassigned_super_admin_requests_path(:sort => "priority", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") %>
+      <% else %>
+      <%= link_to("Priority", unassigned_super_admin_requests_path(:sort => "priority_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") if (@sort_order == "priority") %>
+      <% end %>
+    </td>
+    <td style="width:28%;">
+    <% if (@sort_order == "cust") %>
+      <%= link_to(SAM_CUSTOMER_TERM, unassigned_super_admin_requests_path(:sort => "cust_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") %>
+      <% else %>
+      <%= link_to(SAM_CUSTOMER_TERM, unassigned_super_admin_requests_path(:sort => "cust", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") if (@sort_order == "cust_desc") %>
+      <% end %>
+        </td>
+
+	<td style="width:12%;">
+    <% if (@sort_order == "state") %>
+      <%= link_to("State / Province", unassigned_super_admin_requests_path(:sort => "state_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") %>
+      <% else %>
+      <%= link_to("State / Province", unassigned_super_admin_requests_path(:sort => "state", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") if (@sort_order == "state_desc") %>
+      <% end %>
+        </td>
+
+	<td style="width:8%;">
+    <% if (@sort_order == "date") %>
+      <%= link_to("Task Date", unassigned_super_admin_requests_path(:sort => "date_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") %>
+      <% else %>
+      <%= link_to("Task Date", unassigned_super_admin_requests_path(:sort => "date", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") if (@sort_order == "date_desc") %>
+      <% end %>
+        </td>
+
+	<td style="width:23%;">
+    <% if (@sort_order == "reason") %>
+      <%= link_to("Reason", unassigned_super_admin_requests_path(:sort => "reason_desc", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_up.gif") %>
+      <% else %>
+      <%= link_to("Reason", unassigned_super_admin_requests_path(:sort => "reason", :scholastic_index => params[:scholastic_index])) %>&nbsp;<%= image_tag("sort_down.gif") if (@sort_order == "reason_desc") %>
+      <% end %>
+        </td>
+
+	<td style="width:13%;">Action</td>
+</tr>
+      </thead>
+    </table>
+	<%= render(:partial => "unassigned_task_summary", :collection => @tasks) %>
+</div>
+
+<% end %>
+
+<!--start of Open Orders Tasks table -->

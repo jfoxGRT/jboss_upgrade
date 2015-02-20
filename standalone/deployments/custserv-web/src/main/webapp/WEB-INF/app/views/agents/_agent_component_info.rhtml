@@ -1,0 +1,14 @@
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Component Name</th>
+            <th>Supernumber</th>
+            <% # "Supernumber" is not the best term here as it doesn't apply to quizzes, ConnectNow, Subcommander, etc, but
+							 # it has been specified by the business. 
+            %>
+       </tr>
+    </thead>
+    <tbody>
+        <%= (render(:partial => "agent_component", :collection => agent_component_info.agent_components)) if !agent_component_info.nil? %>
+    </tbody>
+</table>

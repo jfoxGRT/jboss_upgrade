@@ -1,0 +1,34 @@
+<%  @page_title = "SAMC - Batch Central - Dash Customers" %>
+
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+  <div class="table_header">
+  	<h1 class="table_title">Dashboard Customers</h1>
+  </div>
+
+
+  <table class="data_table" style="width: 80%;">
+    <thead>
+      <tr class="data_table_first_row">
+        <td>UCN</td>
+        <td>Status</td>
+        <td>Live Batch Number</td>
+        <td>Publish Start</td>
+        <td>Publish End</td>
+        <% if @current_user.isAdminType %>
+        <td>Host</td>
+        <td>Loader DB</td>
+        <td>Live DB</td>
+        <td>Refresh Enabled?</td>
+        <td>Created At</td>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "dash_cust", :collection => @dash_cust_bean_list) %>
+    </tbody>
+  </table>
+
+
+<% end %>

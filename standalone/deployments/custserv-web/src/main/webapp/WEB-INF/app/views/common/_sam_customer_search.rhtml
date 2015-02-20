@@ -1,0 +1,5 @@
+<td style="height: 25px; vertical-align: middle; padding: 0px 71px 0px 0px; border: 0px; text-align: right; color: white;">
+	<% form_tag("", :onsubmit => "popup_sam_customer_search_results(jQuery('#sam_customer_search_keystring').val()); return false;") do -%>
+	<%= SAM_CUSTOMER_TERM %> Name: <input id="sam_customer_search_keystring" name="keystring" size="20" type="search" value="" />&nbsp;&nbsp;<%= submit_tag("Search") %>
+	<% end -%>
+</td>

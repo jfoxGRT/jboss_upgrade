@@ -1,0 +1,6 @@
+<div id="mydiv">
+    <%= render(:partial => "completebs", :locals => {:thissucks => @entitlementType})%>
+</div>
+<div id=clickme">
+<%= link_to_remote("Click here", :url => {:action => "ajaxcall"})%>
+</div>

@@ -1,0 +1,2 @@
+page[:org_details].replace_html(:partial => "org_info", :object => @customer_details)
+page[:right_pane_show_hierarchy_button].replace_html(:partial => "right_pane_show_hierarchy_button", :object => @customer_details)

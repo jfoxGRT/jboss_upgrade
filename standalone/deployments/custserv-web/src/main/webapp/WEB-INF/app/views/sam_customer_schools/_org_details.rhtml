@@ -1,0 +1,11 @@
+<tr>
+	<td><%= radio_button_tag("selected_org", org_details.id, false) %></td>
+	<td style="text-align: left;"><%= link_to(org_details.name, org_path(org_details.id), :target => "new") %></td>
+	<td>&nbsp;<%= org_details.address_line_1 %></td>
+	<td>&nbsp;<%= org_details.address_line_2 %></td>
+	<td>&nbsp;<%= org_details.city_name %></td>
+	<td>&nbsp;<%= org_details.state_name %></td>
+	<td>&nbsp;<%= org_details.ucn %></td>
+	<td>&nbsp;<%= org_details.zip_code %></td>
+	<td>&nbsp;<%= org_details.status_description %></td>
+</tr>

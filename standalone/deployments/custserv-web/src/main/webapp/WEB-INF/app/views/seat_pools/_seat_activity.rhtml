@@ -1,0 +1,57 @@
+<% subcommunity = seat_activity.seat_pool.subcommunity %>
+<tr class='<%= ((seat_activity.result_name) && seat_activity.result_name == "FAILURE") ? "table_row_problem" : ""%>'>
+	<% pool = seat_activity.seat_pool %>
+	<% if (sam_server.nil? and current_user.isAdminType) %>
+		<td>&nbsp;<%= link_to(pool.id, sam_customer_subcommunity_seat_pool_path(sam_customer_id, subcommunity.id, pool.id)) %></td>
+	<% end %>
+	<td>&nbsp;<%= seat_activity.id %></td>
+	<% if (show_subcommunity) %>
+		<td style="text-align: left;">&nbsp;<%= seat_activity.subcommunity_name %></td>
+	<% end %>
+	<% if (sam_server.nil?) %>
+		<td style="text-align: left;">&nbsp;<%= link_to(pool.sam_server.name, sam_customer_sam_server_path(sam_customer_id, pool.sam_server.id))%></td>
+	<% end %>
+	<td>&nbsp;<%= seat_activity.starting_count %></td>
+	<td>&nbsp;<%= seat_activity.delta %></td>
+	<% if @current_user.isAdminType %>
+		<td>&nbsp;<%= link_to(seat_activity.conversation_instance_id, agent_conversation_path(seat_activity.agent_id, seat_activity.conversation_instance_id)) if (seat_activity.conversation_instance_id) %></td>
+	<% end %>
+	<td id="seat_activity_<%= seat_activity.id %>_status" >&nbsp;<%= translate_seat_activity_status(seat_activity) %></td>
+	<td>&nbsp;
+	    <% # Only allow seat activity cancellation if:
+	       # 1) The seat activity is not in an end state (complete, failed, cancelled)
+	       # 2) Either there is no conversation instance assigned or the conversation is unstarted
+	       # 3) The user is a Scholastic user with cancel_license_reallocations or customer_site_edit permission or
+	       #    is an Admin user 
+	       %>
+		<% if (seat_activity.status == SeatActivity::STATUS_UNFINISHED || seat_activity.status == SeatActivity::STATUS_PENDING_START ) %>
+		   <% if( (!seat_activity.conversation_instance.nil? && seat_activity.conversation_instance.result_type_id = 1) || seat_activity.conversation_instance.nil? ) %> 
+			<% if (@current_user.hasScholasticPermission(Permission.cancel_license_reallocations) || @current_user.hasScholasticPermission(Permission.customer_site_edit)) -%>
+				<%#= button_to_function("Freeze",
+					remote_function(:update => "seat_activity_#{seat_activity.id}_status", :url => url_for(:controller => :sam_customer_seat_activities, :action => :freeze_seat_activity, :id => seat_activity.id), 
+									:before => "$$('input').invoke('disable'); $('seat_activity_#{seat_activity.id}_status').update('Freezing..');", 
+									:success => "$('cancel_seat_activity_#{seat_activity.id}_button').hide(); $('freeze_seat_activity_#{seat_activity.id}_button').hide(); $$('input').invoke('enable');",
+									:confirm => "Are you sure you wish to continue?"),
+									:id => "freeze_seat_activity_#{seat_activity.id}_button") %>
+				<%= button_to_function("Cancel",
+					remote_function(:update => "seat_activity_#{seat_activity.id}_status", :url => url_for(:controller => :sam_customer_seat_activities, :action => :cancel_seat_activity, :id => seat_activity.id), 
+									:before => "$$('input').invoke('disable'); $('seat_activity_#{seat_activity.id}_status').update('Cancelling..');", 
+									:success => "$('cancel_seat_activity_#{seat_activity.id}_button').hide(); $$('input').invoke('enable');",
+									:confirm => "Are you sure you wish to continue?"),
+									:id => "cancel_seat_activity_#{seat_activity.id}_button") %>
+			<% end %>
+		   <% end %>
+		<% else %>
+			<%= seat_activity.result_name if seat_activity.result_name %>
+		<% end %>
+	</td>
+	<td>&nbsp;<%= seat_activity.created_at.strftime(DATE_FORM) %></td>
+	<td>&nbsp;
+		<% if (seat_activity.user_id) %>
+			<%= link_to("#{seat_activity.last_name}, #{seat_activity.first_name}", user_path(seat_activity.user_id)) %>
+		<% else %>
+			Unknown
+		<% end %>
+	</td>
+	<td>&nbsp;<%= translate_seat_activity_type(seat_activity) %></td>
+</tr>

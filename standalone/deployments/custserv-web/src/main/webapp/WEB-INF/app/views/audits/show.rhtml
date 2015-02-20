@@ -1,0 +1,47 @@
+<% @page_title = "SAMC - Licensing Activation" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+		<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+		<td>&raquo;</td>
+		<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => CS_REP_ACTIVITY_CODE, :on_target => nil}) %>
+		</td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Licensing Activation: <%= @licensing_activation.id %></span></td>
+	</tr>
+</table>
+<hr/>
+<% the_user = @licensing_activation.user %>
+<div class="table_header">
+	<h2 class="table_title" style="margin-bottom: 30px;"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Licensing Activation: <%= @licensing_activation.id %></h2>
+</div>
+<table class="property_table" style="width: 40%;">
+	<tr>
+		<td>Licensing Activation ID</td>
+		<td><%= @licensing_activation.id %></td>
+	</tr>
+	<tr>
+		<td>Performed At..</td>
+		<td><%= @licensing_activation.created_at.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Performed By..</td>
+		<td><%= the_user.last_name%>, <%= the_user.first_name %></td>
+	</tr>
+</table>
+<div class="table_header">
+	<span class="super_caption">Related Virtual Entitlements</span>
+</div>
+<table class="data_table">
+	<tr>
+		<th>Entitlement Audit ID</th>
+		<th>TMS Entitlement ID</th>
+		<th><%= PRODUCT_TERM %></th>
+		<th>License Count</th>
+		<th>Initial Activation</th>
+		<th>Added By..</th>
+		<th>Added At..</th>
+		<th style="width: 40%;">Annotation</th>
+	</tr>
+	<%= render(:partial => "entitlement_audit", :collection => @entitlement_audits) %>
+</table>

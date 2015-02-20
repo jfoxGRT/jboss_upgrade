@@ -1,0 +1,95 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Scholastic U Users Report", :csv_action => "export_scholasticu_users_to_csv"})%>
+<% #note that many of the column headings shown in the rendered table are misleading; these are the headings requested and are mostly based on CSI naming %>
+<table class="data_table">
+  <thead>
+	  <tr>
+	    <th>
+	      <% if (@sort_order == "uuid") %>
+	        <%= link_to("GUID", {:action => :scholasticu_users, :sort => "uuid_desc"}) %>
+	      <% else %>
+	         <%= link_to("GUID", {:action => :scholasticu_users, :sort => "uuid"}) %>
+	      <% end %>
+	    </th>
+	    <th>
+	      <% if (@sort_order == "district_ucn") %>
+	        <%= link_to("District ID", {:action => :scholasticu_users, :sort => "district_ucn_desc"}) %>
+	      <% else %>
+          <%= link_to("District ID", {:action => :scholasticu_users, :sort => "district_ucn"}) %>
+	      <% end %>
+	    </th>        
+	    <th>
+	      <% if (@sort_order == "district_name") %>
+	        <%= link_to("District Name", {:action => :scholasticu_users, :sort => "district_name_desc"}) %>
+	      <% else %>
+	        <%= link_to("District Name", {:action => :scholasticu_users, :sort => "district_name"}) %>
+	      <% end %>
+	    </th>
+	    <th>
+	      <% if (@sort_order == "school_ucn") %>
+	        <%= link_to("School ID", {:action => :scholasticu_users, :sort => "school_ucn_desc"}) %>
+	      <% else %>
+	        <%= link_to("School ID", {:action => :scholasticu_users, :sort => "school_ucn"}) %>
+	       <% end %>
+	    </th>
+	    <th>
+	      <% if (@sort_order == "school_name") %>
+	        <%= link_to("School Name", {:action => :scholasticu_users, :sort => "school_name_desc"}) %>
+	      <% else %>
+	        <%= link_to("School Name", {:action => :scholasticu_users, :sort => "school_name"}) %>
+	      <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "first_name") %>
+	        <%= link_to("First Name", {:action => :scholasticu_users, :sort => "first_name_desc"}) %>
+	      <% else %>
+	        <%= link_to("First Name", {:action => :scholasticu_users, :sort => "first_name"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "last_name") %>
+	        <%= link_to("Last Name", {:action => :scholasticu_users, :sort => "last_name_desc"}) %>
+        <% else %>
+          <%= link_to("Last Name", {:action => :scholasticu_users, :sort => "last_name"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "user_type") %>
+          <%= link_to("Type", {:action => :scholasticu_users, :sort => "user_type_desc"}) %>
+        <% else %>
+          <%= link_to("Type", {:action => :scholasticu_users, :sort => "user_type"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "email_address") %>
+          <%= link_to("Email Address", {:action => :scholasticu_users, :sort => "email_address_desc"}) %>
+        <% else %>
+          <%= link_to("Email Address", {:action => :scholasticu_users, :sort => "email_address"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "job_title") %>
+          <%= link_to("Title", {:action => :scholasticu_users, :sort => "job_title_desc"}) %>
+        <% else %>
+          <%= link_to("Title", {:action => :scholasticu_users, :sort => "job_title"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "state") %>
+          <%= link_to("State Code", {:action => :scholasticu_users, :sort => "state_desc"}) %>
+        <% else %>
+          <%= link_to("State Code", {:action => :scholasticu_users, :sort => "state"}) %>
+        <% end %>
+      </th>
+      <th>
+        <% if (@sort_order == "product_group_code") %>
+          <%= link_to("Entitlement", {:action => :scholasticu_users, :sort => "product_group_code_desc"}) %>
+        <% else %>
+          <%= link_to("Entitlement", {:action => :scholasticu_users, :sort => "product_group_code"}) %>
+        <% end %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "scholasticu_users_detail", :collection => @scholasticu_users)%>
+  </tbody>        
+</table>

@@ -1,0 +1,30 @@
+<%  @page_title = "Server Report Requests" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false})%>
+	<td>&raquo;</td>
+	<td><span class="breadcrumb_level"><%= link_to(@sam_server.name, sam_customer_sam_server_path(@sam_customer, @sam_server)) %></span></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Server Report Requests</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Server Report Requests</h2>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("report_requests_status_indicator") %>
+	</div>
+</div>
+<div align="center" id="report_requests_table">
+    <%= render(:partial => "report_requests_table", 
+               :locals => {:report_requests_collection => @server_report_requests,
+                           :async_file_uploads => @async_file_uploads,
+                           :conversation_instance_ids => @conversation_instance_ids,
+                           :status_indicator => "report_requests_status_indicator",
+                           :update_element => "report_requests_table",
+						   :sam_server => @sam_server}) %>
+</div>

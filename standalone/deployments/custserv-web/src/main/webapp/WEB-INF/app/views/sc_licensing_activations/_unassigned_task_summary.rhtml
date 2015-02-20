@@ -1,0 +1,28 @@
+<table id="<%= unassigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:8%;">
+                <%= unassigned_task_summary.id %>
+            </td>
+            <td style="width:12%;">
+                <%= unassigned_task_summary.priority %>
+            </td>
+            <td style="width:36%;">
+                <%= unassigned_task_summary.sam_customer_name %>
+            </td>
+            <td style="width:12%;">
+                <%= unassigned_task_summary.state_name %>
+            </td>
+            <td style="width:12%;">
+                <%= unassigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= unassigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <td style="width:17%;">
+            	<%= render(:partial => "/tasks/unassigned_task_links", :locals => {:task => unassigned_task_summary, 
+            																		:unassigned_task_list_path => unassigned_sc_licensing_activations_path, 
+            																		:edit_task_path => edit_sc_licensing_activation_path(unassigned_task_summary.id),
+            																		:view_details => false}) %>
+            </td>
+    </tbody>
+</table>

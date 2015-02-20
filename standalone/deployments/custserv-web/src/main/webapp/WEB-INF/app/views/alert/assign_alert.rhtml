@@ -1,0 +1,22 @@
+<%= render(:partial => "entitlement_assign_nav", :object => @chosen_alert_instance) %>
+<table border="0">
+    <tr>
+        <td>SELECTED ROOT ORGANIZATION: </td>
+        <td><span id="selected_rootorg"></span></td>
+    </tr>
+</table>
+<table border="1">
+    <tr>
+        <td>
+        <%= render(:partial => "alert_top_level_org", :collection => @topLevelOrgList, :locals => {:pane => "alert_sub1orgs"})%>
+        </td>
+        <td id="alert_sub1orgs"></td>
+        <td id="alert_sub2orgs"></td>
+    </tr>
+</table>
+<% form_tag(:action => :assign_rootorg) do %>
+<div id="chosen_org_div">
+<input id="chosen_org" name="chosen_org" type="hidden" value="1"></input>
+</div>
+<%= submit_tag("Assign Selected Org", :class => "submit") %>
+<% end %>

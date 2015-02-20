@@ -1,0 +1,92 @@
+<% if (sam_server.agent.nil?) 
+	  agent_id = -1 
+   else 
+   	  agent_id = sam_server.agent.id
+   end %>
+<table class="data_table" style="width: 80%;">
+    <thead>
+        <tr class="data_table_first_row">
+            <!-- td <%= sort_td_class_helper("report_request_id")%>>
+                <%= sort_link_helper("Report Request ID", "id", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Created At", "created_at", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("report_type_id")%>>
+                <%= sort_link_helper("Report Type ID", "report_type_id", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("cohort_type")%>>
+                <%= sort_link_helper("Cohort Type", "cohort_type", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("user_id")%>>
+                <%= sort_link_helper("User ID", "user_id", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("date_range")%>>
+                <%= sort_link_helper("Date Range", "date_range", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("expiration_date")%>>
+                <%= sort_link_helper("Expiration Date", "expiration_date", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("status")%>>
+                <%= sort_link_helper("Status", "status", "report_requests_table", "update_report_requests_table", "report_requests_status_indicator")%>
+                </td -->
+                <!-- This is the new Server Requests Layout . The old one is present too incase we need to switch back. -->
+                <td>Report Id</td>
+                <td>Report Type</td>
+                <td>Request Type</td>
+                <td>Conversation Details</td>
+                <td>Creation Time</td>
+                <td>Updated At</td>
+                <td>Embargo Until</td>
+                <td>Expiration Date</td>
+                <td>Receive Date</td>
+                <td>Status</td>
+                <td>Async File Upload Status</td>
+
+        </tr>
+    </thead>
+    <tbody>
+        <%= if (agent_id != -1)
+        		render(:partial => "report_requests_row", :collection => report_requests_collection, :locals => {:agent_id => agent_id, :async_file_uploads => async_file_uploads, :conversation_instance_ids => conversation_instance_ids }) 
+        	end%>
+    </tbody>
+</table>
+
+<%
+		updated_at = nil
+		not_connecting = false
+		diff = 0
+		diff_seconds = 0
+	    diff_minutes = 0
+	    diff_hours = 0 
+	
+		updated_at = sam_server.updated_at
+		diff = (Time.now - updated_at).floor
+		diff_hours = (diff / 3600).floor
+	    diff_minutes = ((diff % 3600) / 60).floor
+	    diff_seconds = diff % 60
+		
+		if (diff_hours > 24)
+			not_connecting = true
+		end
+		
+		pendingCount = @sam_server.findNumPendingRequests
+		active = @sam_server.status
+
+%>       		
+		<% if ( @current_user.hasScholasticPermission(Permission.cust_maint_functions) ) %>
+	      <% form_tag :action => 'cancelPendingReportRequests', :id => @sam_server.id  do %>
+	       <%= submit_tag("Cancel Pending Requests", :confirm => 'Are you sure you want to cancel all pending report requests?', :disabled => ( (pendingCount == 0) || (active != 'a') ) )%>
+	      <% end %>
+	    <% end %>
+<p class="page_links" align="center">
+<%= if(agent_id != -1)
+		will_paginate(report_requests_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => "report_requests_status_indicator",
+                  :update_element => "report_requests_table",
+                  :action => "update_report_requests_table",
+                  :async_file_uploads => async_file_uploads, 
+                  :conversation_instance_ids => conversation_instance_ids,
+				  :id => agent_id) 
+	end %>
+</p>

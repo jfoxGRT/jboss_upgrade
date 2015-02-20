@@ -1,0 +1,8 @@
+<% reg_date = sam_customer_search_result.registration_date %>
+<tr>
+	<td class="standard_link_style" style="text-align: left; border-right: 1px dotted black; vertical-align: middle;"><%= link_to(sam_customer_search_result.name, sam_customer_path(sam_customer_search_result.id), :onclick => "jQuery('#search_results_loading_indicator').fadeIn(610, null);") %></td>
+	<td style="text-align: left; border-right: 1px dotted black; vertical-align: middle;"><%= sam_customer_search_result.state_name %></td>
+	<td class="standard_link_style" style="border-right: 1px dotted black; vertical-align: middle;"><%= link_to(sam_customer_search_result.sc_ucn, org_path(sam_customer_search_result.org_id), :onclick => "jQuery('#search_results_loading_indicator').fadeIn(610, null);") %></td>
+	<td style="border-right: 1px dotted black; text-align: center; vertical-align: middle;"><%= sam_customer_search_result.active? ? "Active" : "Inactive" %></td>
+	<td style="text-align: center; vertical-align: middle;">&nbsp;<%= reg_date.strftime(DATE_FORM) if reg_date %></td>
+</tr>

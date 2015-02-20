@@ -1,0 +1,9 @@
+<% entitlement = entitlement_audit.entitlement %>
+<tr>
+	<td><%= entitlement.created_at.strftime('%I:%M:%S %p %m/%d/%y') %>
+	<td><%= entitlement.id %></td>
+	<td><%= entitlement.license_count %></td>
+	<td><%= entitlement_audit.annotation %></td>
+	<% user = entitlement_audit.user %>
+	<td><%= user.last_name %>, <%= user.first_name %></td>
+</tr>

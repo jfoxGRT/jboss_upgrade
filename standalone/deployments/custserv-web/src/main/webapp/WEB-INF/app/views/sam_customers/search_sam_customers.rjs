@@ -1,0 +1,2 @@
+page[:target_sam_customer_summary].replace_html :partial => "search_result_list", :locals => {:search_results => @search_results}
+page[:status_indicator].hide

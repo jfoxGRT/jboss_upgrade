@@ -1,0 +1,292 @@
+<% @page_title = "SAMC - Pending License Count Change Task" %>
+
+<% 	last_task_event = @task.last_task_event
+	date_assigned = last_task_event.created_at
+	assigning_user = last_task_event.source_user 
+	new_target_count = @seat_pool.seat_count + @delta
+%>
+
+<h1>Work Task</h1>    
+<div id="all-servers-table">
+	<% form_for("", :url => task_path(@task.id), :html => {:method => :put, :id => "task_resolution_form", :name => "alert_form"}) do |f| -%>
+	<!--<form name='task_resolution' id='task_resolution' >-->
+<!-- start of  Orders table -->
+
+<!-- active tasks list table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;">
+    	<thead>
+        	<tr class="parent">
+				<td >Active Task</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" >
+		<thead>
+        	<tr>
+     			<td style='width:25%;'>Task ID</td>
+				<td style='width:25%;'>Task Type</td>
+				<td style='width:25%;'>Date Assigned</td>
+				<td style='width:25%;'>Assigned By</td>
+			</tr>
+		</thead>
+	</table>
+
+<!-- start of tasks table query and result -->
+	<table id="5"  cellspacing="1" style="border:1px solid black;">
+		<tbody>
+      		<tr>
+				<td style='width:25%;'><%= @task.id %></td>
+				<td style='width:25%;'><%= @task.task_type.description %></td>
+				<td style='width:25%;'>
+					<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+				</td>
+				
+				<td style='width:25%;'><%= assigning_user.first_name %> <%= assigning_user.last_name %></td>
+			</tr>
+      		<!-- PUT TFOOT HERE -->
+			<tr>
+				<td colspan=2 style="border-bottom:0px;">
+				<!-- start of details area for selected active task -->
+					<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+        					<tr class="parent"  >
+          						<td style="background:#99A36B;">Task Details</td>
+        					</tr>
+      					</thead>
+    				</table>
+					<table id="4250712"  cellspacing="1" style="margin-top:5px;width:98%;">
+						<tbody>
+							<tr>
+								<td  style="width:13%" class='workDetails'><%= SAM_CUSTOMER_TERM %> ID:</td>
+                 				<td style="width:37%" class='basicModallink'><%= @sam_customer.id %></td>
+		                		<td style="width:15%" class='workDetails' class='basicModallink'><%= SAM_CUSTOMER_TERM %>:</td>
+	 		                 	<td style="width:35%" class='basicModallink'>
+	 		                 		<%= link_to(@org_details.org_name, show_summary_info_for_org_path(@org_details.ucn), :id => @org_details.ucn) %>
+									<br>UCN: <%= @org_details.ucn %><br>
+				 					<%= @org_details.city_name %>, <%= @org_details.state_code %> <%= @org_details.zip_code %><br>
+				 					County Code: <%= @org_details.county_code %>
+				         		</td>
+        					</tr>
+      						<tr>
+             					<td class='workDetails'><%= PRODUCT_TERM %>:</td>
+        						<td><%= @product_name %></td>
+            					<td class='workDetails'>SAM Server:</td>
+          						<td><%= (@sam_server_name.nil?) ? "Unallocated Pool" : @sam_server_name %></td>
+        					</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#999;"> Task History</td>
+		        			</tr>
+      					</thead>
+    				</table>
+		    		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+						<tr class='workDetails'>
+							<td  colspan=4 >The following C/S representatives have worked this task:	 </td>
+		       			</tr>
+		      			<tr class='workDetails'>
+		             		<td class='workDetails' style='width:25%;'>C/S Rep:</td>
+							<td class='workDetails'style='width:15%;'>Take</td>
+		
+		 					<td class='workDetails' style='width:15%;'>Released</td>
+		          			<td class='workDetails' style='width:45%;'>Comments</td>
+		
+		        		</tr>
+		              	<tr class='workDetails'>
+		
+				        	<td ><%= @current_user.first_name %> <%= @current_user.last_name %></td>
+		
+		
+				        	<td><%= date_assigned.strftime('%m/%d/%y') %>
+                					<br/>
+                				<%= date_assigned.strftime('%I:%M:%S %p') %>
+							</td>
+		
+							<td> <span class="release_link"  id="3_<%= @task.id %>" href="<%= unassign_task_path(:id => @task.id, :target_user_id => @current_user.id, :alert_id => @task.alert.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span></td>
+		
+		 			 		<td id='commentModallink'><!--<a href='#' id=67_4815 style='display:block' >View/Add Comments</a>-->&nbsp;</td>        
+						</tr>
+		  			</table>
+		
+		
+					<!-- end of details area for selected active task-->
+				</td>
+				<td colspan=2 style="border-bottom:0px;">
+					<!--start of task tools areas for selected active task -->
+		
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		      			<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#666;"> Task Tools</td>
+		        			</tr>
+		      			</thead>
+		    		</table>
+		      		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+		
+						<tbody>
+							<tr class='workDetails' >
+								<td  colspan=3 >The following license count change in SAMC is still pending for 
+								<% if (@sam_server_name.nil?) %>
+									the unallocated pool of <%= @product_name %>
+								<% else %>
+									<%= @product_name %> on SAM Server <%= @sam_server_name %>
+								<% end %> 
+								:</td>
+		        			</tr>
+							<tr>
+								<td class='workDetails' style="width: 50%;">
+									Current License Count:
+								</td>
+								<td style="width: 10%; text-align: right;"><%= @seat_pool.seat_count %></td>
+								<td style="width: 40%;">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 50%;">
+									License Count Change:
+								</td>
+								<td style="width: 10%;  text-align: right;"><%= @delta %></td>
+								<td style="width: 40%;">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 50%;">
+									New Target License Count:
+								</td>
+								<td style="width: 10%; text-align: right;"><%= new_target_count %></td>
+								<td style="width: 40%;">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 50%;">
+									Notes:
+								</td>
+								<td colspan=2 ><%= "This change cannot currently be applied, as it would result in a negative license count" if new_target_count < 0 %></td>
+							</tr>							
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		  				<thead>
+		    				<tr class="parent"  >
+		      					<td style="background:#CC6600;">Task Resolution</td>
+		    				</tr>
+		  				</thead>
+		
+					</table>
+		
+					<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_resolve">
+						<tr class='workDetails'>
+							<td  colspan=3 >Please follow the steps below to resolve and close out the task </td>
+		
+		    			</tr>
+		  				<tr class='workDetails'>
+		
+		         			<td class='workDetails'  style='width:50%; vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;">Step 1:<br>
+		
+		        					<span style='font-weight:normal'>
+		        						Please review the license count change and the new target license count above.
+									</span>
+								</div>
+								<input type=hidden name='task_page_path' value="<%= edit_task_path(@task.id) %>" />
+								<span id='assigned_name' style="margin-top:8px;padding-top:8px;display:block;"></span>
+								<span id='assigned_ucn' style="margin-top:8px;padding-top:8px;"></span>
+							</td>
+							<td class='workDetails'  style='width:50%;vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;" class='step3' >Step
+									<span id='num'>2</span>:<br>
+									<span style='font-weight:normal'> Apply License Count and Close Task </span>
+								</div>
+		         				<div class='buttons'>
+				 					<div class='resolve' style="padding-top:8px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Close Task</div>
+								</div>
+		         			</td>
+		
+		
+		
+		    			</tr>
+					</table>
+		
+		
+				
+		
+		
+		
+			<!-- end of task tooks area for selected active task -->
+		
+				</td>
+		
+			</tr>
+		</tbody>
+		
+	</table>
+		
+		
+		<!-- end of active tasks list table -->
+		
+		
+		
+		<!-- end of Orders table -->
+	<% end %>
+	<!--</form>-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

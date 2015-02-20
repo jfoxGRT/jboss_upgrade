@@ -1,0 +1,14 @@
+<tr class='workDetails'>
+    <td>
+        <%= user_list.first_name %> <%= user_list.last_name %>
+    </td>
+    <td>&nbsp;
+        <%= "Signed In" if (!user_list.session_id.nil?) %>
+    </td>
+    <td>
+        <%= user_list.number_of_tasks %>
+    </td>
+    <td class="rep_link" id="<%= user_list.id %>" >
+        <span onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Assign</span>
+    </td>
+</tr>

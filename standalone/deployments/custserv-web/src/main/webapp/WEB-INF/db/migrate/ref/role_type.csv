@@ -1,0 +1,1360 @@
+0000,UNKNOWN                                                                    
+0001,STUDENT TEACHER/PRE-TEACHER                                                
+0002,K-12                                                                       
+0003,KINDERGARTEN                                                               
+0004,1ST GRADE                                                                  
+0005,2ND GRADE                                                                  
+0006,3RD GRADE                                                                  
+0007,4TH GRADE                                                                  
+0008,5TH GRADE                                                                  
+0009,6TH GRADE                                                                  
+0010,7TH GRADE                                                                  
+0011,8TH GRADE                                                                  
+0012,9TH GRADE                                                                  
+0013,10TH GRADE                                                                 
+0014,11TH GRADE                                                                 
+0015,12TH GRADE                                                                 
+0017,ELEMENTARY                                                                 
+0018,SECONDARY                                                                  
+0019,PRE-KINDERGARTEN                                                           
+0021,SENIOR HIGH                                                                
+0022,MIDDLE/JUNIOR HIGH                                                         
+0023,1ST GRADE LEAD TEACHER                                                     
+0024,2ND GRADE LEAD TEACHER                                                     
+0025,3RD GRADE LEAD TEACHER                                                     
+0026,4TH GRADE LEAD TEACHER                                                     
+0027,5TH GRADE LEAD TEACHER                                                     
+0028,6TH GRADE LEAD TEACHER                                                     
+0030,PRINCIPAL                                                                  
+0031,ELEMENTARY SCHOOL PRINCIPAL                                                
+0032,SECONDARY SCHOOL PRINCIPAL                                                 
+0033,BUILDING ADMINISTRATOR                                                     
+0034,SCHOOL SECRETARY                                                           
+0036,ASSISTANT/ASSOCIATE PRINCIPAL                                              
+0039,ADMISSIONS DIRECTOR                                                        
+0040,SITE-BASED/SCH IMPROVE COMM                                                
+0041,PTA/PTO PRESIDENT                                                          
+0043,STAFF DEVELOPMENT COORDINATOR                                              
+0045,PARENT/COMMUNITY COORD                                                     
+0046,ACTIVITIES COORD/FUNDRAISER                                                
+0048,ART TEACHER                                                                
+0049,ART DEPARTMENT CHAIRPERSON                                                 
+0050,AP HISTORY OF ART TEACHER                                                  
+0051,AP ART                                                                     
+0052,TITLE I                                                                    
+0053,AT RISK COUNSELOR                                                          
+0054,ESL                                                                        
+0055,BASIC SKILLS                                                               
+0056,BILINGUAL EDUCATION                                                        
+0057,STUDY SKILLS                                                               
+0058,ALTERNATIVE EDUCATION                                                      
+0059,BUSINESS EDUCATION                                                         
+0060,BUSINESS ED DEPT CHAIRPERSON                                               
+0061,ACCOUNTING                                                                 
+0062,BUSINESS LAW                                                               
+0063,TYPING/WORD PROCESSING                                                     
+0064,MARKETING EDUCATION                                                        
+0065,OFFICE/BUSINESS EDUCATION                                                  
+0067,SUBSTANCE ABUSE                                                            
+0068,COACH                                                                      
+0069,HEAD FOOTBALL COACH                                                        
+0070,HEAD BOYS' BASKETBALL COACH                                                
+0071,BASEBALL COACH                                                             
+0072,BASKETBALL COACH                                                           
+0074,CROSS COUNTRY COACH                                                        
+0075,FOOTBALL COACH                                                             
+0076,GOLF COACH                                                                 
+0077,GYMNASTICS COACH                                                           
+0078,HOCKEY COACH                                                               
+0080,SOCCER COACH                                                               
+0081,SOFTBALL COACH                                                             
+0083,SWIMMING COACH                                                             
+0084,TENNIS COACH                                                               
+0085,TRACK COACH                                                                
+0086,HEAD GIRLS' BASKETBALL COACH                                               
+0087,VOLLEYBALL COACH                                                           
+0088,FIELD HOCKEY COACH                                                         
+0089,WEIGHTLIFTING COACH                                                        
+0090,WRESTLING COACH                                                            
+0091,LACROSSE COACH                                                             
+0092,CHEERLEADING COACH                                                         
+0093,ATHLETIC DIRECTOR                                                          
+0094,ATHLETIC COORDINATOR                                                       
+0095,GIRLS P E TEACHER                                                          
+0096,BOYS P E TEACHER                                                           
+0098,TRAINER                                                                    
+0099,SPORTS MEDICINE                                                            
+0100,PHYSICAL EDUCATION                                                         
+0101,P E DEPARTMENT CHAIRPERSON                                                 
+0102,ADAPTIVE P E TEACHER                                                       
+0103,HEALTH TEACHER                                                             
+0104,DRIVERS EDUCATION                                                          
+0106,SCHOOL WEBMASTER                                                           
+0107,COMPUTER SCIENCE CHAIRPERSON                                               
+0108,A P COMPUTER TEACHER                                                       
+0109,COMPUTER PROGRAMMING                                                       
+0110,INSTRUCTIONAL TECHNOLOGY COORDINATOR                                       
+0111,COMPUTER SCIENCE/LAB SUPERVISOR                                            
+0112,COMPUTER SCIENCE                                                           
+0113,COMPUTER TECHNICIAN                                                        
+0118,R O T C INSTRUCTOR                                                         
+0119,CURRICULUM DEVELOPMENT COORD                                               
+0120,INSTRUCTIONAL SUPPORT                                                      
+0121,PORTFOLIO ADVISOR/TUTOR/MENTOR                                             
+0123,G E D INSTRUCTOR                                                           
+0124,ADULT EDUCATION                                                            
+0125,ENGLISH DEPARTMENT CHAIRPERSON                                             
+0126,AP ENGLISH LANGUAGE TEACHER                                                
+0127,AP ENGLISH LITERATURE TEACHER                                              
+0128,LITERATURE TEACHER                                                         
+0129,AMERICAN LITERATURE TEACHER                                                
+0131,READING TEACHER                                                            
+0132,TITLE I READING TEACHER                                                    
+0133,WRITING/COMPOSITION TEACHER                                                
+0134,ADV COMP/CREATIVE WRITING TEACHER                                          
+0135,REMEDIAL READING                                                           
+0136,SPEECH/DEBATE                                                              
+0137,SPELLING                                                                   
+0138,HUMANITIES                                                                 
+0139,JOURNALISM                                                                 
+0140,ENGLISH/LANGUAGE ARTS                                                      
+0141,YEARBOOK ADVISOR                                                           
+0142,FAMILY/CONSUMER SCIENCE                                                    
+0143,FAMILY/CONSUMER SCI DEPT CHAIR                                             
+0144,CHILD DEVELOPMENT                                                          
+0145,FOOD/NUTRITION                                                             
+0146,LIFE SKILLS                                                                
+0147,HOME ECONOMICS                                                             
+0148,FINE ARTS                                                                  
+0149,FINE ARTS DEPT CHAIRPERSON                                                 
+0150,DANCE                                                                      
+0151,DANCE DEPARTMENT CHAIR                                                     
+0152,AP DANCE TEACHER                                                           
+0153,DRAMA/THEATER                                                              
+0154,DRAMA/THEATER DEPT CHAIRPERSON                                             
+0155,A P DRAMA/THEATER TEACHER                                                  
+0156,FOREIGN/WORLD LANGUAGE                                                     
+0157,FOREIGN LANG DEPT CHAIRPERSON                                              
+0158,JAPANESE                                                                   
+0159,FRENCH                                                                     
+0160,GERMAN                                                                     
+0161,SPANISH                                                                    
+0162,LATIN                                                                      
+0163,RUSSIAN                                                                    
+0164,A P FOREIGN LANGUAGE                                                       
+0167,AMERICAN SIGN LANGUAGE                                                     
+0168,VOCATIONAL EDUCATION COUNSELOR                                             
+0169,TESTING COUNSELOR                                                          
+0172,SCHOOL PSYCHOLOGIST                                                        
+0173,GUIDANCE DEPT CHAIRPERSON                                                  
+0174,GUIDANCE COUNSELOR                                                         
+0175,SCHOOL NURSE                                                               
+0176,SCHOOL SOCIAL WORKER                                                       
+0178,IN-SCHOOL SUSPENSION DIRECTOR                                              
+0180,LIBRARIAN/MEDIA SPECIALIST                                                 
+0181,LIBRARY AIDE                                                               
+0182,MATH DEPARTMENT CHAIRPERSON                                                
+0183,AP ALGEBRA TEACHER                                                         
+0184,PRE-ALGEBRA TEACHER                                                        
+0185,ALGEBRA TEACHER                                                            
+0186,AP STATISTICS TEACHER                                                      
+0187,AP TRIGONOMETRY TEACHER                                                    
+0188,AP CALCULUS TEACHER                                                        
+0189,PRE-CALCULUS TEACHER                                                       
+0190,TRIGONOMETRY TEACHER                                                       
+0191,CALCULUS TEACHER                                                           
+0192,BUSINESS/CONSUMER MATH TEACHER                                             
+0193,REMEDIAL MATH TEACHER                                                      
+0195,GEOMETRY TEACHER                                                           
+0196,STATISTICS/PROBABILITY TEACHER                                             
+0197,MATH                                                                       
+0199,MUSIC DEPARTMENT CHAIRPERSON                                               
+0200,MUSIC                                                                      
+0201,CHORAL DIRECTOR                                                            
+0202,MUSIC THEORY                                                               
+0203,BAND DIRECTOR                                                              
+0204,INSTRUMENTAL MUSIC                                                         
+0205,ORCHESTRA DIRECTOR                                                         
+0206,A P MUSIC THEORY                                                           
+0207,TECH PREP COORDINATOR                                                      
+0208,VOCATIONAL EDUCATION                                                       
+0209,VOC ED DEPARTMENT CHAIRPERSON                                              
+0210,HEALTH OCCUPATIONS                                                         
+0211,DISTRIBUTIVE EDUCATION                                                     
+0212,MEDIA COMMUNICATIONS                                                       
+0213,CHILD CARE OCCUPATIONS                                                     
+0214,FOOD SERVICES                                                              
+0215,TRADE/INDUSTRIAL ARTS                                                      
+0216,AGRICULTURAL EDUCATION                                                     
+0217,AUTO MECHANICS/REPAIR                                                      
+0218,CONSTRUCTION TRADES                                                        
+0219,COSMETOLOGY                                                                
+0220,DRAFTING                                                                   
+0221,ELECTRONICS                                                                
+0222,HORTICULTURE                                                               
+0223,TECHNICAL EDUCATION                                                        
+0224,WELDING                                                                    
+0225,WOODWORKING                                                                
+0226,COMMERCIAL ART                                                             
+0227,ENGINEERING                                                                
+0228,MANUFACTURE/PROCESSING                                                     
+0229,SCIENCE DEPARTMENT CHAIRPERSON                                             
+0230,AP BIOLOGY                                                                 
+0231,AP CHEMISTRY                                                               
+0232,AP PHYSICS                                                                 
+0233,AP ENVIRONMENTAL SCIENCE TEACHER                                           
+0234,LIFE SCIENCE                                                               
+0235,BIOLOGY                                                                    
+0236,ENVIRONMENTAL SCIENCE                                                      
+0237,CHEMISTRY                                                                  
+0238,PHYSICAL SCIENCE                                                           
+0240,PHYSICS                                                                    
+0241,EARTH SCIENCE                                                              
+0242,SPACE SCIENCE/ASTRONOMY TCHR                                               
+0243,ANATOMY/PHYSIOLOGY                                                         
+0244,SCIENCE                                                                    
+0245,SOCIAL STUDIES DEPT CHAIR                                                  
+0246,AP GOVERNMENT/POLITICAL SCIENCE                                            
+0247,AP MICRO-ECONOMICS                                                         
+0248,SOCIOLOGY/ANTHROPOLOGY                                                     
+0249,AP MACRO-ECONOMICS                                                         
+0250,AP EUROPEAN                                                                
+0251,ECONOMICS                                                                  
+0252,AP AMERICAN HISTORY                                                        
+0253,GEOGRAPHY                                                                  
+0254,AP PSYCHOLOGY                                                              
+0255,AP WORLD HISTORY                                                           
+0256,CIVICS/GOVERNMENT                                                          
+0257,PSYCHOLOGY                                                                 
+0258,PHILOSOPHY                                                                 
+0259,RELIGION TEACHER                                                           
+0260,RELIGION                                                                   
+0261,HISTORY                                                                    
+0262,STATE/LOCAL HISTORY                                                        
+0263,U.S. HISTORY                                                               
+0264,WORLD HISTORY                                                              
+0265,ETHNIC STUDIES                                                             
+0266,CURRENT EVENTS                                                             
+0267,LAW                                                                        
+0268,SOCIAL STUDIES                                                             
+0269,SPECIAL NEEDS DEPARTMENT CHAIR                                             
+0270,EMOTIONALLY CHALLENGED                                                     
+0271,GIFTED AND TALENTED                                                        
+0272,MENTALLY CHALLENGED                                                        
+0273,PHYSICALLY CHALLENGED                                                      
+0274,E C E SPECIAL NEEDS                                                        
+0275,HEARING SPECIALIST                                                         
+0276,OCCUPATIONAL SPECIALIST                                                    
+0277,SPECIAL NEEDS RESOURCE                                                     
+0278,AUTISTIC SPECIALTY                                                         
+0279,SEVERELY CHALLENGED                                                        
+0280,PHYSICAL THERAPIST                                                         
+0281,VISUALLY CHALLENGED                                                        
+0282,SPEECH/LANGUAGE PATHOLOGIST                                                
+0283,SPECIAL NEEDS                                                              
+0284,LEARNING CHALLENGED                                                        
+0285,HOME SCHOOLER                                                              
+0286,OTHER                                                                      
+0287,CLUB SPONSOR                                                               
+0288,SCHOOL AIDES                                                               
+0289,CAFETERIA PERSONNEL                                                        
+0290,TRANSPORTATION PERSONNEL                                                   
+0291,CUSTODIAL PERSONNEL                                                        
+0292,SCHOOL STAFF                                                               
+0293,UNMATCHED E-MAIL PERSONNEL                                                 
+0294,KINDERGARTEN LEAD TEACHER                                                  
+0295,WEB PAGE / INTERNET TEACHER                                                
+0296,RIF COORDINATOR                                                            
+0297,LITERACY COACH                                                             
+0298,EARLY CHILDHOOD PROVIDER                                                   
+0299,BEFORE/AFTER SCHOOL COOR                                                   
+0300,SUPERINTENDENT                                                             
+0301,ASSISTANT SUPERINTENDENT                                                   
+0303,FACILITIES/BUILDINGS AND GROUNDS                                           
+0304,BUSINESS MGR/PURCHASING AGENT                                              
+0306,HUMAN RESOURCES                                                            
+0307,TRANSPORTATION                                                             
+0308,MANAGEMENT INFORMATION SYSTEMS                                             
+0309,PURCHASING                                                                 
+0310,YEAR-ROUND EDUCATION                                                       
+0311,SITE-BASE/SCHOOL IMPROVEMENT COOR                                          
+0312,DISTRICT ADMINISTRATOR                                                     
+0314,INFORMATION/TECHNOLOGY SVS DIRECTOR                                        
+0315,ACCOUNTABILITY                                                             
+0316,"LANGUAGE ARTS/ENGLISH, K-12                                                "
+0317,"LANGUAGE ARTS/ENGLISH, ELEM                                                "
+0318,"LANGUAGE ARTS/ENGLISH, SEC                                                 "
+0319,"MATHEMATICS, K-12                                                          "
+0320,"MATHEMATICS, ELEMENTARY                                                    "
+0321,"MATHEMATICS, SECONDARY                                                     "
+0322,"READING, K-12                                                              "
+0323,"READING, ELEMENTARY                                                        "
+0324,"READING, SECONDARY                                                         "
+0325,"SCIENCE, K-12                                                              "
+0326,"SCIENCE, ELEMENTARY                                                        "
+0327,"SCIENCE, SECONDARY                                                         "
+0328,"SOCIAL STUDIES, K-12                                                       "
+0329,"SOCIAL STUDIES, ELEMENTARY                                                 "
+0330,"SOCIAL STUDIES, SECONDARY                                                  "
+0331,LITERACY SPECIALIST                                                        
+0333,ADULT/GED/CONTINUING ED                                                    
+0334,BUSINESS/DISTRIBUTIVE ED                                                   
+0335,CAREER EDUCATION                                                           
+0336,HOME EC/CONSUMER ED                                                        
+0337,INDUSTRIAL ARTS/TRADES & IND                                               
+0339,"CURRICULUM, K-12                                                           "
+0340,"CURRICULUM, ELEMENTARY                                                     "
+0341,"CURRICULUM, SECONDARY                                                      "
+0343,FINE ARTS/HUMANITIES                                                       
+0344,EARLY CHILDHOOD EDUCATION                                                  
+0345,FOREIGN LANGUAGES                                                          
+0346,GIFTED & TALENTED                                                          
+0347,PHYSICAL EDUCATION & SAFETY                                                
+0348,CHARACTER EDUCATION                                                        
+0349,ACADEMIC ASSESSMENT/TESTING                                                
+0350,TESTING-PSYCHOLOGICAL                                                      
+0351,"GUIDANCE/COUNSELING, K-12                                                  "
+0352,"GUIDANCE/COUNSELING, ELEM                                                  "
+0353,"GUIDANCE/COUNSELING, SECOND                                                "
+0354,STAFF DEVELOPMENT                                                          
+0355,PUBLIC RELATIONS                                                           
+0356,RESEARCH & DEVELOPMENT                                                     
+0357,SCHOOL BOARD PRESIDENT                                                     
+0358,SCHOOL REFORM                                                              
+0359,"SPECIAL EDUCATION, K-12                                                    "
+0360,"SPECIAL EDUCATION, ELEMENTARY                                              "
+0361,"SPECIAL EDUCATION, SECONDARY                                               "
+0362,FEDERAL PROGRAMS                                                           
+0363,TITLE I PROGRAMS DIRECTOR                                                  
+0364,TITLE II PROGRAMS DIRECTOR                                                 
+0366,MIGRANT EDUCATION                                                          
+0367,MULTI-CULTURAL EDUCATION                                                   
+0368,BUSINESS PARTNERSHIPS/GRANTS                                               
+0369,SAFETY/SECURITY DIRECTOR                                                   
+0370,NURSE/HEALTH SERVICES                                                      
+0371,PUPIL PERSONNEL                                                            
+0372,AFFIRMATIVE ACTION                                                         
+0373,HEALTH/DRUGS/AIDS                                                          
+0374,AT RISK                                                                    
+0375,DROPOUT PREVENTION                                                         
+0376,MEDIA/AUDIOVISUAL SERVICES                                                 
+0377,INSTRUCTIONAL TV                                                           
+0378,LIBRARY SERVICES                                                           
+0379,INSTRUCTIONAL TECHNOLOGY                                                   
+0381,VIDEO                                                                      
+0382,TECHNOLOGY PREP COORDINATOR                                                
+0383,WEBMASTER                                                                  
+0384,LIBRARY DIRECTOR                                                           
+0385,ASSISTANT LIB DIRECTOR                                                     
+0386,BRANCH SERVICES DIRECTOR                                                   
+0387,CIRCULATION SERVICES                                                       
+0388,ACQUISITIONS                                                               
+0389,AUTOMATION                                                                 
+0390,BRANCH LIB DIRECTOR                                                        
+0391,BOOKMOBILE SERVICES                                                        
+0392,TECH SERV                                                                  
+0393,MICROFORMS                                                                 
+0394,SERIALS-PERIODICALS                                                        
+0395,CHILDREN'S SERVICES                                                        
+0396,YOUNG ADULT SERV                                                           
+0397,REFERENCE                                                                  
+0398,ADULT SERV                                                                 
+0399,AUDIOVISUAL SERVICES                                                       
+0400,COLLECTION DEVELOPMENT                                                     
+0401,PUBLIC SERVICES                                                            
+0402,BRANCH CHILDREN'S LIB                                                      
+0403,READER'S ADVISOR                                                           
+0404,BRANCH REFERENCE LIBRARIAN                                                 
+0405,ASSISTANT TO CHIEF EXECUTIVE                                               
+0406,ASSOCIATE ACADEMIC ADVISOR                                                 
+0407,ASSOCIATE BUSINESS OFFICER                                                 
+0408,CHIEF ADMISSIONS OFFICER                                                   
+0409,CHIEF BUSINESS OFFICER                                                     
+0410,CHIEF EXECUTIVE OFFICER                                                    
+0411,EXECUTIVE VICE PRESIDENT                                                   
+0412,INFORMATION SYS (CHIEF OFFICER - CIO)                                      
+0413,PLANNING/BUDGET OFFICER                                                    
+0414,ADMINSTRATIVE AFFAIRS                                                      
+0415,ADMINSTRATIVE COMPUTING                                                    
+0416,ADMISSIONS-SPECIALIZED                                                     
+0417,ADVANCEMENT/EXTERNAL RELATIONS                                             
+0419,ANNUAL GIVING                                                              
+0421,AUXILLARY SERVICES                                                         
+0422,BRANCH CAMPUS                                                              
+0423,COLLEGE MARKETING                                                          
+0424,COLLEGE NEWSPAPER ADVERT DIRECTOR                                          
+0425,COLLEGE NEWSPAPER MANAGING EDITOR                                          
+0426,COLLEGE NEWSPAPERS                                                         
+0427,COMMUNITY SERVICES                                                         
+0428,CONTRACTS                                                                  
+0429,CORPORATE GIVING                                                           
+0430,DEVELOPMENT                                                                
+0431,DIRECTOR OF PHYSICAL PLANT                                                 
+0432,DRUG/ALCOHOL AWARENESS                                                     
+0433,ECONOMIC/BUSINESS DEVELOPMENT                                              
+0434,ENROLLMENT MANAGEMENT                                                      
+0435,EVENING DIVISION                                                           
+0437,GOVERNMENTAL RELATIONS                                                     
+0438,HONORS PROGRAM                                                             
+0439,INSTITUTIONAL RESEARCH                                                     
+0440,INTERNAL AUDITING                                                          
+0441,LEGAL AFFAIRS                                                              
+0442,MUSEUM ADMINISTRATION                                                      
+0443,NEWSPAPER - PROFESSIONAL SCHOOL                                            
+0444,PLANNED GIVING                                                             
+0446,PUBLICATIONS/INFORMATION                                                   
+0447,PURCHASING AGENT                                                           
+0448,RADIO STATION MANAGING DIRECTOR                                            
+0449,REGISTRAR                                                                  
+0450,SECURITY/SAFETY DIRECTOR                                                   
+0451,SPECIAL EVENTS/CONFERENCES                                                 
+0452,SPECIAL SESSIONS                                                           
+0453,SPORTS INFORMATION                                                         
+0454,STAFF PERSONNEL SERVICES                                                   
+0455,STUDENT NETWORK LICENSEE                                                   
+0456,SUMMER SESSIONS                                                            
+0457,TEACHER EDUCATION RESOURCE CENTER                                          
+0458,THEATER                                                                    
+0459,UNIVERSITY PRESS                                                           
+0460,VETERAN'S AFFAIRS                                                          
+0461,WOMEN'S ATHLETIC DIRECTOR                                                  
+0462,WOMEN'S CENTER                                                             
+0463,ACADEMIC AFFAIRS (CHIEF OFFICER)                                           
+0464,ADMISSIONS                                                                 
+0465,STUDENT AFFAIRS (GENERAL)                                                  
+0466,STUDENT AFFAIRS (MEN)                                                      
+0467,STUDENT AFFAIRS (WOMEN)                                                    
+0468,UNDERGRADUATE STUDIES                                                      
+0469,ADMISSIONS OFFICE                                                          
+0470,CO-OP PROGRAMS                                                             
+0471,EARLY CHILDHOOD DIRECTOR                                                   
+0472,FINANCIAL AID                                                              
+0473,FOREIGN STUDENT ADVISOR                                                    
+0474,HEALTH PROFESSIONS ADVISOR                                                 
+0475,HEALTH SERVICES DIRECTOR                                                   
+0476,MINORITY STUDENT ADVISOR                                                   
+0477,PLACEMENT SERVICES                                                         
+0478,PREMEDICAL ADVISOR                                                         
+0479,RELIGIOUS COUNSELING                                                       
+0480,SERVICES FOR STUDENTS WITH DISABILITIES                                    
+0481,STUDENT APPLICATION CONTACT                                                
+0482,STUDENT COUNSELING                                                         
+0483,STUDENT EMPLOYMENT                                                         
+0484,STUDENT FINANCIAL AID CONTACT                                              
+0485,STUDENT HOUSING                                                            
+0486,STUDENT LIFE/PERSONNEL SERVICES                                            
+0487,STUDY ABROAD                                                               
+0488,TRANSFER SERVICES                                                          
+0489,GRADUATE ARTS & SCIENCES                                                   
+0490,GRADUATE PROGRAMS                                                          
+0491,GRADUATE PROGRAMS-DENTISTRY                                                
+0492,GRADUATE PROGRAMS-SINGLE                                                   
+0493,GRADUATE STUDIES (MED SCHOOLS)                                             
+0494,ALUMNAE ASSOCIATION                                                        
+0495,ALUMNI ASSOCIATION                                                         
+0496,DENTAL SCHOOL ALUMNI AFFAIRS                                               
+0497,LAW SCHOOL ALUMNI AFFAIRS                                                  
+0498,MEDICAL SCHOOL ALUMNI AFFAIRS                                              
+0499,THEOLOGY SCHOOL ALUMNI AFFAIRS                                             
+0500,CONTINUING EDUCATION                                                       
+0501,CORRESPONDENCE STUDY                                                       
+0502,DEVELOPMENTAL STUDIES                                                      
+0503,EXECUTIVE EDUCATION                                                        
+0504,EXTERNAL DEGREE PROGRAM                                                    
+0505,PART-TIME DEGREE PROGRAMS                                                  
+0506,SPONSORED RESEARCH PROGRAM                                                 
+0507,VOCATIONAL/TECHNICAL EDUCATION                                             
+0508,ACADEMIC COMPUTING/INFO SERVICES                                           
+0509,AUDIOVISUAL/MEDIA SERVICES                                                 
+0510,BOOKSTORE MANAGER                                                          
+0511,COMPUTER CENTER DIRECTOR                                                   
+0512,DENTAL SCHOOL LIBRARY                                                      
+0513,DISTANCE EDUCATION ADMINISTRATORS                                          
+0514,LAW SCHOOL LIBRARY                                                         
+0515,LIBRARIAN                                                                  
+0516,LIBRARY (ACQUISITIONS)                                                     
+0517,LIBRARY (DEPARTMENTAL)                                                     
+0518,LIBRARY REFERENCE                                                          
+0519,MEDICAL SCHOOL LIBRARY                                                     
+0520,TELECOMMUNICATIONS                                                         
+0521,THEOLOGY SCHOOL LIBRARY                                                    
+0523,ACOUSTICS                                                                  
+0524,ACTUARIAL SCIENCE                                                          
+0525,ACTUARIAL SCIENCES                                                         
+0526,ADMINISTRATION                                                             
+0527,ADMINISTRATION AND MANAGEMENT                                              
+0528,ADULT AND CONTINUING EDUCATION                                             
+0530,ADULT NURSING                                                              
+0531,ADVANCED PRACTICE NURSING                                                  
+0532,ADVERTISING                                                                
+0533,ADVERTISING AND PUBLIC RELATIONS                                           
+0534,AEROSPACE SCIENCE                                                          
+0535,AEROSPACE/AERONAUTICAL ENGINEERING                                         
+0536,AFRICAN LANGUAGES                                                          
+0537,AFRICAN LANGUAGES AND LITERATURE                                           
+0538,AFRICAN STUDIES                                                            
+0539,AFRICAN-AMERICAN STUDIES                                                   
+0540,AGRIBUSINESS                                                               
+0541,AGRICULTURAL BUSINESS                                                      
+0542,AGRICULTURAL ECONOMICS AND AGRIBUSINESS                                    
+0544,AGRICULTURAL ENGINEERING                                                   
+0545,AGRICULTURAL SCIENCES                                                      
+0546,AGRICULTURAL TECHNOLOGY                                                    
+0547,AGRICULTURE                                                                
+0548,AGRONOMY AND SOIL SCIENCES                                                 
+0549,AIR QUALITY TECHNOLOGIES                                                   
+0550,AIR TRAFFIC CONTROL                                                        
+0551,AIRCRAFT/MISSILE MAINTENANCE                                               
+0552,ALLIED HEALTH                                                              
+0553,ALLIED HEALTH SCIENCES                                                     
+0554,ALLOPATHIC MEDICINE                                                        
+0555,AMERICAN INDIAN STUDIES                                                    
+0556,AMERICAN STUDIES                                                           
+0557,ANALYTICAL CHEMISTRY                                                       
+0558,ANATOMY                                                                    
+0559,ANESTHESIOLOGY                                                             
+0560,ANIMAL BEHAVIOR                                                            
+0561,ANIMAL HOSPITAL TECHNOLOGY                                                 
+0562,ANIMAL SCIENCES                                                            
+0563,ANTHROPOLOGY                                                               
+0564,APPLIED ARTS AND DESIGN                                                    
+0565,APPLIED HISTORY                                                            
+0566,APPLIED MATHEMATICS                                                        
+0567,APPLIED MECHANICS                                                          
+0568,APPLIED PHYSICS                                                            
+0569,APPLIED SCIENCE                                                            
+0571,APPLIED SCIENCES & TECHNOLOGIES                                            
+0572,AQUACULTURE                                                                
+0573,ARAB STUDIES                                                               
+0574,ARABIC                                                                     
+0575,ARCHAEOLOGY                                                                
+0576,ARCHITECTURAL ENGINEERING                                                  
+0577,ARCHITECTURAL HISTORY                                                      
+0578,ARCHITECTURAL TECHNOLOGY                                                   
+0579,ARCHITECTURE                                                               
+0580,ARCTIC STUDIES                                                             
+0581,ART & DESIGN                                                               
+0582,ART AND FINE ARTS                                                          
+0583,ART EDUCATION                                                              
+0584,ART HISTORY                                                                
+0585,ART THERAPY                                                                
+0586,ART/FINE ARTS                                                              
+0587,ARTIFICIAL INTELLIGENCE/ROBOTICS                                           
+0588,ARTS ADMINISTRATION                                                        
+0589,ARTS AND SCIENCES                                                          
+0591,ASIAN LANGUAGES                                                            
+0592,ASIAN STUDIES                                                              
+0593,ASIAN-AMERICAN STUDIES                                                     
+0594,ASTRONAUTICS                                                               
+0595,ASTRONOMY                                                                  
+0596,ASTRONOMY AND SPACE SCIENCES                                               
+0597,ASTROPHYSICAL SCIENCES                                                     
+0598,ASTROPHYSICS                                                               
+0599,ATMOSPHERIC SCIENCES                                                       
+0600,ATMOSPHERIC SCIENCES/METEOROLOGY                                           
+0601,AUDIOLOGY                                                                  
+0602,AUDIOLOGY/SPEECH PATHOLOGY                                                 
+0603,AUDIOVISUAL EDUCATION                                                      
+0604,AUTOMOTIVE ENGINEERING                                                     
+0605,AUTOMOTIVE TECHNOLOGIES                                                    
+0606,AVIATION                                                                   
+0607,AVIATION ADMINISTRATION                                                    
+0608,AVIATION MANAGEMENT                                                        
+0609,AVIATION TECHNOLOGY                                                        
+0610,BACTERIOLOGY                                                               
+0611,BANKING                                                                    
+0612,BANKING AND FINANCE                                                        
+0613,BEHAVIORAL GENETICS                                                        
+0614,BEHAVIORAL SCIENCES                                                        
+0615,BIBLE STUDIES                                                              
+0616,BIBLICAL LANGUAGES                                                         
+0617,BIOCHEMICAL ENGINEERING                                                    
+0618,BIOCHEMICAL SCIENCES                                                       
+0619,BIOCHEMICAL TECHNOLOGY                                                     
+0620,BIOCHEMISTRY                                                               
+0622,BIOENGINEERING                                                             
+0623,BIOETHICS                                                                  
+0624,BIOINFORMATICS                                                             
+0625,BIOLOGICAL AND BIOMEDICAL SCIENCES                                         
+0626,BIOLOGICAL CHEMISTRY                                                       
+0627,BIOLOGICAL SCIENCES                                                        
+0629,BIOMEDICAL ENGINEERING                                                     
+0630,BIOMEDICAL SCIENCES                                                        
+0631,BIOMEDICAL TECHNOLOGIES                                                    
+0632,BIOMETRICS                                                                 
+0633,BIOPHYSICS                                                                 
+0634,BIOPSYCHOLOGY                                                              
+0635,BIOSTATISTICS                                                              
+0636,BIOTECHNOLOGY                                                              
+0637,BLACK STUDIES                                                              
+0638,BOTANY AND PLANT SCIENCES                                                  
+0639,BROADCASTING                                                               
+0640,BUILDING SCIENCE                                                           
+0641,BUILDING TECHNOLOGIES                                                      
+0642,BUSINESS ADMIN/COMMERCE/MANAGEMENT                                         
+0643,BUSINESS ADMINISTRATION AND MANAGEMENT                                     
+0644,BUSINESS AND ADMINISTRATION                                                
+0645,BUSINESS AND ECONOMICS                                                     
+0646,BUSINESS AND PUBLIC ADMINISTRATION                                         
+0647,BUSINESS ECONOMICS                                                         
+0650,BUSINESS MACHINE TECHNOLOGIES                                              
+0651,CANADIAN STUDIES                                                           
+0652,CARDIOVASCULAR SCIENCES                                                    
+0653,CARPENTRY                                                                  
+0654,CARTOGRAPHY                                                                
+0655,CELL BIOLOGY                                                               
+0656,CELTIC LANGUAGES                                                           
+0657,CERAMIC DESIGN                                                             
+0658,CERAMIC ENGINEERING                                                        
+0659,CERAMIC SCIENCES                                                           
+0660,CERAMIC SCIENCES AND ENGINEERING                                           
+0661,CERAMICS                                                                   
+0662,CHEMICAL ENGINEERING                                                       
+0663,CHEMICAL ENGINEERING TECHNOLOGY                                            
+0665,CHICANO STUDIES                                                            
+0666,CHILD AND FAMILY STUDIES                                                   
+0667,CHILD CARE                                                                 
+0668,CHILD PSYCHOLOGY/CHILD DEVELOPMENT                                         
+0669,CHILD-CARE NURSING                                                         
+0670,CHINESE                                                                    
+0671,CHIROPRACTIC                                                               
+0672,CINEMA                                                                     
+0673,CITY AND REGIONAL PLANNING                                                 
+0674,CIVIL ENGINEERING                                                          
+0675,CIVIL ENGINEERING TECHNOLOGY                                               
+0676,CLASSICAL LANGUAGES                                                        
+0677,CLASSICS                                                                   
+0678,CLINICAL LABORATORY SCIENCES                                               
+0679,CLINICAL MICROBIOLOGY                                                      
+0680,CLINICAL PATHOLOGY                                                         
+0681,CLINICAL PHARMACOLOGY                                                      
+0682,CLINICAL PSYCHOLOGY                                                        
+0683,CLOTHING AND TEXTILES                                                      
+0684,COASTAL ZONE MANAGEMENT                                                    
+0685,COGNITIVE SCIENCES                                                         
+0686,COMMERCE                                                                   
+0688,COMMUNICATION                                                              
+0690,COMMUNICATION DISORDERS                                                    
+0691,COMMUNICATION THEORY                                                       
+0692,COMMUNICATIONS EQUIPMENT TECHNOLOGY                                        
+0693,COMMUNITY COLLEGE EDUCATION                                                
+0694,COMMUNITY HEALTH                                                           
+0695,COMMUNITY MEDICINE                                                         
+0696,COMMUNITY PLANNING                                                         
+0697,COMMUNITY PSYCHOLOGY                                                       
+0699,COMMUNITY/REGIONAL PLANNING                                                
+0700,COMPARATIVE AND INTERDISCIPLINARY ARTS                                     
+0701,COMPARATIVE LITERATURE                                                     
+0702,COMPOSITION                                                                
+0703,COMPUTATIONAL SCIENCES                                                     
+0704,COMPUTER ART AND DESIGN                                                    
+0705,COMPUTER EDUCATION                                                         
+0706,COMPUTER ENGINEERING                                                       
+0710,COMPUTER TECHNOLOGIES                                                      
+0711,COMPUTER-AIDED DRAFTING/DESIGN                                             
+0712,CONFLICT RESOLUTION AND MEDIATION/PEACE STUDIES                            
+0713,CONSERVATION                                                               
+0714,CONSERVATION BIOLOGY                                                       
+0715,CONSTRUCTION ENGINEERING                                                   
+0716,CONSTRUCTION ENGINEERING AND MANAGEMENT                                    
+0717,CONSTRUCTION MANAGEMENT                                                    
+0718,CONSTRUCTION TECHNOLOGIES                                                  
+0719,CONSUMER ECONOMICS                                                         
+0720,CONSUMER SERVICES                                                          
+0722,CORPORATE AND ORGANIZATIONAL COMMUNICATION                                 
+0723,CORRECTIONS                                                                
+0725,COUNSELING                                                                 
+0726,COUNSELING PSYCHOLOGY                                                      
+0727,COUNSELOR EDUCATION                                                        
+0728,COURT REPORTING                                                            
+0729,CRAFTS                                                                     
+0730,CREATIVE WRITING                                                           
+0731,CRIMINAL JUSTICE                                                           
+0732,CRIMINAL JUSTICE AND CRIMINOLOGY                                           
+0733,CRIMINOLOGY                                                                
+0734,CROP SCIENCES                                                              
+0735,CULINARY ARTS                                                              
+0736,CULTURAL STUDIES                                                           
+0737,CURRICULUM AND INSTRUCTION                                                 
+0738,CYTOLOGY                                                                   
+0739,CYTOTECHNOLOGY                                                             
+0740,DAIRY SCIENCE                                                              
+0742,DANCE THERAPY                                                              
+0743,DATA PROCESSING                                                            
+0744,DEAF INTERPRETER TRAINING                                                  
+0745,DECISION SCIENCE/MANAGEMENT SCIENCE                                        
+0746,DECORATIVE ARTS                                                            
+0747,DEMOGRAPHY                                                                 
+0748,DEMOGRAPHY AND POPULATION STUDIES                                          
+0749,DENTAL AND ORAL SURGERY                                                    
+0750,DENTAL ASSISTANT STUDIES                                                   
+0751,DENTAL HYGIENE                                                             
+0752,DENTAL LABORATORY TECHNOLOGY                                               
+0753,DENTAL SERVICES                                                            
+0754,DENTISTRY                                                                  
+0755,DESIGN                                                                     
+0756,DEVELOPMENTAL BIOLOGY                                                      
+0757,DEVELOPMENTAL EDUCATION                                                    
+0758,DEVELOPMENTAL PSYCHOLOGY                                                   
+0759,DIESEL MECHANICS/TECHNOLOGY                                                
+0760,DIETETICS                                                                  
+0762,DIPLOMACY                                                                  
+0763,DISABILITY STUDIES                                                         
+0764,DISTANCE EDUCATION DEVELOPMENT                                             
+0766,DRAMA                                                                      
+0767,DRAMA THERAPY                                                              
+0768,DRAMA/THEATER EDUCATION                                                    
+0769,DRAMATIC PERFORMANCE ARTS                                                  
+0770,DRUG AND ALCOHOL ABUSE COUNSELING                                          
+0771,EARLY CHILD CARE CENTERS                                                   
+0773,EAST ASIAN STUDIES                                                         
+0774,EAST EUROPEAN & SLAVIC STUDIES                                             
+0775,EAST EUROPEAN AND RUSSIAN STUDIES                                          
+0776,EASTERN EUROPEAN STUDIES                                                   
+0777,ECOLOGY                                                                    
+0779,EDUCATION                                                                  
+0780,EDUCATION OF THE GIFTED                                                    
+0781,EDUCATION OF THE MULTIPLY HANDICAPPED                                      
+0782,EDUCATIONAL ADMINISTRATION                                                 
+0783,EDUCATIONAL LEADERSHIP                                                     
+0784,EDUCATIONAL MEASUREMENT AND EVALUATION                                     
+0785,EDUCATIONAL MEDIA/INSTRUCTIONAL TECHNOLOGY                                 
+0786,EDUCATIONAL PSYCHOLOGY                                                     
+0787,EDUCATIONAL TECHNOLOGY                                                     
+0788,ELECTRICAL ENGINEERING                                                     
+0789,ELECTRICAL ENGINEERING TECHNOLOGY                                          
+0790,ELECTROMECHANICAL ENGINEERING                                              
+0791,ELECTROMECHANICAL ENGINEERING TECHNOLOGY                                   
+0792,ELECTRONIC COMMERCE                                                        
+0793,ELECTRONIC MATERIALS                                                       
+0795,ELECTRONICS ENGINEERING                                                    
+0796,ELEMENTARY EDUCATION                                                       
+0797,EMBRYOLOGY                                                                 
+0798,EMERGENCY MEDICAL SERVICES                                                 
+0799,ENERGY AND POWER ENGINEERING                                               
+0800,ENERGY CONSERVATION TECHNOLOGY                                             
+0801,ENERGY ENGINEERING                                                         
+0802,ENERGY FACILITIES MANAGEMENT                                               
+0803,ENERGY MANAGEMENT AND POLICY                                               
+0804,ENERGY MANAGEMENT TECHNOLOGY                                               
+0805,ENERGY RESOURCES                                                           
+0806,ENERGY STUDIES                                                             
+0808,ENGINEERING AND APPLIED SCIENCES                                           
+0809,ENGINEERING DESIGN                                                         
+0810,ENGINEERING MANAGEMENT                                                     
+0811,ENGINEERING PHYSICS                                                        
+0812,ENGINEERING SCIENCES                                                       
+0813,ENGINEERING TECHNOLOGY                                                     
+0815,ENGLISH AS A SECOND LANGUAGE                                               
+0816,ENGLISH EDUCATION                                                          
+0817,ENTOMOLOGY                                                                 
+0818,ENTREPRENEURSHIP                                                           
+0819,ENVIRONMENTAL AND OCCUPATIONAL HEALTH                                      
+0820,ENVIRONMENTAL BIOLOGY                                                      
+0821,ENVIRONMENTAL DESIGN                                                       
+0822,ENVIRONMENTAL EDUCATION                                                    
+0823,ENVIRONMENTAL ENGINEERING                                                  
+0824,ENVIRONMENTAL ENGINEERING TECHNOLOGY                                       
+0825,ENVIRONMENTAL POLICY                                                       
+0826,ENVIRONMENTAL POLICY AND RESOURCE MANAGEMENT                               
+0827,ENVIRONMENTAL SCIENCES                                                     
+0828,ENVIRONMENTAL STUDIES                                                      
+0829,ENVIRONMENTAL SYSTEMS AND DESIGN                                           
+0830,ENVIRONMENTAL SYSTEMS ENGINEER                                             
+0831,EPIDEMIOLOGY                                                               
+0832,ERGONOMICS AND HUMAN FACTORS                                               
+0833,ETHICS                                                                     
+0835,ETHNOMUSICOLOGY                                                            
+0836,EUROPEAN STUDIES                                                           
+0837,EVOLUTIONARY BIOLOGY                                                       
+0838,EXERCISE AND SPORTS SCIENCE                                                
+0839,EXPERIMENTAL BIOLOGY                                                       
+0840,EXPERIMENTAL PSYCHOLOGY                                                    
+0841,FACILITIES MANAGEMENT                                                      
+0842,FAMILY SERVICES                                                            
+0843,FAMILY/CONSUMER STUDY                                                      
+0844,FARM & RANCH MANAGEMENT                                                    
+0845,FASHION DESIGN & TECHNOLOGY                                                
+0846,FASHION MERCHANDISING                                                      
+0847,FILM AND VIDEO                                                             
+0848,FILM STUDIES                                                               
+0849,"FILM, TELEVISION, AND VIDEO                                                "
+0850,FINANCE AND BANKING                                                        
+0851,FINANCIAL ENGINEERING                                                      
+0852,FINE AND APPLIED ARTS                                                      
+0854,FIRE PROTECTION ENGINEERING                                                
+0855,FIRE SCIENCE                                                               
+0856,"FISH, GAME, AND WILDLIFE MANAGEMENT                                        "
+0857,FLIGHT TRAINING                                                            
+0858,FLUID & THERMAL SCIENCES                                                   
+0859,FOLKLORE                                                                   
+0860,FOOD ENGINEERING                                                           
+0861,FOOD MARKETING                                                             
+0862,FOOD SCIENCE AND TECHNOLOGY                                                
+0863,FOOD SCIENCES                                                              
+0864,FOOD SERVICES MANAGEMENT                                                   
+0865,FOOD SERVICES TECHNOLOGY                                                   
+0866,FOOD TECHNOLOGY                                                            
+0868,FOREIGN LANGUAGES EDUCATION                                                
+0869,FOREIGN LANGUAGES/LITERATURE                                               
+0870,FOREIGN SERVICE                                                            
+0871,FORENSIC NURSING                                                           
+0872,FORENSIC PSYCHOLOGY                                                        
+0873,FORENSIC SCIENCES                                                          
+0874,FORENSICS                                                                  
+0875,FOREST SCIENCES                                                            
+0876,FOREST TECHNOLOGY                                                          
+0877,FORESTRY                                                                   
+0878,FOUNDATIONS AND PHILOSOPHY OF EDUCATION                                    
+0880,FRENCH STUDIES                                                             
+0881,FUNERAL SERVICES                                                           
+0882,GENDER STUDIES                                                             
+0883,GENERAL STUDIES                                                            
+0884,GENETIC COUNSELING                                                         
+0885,GENETICS                                                                   
+0886,GENOMIC SCIENCES                                                           
+0887,GEOCHEMISTRY                                                               
+0888,GEODETIC SCIENCES                                                          
+0889,GEOGRAPHIC INFORMATION SYSTEMS                                             
+0891,GEOLOGICAL ENGINEERING                                                     
+0892,GEOLOGICAL SCIENCES                                                        
+0893,GEOLOGY                                                                    
+0894,GEOPHYSICAL SCIENCES                                                       
+0895,GEOPHYSICS                                                                 
+0896,GEOPHYSICS ENGINEERING                                                     
+0897,GEOSCIENCES                                                                
+0898,GEOTECHNICAL ENGINEERING                                                   
+0900,GERMANIC LANGUAGES AND LITERATURE                                          
+0901,GERONTOLOGICAL NURSING                                                     
+0902,GERONTOLOGY                                                                
+0903,GOVERNMENT                                                                 
+0904,GRADUATE UNIT HEAD                                                         
+0905,GRAPHIC ARTS                                                               
+0906,GRAPHIC DESIGN                                                             
+0907,GREEK                                                                      
+0908,GUIDANCE                                                                   
+0909,GUIDANCE AND COUNSELING                                                    
+0910,HEALTH ADMINISTRATION                                                      
+0911,HEALTH EDUCATION                                                           
+0912,HEALTH INFORMATICS                                                         
+0913,HEALTH PHYSICS                                                             
+0914,HEALTH PHYSICS/RADIOLOGICAL HEALTH                                         
+0915,HEALTH PROMOTION                                                           
+0916,HEALTH PSYCHOLOGY                                                          
+0917,HEALTH SCIENCES                                                            
+0918,HEALTH SERVICES MANAGEMENT                                                 
+0919,HEALTH SERVICES MANAGEMENT AND HOSPITAL ADMINISTRATION                     
+0920,HEALTH SERVICES RESEARCH                                                   
+0921,HEALTH SYSTEMS MANAGEMENT                                                  
+0922,"HEALTH, PHYSICAL EDUCATION, & RECREATION (HPER)                            "
+0923,HEATING/REFRIGERATION/AIR CONDITIONING                                     
+0924,HEBREW                                                                     
+0925,HEBREW STUDIES                                                             
+0926,HIGHER EDUCATION                                                           
+0927,HISPANIC STUDIES                                                           
+0928,HISTOLOGY                                                                  
+0929,HISTORIC PRESERVATION                                                      
+0931,HISTORY OF MEDICINE                                                        
+0932,HISTORY OF PHILOSOPHY                                                      
+0933,HISTORY OF SCIENCE                                                         
+0934,HOLOCAUST STUDIES                                                          
+0937,HOME ECONOMICS EDUCATION                                                   
+0938,HORSEMANSHIP                                                               
+0940,HOSPICE NURSING                                                            
+0941,HOSPITAL ADMINISTRATION                                                    
+0942,HOSPITAL AND HEALTH ADMINISTRATION                                         
+0943,HOSPITALITY MANAGEMENT                                                     
+0944,HOSPITALITY SERVICES                                                       
+0945,HOUSEHOLD ECONOMICS AND MANAGEMENT                                         
+0946,HOUSEHOLD SCIENCE/HUMAN DEVELOPMENT                                        
+0947,HUMAN BEHAVIOR                                                             
+0948,HUMAN DEVELOPMENT                                                          
+0949,HUMAN ECOLOGY                                                              
+0950,HUMAN GENETICS                                                             
+0951,HUMAN KINETICS/LEISURE STUDIES                                             
+0953,HUMAN RESOURCES DEVELOPMENT                                                
+0954,HUMAN RESOURCES MANAGEMENT                                                 
+0955,HUMAN SERVICES                                                             
+0956,HUMAN-COMPUTER INTERACTION                                                 
+0958,HYDRAULICS                                                                 
+0959,HYDROLOGY                                                                  
+0960,ILLUSTRATION                                                               
+0961,IMMUNOLOGY                                                                 
+0962,INDIAN STUDIES                                                             
+0963,INDUSTRIAL AND LABOR RELATIONS                                             
+0964,INDUSTRIAL AND MANUFACTURING MANAGEMENT                                    
+0965,INDUSTRIAL AND ORGANIZATIONAL PSYCHOLOGY                                   
+0966,INDUSTRIAL ARTS                                                            
+0967,INDUSTRIAL DESIGN                                                          
+0968,INDUSTRIAL EDUCATION                                                       
+0969,INDUSTRIAL ENGINEERING                                                     
+0970,INDUSTRIAL ENGINEERING TECHNOLOGY                                          
+0971,INDUSTRIAL HYGIENE                                                         
+0972,INDUSTRIAL RELATIONS                                                       
+0973,INDUSTRIAL/MANAGEMENT ENGINEERING                                          
+0974,INDUSTRY/HEAVY EQUIPMENT                                                   
+0975,INFORMATION SCIENCE                                                        
+0976,INFORMATION STUDIES                                                        
+0977,INFORMATION SYSTEMS                                                        
+0978,INORGANIC CHEMISTRY                                                        
+0979,INSTRUCTIONAL MEDIA                                                        
+0981,INSTRUMENTATION TECHNOLOGY                                                 
+0982,INSURANCE                                                                  
+0983,INTERDISCIPLINARY STUDIES                                                  
+0985,INTERIOR DESIGN                                                            
+0986,INTERNATIONAL AFFAIRS                                                      
+0987,INTERNATIONAL AND COMPARATIVE EDUCATION                                    
+0988,INTERNATIONAL BUSINESS                                                     
+0989,INTERNATIONAL DEVELOPMENT                                                  
+0990,INTERNATIONAL ECONOMICS                                                    
+0991,INTERNATIONAL HEALTH                                                       
+0992,INTERNATIONAL RELATIONS                                                    
+0993,INTERNATIONAL STUDIES                                                      
+0994,INTERNATIONAL TRADE                                                        
+0995,INTERNATL RELATIONS                                                        
+0996,INTERNET AND INTERACTIVE MULTIMEDIA                                        
+0997,INVESTMENT MANAGEMENT                                                      
+0998,ISLAMIC STUDIES                                                            
+0999,ITALIAN                                                                    
+1001,JAZZ                                                                       
+1002,JEWELRY/METALSMITHING                                                      
+1003,JEWISH STUDIES                                                             
+1005,JUDAIC STUDIES                                                             
+1006,KINESIOLOGY AND MOVEMENT STUDIES                                           
+1007,LABOR RELATIONS                                                            
+1008,LABORATORY ANIMAL MEDICINE                                                 
+1009,LABORATORY TECHNOLOGIES                                                    
+1010,LAND USE MANAGEMENT & RECLAMATION                                          
+1011,LANDSCAPE ARCHITECTURE                                                     
+1012,LANGUAGES/LITERATURES                                                      
+1014,LATIN AMERICAN STUDIES                                                     
+1016,LAW ENFORCEMENT                                                            
+1017,LEGAL AND JUSTICE STUDIES                                                  
+1018,LEGAL SECRETARY                                                            
+1019,LEISURE STUDIES                                                            
+1020,LIBERAL ARTS                                                               
+1021,LIBERAL STUDIES                                                            
+1022,LIBRARIANSHIP                                                              
+1023,LIBRARY SCIENCE                                                            
+1025,LIFE SCIENCES                                                              
+1026,LIMNOLOGY                                                                  
+1027,LINGUISTICS                                                                
+1028,LITERATURE                                                                 
+1029,LOGIC                                                                      
+1030,LOGISTICS                                                                  
+1031,MACHINE & TOOL TECHNOLOGIES                                                
+1032,MACHINE DESIGN                                                             
+1033,MANAGEMENT                                                                 
+1034,MANAGEMENT AND ADMINISTRATION                                              
+1035,MANAGEMENT ENGINEERING                                                     
+1037,MANAGEMENT OF TECHNOLOGY                                                   
+1038,MANAGEMENT STRATEGY AND POLICY                                             
+1039,MANUFACTURING                                                              
+1040,MANUFACTURING ENGINEERING                                                  
+1041,MARINE AFFAIRS                                                             
+1042,MARINE BIOLOGY                                                             
+1043,MARINE ENGINEERING                                                         
+1044,MARINE GEOLOGY                                                             
+1045,MARINE SCIENCES                                                            
+1046,MARINE TECHNOLOGY                                                          
+1047,MARITIME SCIENCES                                                          
+1048,MARKETING                                                                  
+1049,MARKETING RESEARCH                                                         
+1050,MARRIAGE AND FAMILY THERAPY                                                
+1051,MASS COMMUNICATION                                                         
+1052,MATERIALS ENGINEERING                                                      
+1053,MATERIALS SCIENCES                                                         
+1054,MATERNAL AND CHILD HEALTH                                                  
+1055,MATERNAL/CHILD-CARE NURSING                                                
+1056,MATERNITY NURSING                                                          
+1057,MATH AND COMPUTATIONAL FINANCE                                             
+1058,MATHEMATICAL PHYSICS                                                       
+1059,MATHEMATICS                                                                
+1060,MATHEMATICS EDUCATION                                                      
+1061,MECHANICAL ENGINEERING                                                     
+1062,MECHANICAL ENGINEERING TECHNOLOGY                                          
+1063,MECHANICS                                                                  
+1064,MED RECORDS SERVICES                                                       
+1065,MEDIA STUDIES                                                              
+1066,MEDICAL ASSISTANT TECHNOLOGIES                                             
+1067,MEDICAL ILLUSTRATION                                                       
+1068,MEDICAL INFORMATICS                                                        
+1069,MEDICAL LAB TECHNOLOGY                                                     
+1070,MEDICAL MICROBIOLOGY                                                       
+1071,MEDICAL PHYSICS                                                            
+1072,MEDICAL SCIENCES                                                           
+1073,MEDICAL SECRETARY                                                          
+1074,MEDICAL TECHNOLOGY                                                         
+1075,MEDICAL/SURGICAL NURSING                                                   
+1076,MEDIEVAL AND RENAISSANCE STUDIES                                           
+1077,MENTAL HEALTH/REHABILITATION COUNSELING                                    
+1078,METALLURGICAL ENGINEERING                                                  
+1079,METALLURGICAL TECHNOLOGY                                                   
+1080,METALLURGY                                                                 
+1081,METEOROLOGY                                                                
+1082,METEOROLOGY/ATMOSPHERIC SCIENCE                                            
+1083,MEXICAN-AMERICAN STUDIES                                                   
+1084,MICROBIOLOGY                                                               
+1085,MIDDLE EAST STUDIES                                                        
+1086,MIDDLE SCHOOL EDUCATION                                                    
+1087,MILITARY AND DEFENSE STUDIES                                               
+1088,MINERAL ECONOMICS                                                          
+1089,MINERAL ENGINEERING                                                        
+1090,MINERAL ENGINEERING TECHNOLOGY                                             
+1091,MINERAL/MINING ENGINEERING                                                 
+1092,MINING TECHNOLOGY                                                          
+1093,MINISTRIES                                                                 
+1094,MISSIONS AND MISSIOLOGY                                                    
+1095,MODERN EUROPEAN STUDIES                                                    
+1096,MODERN LANGUAGES                                                           
+1097,MOLECULAR BIOLOGY                                                          
+1098,MOLECULAR BIOPHYSICS                                                       
+1099,MOLECULAR MEDICINE                                                         
+1100,MULTILINGUAL AND MULTICULTURAL EDUCATION                                   
+1101,MUSEUM EDUCATION                                                           
+1102,MUSEUM STUDIES                                                             
+1104,MUSIC BUSINESS                                                             
+1105,MUSIC EDUCATION                                                            
+1106,MUSIC HISTORY                                                              
+1109,MUSIC THERAPY                                                              
+1110,MUSICOLOGY                                                                 
+1111,NATIVE AMERICAN STUDIES                                                    
+1112,NATURAL HISTORY                                                            
+1113,NATURAL RESOURCE MANAGEMENT                                                
+1114,NATURAL RESOURCES                                                          
+1115,NATURAL SCIENCE                                                            
+1116,NATURE CONSERVATION                                                        
+1117,NATUROPATHIC MEDICINE                                                      
+1118,NAUTICAL SCIENCE                                                           
+1119,NAVAL ARCHITECTURE                                                         
+1120,NAVAL SCIENCES                                                             
+1121,NEAR AND MIDDLE EASTERN LANGUAGES                                          
+1122,NEAR AND MIDDLE EASTERN STUDIES                                            
+1123,NEAR EASTERN STUDIES                                                       
+1124,NEUROBIOLOGY                                                               
+1125,NEUROSCIENCE                                                               
+1126,NONPROFIT MANAGEMENT                                                       
+1127,NORTHERN STUDIES                                                           
+1128,NUCLEAR ENGINEERING                                                        
+1129,NUCLEAR MEDICAL TECHNOLOGY                                                 
+1130,NUCLEAR PHYSICS                                                            
+1131,NUCLEAR TECHNOLOGY                                                         
+1132,NURSE ANESTHESIA                                                           
+1133,NURSE MIDWIFERY                                                            
+1134,NURSERY EDUCATION                                                          
+1135,NURSING                                                                    
+1136,NURSING ADMINISTRATION                                                     
+1137,NURSING EDUCATION                                                          
+1138,NUTRITION                                                                  
+1139,NUTRITION AND FOODS                                                        
+1140,OCCUPATIONAL EDUCATION                                                     
+1141,OCCUPATIONAL HEALTH NURSING                                                
+1142,OCCUPATIONAL SAFETY AND HEALTH                                             
+1143,OCCUPATIONAL THERAPY                                                       
+1144,OCEAN ENGINEERING                                                          
+1145,OCEANOGRAPHY                                                               
+1146,OFFICE EDUCATION                                                           
+1147,ONCOLOGY                                                                   
+1148,ONCOLOGY NURSING                                                           
+1149,OPERA                                                                      
+1150,OPERATING ROOM TECHNOLOGY                                                  
+1151,OPERATIONS RESEARCH                                                        
+1152,OPTICAL SCIENCES                                                           
+1153,OPTICAL TECHNOLOGIES                                                       
+1154,OPTICS                                                                     
+1155,OPTOMETRIC/OPHTHALMIC TECHNOLOGY                                           
+1156,OPTOMETRY                                                                  
+1157,ORAL AND DENTAL SCIENCES                                                   
+1158,ORAL BIOLOGY                                                               
+1159,ORAL PATHOLOGY                                                             
+1160,ORGANIC CHEMISTRY                                                          
+1161,ORGANIZATIONAL BEHAVIOR                                                    
+1162,ORGANIZATIONAL MANAGEMENT                                                  
+1163,ORIENTAL LANGUAGES                                                         
+1164,ORIENTAL MEDICINE AND ACUPUNCTURE                                          
+1165,ORIENTAL STUDIES                                                           
+1166,ORNAMENTAL HORTICULTURE                                                    
+1167,ORTHODONTICS                                                               
+1168,OSTEOPATHIC MEDICINE                                                       
+1169,PAINTING/DRAWING                                                           
+1170,PALEONTOLOGY                                                               
+1171,PAPER & PULP SCIENCE                                                       
+1172,PAPER AND PULP ENGINEERING                                                 
+1173,PARALEGAL STUDIES                                                          
+1174,PARAMEDICAL STUDIES                                                        
+1175,PARASITOLOGY                                                               
+1176,PARK MANAGEMENT                                                            
+1177,PASTORAL MINISTRY AND COUNSELING                                           
+1178,PASTORAL STUDIES                                                           
+1179,PATHOBIOLOGY                                                               
+1181,PATHOLOGY                                                                  
+1182,PEACE STUDIES                                                              
+1183,PEDODONTICS                                                                
+1184,PERFORMANCE                                                                
+1185,PERIODONTICS                                                               
+1186,PEST CONTROL TECHNOLOGY                                                    
+1187,PETROLEUM AND MINING ENGINEERING                                           
+1188,PETROLEUM ENGINEERING                                                      
+1189,PETROLEUM TECHNOLOGY                                                       
+1190,PHARMACEUTICAL ADMINISTRATION                                              
+1191,PHARMACEUTICAL CHEMISTRY                                                   
+1192,PHARMACEUTICAL SCIENCES                                                    
+1193,PHARMACOGNOSY                                                              
+1194,PHARMACOLOGY                                                               
+1195,PHARMACOLOGY AND TOXICOLOGY                                                
+1196,PHARMACY                                                                   
+1197,PHARMACY/PHARMACEUTICAL SCIENCES                                           
+1198,PHILANTHROPIC STUDIES                                                      
+1200,PHOTOGRAPHY                                                                
+1201,PHOTONICS                                                                  
+1202,PHYSICAL CHEMISTRY                                                         
+1204,PHYSICAL EDUCATION AND ATHLETICS                                           
+1205,PHYSICAL EDUCATION AND RECREATION                                          
+1207,PHYSICAL SCIENCES                                                          
+1208,PHYSICAL THERAPY                                                           
+1209,PHYSICIAN ASSISTANT STUDIES                                                
+1211,PHYSIOLOGY                                                                 
+1212,PIANO                                                                      
+1213,PLANETARY AND SPACE SCIENCES                                               
+1215,PLANT BIOLOGY                                                              
+1216,PLANT MOLECULAR BIOLOGY                                                    
+1217,PLANT PATHOLOGY                                                            
+1218,PLANT PHYSIOLOGY                                                           
+1219,PLANT SCIENCES                                                             
+1220,PLASMA PHYSICS                                                             
+1221,PLASTICS ENGINEERING                                                       
+1222,PLUMBING                                                                   
+1223,PODIATRIC MEDICINE                                                         
+1224,POETRY                                                                     
+1225,POLICE SCIENCE                                                             
+1226,POLICY STUDIES                                                             
+1227,POLITICAL SCIENCE                                                          
+1229,POLITICAL SCIENCE/GOVERNMENT                                               
+1230,POLITICS                                                                   
+1231,POLLUTION CONTROLS                                                         
+1232,POLLUTION TREATMENT                                                        
+1233,POLYMER SCIENCE AND ENGINEERING                                            
+1234,POPULATION STUDIES                                                         
+1235,PORTUGUESE                                                                 
+1236,POULTRY SCIENCE                                                            
+1237,PRACTICAL NURSING                                                          
+1238,PREDENTISTRY                                                               
+1239,PRE-ENGINEERING                                                            
+1240,PRELAW                                                                     
+1241,PREMEDICINE                                                                
+1242,PRE-VETERINARY MEDICINE                                                    
+1243,PRINTING MANAGEMENT                                                        
+1244,PRINTING TECHNOLOGIES                                                      
+1245,PRINTMAKING                                                                
+1246,PROFESSIONAL STUDIES-DENTISTRY                                             
+1247,PROFESSIONAL STUDIES-LAW                                                   
+1248,PROFESSIONAL STUDIES-MEDICINE                                              
+1249,PROFESSIONAL STUDIES-THEOLOGY                                              
+1250,PROJECT MANAGEMENT                                                         
+1251,PSYCHIATRIC NURSING                                                        
+1252,PSYCHIATRY                                                                 
+1253,PSYCHOBIOLOGY                                                              
+1255,PUBLIC ADMINISTRATION                                                      
+1256,PUBLIC ADMINISTRATION AND PUB POL                                          
+1257,PUBLIC AFFAIRS                                                             
+1258,PUBLIC HEALTH                                                              
+1260,PUBLIC HEALTH NURSING                                                      
+1261,PUBLIC HISTORY                                                             
+1262,PUBLIC POLICY                                                              
+1263,PUBLIC POLICY AND ADMINISTRATION                                           
+1265,PUBLISHING                                                                 
+1266,QUALITY CONTROL TECHNOLOGY                                                 
+1267,QUALITY MANAGEMENT                                                         
+1268,QUANTITATIVE ANALYSIS                                                      
+1269,RADIATION BIOLOGY                                                          
+1270,RADIO & TV STUDIES                                                         
+1271,RADIO AND TELEVISION                                                       
+1272,RADIOLOGICAL HEALTH PHYSICS                                                
+1273,RADIOLOGICAL SCIENCES                                                      
+1274,RADIOLOGICAL TECHNOLOGY                                                    
+1275,RAILROAD MANAGEMENT                                                        
+1276,RANGE MANAGEMENT                                                           
+1277,RANGE SCIENCE                                                              
+1278,READING EDUCATION                                                          
+1280,REAL ESTATE                                                                
+1281,RECREATION AND LEISURE SERVICES                                            
+1282,RECREATION AND PARK MANAGEMENT                                             
+1283,REGIONAL PLANNING                                                          
+1284,REHABILITATION COUNSELING                                                  
+1285,REHABILITATION NURSING                                                     
+1286,REHABILITATION SCIENCES                                                    
+1287,RELIABILITY ENGINEERING                                                    
+1289,RELIGIOUS EDUCATION                                                        
+1290,RELIGIOUS STUDIES                                                          
+1291,REPRODUCTIVE BIOLOGY                                                       
+1292,RESOURCE MANAGEMENT                                                        
+1293,RESPIRATORY THERAPY                                                        
+1294,RETAIL MANAGEMENT                                                          
+1295,RHETORIC AND PUBLIC ADDRESS                                                
+1296,ROMANCE LANGUAGES                                                          
+1297,ROMANCE LANGUAGES AND LITERATURE                                           
+1298,RURAL PLANNING AND STUDIES                                                 
+1299,RURAL SOCIOLOGY                                                            
+1301,RUSSIAN STUDIES                                                            
+1302,SACRED MUSIC                                                               
+1303,SAFETY ENGINEERING                                                         
+1304,SAFETY SCIENCES                                                            
+1305,SANITARY ENGINEERING                                                       
+1306,SANITARY ENGINEERING TECHNOLOGY                                            
+1307,SCANDINAVIAN LANGUAGES                                                     
+1308,SCHOOL NURSING                                                             
+1309,SCHOOL PSYCHOLOGY                                                          
+1310,SCHOOL SERVICES                                                            
+1311,SCIENCE EDUCATION                                                          
+1312,SCULPTURE                                                                  
+1313,SECONDARY EDUCATION                                                        
+1314,SECRETARIAL SCIENCE                                                        
+1315,SECURITY ADMINISTRATION                                                    
+1316,SENSORY COMMUNICATION                                                      
+1317,SHEEP SCIENCE                                                              
+1318,SINO-SOVIET STUDIES                                                        
+1319,SLAVIC LANGUAGES                                                           
+1320,SLAVIC LANGUAGES AND LITERATURE                                            
+1321,SLAVIC STUDIES                                                             
+1322,SOCIAL AND PHILOSOPHICAL FOUNDATIONS                                       
+1323,SOCIAL ANTHROPOLOGY                                                        
+1324,SOCIAL PSYCHOLOGY                                                          
+1325,SOCIAL SCIENCES                                                            
+1326,SOCIAL SCIENCES EDUCATION                                                  
+1327,SOCIAL WELFARE                                                             
+1328,SOCIAL WORK                                                                
+1329,SOCIOBIOLOGY                                                               
+1330,SOCIOLOGY                                                                  
+1331,SOFTWARE ENGINEERING                                                       
+1332,SOIL CONSERVATION                                                          
+1333,SOIL MECHANICS                                                             
+1334,SOIL SCIENCES                                                              
+1335,SOIL SCIENCES AND MANAGEMENT                                               
+1336,SOLAR ENGINEERING                                                          
+1337,SOLAR INSTALLATION TECHNICIAN                                              
+1338,SOLAR TECHNOLOGIES                                                         
+1339,SOLID STATE SCIENCES                                                       
+1340,SOUTH AND SOUTHEAST ASIAN STUDIES                                          
+1341,SOUTHEAST ASIAN STUDIES                                                    
+1343,SOVIET STUDIES                                                             
+1345,SPECIAL EDUCATION                                                          
+1346,SPEECH                                                                     
+1347,SPEECH AND DRAMATIC ARTS                                                   
+1348,SPEECH AND HEARING SCIENCES                                                
+1349,SPEECH AND INTERPERSONAL COMMUNICATION                                     
+1350,SPEECH COMMUNICATION                                                       
+1351,SPEECH CORRECTION EDUCATION                                                
+1352,SPEECH PATHOLOGY                                                           
+1353,SPEECH THERAPY                                                             
+1354,SPEECH/RHETORIC/PUB ADDRESS/DEBATE                                         
+1355,SPORT PSYCHOLOGY                                                           
+1356,SPORTS ADMINISTRATION                                                      
+1358,STATISTICS                                                                 
+1359,STRINGED INSTRUMENTS                                                       
+1360,STRUCTURAL BIOLOGY                                                         
+1361,STRUCTURAL ENGINEERING                                                     
+1362,STUDENT PERSONNEL SERVICES                                                 
+1363,STUDIO ART                                                                 
+1364,SURGICAL NURSING                                                           
+1365,SURVEYING SCIENCE AND ENGINEERING                                          
+1366,SURVEYING TECHNOLOGY                                                       
+1367,SYSTEM MANAGEMENT                                                          
+1368,SYSTEMS ANALYSIS                                                           
+1369,SYSTEMS ENGINEERING                                                        
+1370,SYSTEMS SCIENCE                                                            
+1371,TAXATION                                                                   
+1372,TEACHER AIDE                                                               
+1373,TEACHER EDUCATION                                                          
+1374,TECHNICAL WRITING                                                          
+1375,TECHNOLOGY                                                                 
+1376,TECHNOLOGY AND PUBLIC AFFAIRS                                              
+1377,TECHNOLOGY AND PUBLIC POLICY                                               
+1379,TELECOMMUNICATIONS MANAGEMENT                                              
+1380,TEXTILE ARTS                                                               
+1381,TEXTILE DESIGN                                                             
+1382,TEXTILE ENGINEERING                                                        
+1383,TEXTILE SCIENCES AND ENGINEERING                                           
+1384,TEXTILES AND CLOTHING                                                      
+1386,THEATRE ARTS AND DRAMA                                                     
+1387,THEOLOGY                                                                   
+1388,THEORETICAL CHEMISTRY                                                      
+1389,THEORETICAL PHYSICS                                                        
+1390,"THEORY AND CRITICISM OF FILM, TELEVISION, AND VIDE                         "
+1391,THERAPEUTIC RECREATION                                                     
+1392,"THERAPIES--DANCE, DRAMA, AND MUSIC                                         "
+1393,TOURISM AND TRAVEL                                                         
+1394,TOXICOLOGY                                                                 
+1395,TRANSCULTURAL NURSING                                                      
+1396,TRANSLATION AND INTERPRETATION                                             
+1397,TRANSPERSONAL AND HUMANISTIC PSYCHOLOGY                                    
+1398,TRANSPORT TECHNOLOGIES                                                     
+1399,TRANSPORTATION AND HIGHWAY ENGINEERING                                     
+1400,TRANSPORTATION MANAGEMENT                                                  
+1401,TRAVEL AND TOURISM                                                         
+1402,UNDERGRADUATE UNIT HEAD                                                    
+1403,UNIT HEAD                                                                  
+1404,URBAN AFFAIRS                                                              
+1405,URBAN AND REGIONAL PLANNING                                                
+1406,URBAN DESIGN                                                               
+1407,URBAN EDUCATION                                                            
+1408,URBAN HEALTH                                                               
+1409,URBAN PLANNING                                                             
+1411,URBAN STUDIES                                                              
+1412,VET PUBLIC HEALTH                                                          
+1413,VETERINARY MEDICINE                                                        
+1414,VETERINARY SCIENCES                                                        
+1415,VIROLOGY                                                                   
+1416,VISION SCIENCES                                                            
+1417,VOCATIONAL AND TECHNICAL EDUCATION                                         
+1419,VOICE                                                                      
+1420,WASTE MANAGEMENT                                                           
+1421,WASTEWATER TECHNOLOGY                                                      
+1422,WATER QUALITY TECHNOLOGIES                                                 
+1423,WATER RESOURCES                                                            
+1424,WATER RESOURCES ENGINEERING                                                
+1426,WESTERN EUROPEAN STUDIES                                                   
+1427,WILDLIFE BIOLOGY                                                           
+1428,WILDLIFE MANAGEMENT                                                        
+1429,WIND & PERCUSSION INSTRUMENTS                                              
+1430,WOMEN'S HEALTH NURSING                                                     
+1431,WOMEN'S STUDIES                                                            
+1432,WOOD SCIENCE                                                               
+1433,WORD PROCESSING                                                            
+1434,WRITING                                                                    
+1435,ZOOLOGY                                                                    
+1436,EARLY CHILD CARE CNTR DIRECTOR                                             
+1440,PARENT                                                                     
+1441,GRANDPARENT                                                                
+1442,"SIBLING AT HOME, OVER 18                                                   "
+1443,"SIBLING OUT OF HOME, OVER 18                                               "
+1444,OTHER RELATIVE                                                             
+1445,COOL CUSTOMER SERVICE                                                      
+1446,SCHOOL SEED                                                                
+1447,TEACHER GENERIC                                                            
+1448,SAMPLE REVIEW                                                              
+1449,COOL ADMINISTRATOR                                                         
+1450,HOME TEACHER                                                               
+1451,STUDENT GENERIC                                                            
+1452,EMPLOYEE                                                                   
+1453,AT-HOME SEED                                                               
+1454,SCHOOL DISTRICT                                                            
+1455,AUTHOR                                                                     
+1456,EDUCATION GROUP SEED                                                       
+1457,BOOK CLUB SEED                                                             
+1458,CLASSROOM MAGAZINES SEED                                                   
+1459,LIBRARY PUBLISHING SEED                                                    
+1460,SCHOLASTIC MARKETING PARTNERS SEED                                         
+1461,DIST TECH SURVEY RESPONDENT                                                
+1462,ADMINISTRATOR MAGAZINE SUBSCRIBER                                          
+1463,INSTRUCTOR MAGAZINE SUBSCRIBER                                             
+1464,EARLY CHILDHOOD TODAY SUBSCRIBER                                           
+1465,READING FIRST DIRECTOR
+1466,AP WORLD LITERATURE                                                        
+1467,AP HUMAN GEOGRAPHY                                                         
+1468,MATH COACH                                                                 
+1469,TITLE 1 MATH                                                               
+1470,SUMMER SCHOOL COORDINATOR                                                  
+1471,COLLEGE PREP/PLACEMENT COUNSELOR                                           
+1472,READING RECOVERY                                                           
+1473,MIDDLE EASTERN/ARABIC                                                      
+1474,COACH AND ATHLETIC DIRECTOR MAGAZINE SUBSCRIBER                            

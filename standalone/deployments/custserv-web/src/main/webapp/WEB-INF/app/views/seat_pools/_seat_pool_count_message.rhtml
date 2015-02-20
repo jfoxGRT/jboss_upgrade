@@ -1,0 +1,12 @@
+<tr>
+	<td><%= seat_pool_count_message.id %></td>
+	<td><%= seat_pool_count_message.timestamp.strftime(DATE_FORM) %></td>
+	<% if all_seat_pools %>
+		<td><%= seat_pool_count_message.server_name %></td>
+	<% end %>
+	<td><%= seat_pool_count_message.value %></td>
+	<td><%= translate_audit_message_reason(seat_pool_count_message.reason) %></td>
+	<% if !all_seat_pools %>
+		<td>&nbsp;<%= link_to("..see #{seat_pool_count_message.esb_message_count} ESB message(s)", {:controller => :esb_message, :action => :find_messages_by_reference_token, :id => seat_pool_count_message.token}, {:target => "_new"}) if seat_pool_count_message.esb_message_count != "0" %></td>
+	<% end %>
+</tr>

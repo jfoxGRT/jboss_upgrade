@@ -1,0 +1,19 @@
+<% show_alert = (!school_enrollment.allowed_max.nil? && !school_enrollment.allowed_max_from_noop.nil? && school_enrollment.allowed_max.to_i != school_enrollment.allowed_max_from_noop.to_i) ? true : false %>
+
+<tr> 
+	<td><%= school_enrollment.id %></td>
+	<td><%= school_enrollment.school_info_id %></td>
+	<td><%= school_enrollment.name %></td>
+	<td><a href="#" onclick="popup_org_dialog('<%= school_enrollment.ucn %>'); return false;"><%= school_enrollment.ucn %></a></td>
+	<td><%= school_enrollment.enrolled %></td>
+	<td>
+      <% if show_alert  %> <b> <% end %>
+	  <%= school_enrollment.allowed_max %>
+      <% if(show_alert) %> </b> <% end %>
+    </td>	  
+	<td>
+      <% if show_alert  %> <b> <% end %>	
+	  <%= school_enrollment.allowed_max_from_noop %>
+      <% if(show_alert) %> </b> <% end %>	  
+	</td>
+</tr>

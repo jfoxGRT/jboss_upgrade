@@ -1,0 +1,57 @@
+<div id="TBHead">
+<h2>Select Server</h2>
+</div>
+
+<div id="TBBody">
+  <div id="instructions"><b>Make sure "Target Server" is enabled on the main page before selecting customer.</b><br /><br /> Enter complete or partial SAM customer name and click Search.  A list of possible matches will appear below.  Click on Show Servers to get a list of servers for customer.</div>
+    <% form_remote_tag(:url => url_for(:action => :find_customer_by_name_for_servers), :before => "$('search_results_for_servers').hide();$('search_results').hide();$('search_button').disable();",
+					   :html => {:name => "sam_customer_lookup"}) do -%>
+      <table>
+	    <tr>
+		  <td style="text-align: left; vertical-align: bottom; height: 50px;">Customer Name:&nbsp;&nbsp;<%= text_field_tag(:key_string) %>&nbsp;&nbsp;<%= submit_tag("Search", :id => "search_button", :onclick => "$('server_status_indicator').show();") %></td>
+		  <td id="search_results_count" style="font-weight: bold; vertical-align: bottom;">&nbsp;</td>
+		</tr>
+	  </table>		
+	<% end -%>
+	<div id="server_status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+	</div>
+	  <div id="search_results" style="display: none;">
+ 	      <table id="search_results_table" style="text-align: left; vertical-align: bottom">
+ 		    <thead style="text-align: left; vertical-align: bottom">
+		      <tr>
+    		    <td style="text-align: left; vertical-align: bottom">ID</td>
+    		    <td style="text-align: left; vertical-align: bottom">Customer Name</td>
+    		    <td style="text-align: left; vertical-align: bottom">Action</td>
+  			  </tr>
+  		    </thead>
+  		    <tbody id="search_results_rows">
+  		      <tr>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			  </tr>	
+  		    </tbody>			
+		  </table>
+	  </div>
+	  <div id="search_results_for_servers" style="display: none;">	  
+	      <hr>
+	      <div id="instructions">Select from the list of servers below for targeting.  (Make sure Target Server is enabled on main page.)</div>
+	  	  <table id="search_results_table_for_servers" style="text-align: left; vertical-align: bottom">
+ 		    <thead style="text-align: left; vertical-align: bottom">
+		      <tr>
+    		    <td style="text-align: left; vertical-align: bottom">ID</td>
+    		    <td style="text-align: left; vertical-align: bottom">Server Name</td>
+    		    <td style="text-align: left; vertical-align: bottom">Action</td>
+  			  </tr>
+  		    </thead>
+  		    <tbody id="search_results_rows_for_servers">
+  		      <tr>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			  </tr>	
+  		    </tbody>			
+		  </table>
+	  </div>
+</div>

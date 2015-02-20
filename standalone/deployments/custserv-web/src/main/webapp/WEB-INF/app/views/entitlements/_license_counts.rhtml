@@ -1,0 +1,34 @@
+<table style="width:100%;" class="data_table"  style="border: 1px solid black;">
+	<thead>
+		<tr>
+			<td>
+				<%= PRODUCT_TERM %>
+			</td>
+			<td id="Licenses_Total" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Total', 'Licenses');">Total Entitlements</td>
+			<td id="Licenses_Pending" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Pending', 'Licenses');">Pending Entitlements</td>
+			<td id="Licenses_Active" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Active', 'Licenses');">Active Entitlements</td>
+		    <td id="Licenses_Grace_Period" class="entitlement_count_cell" 
+        onmouseover="$(this).toggleClass('cell_highlight');" 
+        onmouseout="$(this).toggleClass('cell_highlight');" 
+        onclick="getEntitlementData('All', 'Grace Period', 'Licenses');">Grace Period Entitlements</td>
+			<td id="Licenses_Expired" class="entitlement_count_cell" 
+		onmouseover="$(this).toggleClass('cell_highlight');" 
+		onmouseout="$(this).toggleClass('cell_highlight');" 
+		onclick="getEntitlementData('All', 'Expired', 'Licenses');">Expired Entitlements</td>
+			<td>History</td>
+		</tr>
+	<thead>
+	<tbody>
+		<%= render(:partial => "item_count_row", :collection => product_list, :locals => {:sam_customer_id => sam_customer_id, 
+					:entitlement_counts => entitlement_counts, :product_type => 'All'}) %>
+	</tbody>
+</table>

@@ -1,0 +1,60 @@
+<%
+  def is_existing_user?
+    return (!@user.id.nil?)
+  end
+%>
+<script type="application/javascript">
+	confirm_message = "Please confirm the changes you are making for this user.  Do you wish to continue?";
+</script>
+<% form_for(:user, :url => is_existing_user? ? user_path(user) : users_path, :html => {:method => is_existing_user? ? :put : :post, :id => "user_form"}) do |f| -%>
+<% if user %>
+    <%= f.hidden_field :id %>
+<% end %>
+<table class="form_table">
+  	<tr>
+  		<td class="label_cell">Email</td>
+		<td>
+			<input id="user_email" name="user[email]" size="30" type="email" value="<%= user.email %>" />
+		</td>
+  	</tr>
+	<tr>
+  		<td class="label_cell">Salutation</td>
+		<td><%= f.select(:salutation_id, salutations, :selected => user.salutation ? user.salutation.id : salutations[0].id ) %></td>
+  	</tr>
+	<tr>
+  		<td class="label_cell">First Name</td>
+		<td><%= f.text_field :first_name %></td>
+  	</tr>
+	<tr>
+  		<td class="label_cell">Last Name</td>
+		<td><%= f.text_field :last_name %></td>
+  	</tr>
+	<tr>
+  		<td class="label_cell">Phone</td>
+		<td><%= f.text_field :phone %></td>
+  	</tr>
+  <% # permissions are only relevant for Scholastic users, and don't let a scholastic user edit his own.
+     if user.isScholasticType and @current_user != user %>
+	  <tr>
+  		<td class="label_cell">Permissions</td>
+		<td><%= render(:partial => "permission", :collection => permissions, :locals => {:user => user}) %></td>
+  	</tr>
+	<% end %>
+	<tr>
+	  <td colspan="2" style="text-align: center;">
+      <input id="user_type_admin" name="user[user_type]" type="radio" value="admin" <%= user.isAdminType ? 'checked="true"' : nil %> <%= @current_user.isScholasticType ? 'disabled="disabled"' : nil %> >
+      <%= label_tag(:type_admin, User::DISPLAY_TYPE_ADMIN) %>&nbsp;&nbsp;&nbsp;
+      <input id="user_type_scholastic" name="user[user_type]" type="radio" value="scholastic" <%= (!is_existing_user? || user.isScholasticType) ? 'checked="true"' : nil %> <%= @current_user.isScholasticType ? 'disabled="disabled"' : nil %> >
+      <%= label_tag(:type_scholastic, User::DISPLAY_TYPE_SCHOLASTIC) %>
+		</td>
+	</tr>
+  <tr>
+		<td colspan="2" style="text-align: center;">
+			<%= button_to_function('Save', "confirmAndSubmit('submit_tag', confirm_message, 'user_form', 'status_indicator')", :id => "submit_tag") %>
+		</td>
+	</tr>
+</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait...&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :id => "status_image", :border => "0" ) %>    
+</div>

@@ -1,0 +1,87 @@
+<% @page_title = "SAMC - Remediate Server" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+		<td>&raquo;</td>
+		<td><span class="breadcrumb_level"><%= link_to(@sam_server.name, sam_server_path(@sam_server.id)) %></span></td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Remediate Server</span></td>
+	</tr>
+</table>
+<h1 style="margin-bottom: 10px; text-align: center">Remediate SAM Server</h1>
+<hr/>
+<div align="center">
+		<% if (!@license_problems) %>
+			<h3 style="text-align: left;">Change desired license counts</h3>
+			<br/>
+			<% form_tag(remediate_sam_server_path(@sam_server.id), :onsubmit => "$$('.licenses_to_keep').invoke('enable');") do -%>
+				<%= hidden_field_tag(:sam_server_id, @sam_server.id) %>
+				<%= render(:partial => "sam_server_banner", :object => @sam_server)%>
+				<b>Please change the desired license counts on this SAM Server:</b><br/><br/>
+				<%= render(:partial => "remediate_server_license_info", :object => @sam_server) %><br/><br/>
+				<%= submit_tag("Remediate SAM Server", :id => "remediate_servers_button") %>
+			<% end %>
+		<% else %>
+			<%= render(:partial => "sam_server_banner", :object => @sam_server) %>
+			<span style="color: red;">You must resolve the following issues before proceeding:</span><br/><br/>
+			<% if (!@lcd_tasks.empty?) %>
+				<%= link_to("License Count Discrepancies (#{@lcd_tasks.length})", unassigned_license_count_discrepancies_path(:sam_customer_id => @sam_customer.id, :sam_server_id => @sam_server.id)) %><br/>
+			<% end %>
+			<% if (!@lcip_tasks.empty?) %>
+				<%= link_to("License Count Integrity Problems (#{@lcip_tasks.length})", unassigned_license_count_integrity_problems_path(:sam_customer_id => @sam_customer.id)) %><br/>	
+			<% end %>
+			<% if (!@seat_activities.empty?) %>
+				<%= link_to("Pending License Transactions (#{@seat_activities.length})", sam_customer_sam_server_seat_activities_path(@sam_customer.id, @sam_server.id)) %>
+			<% end %>
+		<% end %>
+		<br><br>
+        <hr/>
+        <br><br>
+<!-- Cancel Pending Report Requests -->
+    <%
+        updated_at = nil
+        not_connecting = false
+        diff = 0
+        diff_seconds = 0
+        diff_minutes = 0
+        diff_hours = 0 
+    
+        updated_at = @sam_server.updated_at
+        diff = (Time.now - updated_at).floor
+        diff_hours = (diff / 3600).floor
+        diff_minutes = ((diff % 3600) / 60).floor
+        diff_seconds = diff % 60
+        
+        if (diff_hours > 24)
+            not_connecting = true
+        end
+        
+        pendingReportCount = @sam_server.findNumPendingRequests
+        pendingScheduledUpdateCount = @sam_server.findNumScheduledUpdates
+        pendingTransactionCount = @sam_server.findNumPendingTransactions
+                
+        active = @sam_server.status
+
+%>              
+        <% if ( @current_user.hasScholasticPermission(Permission.cust_maint_functions) ) %>
+          <% form_tag :action => 'cancelPendingReportRequests', :id => @sam_server.id  do %>
+           <%= submit_tag("Cancel Pending Report Requests", :confirm => 'Are you sure you want to cancel all pending report requests?', :disabled => ( (pendingReportCount == 0) || (active != 'a') ) )%>
+          <% end %><br>
+          <% form_tag :action => 'cancelScheduledUpdateRequests', :id => @sam_server.id  do %>
+           <%= submit_tag("Cancel Scheduled Update Requests", :confirm => 'Are you sure you want to cancel all scheduled update requests?', :disabled => ( (pendingScheduledUpdateCount == 0) || (active != 'a') ) )%>
+          <% end %>
+          <br>
+          <% form_tag :controller => 'sam_customer_seat_activities', :action => 'cancel_all_seat_activities', :seat_activities => @seat_activities, :id => @sam_server.id, :operation => "Remediate" do %>
+           <%= submit_tag("Cancel Pending License Transactions", :confirm => 'Are you sure you want to cancel all pending transaction requests?', :disabled => ( (pendingTransactionCount == 0) || (active != 'a') ) ) %>
+          <% end %>
+        <% end %>
+</div>
+<script type="text/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+</script>

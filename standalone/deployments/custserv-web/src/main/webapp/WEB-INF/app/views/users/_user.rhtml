@@ -1,0 +1,18 @@
+<tr <%= "style='color: red;'" if (!user.registered?) %>>
+	<td>
+		<% if sam_customer_id %>		
+			<%= link_to(user.id, user_path(user.id, :sam_customer_id => sam_customer_id)) %>
+		<% else %>
+			<%= link_to(user.id, user_path(user.id)) %>
+		<% end %>
+	</td>
+  <td style="text-align: left;"><%= user.first_name %></td>
+  <td style="text-align: left;"><%= user.last_name %></td>
+  <td><%= user.display_type %></td>
+  <td style="text-align: left;"><%= user.email %></td>
+  <% if @current_user.isAdminType %>
+  	<td><%= user.token %></td>
+  <% end %>
+  <td><%= user.created_at.strftime(DATE_FORM) if user.created_at %></td>
+  <td><%= user.registered_at.strftime(DATE_FORM) if user.registered_at %></td>
+</tr>

@@ -1,0 +1,20 @@
+<% @page_title = "SAM Connect Update Overrides" %>
+
+<div id="um_status">
+  <%= render(:partial => "um_status",
+             :locals => {:update_manager => @update_manager,
+                         :update_element => "um_status"}) %>
+</div>
+
+
+<div class="table_header">
+	<h2 class="table_title">Customer Update Manager Overrides:</h2>
+</div>
+<p>
+<%= link_to "Add Customer Override", {:action => "add_customer_override_p1"}, {:onclick => "openTBPopup(href); return false;"}  %>
+</p>
+<div id="customer_overrides">
+	<%= render(:partial => "customer_overrides", 
+	           :locals => {:customer_overrides => @customer_overrides,
+	                       :update_element => "customer_overrides"}) %>
+</div>

@@ -1,0 +1,25 @@
+<%#= render(:partial => "/common/widget_onclick_definer", :collection => widget_onclick_creator) %>
+
+jQuery.fn.slideFadeToggle = function(speed, easing, callback) {
+  return this.animate({opacity: 'toggle', height: 'toggle'}, speed, easing, callback);  
+};
+
+jQuery('.widget_dialog').live('click', function(e) {
+	e.preventDefault();
+	$element_id = jQuery(this).attr("element_id");
+	$title = jQuery(this).attr("title");
+	jQuery("#" + $element_id + "_pane").html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+	if ($title)
+		jQuery("#" + $element_id).dialog({title: $title})
+	jQuery("#" + $element_id).dialog("open");
+	// load the contact form using ajax
+	jQuery.get(jQuery(this).attr("href"), function(data){
+		jQuery("#" + $element_id + "_pane").hide();
+		jQuery("#" + $element_id + "_pane").html(data);
+		//jQuery("#" + $element_id + "_pane").fadeIn(500);
+		jQuery("#" + $element_id + "_pane").slideFadeToggle(550, "swing", null);
+		afterLoadFunction = eval("window." + $element_id + "_loaded");
+		if (afterLoadFunction !== undefined)
+			afterLoadFunction.apply();
+	});
+});

@@ -1,0 +1,31 @@
+<% @page_title = "SAMC - Send Test Emails" %>
+<h1 style="margin-bottom: 10px; text-align: center">Send Test Emails</h1>
+<hr/>
+<div align="center">
+	<br/>
+	<% form_remote_tag(:url => url_for(:action => :send_test_emails), :before => "Form.Element.disable('send_emails_button'); show_loading_msg('step2_container'); Effect.ScrollTo('step2_container');") do -%>
+		<table class="form_table">
+			<tr>
+				<td class="label_cell">Email Type:</td>
+				<td class="field_cell"><%= select_tag("email_type", options_for_select(@available_test_email_options)) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">Recipient Email Address:</td>
+				<td class="field_cell"><%= text_field_tag("recipient_address", nil) %></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<%= submit_tag("Send Test Emails", :id => "send_emails_button") %>
+				</td>
+			</tr>
+		</table>
+	<% end %>		
+	<br/><br/>
+	<hr/>
+	<div id="step2_container"></div>
+</div>
+<script type="text/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+</script>

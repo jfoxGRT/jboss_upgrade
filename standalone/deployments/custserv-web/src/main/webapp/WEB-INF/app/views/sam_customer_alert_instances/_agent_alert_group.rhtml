@@ -1,0 +1,20 @@
+<% agent_id = agent_alert_group.agent_id 
+	server_id = agent_alert_group.server_id %>
+<tr>
+	<td>
+		<% if (agent_id) %>
+		<%= link_to(agent_id, agent_path(agent_id)) %>
+		<% else %>
+		<%= agent_id %>
+		<% end %>
+	</td>
+	<td>
+		<% if (server_id) %>
+		<%= link_to(server_id, sam_customer_sam_server_path(sam_customer_id, server_id)) %>
+		<% else %>
+		<%= server_id %>
+		<% end %>
+	</td>
+	<td style="text-align: left;"><%= agent_alert_group.server_name %></td>
+	<td><%= link_to(agent_alert_group.alert_count, group_by_server_notifications_path(:alert_id => alert_id, :sam_server_id => server_id)) %></td>
+</tr>

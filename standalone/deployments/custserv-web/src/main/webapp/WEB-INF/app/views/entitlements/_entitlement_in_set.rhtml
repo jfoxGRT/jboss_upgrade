@@ -1,0 +1,28 @@
+<tr class='workDetails'>
+    <td style='width:16%'>
+        <%= entitlement_in_set.task_id %>
+    </td>
+    <td style='width:12%'>
+        <%= entitlement_in_set.tms_entitlementid %>
+    </td>
+    <td style='width:18%'>
+        <%= entitlement_in_set.created_at.strftime(DATE_FORM) %>
+    </td>
+    <td style='width:20%'>
+        <%= entitlement_in_set.description %>
+    </td>
+    <td style='width:15%'>
+        <%= entitlement_in_set.license_count %>
+    </td>
+    <td style='width:15%'>
+    	<% if (entitlement_in_set.status.nil?) %>
+			No Task
+		<% elsif (entitlement_in_set.status == Task.UNASSIGNED) %>
+			Open
+		<% elsif (entitlement_in_set.status == Task.ASSIGNED) %>
+			<%= entitlement_in_set.first_name %> <%= entitlement_in_set.last_name %>
+		<% elsif (entitlement_in_set.status == Task.CLOSED) %>
+			Closed Task
+		<% end %>
+    </td>
+</tr>

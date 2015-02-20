@@ -1,0 +1,72 @@
+for countdown in @countdowns do
+  if (countdown.next_poll_at.nil?)
+    page["countdown_#{countdown.id}"].update "<span style='color: red;'>No Agent</span>"
+	else
+    countdown.next_poll_at[/(\d+)\-(\d+)\-(\d+)\s(\d+):(\d+):(\d+)/]
+    if ($1 && $2 && $3 && $4 && $5 && $6)
+      next_poll_at = Time.local(y=$1.to_i,m=$2.to_i,d=$3.to_i, h=$4.to_i,min=$5.to_i,s=$6.to_i)
+      diff = (next_poll_at - Time.now).floor
+      # if next_poll_at is in the past, then SAMC is either waiting for a connection, or is actively connecting
+      if (diff < 0)
+        diff = diff * -1
+        diff_hours = (diff / 3600).floor
+        diff_minutes = ((diff % 3600) / 60).floor
+        diff_seconds = diff % 60
+        # if the agent still hasn't been updated with respect to its next_poll_at, SAMC is waiting for it
+    		if (countdown.updated_at < next_poll_at)
+          page << "if($('countdown_cell_#{countdown.id}').hasClassName('dormant')) {"
+          page["countdown_cell_#{countdown.id}"].className = "waiting"
+          page << "}"
+          if (diff_hours > 24)
+            page << "if($('countdown_cell_#{countdown.id}').hasClassName('waiting')) {"
+            page["countdown_cell_#{countdown.id}"].className = "disconnected"
+            page["countdown_#{countdown.id}"].update "No connectivity"
+            page << "}"
+          else
+            page["countdown_#{countdown.id}"].update "SAMC waiting for connection..&nbsp;&nbsp;&nbsp;" + ("(#{diff_hours}:" + ("%02d" % diff_minutes) + ":" + ("%02d" % diff_seconds) + ")")
+          end
+    	  else
+          # if it looks like there's a hung connection.. 
+          if (diff_hours > 0 || diff_minutes > 5)
+            page << "if($('countdown_cell_#{countdown.id}').hasClassName('connected')) {"
+            page["countdown_cell_#{countdown.id}"].className = "hung_connection"
+            page["countdown_#{countdown.id}"].update "Hung connection?"
+            page.hide "countdown_img_#{countdown.id}"
+            page << "}"
+          # otherwise..
+          else
+            page << "if(!($('countdown_cell_#{countdown.id}').hasClassName('connected'))) {"
+            page["countdown_cell_#{countdown.id}"].className = "connected"
+            page["countdown_lua_#{countdown.id}"].update countdown.updated_at.strftime(DATE_FORM)
+            page.visual_effect :highlight, "countdown_lua_#{countdown.id}"
+            page["countdown_lua_#{countdown.id}"].className = "updated"
+            page.show "countdown_img_#{countdown.id}"
+            page << "}"
+            page["countdown_#{countdown.id}"].update "<span style='color: blue;'>#{translate_command_id_text(countdown.current_command_id)}&nbsp;&nbsp;&nbsp;" + ("(#{diff_hours}:" + ("%02d" % diff_minutes) + ":" + ("%02d" % diff_seconds)) + ")</span>"
+          end
+    	  end
+      # otherwise, next_poll_at is in the future, so the agent is dormant
+      else
+        diff_hours = (diff / 3600).floor
+        diff_minutes = ((diff % 3600) / 60).floor
+        diff_seconds = diff % 60
+        # if the cell's class name is anything BUT dormant..
+        page << "if(!($('countdown_cell_#{countdown.id}').hasClassName('dormant'))) {"
+        page["countdown_cell_#{countdown.id}"].className = "dormant"
+        page << "if(!($('countdown_lua_#{countdown.id}').hasClassName('updated'))) {"
+        page["countdown_lua_#{countdown.id}"].update countdown.updated_at.strftime(DATE_FORM)
+        page.visual_effect :highlight, "countdown_lua_#{countdown.id}"
+        page << "} else {"
+        page["countdown_lua_#{countdown.id}"].className = ""
+        page << "}"
+        page["countdown_npa_#{countdown.id}"].update next_poll_at.strftime(DATE_FORM)
+        page.visual_effect :highlight, "countdown_npa_#{countdown.id}"
+        page.hide "countdown_img_#{countdown.id}"
+        page << "}"
+    		page["countdown_#{countdown.id}"].update ("#{diff_hours}:" + ("%02d" % diff_minutes) + ":" + ("%02d" % diff_seconds)) if page["countdown_#{countdown.id}"]
+      end
+    else
+      page["countdown_#{countdown.id}"].update "Cannot compute countdown"
+    end
+  end
+end

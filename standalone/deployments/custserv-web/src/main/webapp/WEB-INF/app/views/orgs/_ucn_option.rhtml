@@ -1,0 +1,4 @@
+<% if(ucn_option) %>
+<option value="<%= ucn_option.ucn %>" <%= "selected" if(ucn_option.ucn == selected_ucn) %>>
+	<%= ucn_option.name %></option>	
+<% end %>

@@ -1,0 +1,21 @@
+<% org = eas.org %>
+<tr id="eas_<%= eas.id %>">
+	<td><%= eas.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+	<td><%= eas.updated_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+	<td><%= link_to(org.name.strip, org_path(org.id)) %></td>
+	<td><%= org.customer.state.code %></td>
+	<% user = eas.user %>
+	<td><%= "#{user.last_name}, #{user.first_name}" %></td>
+	<td>
+	<% if @current_user.hasPermission?(Permission.edit) %>
+	<%= button_to_remote("Delete", {:condition => "confirm('Are you sure you wish to delete this entitlement assignment suppression record?')",
+					:before => "$('#{status_indicator}').show(); $$('input.form_button').each(Form.Element.disable);",
+					:complete => "$('#{status_indicator}').hide(); $$('input.form_button').each(Form.Element.enable);",
+					:url => entitlement_assignment_suppression_path(eas.id), :method => :delete}, {:class => "form_button"}) %>
+	<% else %>
+		<%= button_to_remote("Delete", "", {:disabled => "disabled"}) %>
+	<% end %>
+	</td>
+					
+</tr>
+

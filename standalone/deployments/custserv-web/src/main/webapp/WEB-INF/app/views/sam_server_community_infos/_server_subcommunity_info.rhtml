@@ -1,0 +1,12 @@
+<% snapshot = server_subcommunity_info.snapshot_for_initial_registration %>
+<tr>
+	<td><%= server_subcommunity_info.id %></td>
+    <td style="text-align: left;"><%= server_subcommunity_info.subcommunity.name %></td>
+    <td><%= server_subcommunity_info.licensed_seats %></td>
+    <td><%= server_subcommunity_info.used_seats %></td>
+	<td>&nbsp;<%= (snapshot) ? snapshot.licensed_seats : "Not Available" %></td>
+	<td>&nbsp;<%= (snapshot) ? snapshot.used_seats : "Not Available" %></td>
+	<td>&nbsp;<%= server_subcommunity_info.sourced_by %></td>
+	<td>&nbsp;<%= server_subcommunity_info.created_at.strftime(DATE_FORM) if server_subcommunity_info.created_at %></td>
+	<td>&nbsp;<%= server_subcommunity_info.updated_at.strftime(DATE_FORM) if server_subcommunity_info.updated_at %></td>
+</tr>

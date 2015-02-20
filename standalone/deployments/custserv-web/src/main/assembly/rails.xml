@@ -1,0 +1,24 @@
+<assembly>
+  <id>rails</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}/src/main/webapp/WEB-INF</directory>
+      <outputDirectory>rails</outputDirectory>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <excludes>
+        <exclude>app/views/**/*.rhtml</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/target/classes/app/views</directory>
+      <outputDirectory>rails/app/views</outputDirectory>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <includes>
+        <include>**/*.rhtml</include>
+      </includes>
+    </fileSet>
+</fileSets>
+</assembly>

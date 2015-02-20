@@ -1,0 +1,56 @@
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#banner_table').dataTable({
+		"aaSorting": [[0, "desc"]],
+		"oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             }
+        }
+	});
+} );
+
+    function popup_view_dialog(url) {
+           jQuery('#view_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery('#view_pane').dialog({
+                modal: true,
+                width: 550,
+                height: 400
+            });
+            jQuery.get(url, function(data) {
+                jQuery('#view_pane').html(data); 
+            });
+    }
+            
+    function close_dialog() {
+        jQuery('#view_pane').dialog('close');
+    }
+</script>
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<div id="view_pane"></div>
+<table class="data_table" id="banner_table" align="left" style="width: 100%; table-layout: fixed">
+	<thead>
+		<tr class="data_table_first_row">
+		    <th>Message Id</th>
+            <th width="150px;">Message Name</th>
+            <th width="150px;">Message</th>
+            <th>Last Updated</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Creator</th>
+            <th>Posts to SAM Client</th>
+         <!--   <th>Posts to Dashboard</th>
+            <th>Posts to Students</th> -->
+            <th>Posts to Educator</th>
+            <th>Posts to Scholastic Central</th>
+            <th>Server Scope</th>
+            <th>Message Status</th>
+            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>	
+        <%= render(:partial => "banner_message", :collection => @banner_message_hist) %>
+    </tbody>
+</table>

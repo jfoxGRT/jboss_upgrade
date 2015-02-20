@@ -1,0 +1,92 @@
+<% @page_title = "SAMC - Unassigned Order Tasks" %>
+<!-- start of table insert test -->
+
+    <h1>Orders Without Owner</h1>
+
+<a href="#" onClick='showSearch();'>Search</a>
+<div id="search" style="visibility: hidden;display:none" >
+ <form name="search" action="" method="POST">
+    <table  cellspacing="0" style='font-family: "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
+font-size: 100%;'>
+      <thead>
+
+        <tr valign='top'>
+
+          <td style='width:10%'>Order #<br><input type=text name=order value="" style="width:80%;font-family: "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
+font-size: 100%;">
+          </td>
+           <td style='width:10%'>Invoice # <br><input type=text name=invoice  value="" style="width:80%"></td>
+		  <td style='width:22%;'>Task Date<br>
+		  <input type=text name=start_date value="Start Date" style="width:40%; margin-right:5px;margin" onFocus='onFocusField(this,"Start Date");' onBlur='onBlurField(this,"Start Date");' ><input type=text name=start_time value="Start Time" onFocus='onFocusField(this,"Start Time");' onBlur='onBlurField(this,"Start Time");' style="width:40%"><br>
+		  <input type=text name=end_date value="End Date" style="width:40%; margin-right:5px;"  onFocus='onFocusField(this,"End Date");' onBlur='onBlurField(this,"End Date");' ><input type=text name=end_time value="End Time" onFocus='onFocusField(this,"End Time");' onBlur='onBlurField(this,"End Time");' style="width:40%">
+
+
+		  </td>
+		  <td style="width:12%;">
+		  Assigned Rep.
+		  <br><input type=text name=rep value="" style="width:80%"></td>
+		<td style="width:10%;">Reason<br>
+          <select name="reason" style="width:90%; height:17px;">
+<option value="1">1</option>
+<option value="2">2</option>
+
+<option value="3">3</option>
+</select></td>
+          <td style="width:14%">Bill-To Info<br><input type=text name=bt_name value="Org. Name" style="width:80%" onFocus='onFocusField(this,"Org. Name");' onBlur='onBlurField(this,"Org. Name");' >
+          <br><input type=text name=bt_ucn value="UCN" style="width:80%" onFocus='onFocusField(this,"UCN");' onBlur='onBlurField(this,"UCN");'> </td>
+
+              <td style="width:14%">Ship-To Info<br><input type=text name=stt_name value="Org. Name" style="width:80%" onFocus='onFocusField(this,"Org. Name");' onBlur='onBlurField(this,"Org. Name");'>
+          <br><input type=text name=st_ucn value="UCN" style="width:80%" value="UCN" style="width:80%" onFocus='onFocusField(this,"UCN");' onBlur='onBlurField(this,"UCN");'></td>
+          <td	style="width:12%">Status<br>
+
+          <select name="status" style="width:90%; height:17px;">
+<option value="all">All</option>
+<option value="open">Open Tasks</option>
+<option value="process">In Process</option>
+<option value="closed">Closed</option>
+</select></td>
+        </tr>
+        <tr>
+        <td colspan=8 style="background:#fff;"	>
+
+        <input name="search" type="submit" value="Search" style="float:right;margin-top:5px;"></td></tr>
+      </thead>
+    </table>
+
+    </form>
+</div>
+
+    <div id="all-servers-table"  >
+
+<!-- start of  Orders table -->
+
+
+    <table id="serverview" class="view" cellspacing="0"  style="margin-top:5px; width: 100%;">
+    <thead>
+        <tr class="parent">
+          <td>Unassigned </td>
+        </tr>
+      </thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" style="width:100%;">
+
+      <thead>
+
+        <tr >
+
+          <td>Order #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+           <td>Invoice #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+		  <td>Task Date<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+		<td>Reason<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+
+          <td>Bill-To Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+
+              <td>Ship-To Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+          <td	>Action</td>
+        </tr>
+      </thead>
+    </table>
+	<%= render(:partial => "unassigned_task_summary", :collection => @task_packages, :locals => {:alert_id => @alert.id}) %>
+</div>
+
+<!--start of Open Orders Tasks table -->

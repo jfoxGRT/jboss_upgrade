@@ -1,0 +1,11 @@
+<tr>
+	<td style="text-align: left;">
+		<% if(alert_instance.sam_customer_name) %>
+			<%= link_to(alert_instance.sam_customer_name, sam_customer_path(alert_instance.sam_customer_id)) %>
+		<% else %>
+			<span style="color: red;">Unknown</span>
+		<% end %>
+	</td>
+	<td style="text-align: left;"><%= link_to(alert_instance.alert_type, sam_customer) %></td>
+	<td><%= alert_instance.alert_count %></td>
+</tr>

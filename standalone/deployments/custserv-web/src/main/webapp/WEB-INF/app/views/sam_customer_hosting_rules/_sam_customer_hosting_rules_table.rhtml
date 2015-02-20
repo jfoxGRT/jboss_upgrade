@@ -1,0 +1,46 @@
+<table class="data_table" width="90%" style="table-layout:fixed;word-wrap: break-word;">
+    <thead>
+        <tr class="data_table_first_row">
+        	<td <%= sort_td_class_helper("hosting_rule_id")%>>
+                <%= sort_link_helper("Hosting Rule ID", "hosting_rule_id", update_element, "update_hosting_rules", status_indicator)%>
+            </td>
+			<td <%= sort_td_class_helper("server_name")%>>
+				<%= sort_link_helper("Server Name", "server_name", update_element, "update_hosting_rules", status_indicator) %>			
+			</td>
+            <td <%= sort_td_class_helper("server_id")%>>
+                <%= sort_link_helper("Server ID", "server_id", update_element, "update_hosting_rules", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("entitlement_id")%>>
+                <%= sort_link_helper("Entitlement ID", "entitlement_id", update_element, "update_hosting_rules", status_indicator)%>
+            </td>
+			<td width="400">
+                Rule Text
+            </td>
+            <td <%= sort_td_class_helper("status")%>>
+                <%= sort_link_helper("Status", "status", update_element, "update_hosting_rules", status_indicator) %>
+            </td>
+            <td <%= sort_td_class_helper("created")%>>
+                <%= sort_link_helper("Created Date", "created", update_element, "update_hosting_rules", status_indicator) %>
+            </td>
+            <td <%= sort_td_class_helper("delivered")%>>
+                <%= sort_link_helper("Delivered Date", "delivered", update_element, "update_hosting_rules", status_indicator) %>
+            </td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "sam_customer_hosting_rules", :collection => hosting_rules_collection, :locals => {:sam_customer_id => sam_customer_id}) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(hosting_rules_collection, :renderer => "RemoteLinkRenderer",
+				:status_indicator => status_indicator,
+				:before_callback => "Element.show('" + status_indicator + "')",
+				:success_callback => "Element.hide('" + status_indicator + "')",
+                :update_element => update_element,
+                :action => "update_hosting_rules",
+				:params => {:sam_customer_id => sam_customer_id},
+				:sam_customer_id => sam_customer_id) %>
+</p>
+
+

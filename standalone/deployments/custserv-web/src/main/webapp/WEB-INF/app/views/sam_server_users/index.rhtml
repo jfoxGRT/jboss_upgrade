@@ -1,0 +1,25 @@
+<% @page_title = "SAMC - SAM Server Users" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false})%>
+	<td>&raquo;</td>
+	<td><span class="breadcrumb_level"><%= link_to(@sam_server.name, sam_customer_sam_server_path(@sam_customer, @sam_server)) %></span></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">SAM Server Users</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title">SAM Server Users on <%= @sam_server.name %></h2>
+	<span class="super_caption"><%= @sam_server_users.length %> SAM Server Users</span>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("sam_server_users_loading_indicator") %>
+	</div>
+</div>
+<div id="sam_server_users_table">
+	<%= render(:partial => "sam_server_users_table", :locals => {:status_indicator => "sam_server_users_loading_indicator",
+	                                                            :sam_server => @sam_server}) %>
+</div>

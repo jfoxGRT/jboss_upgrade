@@ -1,0 +1,55 @@
+<%  task_result = uo_task[1][0] %>
+<tr>
+	<% form_for(:task, :url => ((task_result.status == Task.UNASSIGNED) ? (assign_task_path(task_result.id)) : (unassign_task_path(task_result.id))), :html => {:method => :put}) do |f| -%>
+	<%= f.hidden_field(:alert_id, :value => alert_id) %>
+	<%= render(:partial => "task_common_start_cells", :object => task_result) %>
+	<td><%= task_result.ordered.slice(0,11) %></td>
+	<td><%= task_result.order_num %></td>
+	<td><%= task_result.invoice_num %></td>
+	<%  looking = true
+		i = 0
+		while (looking)
+			record = uo_task[1][i]
+			if (record.entitlement_org_type_description == "BILL_TO")
+				bill_to = record
+			elsif (record.entitlement_org_type_description == "SHIP_TO")
+				ship_to = record
+			end 
+			looking = false if (bill_to && ship_to)
+			i += 1
+		end %>
+	<td><%= link_to(bill_to.org_name, org_path(bill_to.org_id), {:target => "new"}) %></td>
+	<td><%= link_to(ship_to.org_name, org_path(ship_to.org_id), {:target => "new"}) %></td>
+	<td>
+		<table class="data_table" style="width: 100%;">
+			<thead>
+			<tr>
+				<th style="width: 13%;">TMS Entitlement ID</th>
+				<th style="width: 15%;"><%= PRODUCT_TERM %></th>
+				<th style="width: 7%;">License Count</th>
+			</tr>
+			</thead>
+			<tbody>
+				<%
+					bill_to_record = nil
+					ship_to_record = nil
+					uo_task[1].each do |tr|
+						if (tr.entitlement_org_type_description == "BILL_TO")
+							bill_to_record = tr
+						elsif (tr.entitlement_org_type_description == "SHIP_TO")
+							ship_to_record = tr
+						end
+						if (bill_to_record && ship_to_record) %>
+							<%= render(:partial => "uo_result", :object => uo_task[1], :locals => {:bill_to_record => bill_to_record, :ship_to_record => ship_to_record}) %>
+							<% bill_to_record = nil
+							ship_to_record = nil
+						end
+					end
+				%>
+			</tbody>
+		</table>
+	</td>
+	<td><%= task_result.reason_unassigned %></td>
+	<%= render(:partial => "task_common_end_cells", :object => task_result, :locals => {:form_variable => f, :user_map => user_map}) %>
+	<% end -%>
+</tr>

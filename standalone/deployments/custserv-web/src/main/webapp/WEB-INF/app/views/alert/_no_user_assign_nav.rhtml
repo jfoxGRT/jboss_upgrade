@@ -1,0 +1,31 @@
+<h3 align="center">Please Submit User information for the following SAM Connect account:</h3>
+<table class="data_table">
+<thead>
+    <tr>
+        <th>Task ID</th>
+        <th>SAM Connect Account ID</th>
+        <th>SAM Connect Account Name</th>
+        <th>SAM Connect Account Phone #</th>
+        <th>Originating TMS Entitlement ID</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td style="text-align: center;"><%= no_user_assign_nav.id %></td>
+        <td style="text-align: center;"><%= no_user_assign_nav.sam_customer.id %></td>
+        <td style="text-align: center;"><%= no_user_assign_nav.sam_customer.root_org.name %></td>
+        <% phone = getMainPhoneNumber(no_user_assign_nav.sam_customer.root_org) %>
+        <td style="text-align: center;">
+        <% if (!phone.nil?) %>
+        (<%= phone.telephone_number.slice(0,3) %>)<%= phone.telephone_number.slice(3,3) %>-<%= phone.telephone_number.slice(6,4) %>
+        <% else %>-
+        <% end %>
+        </td>
+        <td style="text-align: center;"><%= no_user_assign_nav.entitlement.tms_entitlementid %></td>
+        <td style="vertical-align: middle; text-align: center;">
+        <%= button_to("Cancel", {:action => :cancel_add_user, :id => no_user_assign_nav.id}) %>
+        </td>
+    </tr>
+</tbody>
+</table>

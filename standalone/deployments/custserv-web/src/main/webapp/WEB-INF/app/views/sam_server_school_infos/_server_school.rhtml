@@ -1,0 +1,13 @@
+<tr>
+	<td>&nbsp;<%= server_school.id %></td>
+	<td style="text-align: left;">&nbsp;<%= server_school.name %></td>
+	<td>&nbsp;<%= server_school.created_at.strftime(DATE_FORM) %></td>
+	<td>&nbsp;<%= server_school.updated_at.strftime(DATE_FORM) %></td>
+	<td>&nbsp;<%= server_school.school_number %></td>
+	<td>&nbsp;<%= server_school.address1 %></td>
+	<td>&nbsp;<%= server_school.city %></td>
+	<td>&nbsp;<%= server_school.state %></td>
+	<td>&nbsp;<%= server_school.postal_code %></td>
+	<% phone_num = server_school.phone %>
+	<td>&nbsp;<%= "(#{phone_num.slice(0,3)})#{phone_num.slice(3,3)}-#{phone_num.slice(6,4)}" if (phone_num) %></td>
+</tr>

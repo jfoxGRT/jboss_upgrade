@@ -1,0 +1,31 @@
+<h3 align="center">Please Submit Account Administrator information for the following SAM Connect account:</h3>
+<table class="data_table">
+<thead>
+    <tr>
+        <th>Task ID</th>
+        <th>SAM Customer ID</th>
+        <th>SAM Customer Name</th>
+		<th>SAM Customer State</th>
+        <th>SAM Customer Phone #</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td style="text-align: center;"><%= naa_details.id %></td>
+        <td style="text-align: center;"><%= naa_details.sam_customer.id %></td>
+        <td style="text-align: center;"><%= naa_details.sam_customer.name %></td>
+		<td style="text-align: center;"><%= naa_details.state_province.name %></td>
+        <% phone = get_main_phone_number(naa_details.sam_customer.root_org) %>
+        <td style="text-align: center;">
+        <% if (!phone.nil?) %>
+        (<%= phone.telephone_number.slice(0,3) %>)<%= phone.telephone_number.slice(3,3) %>-<%= phone.telephone_number.slice(6,4) %>
+        <% else %>-
+        <% end %>
+        </td>
+        <td style="vertical-align: middle; text-align: center;">
+		<%= button_to("Cancel", unassign_task_path(naa_details.id, :source_user_id => current_user.id), {:method => :put}) %>
+        </td>
+    </tr>
+</tbody>
+</table>

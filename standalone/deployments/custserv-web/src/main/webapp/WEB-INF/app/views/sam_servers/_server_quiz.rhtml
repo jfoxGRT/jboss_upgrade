@@ -1,0 +1,15 @@
+<tr>
+	<% if(server_quiz.name == 'SRCQUIZ01') %>
+    	<td>Grade K - 2</td>
+    <% elsif(server_quiz.name == 'SRCQUIZ02') %>
+    	<td>Grade 3 - 5</td>
+    <% elsif(server_quiz.name == 'SRCQUIZ03') %>
+    	<td>Grade 6 - 8</td>
+    <% elsif(server_quiz.name == 'SRCQUIZ04') %>
+    	<td>High School</td>
+    <% elsif(server_quiz.name == 'SRCQUIZ05') %>
+    	<td>Corrections</td>
+    <% end %>
+    <td><%= server_quiz.value %></td>
+    <td><%= button_to_function("force", remote_function(:update => "cs_notice_block", :url => url_for(:controller => :updates, :action => :request_agent_component_reinstall, :agent_id => @sam_server.agent.id, :managed_component_code => server_quiz.name), :before => "$('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable'); scroll(0,0);"), :id => "force_quiz_button") if server_quiz.value != "0" %></td>
+</tr>

@@ -1,0 +1,20 @@
+<div style="width: 100%; margin-top: 20px; margin-bottom: 20px; margin-left: auto; margin-right: auto; color:red; font-style:italic;">Note:  Entitlement event information will not be available before Feb. 20, 2011</div>
+<table class="popup_one_table_pane" style="border-top: 2px groove #bbbbbb;">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Created At</th>
+			<th>TMS Entitlement ID</th>
+			<th>Old <%= SAM_CUSTOMER_TERM %></th>
+			<th>New <%= SAM_CUSTOMER_TERM %></th>
+			<th>Old License Count</th>
+			<th>New License Count</th>
+			<th>Old License Status</th>
+			<th>New License Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "entitlement_event", :collection => entitlement_events) %>
+	</tbody>
+</table>
+			

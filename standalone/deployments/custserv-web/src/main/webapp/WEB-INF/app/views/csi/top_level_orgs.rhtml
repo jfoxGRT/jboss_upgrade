@@ -1,0 +1,19 @@
+<%  @page_title = "SAMC - Orgs" %>
+<table id="csi_breadcrumb" class="breadcrumb_table" cellspacing="0" cellpadding="0">
+        <tr>
+            <td><%= link_to("STATES", {:action => :org_hierarchy_states}) %></td>
+            <td>></td>
+            <td><%= @state.name.upcase %></td>
+        </tr>
+    </table>
+<% stateName = @state.name.upcase + " TOP-LEVEL ORGANIZATIONS" %>
+<div style="width: 100%; text-align: center;"><h2><%= stateName %></h2></div>
+<div align="center" style="padding-bottom: 10px;">&nbsp;
+<%= generateAjaxIndicator("status_indicator") %></div>
+<div id="top_level_org_table">
+    <%= render(:partial => "org_info", 
+               :locals => {:state_tlo_collection => @stateTlos,
+                           :state => @state,
+                           :status_indicator => "status_indicator",
+                           :update_element => "top_level_org_table"}) %>
+</div>

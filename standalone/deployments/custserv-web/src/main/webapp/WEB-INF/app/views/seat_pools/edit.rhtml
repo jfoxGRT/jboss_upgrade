@@ -1,0 +1,51 @@
+<% @page_title = "SAMC - Seat Pool" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => LICENSE_COUNTS_CODE, :on_target => nil}) %>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to(@subcommunity.name, sam_customer_subcommunity_path(@sam_customer.id, @subcommunity.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Adjust Total Licenses</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title">Adjust Total Licenses in Unallocated</h2></div>
+<%= render(:partial => "seat_pools/seat_pool_properties", :object => @seat_pool) %>
+<div align="center" style="margin-bottom: 30px;"><b>Total Virtual License Count:&nbsp;&nbsp;<%= @virtual_count %></div>
+<% form_tag(sam_customer_subcommunity_seat_pool_path(@sam_customer.id, @subcommunity.id, @seat_pool.id), {:method => :put, :name => "adjust_licenses_form"}) do -%>
+<table class="form_table">
+	<tr>
+		<td class="label_cell"><span style="color: red;">*</span>&nbsp;&nbsp;License Delta:</td>
+		<td class="field_cell"><%= text_field_tag(:delta, "", :size => 10, :onkeyup => "validate_form(#{@seat_pool.seat_count}, #{@virtual_count});") %></td>
+	</tr>
+	<tr>
+		<td class="label_cell"><span style="color: red;">*</span>&nbsp;&nbsp;Reason:</td>
+		<td class="field_cell"><%= text_area_tag(:user_comment, "", :cols => 50, :rows => 6, :onkeyup => "validate_form(#{@seat_pool.seat_count}, #{@virtual_count});") %></td>
+	<tr>
+		<td colspan="2" style="text-align:center;"><%= submit_tag("Adjust Total Licenses", :confirm => "Please doublecheck the information entered.  Are you sure you want to continue?", 
+																:id => "adjust_licenses_button", :disabled => "disabled") %></td>
+	</tr>
+</table>
+<% end %>
+<script type="text/javascript">
+	String.prototype.trim = function () {
+	    return this.replace(/^\s*/, "").replace(/\s*$/, "");
+	}
+	function validate_form(seat_count, virtual_count) {
+		delta = $('delta').value.trim();
+		user_comment = $('user_comment').value.trim();
+		if (delta === "" || isNaN(delta) || user_comment === "")
+			$('adjust_licenses_button').disable();
+		else {
+			delta_num = parseInt(delta);
+			if ((delta_num == 0) || (seat_count + delta_num) < 0 || (virtual_count + delta_num) < 0)
+				$('adjust_licenses_button').disable();
+			else
+				$('adjust_licenses_button').enable();
+		}
+	}
+</script>

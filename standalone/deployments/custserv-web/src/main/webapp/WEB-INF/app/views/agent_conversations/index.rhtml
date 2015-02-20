@@ -1,0 +1,31 @@
+<%  @page_title = "SAMC Conversations" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false})%>
+		<td>&raquo;</td>
+		<td><%= link_to("Agent: #{@agent.id}", agent_path(@agent.id), :style => "vertical-align: middle;") %></span>		
+		</td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Conversations</span></td>
+	</tr>
+</table>
+<hr/>
+
+<div class="table_header">
+	<h2 class="table_title">Agent: <%= @agent.id %>&nbsp;&nbsp;-&nbsp;&nbsp;Conversations</h2>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("conversation_status_indicator") %>
+	</div>
+</div>
+<div align="center" id="conversation_table">
+    <%= render(:partial => "conversation_info", 
+               :locals => {:conversation_collection => @conversations,
+                           :status_indicator => "conversation_status_indicator",
+                           :update_element => "conversation_table",
+						   :sam_customer => @sam_customer,
+						   :sam_server => @sam_server}) %>
+</div>

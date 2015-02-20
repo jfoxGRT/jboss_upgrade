@@ -1,0 +1,1 @@
+page["favorite_sam_customer_list_table"].replace_html(:partial => "/common/favorite_sam_customer", :collection => @favorite_sam_customer_set)

@@ -1,0 +1,39 @@
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#banner_table').dataTable({
+		"aaSorting": [[0, "desc"]],
+		"oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             }
+        }
+	});
+} );
+</script>
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<table class="data_table" id="banner_table" align="left" style="width: 100%; table-layout: fixed">
+	<thead>
+		<tr class="data_table_first_row">
+		    <th>Message ID</th>
+			<th width="150px;">Message Name</th>
+			<th width="150px;">Message</th>
+			<th>Last Updated</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Creator</th>
+			<th>Posts to SAM Client</th>
+			 <!--   <th>Posts to Dashboard</th>
+            <th>Posts to Students</th> -->
+			<th>Posts to Educator</th>
+			<th>Posts to Scholastic Central</th>
+			<th>Server Scope</th>
+			<th>Message Status</th>
+			<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>	
+        <%= render(:partial => "banner_message", :collection => @banner_message) %>
+    </tbody>
+</table>

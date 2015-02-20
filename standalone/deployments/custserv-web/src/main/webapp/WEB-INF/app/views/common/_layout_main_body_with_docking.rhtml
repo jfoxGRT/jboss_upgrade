@@ -1,0 +1,23 @@
+<div id="content">
+<!--<div id="main" class="line">-->
+	<!--<div class="item column" id="maincontent">-->
+	<div>		
+	<!--<div class="sap-content">-->
+		<div id="node-1" class="node clear-block">
+			<div class="content" id="the-body">
+				<div id="cs_notice_block">
+				<% if flash[:notice] %>
+                       	<div id="<%= (flash[:msg_type] == 'info') ? 'cs_notice_message' : 'cs_error_message' %>"><br/>
+							<%= flash[:notice] %><br/><br/>
+						</div>
+					
+                   <% end %>
+				</div>
+                   <%= yield(:layout) %>								
+				<div style="height: 500px;"/>
+			</div>
+		</div>
+		<!-- FOOTER WENT HERE -->
+	</div>
+		 <!-- end maincontent -->
+</div> <!-- end main -->

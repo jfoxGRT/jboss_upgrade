@@ -1,0 +1,16 @@
+<tr>
+	<td><%= sam_customer_hosting_rules.id %></td>
+	<td><%= sam_customer_hosting_rules.server_name %></td>
+	<td><%= sam_customer_hosting_rules.server_id %></td>
+	<td><%= sam_customer_hosting_rules.source_entitlement_id %></td>
+	<td width="400"><%= sam_customer_hosting_rules.rule_text %></td>
+	<td>
+	  <% if(sam_customer_hosting_rules.status == 'd') %>
+	  Delivered
+	  <% else %>
+	  Pending
+	  <% end %>
+	</td>
+	<td><%= sam_customer_hosting_rules.created.strftime(DATE_FORM) if sam_customer_hosting_rules.created %></td>
+	<td><%= sam_customer_hosting_rules.delivered.strftime(DATE_FORM) if sam_customer_hosting_rules.delivered %></td>
+</tr>

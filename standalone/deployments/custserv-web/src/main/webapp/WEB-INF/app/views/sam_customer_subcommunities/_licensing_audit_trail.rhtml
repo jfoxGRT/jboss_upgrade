@@ -1,0 +1,16 @@
+<table class="popup_one_table_pane">
+    <thead>
+        <tr>
+            <th>Event Type</th>
+            <th>Date Created</th>
+            <th>Server ID</th>
+            <th>SAM Server</th>
+            <th>Server Status</th>
+            <th>Seat Count</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "licensing_audit_trail_row", :collection => @history) %>
+    </tbody>
+</table>

@@ -1,0 +1,18 @@
+<% if server_license_count_msgs.empty? %>
+	<div align="center" style="padding-top: 20px; margin-right: auto; margin-left: auto; color: red;">No entries</div>
+<% else %>
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>Message ID</th>
+			<th>Date Created</th>
+			<th>Seat Count</th>
+			<th>Reason</th>
+			<th>Additional Info</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "server_count_message", :collection => server_license_count_msgs, :locals => {:all_servers => false}) %>
+	</tbody>
+</table>
+<% end %>

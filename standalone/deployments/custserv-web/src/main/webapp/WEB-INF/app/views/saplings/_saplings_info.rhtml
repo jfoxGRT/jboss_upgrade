@@ -1,0 +1,47 @@
+<script type="text/javascript">
+	function confirm_and_proceed(text) {
+		if (confirm(text)) {
+			return true;
+		}
+		else
+			return false;
+	}
+</script>
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#saps_table').dataTable({
+		"aaSorting": [[1, "desc"]],
+		"oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             }
+        }
+	});
+} );
+</script>
+<table class="data_table" id="saps_table" align="left">
+    <thead>
+      <tr class="data_table_first_row">
+        <th>Sapling ID</th>
+        <th>Created At</th>
+	<th>Sapling Code</th>
+	<th>Sapling Type</th>
+	<th>Sapling Version</th>
+	<th>OS Family</th>
+	<th>OS Series</th>
+	<th>CPU Type</th>
+	<th>CPU Bits</th>	
+	<th>Current State</th>
+	<th>Auto Targeted?</th>
+		<th>Action</th>
+		<th>More Details</th>
+		<!--<td>Publish</td>-->
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "sapling", :collection => saplings_collection, :locals => {:current_user => current_user, :status_indicator => status_indicator}) %>
+    </tbody>
+  </table>

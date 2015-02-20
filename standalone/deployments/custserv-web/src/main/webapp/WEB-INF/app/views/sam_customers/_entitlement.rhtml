@@ -1,0 +1,6 @@
+<li style="border-bottom: 1px solid black;">
+	<b><%= entitlement.description %></b><br/>
+	<%= entitlement.license_count %> license(s)<br/>
+	Order Date: <%= entitlement.ordered.strftime("%m/%d/%y") %><br/>
+	ID: <%= entitlement.tms_entitlementid %>
+</li>

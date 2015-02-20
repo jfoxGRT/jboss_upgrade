@@ -1,0 +1,272 @@
+<% @page_title = "SAMC - #{@mode} " + SAM_CUSTOMER_TERM %>
+
+<script type="text/javascript">
+	confirm_message = "Please review your edits for this <%= SAM_CUSTOMER_TERM %>.  Do you wish to continue?";
+</script>
+
+<table id="breadcrumb_container">
+	<tr>
+	<% if (@mode == "Edit") %>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+	<td>&raquo;</td>
+	<% end %>
+	<% if (@state) %>
+	<td><span id="current_page_title"><%= @mode %></span></td>
+	<% end %>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= (@mode == "Edit") ? @sam_customer.name : ("Add New " + SAM_CUSTOMER_TERM) %></h2>
+</div>
+<%= error_messages_for :sam_customer %>
+<% form_for(:sam_customer, :url => (@mode == "Edit") ? sam_customer_path(@sam_customer) : sam_customers_path, :html => {:method => (@mode == "Edit") ? :put : :post, :name => "sam_customer_form", :id => "sam_customer_form"}) do |f| -%>
+  <% if @mode == 'Edit' %>
+    <%= f.hidden_field :id %>
+  <% end %>
+  
+  	<table class="form_table">
+  		<tr>
+  			<td class="label_cell"><%= SAM_CUSTOMER_TERM %> Name:</td>
+			<td class="field_cell">
+			<% if (@mode == 'Add') %>
+				<%= f.text_field(:name, :size => 50, :disabled => "disabled") %>&nbsp;&nbsp;&nbsp;
+				<%= f.check_box(:use_default_name, :checked => "checked", :name => "sam_customer_use_default_name", :onclick => "toggle_name_field(this.checked)") %>&nbsp;Use default organization name
+			<% else %>
+				<%= f.text_field(:name, :size => 50) %>&nbsp;&nbsp;&nbsp;
+				<%= f.check_box(:use_default_name, :name => "sam_customer_use_default_name", :onclick => "toggle_name_field(this.checked)", :value => "0") %>&nbsp;Use default organization name
+			<% end %>
+			
+			</td>
+  		</tr>
+		<tr>
+			<td class="label_cell">Root Organization UCN:</td>
+			<% root_org = @sam_customer.root_org %>
+			<td class="field_cell">
+				<% if (@mode == 'Add') %>
+					<%= f.text_field(:ucn) %>
+				<% else %>
+					<%= f.text_field(:ucn, :disabled => "disabled") %>
+				<% end %>
+			</td>
+		</tr>
+        <tr>
+			<td class="label_cell">Hosted Site ID</td>
+			<td class="field_cell">
+			  <% if (@mode == 'Add' && @has_manage_site_id_permission) %> <!-- need permissions even if adding a new customer -->
+                <%= f.text_field(:siteid) %>
+              <% elsif (@mode == 'Add') %>
+                <%= f.text_field(:siteid, :disabled => "disabled") %> <span style="color:gray"><%= @siteid_message %></span>
+			  <% elsif (@has_manage_site_id_permission && (!@customer_has_active_hosted_server || @siteid.nil?)) %> <!-- if an active hosted server exists, we can set a siteid but not modify it -->
+			     <%= f.text_field(:siteid) %> <input type="button" value="Remove Site ID" onclick="this.form.elements['sam_customer_siteid'].value=''" />
+              <% else%>
+			     <%= f.text_field(:siteid, :disabled => "disabled") %> <input type="button" value="Remove Site ID" disabled="true" /> <span style="color:gray"><%= @siteid_message %></span>
+			  <% end %>
+			</td>
+		</tr>
+		<% if (@mode != 'Add') %>
+		<tr>
+            
+            <td class="label_cell">Clever Token</td>
+            <td class="field_cell">
+              <% if current_user.hasPermission?(Permission.manage_cleverids) %>
+                <%= f.text_field(:clever_token) %>
+                <input type="button" value="Remove Clever Token" onclick="this.form.elements['sam_customer_clever_token'].value=''" /> 
+              <% else %>
+                <%= f.text_field(:clever_token, :disabled => "disabled") %> <span style="color:gray">You do not have permissions to edit this field.</span>
+              <% end %>
+              
+            </td> 
+        </tr>
+		<tr>
+		    
+            <td class="label_cell">Clever ID</td>
+            <td class="field_cell">
+              <% if current_user.hasPermission?(Permission.manage_cleverids) %>
+                <%= f.text_field(:cleverid) %>
+                <input type="button" value="Remove Clever ID" onclick="this.form.elements['sam_customer_cleverid'].value=''" /> 
+              <% else %>
+                <%= f.text_field(:cleverid, :disabled => "disabled") %> <span style="color:gray">You do not have permissions to edit this field.</span>
+              <% end %>
+              
+            </td> 
+        </tr>
+        <tr>
+            <td class="label_cell">Clever Customer</td>
+            <td class="field_cell"> 
+                <%= @sam_customer.clever_customer_name %>
+                <% if @sam_customer.clever_verified == "p"  && current_user.hasPermission?(Permission.manage_cleverids)%>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" value="Confirm Clever Customer" onclick="this.form.elements['sam_customer_clever_verified'].value='v';
+                    document.getElementById('clever_status_field').innerHTML='<%=SamCustomer::CLEVER_STATUSES['v']%>'" />
+                    
+                <%end%>
+                <%= f.hidden_field(:clever_verified) %>
+            </td>
+        </tr>
+        <tr>
+            <td class="label_cell">Clever Status</td>
+            <td class="field_cell" id="clever_status_field">
+                <% status = @sam_customer.clever_verified.to_s %>
+                <% if (status == 'u' || status == 'f') %>
+                    <span style="color:red">
+                <% else %>
+                    <span>
+                <% end %>            
+                <%= SamCustomer::CLEVER_STATUSES[status] %>
+                </span>
+            </td>
+        </tr>
+        <%end%>
+		<tr>
+			<td class="label_cell">Scholastic Index:</td>
+			<td class="field_cell"><%= f.select(:scholastic_index_id, ScholasticIndex.find(:all).collect {|i| [i.description, i.id]}, {}, {:style => "width: 4em;"}) %></td>
+		</tr>
+		<% if (@sam_customer.registration_date) %>
+		<tr>
+			<td class="label_cell">SC-Registration Time:</td>
+			<td class="field_cell"><%= @sam_customer.registration_date.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+		</tr>
+		<% end %>
+		<tr>
+			<td class="label_cell">License Manager Activation Time:</td>
+			<td class="field_cell"><%= @sam_customer.sc_licensing_activated.strftime('%I:%M:%S %p %m/%d/%y') if @sam_customer.sc_licensing_activated %></td>
+		</tr>
+		<tr>
+			<td class="label_cell">License Manager Status:</td>
+			<td class="field_cell" style="vertical-align: middle;">
+				<% if (@sam_customer.licensing_status == 'p') %>
+					<%= radio_button("sam_customer", "licensing_status", "p", :disabled => "true") %>&nbsp;Enabled<br/>
+					<%= radio_button("sam_customer", "licensing_status", "x", :disabled => "true") %>&nbsp;Disabled
+				<% elsif @current_user.isAdminType %>
+					<%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_ENABLED, :checked => @sam_customer.is_license_manager_enabled?) %>&nbsp;Enabled<br/>
+					<%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_DISABLED, :checked => @sam_customer.licensing_status == SamCustomer.MANAGER_DISABLED) %>&nbsp;Disabled
+          <%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_NOT_ACTIVATED, :checked => @sam_customer.licensing_status == SamCustomer.MANAGER_NOT_ACTIVATED, :disabled => "true") %>&nbsp;Not Activated
+        <% else %>
+					<%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_ENABLED, :disabled => "true", :checked => @sam_customer.is_license_manager_enabled?) %>&nbsp;&nbsp;Enabled<br/>
+					<%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_DISABLED, :disabled => "true", :checked => @sam_customer.licensing_status == SamCustomer.MANAGER_DISABLED) %>&nbsp;Disabled
+          <%= radio_button("sam_customer", "licensing_status", SamCustomer.MANAGER_NOT_ACTIVATED, :disabled => "true", :checked => @sam_customer.licensing_status == SamCustomer.MANAGER_NOT_ACTIVATED) %>&nbsp;Not Activated
+				<% end %>
+				<br/>
+			</td>
+		</tr>
+    <tr>
+      <td class="label_cell">License Manager Version:</td>
+      <td class="field_cell">
+        <% if @sam_customer.license_manager_version %>
+          <% if @current_user.hasPermission?(Permission.edit) %>
+            <select name="sam_customer[license_manager_version]" >
+          <% else %>
+            <select name="sam_customer[license_manager_version]" disabled >
+          <% end %>
+            <%= options_for_select( @available_license_manager_versions, @sam_customer.license_manager_version ) %>
+          </select>
+        <% else %>
+          <span style="font-style:italic;" >none</span>
+        <% end %>
+      </td>
+    </tr>
+		<tr>
+			<td class="label_cell">Certified For License Manager:</td>
+			<td class="field_cell">
+			<% if (@mode != "Add" && (@sam_customer.licensing_certified || !@current_user.isAdminType)) %>
+				<%= f.check_box :licensing_certified, {:disabled => "disabled"} %>
+			<% else %>
+				<%= f.check_box :licensing_certified %>
+			<% end %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label_cell">Manual License Decommission:</td>
+			<td class="field_cell">
+				<%= f.check_box :manual_license_decommission %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label_cell">Automatic License Count Discrepancy Resolution:</td>
+			<td class="field_cell">
+				<%= f.check_box :auto_resolve_lcd %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label_cell">Enabled</td>
+			<td class="field_cell">
+				<%= f.check_box :active %>
+			</td>
+		</tr>
+		
+  	</table>
+  	<div class="table_header">
+  		<h3 class="table_title">Single Sign On</h3>
+	</div>
+  	<table class="form_table">
+	    <tr>
+	    <td class="label_cell">SSO Login URL</td>
+	    <td class="field_cell">
+	    <% if current_user.hasPermission?(Permission.manage_cleverids) %>
+	    <%= f.text_field(:sso_login_url) %>
+	    <input type="button" value="Remove SSO Login URL" onclick="this.form.elements['sam_customer_sso_login_url'].value=''" /> 
+	    <% else %>
+	    <%= f.text_field(:sso_login_url, :disabled => "disabled") %> <span style="color:gray">You do not have permissions to edit this field.</span>
+	    <% end %>
+	    </td> 
+	    </tr>
+  	</table>
+  	<table class="form_table">
+		<tr>
+		<td colspan="2" style="text-align: center;">
+			<%= button_to_function((@mode == "Edit") ? "Update #{SAM_CUSTOMER_TERM}" : "Add #{SAM_CUSTOMER_TERM}", "setSiteIDFieldActiveThenSubmit('submit_tag', confirm_message, 'sam_customer_form', 'status_indicator')", :id => "submit_tag") %>
+		</td>
+		</tr>
+  	</table>
+  	
+	<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+	    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %>    
+	</div>
+<% end -%>
+    <hr/>
+    <% if (@mode == "Edit" && @current_user.isAdminType) %>
+        <div align="center" style="margin-top: 20px;">
+            <% form_remote_tag(:url => "") do -%>
+                <%= submit_to_remote("scrub_license_manager_data", "Scrub License Manager Data",
+					:update => "cs_notice_block",
+					:before => "$('status_indicator2').show();", 
+					:url => {:action => :scrub_license_manager_data, :id => @sam_customer.id},
+					:success => "$('status_indicator2').hide(); $$('input').invoke('enable');") %>&nbsp;&nbsp;<%= check_box_tag("scrub_all_entitlements") %>&nbsp;Delete subscription entitlements
+            <% end -%>
+			<br/>
+			<%= button_to_function("Send All License Information to TMS", 
+			      remote_function(:update => "cs_notice_block", :url => url_for(:action => :send_updated_server_information, :id => @sam_customer.id), :before => "$$('input').invoke('disable'); $('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable');"), :id => "send_updated_server_information_button") if @current_user.isAdminType %><br/><br/>
+			<%= button_to_function("Prepare for License Manager Activation", 
+				  remote_function(:update => "cs_notice_block", :url => url_for(:action => :prepare_for_license_manager, :id => @sam_customer.id), :before => "$$('input').invoke('disable'); $('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable');"), :id => "prepare_for_license_manager_button") %><br/><br/>
+			<%= button_to_function("Convert to License Manager", 
+                  remote_function(:update => "cs_notice_block", :url => url_for(:action => :activate_license_manager, :id => @sam_customer.id), :before => "$$('input').invoke('disable'); $('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable');"), :id => "activate_license_manager_button") %><br/><br/>
+            <%= button_to_function("Resolve License Count Discrepancy Tasks", 
+                  remote_function(:update => "cs_notice_block", :url => url_for(:action => :resolve_lcd_tasks, :id => @sam_customer.id), :before => "$$('input').invoke('disable'); $('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable');"), :id => "resolve_license_count_discrepancy_tasks_button") %>	
+        </div>
+        <div id="status_indicator2" align="center" style="padding-top: 10px; color: red; display: none;">
+            Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %>    
+        </div>
+    <% end %>
+<script type="text/javascript">
+  function toggle_name_field(checked) {
+    if (checked) {
+      document.getElementById("sam_customer_name").disabled = true;
+		}
+    else {
+      document.getElementById("sam_customer_name").disabled = false;
+      document.getElementById("sam_customer_name").focus();
+    }
+  }
+  
+  /* pass through function, we just need to set the text field with the site ID to be enabled before
+     submitting.  this ensures it's passed as a param, so the controller can tell the difference 
+     between a site ID that wasn't change and site ID that was nulled out.
+  */
+  function setSiteIDFieldActiveThenSubmit(button_id, confirm_text, form_id, status_indicator_id) {
+    document.getElementById("sam_customer_siteid").disabled = false;
+    confirmAndSubmit('submit_tag', confirm_message, 'sam_customer_form', 'status_indicator');
+  }
+  
+</script>

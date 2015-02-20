@@ -1,0 +1,37 @@
+     <% assigned_alert_instance = !alert_no_user.assigned_user.nil?
+        handled = !alert_no_user.status.nil?
+        if (assigned_alert_instance || handled) %>
+        <tr class="dispatched_alert_instance">
+        <% else %>
+        <tr class="undispatched_alert_instance">
+        <% end %>
+        <td style="text-align: center;"><%= alert_no_user.id %></td>
+        <td style="text-align: center;"><%= alert_no_user.sam_customer.id%></td>
+        <td style="text-align: center;"><%= alert_no_user.sam_customer.root_org.name.strip.upcase %></td>
+        <td style="text-align: center;"><%= alert_no_user.entitlement.tms_entitlementid %></td>        
+        
+        <td style="text-align: center;">
+            <% if (assigned_alert_instance) %>
+            <%= alert_no_user.assigned_user.email %>
+            <% else %>
+            -
+            <% end %>
+        </td>
+        <td style="text-align: center;">
+        <% if (handled) %>
+            <img src="/images/closed.gif">
+        <% elsif (assigned_alert_instance) %>
+            <img src="/images/wip.gif">
+        <% else %>
+            -
+        <% end %>
+        </td>
+        
+        <td style="vertical-align: middle;">
+        <% if (assigned_alert_instance || handled) %>
+        <%= button_to("Take ownership", {:action => :add_user}, :disabled => "disabled") %>
+        <% else %>
+        <%= button_to("Take ownership", {:action => :add_user, :alert_instance_id => alert_no_user.id}) %>
+        <% end %>
+        </td>
+    </tr>

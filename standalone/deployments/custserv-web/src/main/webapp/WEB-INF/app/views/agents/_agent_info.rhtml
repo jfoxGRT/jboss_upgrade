@@ -1,0 +1,21 @@
+<table align="center">
+    <tr>
+        <td style="padding: 0 100px 0 100px; vertical-align: top;">
+            <h2>AGENT COMPONENTS</h2>
+            <div align="center" id="agent_component_table">
+                <%= render(:partial => "agent_component_info", :object => @agent) %>
+            </div>
+        </td>
+		<td style="padding: 0 100px 0 100px; vertical-align: top;">
+			<div align="center" id="agent_core_table">
+				<%= render(:partial => "agent_core_info", :object => @agent) %>
+			</div>
+		</td>
+        <td style="padding: 0 100px 0 100px; vertical-align: top;">
+            <h2>SERVER COMMUNITY INFO</h2>
+            <div align="center" id="server_community_table">
+                <%= render(:partial => "server_community_info", :object => @server) %>
+            </div>
+        </td>
+    </tr>
+</table>

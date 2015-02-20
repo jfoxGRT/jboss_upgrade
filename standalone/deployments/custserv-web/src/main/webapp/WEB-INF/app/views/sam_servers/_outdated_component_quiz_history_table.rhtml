@@ -1,0 +1,22 @@
+<%
+		outdated = outdated_component_quiz_history_table
+			
+		server_id = outdated[0]
+		server_name = outdated[1]
+		sapling_list = outdated[2]
+%>
+<br>
+<table class="popup_one_table_pane" style="width:100%;">
+<u><b><font size = "2px">Server ID:</b></u>&nbsp;<%= server_id %> &nbsp;&nbsp;<u><b>Server Name:</u></b>&nbsp;<%= server_name %></font>
+	<br><br>
+	<thead>
+		<tr>
+			<th>Component Name</th>
+			<th>Current Version</th>
+			<th>Updated Version</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "outdated_component_quiz_history_row", :collection => sapling_list) %>
+	</tbody>
+</table>

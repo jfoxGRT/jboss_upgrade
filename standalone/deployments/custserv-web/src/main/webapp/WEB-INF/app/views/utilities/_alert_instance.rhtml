@@ -1,0 +1,10 @@
+<tr>
+	<td><%= alert_instance.id %></td>
+	<td><%= (alert_instance.cust_id.nil?) ? "" : link_to(alert_instance.cust_id, sam_customer_path(alert_instance.cust_id)) %></td>
+	<td><%= alert_instance.cust_name %></td>
+	<td><%= (alert_instance.agent_id.nil?) ? "" : link_to(alert_instance.agent_id, agent_path(alert_instance.agent_id)) %></td>
+	<td><%= (alert_instance.cust_id.nil? || alert_instance.server_id.nil?) ? alert_instance.server_id : link_to(alert_instance.server_id, sam_customer_sam_server_path(alert_instance.cust_id, alert_instance.server_id)) %></td>
+	<td><%= alert_instance.server_name %></td>
+	<td><%= alert_instance.created_at.strftime(DATE_FORM) %></td>
+	<td style="text-align: left;"><%= alert_instance.message %></td>
+</tr>

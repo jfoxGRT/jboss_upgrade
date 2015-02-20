@@ -1,0 +1,13 @@
+<% @page_title = "SAMC - Landscape View" %>
+<div><%= link_to("Landscape View", landscape_for_sam_customer_path(:sam_customer_id => @sam_customer.id)) %></div>
+<h2 align="center">School-Level Landscape Data</h2>
+<table class="data_table" cellspacing="0">
+	<tr>
+		<th>School Name</th>
+		<th>Server Name</th>
+		<%= render(:partial => "subcommunity_heading", :collection => @subcommunities.collect{|c| c[1]}) %>
+	</tr>
+	<% @landscape_schools_view.each_key do |ek| %>
+		<%= render(:partial => "landscape_school_row", :object => @landscape_schools_view[ek], :locals => {:subcommunities => @subcommunities}) %>
+	<% end %>
+</table>

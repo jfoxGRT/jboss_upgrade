@@ -1,0 +1,2 @@
+module EsbMessagesHelper
+end

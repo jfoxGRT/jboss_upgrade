@@ -1,0 +1,29 @@
+<% sam_server = seat_pool_properties.sam_server %>
+<table class="property_table">
+    <tbody>
+    	<tr>
+            <td>Seat Pool ID</td>
+            <td>&nbsp;<%= seat_pool_properties.id %></td>
+        </tr>
+        <tr>
+            <td>SAM Server ID</td>
+            <td>&nbsp;<%= link_to(sam_server.id, sam_customer_sam_server_path(sam_server.sam_customer, sam_server)) if !sam_server.nil? %></td>
+        </tr>
+		<tr>
+			<td>SAM Server Name</td>
+			<td>&nbsp;<%= sam_server.name if !sam_server.nil? %></td>
+		</tr>
+		<tr>
+            <td>Date Created</td>
+            <td>&nbsp;<%= seat_pool_properties.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<tr>
+            <td>Date Updated</td>
+            <td>&nbsp;<%= seat_pool_properties.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+            <td>Seat Count</td>
+            <td>&nbsp;<%= seat_pool_properties.seat_count %></td>
+        </tr>
+    </tbody>
+</table>

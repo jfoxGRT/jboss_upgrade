@@ -1,0 +1,17 @@
+<% @page_title = "SAM Connect - Recent Notifications" %>
+<div class="table_header">
+	<h2 class="table_title"><%= @alert.description %></h2>
+	<span class="super_caption"><%= @alert_instances.length %> Notifications</span>
+</div>
+<table class="data_table" style="width: 90%;">
+	<thead>
+		<tr>
+			<th><%= SAM_CUSTOMER_TERM %></th>
+			<th>Notification Type</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "alert_instance", :collection => @alert_instances) %>
+	</tbody>
+</table>

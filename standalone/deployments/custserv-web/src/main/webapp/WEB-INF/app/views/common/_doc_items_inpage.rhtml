@@ -1,0 +1,9 @@
+<%# Purpose: Display help within current page design.  Likley for any in-page click for help to show targeted help for a specific topic  %>
+<%# Requires: Send in, via :locals, a parameter named "doc_location_code" %> 
+<%#           Value is from "doc_locations" table "code" column %>
+
+<% dl_to_show = DocLocation.find_by_code("#{doc_location_code}") %> 
+
+<!--<h1><%= dl_to_show.display_text %></h1>-->
+
+<%= render(:partial => "common/doc_item_inpage", :collection => DocLocation.find_by_code(doc_location_code).doc_items.published.for_customer.by_doc_order) %>

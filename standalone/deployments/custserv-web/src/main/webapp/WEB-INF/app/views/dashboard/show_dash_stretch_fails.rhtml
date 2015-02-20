@@ -1,0 +1,33 @@
+<%  @page_title = "SAMC - Batch Central - Stretch Fetch Non-Complete" %>
+
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+  <div class="table_header">
+  	<h1 class="table_title">Dashboard Stretch Fetch Non-Completes</h1>
+  </div>
+
+
+  <table class="data_table" style="width: 80%;">
+    <thead>
+      <tr class="data_table_first_row">
+        <td>UCN</td>
+        <td>Batch Number</td>
+        <td>Status</td>
+        <td>Status Date</td>
+        <td>Archived</td>
+        <td>Loaded</td>
+        <td>Next Attempt At</td>
+        <td>Last Attempt At</td>
+        <td>Final Try After</td>
+        <td>Created At</td>
+        <td>Updated At</td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "stretch_history", :collection => @dash_fail_stretch_list) %>
+    </tbody>
+  </table>
+
+
+<% end %>

@@ -1,0 +1,16 @@
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Org Name</th>
+			<th>Address Line 1</th>
+			<th>City</th>
+            <th>State</th>
+			<th>Postal Code</th>
+            <th>UCN</th>
+			<th>Org Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "search_result_row", :collection => search_results)%>
+    </tbody>
+</table>

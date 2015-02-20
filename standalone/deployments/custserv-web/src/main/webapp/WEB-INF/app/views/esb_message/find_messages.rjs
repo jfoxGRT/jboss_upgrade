@@ -1,0 +1,7 @@
+page[:message_data_block].replace_html(:partial => "message_data", 
+           :locals => {:last_message_received => @last_esb_message_received,
+					:last_message_sent => @last_esb_message_sent, 
+					:inbound_message_hash => @esb_inbound_message_hash,
+                       :outbound_message_hash => @esb_outbound_message_hash,
+                       :app_topic_message_hash => @app_topic_message_hash,
+                       :date => @date})

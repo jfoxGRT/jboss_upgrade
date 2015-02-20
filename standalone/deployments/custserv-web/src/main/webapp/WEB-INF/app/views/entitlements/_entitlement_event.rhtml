@@ -1,0 +1,11 @@
+<tr>
+	<td><%= entitlement_event.id %></td>
+	<td><%= entitlement_event.created_at.strftime(DATE_FORM) %></td>
+	<td><%= entitlement_event.tms_entitlementid %></td>
+	<td class="standard_link_style"><%= link_to(entitlement_event.old_sam_customer_name, sam_customer_path(entitlement_event.old_sam_customer_id)) if entitlement_event.old_sam_customer_id %></td>
+	<td class="standard_link_style"><%= link_to(entitlement_event.new_sam_customer_name, sam_customer_path(entitlement_event.new_sam_customer_id)) if entitlement_event.new_sam_customer_id %></td>
+	<td><%= entitlement_event.old_license_count %></td>
+	<td><%= entitlement_event.new_license_count %></td>
+	<td><%= !entitlement_event.old_active.nil? ? (entitlement_event.old_active ? "Active" : "Inactive") : "" %></td>
+	<td><%= entitlement_event.new_active.nil? ? "New" : (entitlement_event.new_active ? "Active" : "Inactive") %></td>
+</tr>

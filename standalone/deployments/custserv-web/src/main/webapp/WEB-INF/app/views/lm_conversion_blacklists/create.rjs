@@ -1,0 +1,5 @@
+if @failure
+  page["cs_notice_block"].replace_html(render(:partial => "/common/flash_area", :locals => {:flash_notice => flash[:notice], :flash_type => flash[:msg_type]}))
+else
+  page.remove("conversion_whitelist_entry_#{@sam_customer.id}")
+end

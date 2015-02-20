@@ -1,0 +1,126 @@
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/plugins/tabletools.download.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+<script>
+jQuery(document).ready(function() {
+    jQuery('#results_table').dataTable({
+        "aaSorting": [[0, "asc"]],
+        "oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             },
+             "sEmptyTable": "No SAM servers match the Finder search criteria.",
+             "sZeroRecords": "No SAM servers match the filter criteria."
+        },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+          "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+          "aButtons": [
+            <% # if result set is small enough, use built-in tabletools CSV generation. make request to
+               # server iff not all results were delivered to the DataTable. we don't have back end handling
+               # for XLS and PDF.
+               if @num_rows_reported < FINDER_LIMIT %>
+            {
+              "sExtends": "copy",
+              "mColumns": get_export_columns_array()
+            },
+            {
+              "sExtends": "csv",
+              "mColumns": get_export_columns_array(),
+              "sFileName": "<%= SERVER_FINDER_RESULTS_FILENAME %>.csv"
+            },
+            {
+              "sExtends": "xls",
+              "mColumns": get_export_columns_array(),
+              "sFileName": "<%= SERVER_FINDER_RESULTS_FILENAME %>.xls",
+              "sButtonText": "XLS"
+            },
+            {
+    					"sExtends": "pdf",
+              "mColumns": get_export_columns_array(),
+    					"sPdfOrientation": "landscape",
+              "sFileName": "<%= SERVER_FINDER_RESULTS_FILENAME %>.pdf",
+              "sTitle": "<%= SERVER_FINDER_RESULTS_FILENAME %>"
+    				},
+            "print"
+            <% else %>
+            {
+              "sExtends": "text",
+              "sButtonText": "Copy",
+              "sToolTip": "Too many results to copy."
+            },
+            {
+              "sExtends": "download",
+              "sButtonText": "CSV",
+              "sUrl": "<%= APP_CONTEXT_PATH %>/sam_servers/export_sam_servers_to_csv"
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "XLS",
+              "sToolTip": "Too many results for XLS export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "PDF",
+              "sToolTip": "Too many results for PDF export."
+            },
+            {
+              "sExtends": "text",
+              "sButtonText": "Print",
+              "sToolTip": "Too many results to print."
+            }
+            <% end %>
+    		]
+  		}
+    });
+    <% if (@errors.length < 1) %>
+    var showFlagForDeactivationColumns = <%= has_additional_info %>
+    if (!showFlagForDeactivationColumns) {
+      hideColumn(11);
+    }
+    <% end %>
+
+} );
+
+<% # return the array of column indices that should be exported to the CSV/XLS/PDF.
+   # in our case, all but the far right Additional Info column.
+%>
+function get_export_columns_array() {
+  return [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+}
+
+
+function hideColumn( columnIndex ) { //leftmost column is index 0
+	/* Get the DataTables object again - this is not a recreation, just a get of the object */
+	var oTable = jQuery('#results_table').dataTable();
+	
+  oTable.fnSetColumnVis( columnIndex, false );
+}
+
+</script>
+<%= hidden_field_tag(:pull_the_blinds, "1") %>
+<%= render(:partial => "common/search_header", :locals => { :report_title => "SAMC - SAM Server Search Results" })%>
+<% if (@errors.length < 1) %> 
+	<table class="data_table filterable_table" id="results_table" align="left">
+	  <thead>
+	    <tr class="data_table_first_row">
+	      <th>ID</th>
+	      <th>Name</th>
+	      <th>Registered</th>
+	      <th>Registration Hosted Site ID</th>
+	      <th>Status</th>
+	      <th><%=SAM_CUSTOMER_TERM%> ID</th>
+	      <th>Agent ID</th>
+	      <th><%= SAM_CUSTOMER_TERM %> Name</th>
+	      <th><%= SAM_CUSTOMER_TERM%> UCN</th>
+	      <th>GUID</th>
+	      <th>State</th>
+	      <th>Additional Info</th>
+	    </tr>
+	  </thead>
+		<tbody>
+			<%= render(:partial => "sam_servers/sam_server_search_result", :collection => @sam_servers) %>
+		</tbody>
+	</table>
+<% end %>

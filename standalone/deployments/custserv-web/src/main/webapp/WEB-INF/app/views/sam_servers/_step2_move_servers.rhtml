@@ -1,0 +1,33 @@
+<%
+  multiple_servers = (sam_server_ids.split(',').length > 1)
+%>
+
+<h3 style="text-align: left;" id="step2" >Step #2 of 2</h3>
+<br/>
+<h4>When you click on "Move", the SAM Servers listed above will be moved to the <%= SAM_CUSTOMER_TERM %> listed here.</h4>
+<br/>
+<% form_remote_tag(:url => url_for(:action => :move), :before => "Form.Element.disable('move_servers_button'); Form.Element.disable('lookup_button'); show_loading_msg('step3_container'); Effect.ScrollTo('step3_container');") do -%>
+<%= hidden_field_tag(:new_sam_customer_id, target_sam_customer.id) %>
+<%= hidden_field_tag(:sam_server_ids, sam_server_ids) %>
+<table class="data_table">
+	<tr>
+		<th><%= SAM_CUSTOMER_TERM %> ID</th>
+		<th><%= SAM_CUSTOMER_TERM %> Name</th>
+		<th>UCN</th>
+		<th>City</th>
+		<th>State</th>
+		<th>Zip Code</th>
+	</tr>
+	<tr>
+		<td><%= target_sam_customer.id %></td>
+		<td><%= target_sam_customer.name.strip %></td>
+		<td><%= new_org.ucn %></td>
+		<td><%= new_org.city_name.strip if new_org.city_name %></td>
+		<td><%= new_org.state_code %></td>
+		<td><%= new_org.zip_code %></td>
+	</tr>
+</table><br/>
+<%= submit_tag("Move", :id => "move_servers_button", :confirm => ( multiple_servers ? 'Progress updates, as well as any server-specific error messages will not be available when moving multiple servers. Proceed?' : false ) ) %>
+<% end %>
+<br/><br/>
+<hr/>

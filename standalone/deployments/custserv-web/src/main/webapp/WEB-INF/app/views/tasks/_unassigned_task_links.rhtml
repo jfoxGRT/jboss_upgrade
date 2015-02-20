@@ -1,0 +1,38 @@
+<% license_expiration_task = (defined?(reason) && reason == "LSE") ? true : false %>
+<%# if this is a license expiration task %>
+<% if license_expiration_task %>
+	<%# if the user does not have access to work this task %>
+	<% if (!@current_user.hasScholasticPermission(Permission.decommission_licenses)) %>
+		<span class="disabled_page_link">
+			Assign<br/>
+			Take<br/>
+		</span>
+	<% else %>
+		<span class="take_link" href="<%= assign_task_path(:id => task.id) %>" src="<%= edit_task_path %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Take</span>
+	<% end %>
+<%# otherwise, it's not a license expiration task %>
+<% elsif task.task_type.code == "LCIP" && !@current_user.isAdminType %>
+	<span class="disabled_page_link">
+		Assign<br/>
+		Take<br/>
+	</span>
+<% elsif @current_user.hasPermission?(Permission.edit) %>
+	<% if (@current_user.hasPermission?(Permission.assign_tasks)) %>
+		<span class="assign_link" href="<%= assign_task_path(:id => task.id) %>" src="<%= unassigned_task_list_path %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Assign</span>
+	<% end %>
+	<span class="take_link" href="<%= assign_task_path(:id => task.id) %>" src="<%= edit_task_path %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Take</span>
+<% else %>
+	<span class="disabled_page_link">
+		<% if (@current_user.hasPermission?(Permission.assign_tasks)) %>
+			Assign<br/>
+		<% end %>
+		Take<br/>
+	</span>
+<% end %>
+<% if @current_user.isAdminType %>
+	<span id="show_params_link_<%= task.id %>" class="fake_link widget_dialog" 
+		onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) element_id="show_params" href="<%= url_for(:controller => :tasks, :action => :show_params, :id => task.id) %>">Show Params</span>
+<% end %>
+<% if view_details %>
+	<span id="view_details_link_<%= task.id %>" class="fake_link" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) onClick='toggleTheDetails("<%= task.id %>")'>View Details</span>
+<% end %>

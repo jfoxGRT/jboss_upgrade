@@ -1,0 +1,14 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email Address</th>
+			<th>Simulating <%= SAM_CUSTOMER_TERM %></th>
+			<th>Active Since</th>
+		</tr>
+	</thead>
+	<tbody class="standard_link_style">
+		<%= render :partial => "global_data_logged_in_user", :collection => global_data_logged_in_users %>
+	</tbody>
+</table>

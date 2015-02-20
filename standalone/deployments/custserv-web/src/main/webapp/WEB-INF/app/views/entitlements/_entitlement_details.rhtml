@@ -1,0 +1,136 @@
+<table class="property_table shadow" style="width: 30%;">
+    <tbody>
+        <tr>
+            <td>Entitlement ID</td>
+            <td>&nbsp;<%= entitlement_details.id %></td>
+        </tr>
+		<tr>
+            <td>TMS Entitlement ID</td>
+            <td>&nbsp;<%= entitlement_details.tms_entitlementid %></td>
+        </tr>
+		<% sc_entitlement_type = entitlement_details.sc_entitlement_type %>
+		<tr>
+            <td>SC Entitlement Type</td>
+            <td>&nbsp;<%= sc_entitlement_type.description if !sc_entitlement_type.nil? %></td>
+        </tr>
+        <tr>
+            <td>Date Created</td>
+            <td>&nbsp;<%= entitlement_details.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<tr>
+            <td>Date Updated</td>
+            <td>&nbsp;<%= entitlement_details.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+		<% product = entitlement_details.product %>
+		<tr>
+			<td><%= PRODUCT_TERM %> Group</td>
+			<td>&nbsp;<%= product.product_group.description if product.product_group %></td>
+		</tr>
+		<tr>
+            <td><%= PRODUCT_TERM %></td>
+            <td>&nbsp;<%= product.description %></td>
+        </tr>
+		<tr>
+            <td>Marketing Version</td>
+            <td>&nbsp;<%= entitlement_details.marketing_version %></td>
+        </tr>
+		<tr>
+            <td>License Count</td>
+            <td>&nbsp;<%= entitlement_details.license_count %></td>
+        </tr>
+		<% license_duration = entitlement_details.license_duration %>
+		<tr>
+            <td>License Duration</td>
+            <td>&nbsp;<%= license_duration.description if !license_duration.nil? %></td>
+        </tr>
+		<% license_portability = entitlement_details.license_portability %>
+		<tr>
+            <td>License Portability</td>
+            <td>&nbsp;<%= license_portability.description if !license_portability.nil? %></td>
+        </tr>
+		<tr>
+            <td>Order Number</td>
+            <td>&nbsp;<%= entitlement_details.order_num %></td>
+        </tr>
+		<tr>
+            <td>PO Number</td>
+            <td>&nbsp;<%= entitlement_details.po_num %></td>
+        </tr>
+		<tr>
+            <td>Shipment Number</td>
+            <td>&nbsp;<%= entitlement_details.shipment_num %></td>
+        </tr>
+		<tr>
+            <td>Invoice Number</td>
+            <td>&nbsp;<%= entitlement_details.invoice_num %></td>
+        </tr>
+		<tr>
+            <td>Master Order Number</td>
+            <td>&nbsp;<%= entitlement_details.master_order_num %></td>
+        </tr>
+		<tr>
+            <td>Originating Order Number</td>
+            <td>&nbsp;<%= entitlement_details.originating_order_num %></td>
+        </tr>
+		<tr>
+            <td>Item Quantity</td>
+            <td>&nbsp;<%= entitlement_details.item_quantity %></td>
+        </tr>
+		<tr>
+            <td>Order Date</td>
+            <td>&nbsp;<%= entitlement_details.ordered.strftime(DATE_FORM) if !entitlement_details.ordered.nil? %></td>
+        </tr>
+		<tr>
+            <td>Ship Date</td>
+            <td>&nbsp;<%= entitlement_details.shipped.strftime(DATE_FORM) if !entitlement_details.shipped.nil? %></td>
+        </tr>
+		<tr>
+            <td>Entitlement Type</td>
+            <td>&nbsp;<%= entitlement_details.order_type.description if !entitlement_details.order_type.nil? %></td>
+        </tr>
+		<tr>
+            <td>Subscription Start</td>
+            <td>&nbsp;<%= entitlement_details.subscription_start.strftime(DATE_FORM) if !entitlement_details.subscription_start.nil? %></td>
+        </tr>
+		<tr>
+            <td>Subscription End</td>
+            <td>&nbsp;<%= entitlement_details.subscription_end.strftime(DATE_FORM) if !entitlement_details.subscription_end.nil?%></td>
+        </tr>
+		<tr>
+			<td>Subscription Active?</td>
+			<td><%= (!entitlement_details.seats_active.nil? && entitlement_details.seats_active == true) ? image_tag("choice-yes.gif") : image_tag("choice-no.gif") %></td>
+		</tr>
+		<% install_to_org = entitlement_details.install_to_org %>
+		<% if install_to_org %>
+		<tr>
+			<td>Install-To Organization</td>
+			<% install_to_customer = install_to_org.customer %>
+			<td>&nbsp;<a href="#" onclick="popup_org_dialog('<%= install_to_customer.ucn %>'); return false;"><%= install_to_customer.ucn %></a></td>
+		<% end %>
+		</tr>
+		<% bill_to = entitlement_details.bill_to_org 
+		   if (bill_to) %>
+		<tr>
+            <td>Bill-To Organization</td>
+            <td>&nbsp;<%= bill_to.name %></td>
+        </tr>
+		<tr>
+            <td>Bill-To UCN</td>
+			<% bill_to_customer = bill_to.customer %>
+            <td>&nbsp;<a href="#" onclick="popup_org_dialog('<%= bill_to_customer.ucn %>'); return false;"><%= bill_to_customer.ucn %></a></td>
+        </tr>
+		<% 	end
+			ship_to = entitlement_details.ship_to_org 
+		    if (ship_to) %>
+		<tr>
+            <td>Ship-To Organization</td>
+            <td>&nbsp;<%= ship_to.name %></td>
+        </tr>
+		<tr>
+            <td>Ship-To UCN</td>
+			<% ship_to_customer = ship_to.customer %>
+            <td>&nbsp;<a href="#" onclick="popup_org_dialog('<%= ship_to_customer.ucn %>'); return false;"><%= ship_to_customer.ucn %></a></td>
+        </tr>
+		<% end %>      
+    </tbody>
+</table>

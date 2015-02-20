@@ -1,0 +1,123 @@
+<!-- PUT TFOOT HERE -->
+<div style="display: none;" id="task_details_<%= bill_to_org_task.id %>">
+	<table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; border-bottom: 0px;">
+                <table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+                    <thead>
+                        <tr class="parent">
+                            <td style="background:#99A36B;"> Task Details</td>
+                        </tr>
+                    </thead>
+                </table>
+                <table id="37515420" cellspacing="1" style="margin-top:5px;width:98%;">
+                    <tbody>
+                        <tr>
+                            <td style="width:13%" class='workDetails'>B/T Info:</td>
+                            <td style="width:37%" class='basicModallink'>
+                            	<%= render(:partial => "orgs/org_summary_info", :object => bill_to_org_task, :locals => {:link => true}) %>
+                            </td>
+                            <td style="width:15%" class='workDetails' class='basicModallink'>S/T Info:</td>
+                            <td style="width:35%" class='basicModallink'>
+                                <%= render(:partial => "orgs/org_summary_info", :object => ship_to_org_task, :locals => {:link => true}) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='workDetails'>Order:</td>
+                            <td>
+                                <%= bill_to_org_task.order_num %>
+                            </td>
+                            <td class='workDetails'>Date:</td>
+                            <td>
+                                <%= bill_to_org_task.ordered %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='workDetails'>Invoice:</td>
+                            <td>
+                                <%= bill_to_org_task.invoice_num %>
+                            </td>
+                            <td class='workDetails'> Reason:</td>
+                            <td>
+                                <%= bill_to_org_task.reason_unassigned %>
+                            </td>
+                        </tr>
+                        <!-- Entitlement list Goes Here -->
+                        <tr>
+                            <td colspan=4>
+                                <table class="entitlementCat" style="width:95%;">
+                                    <tr>
+                                        <td class="entitlementCat" style='width:18%'>Entitlement ID</td>
+                                        <td class="entitlementCat" style='width:12%'>TMS ID</td>
+                                        <td class="entitlementCat" style='width:20%'> Date</td>
+                                        <td class="entitlementCat" style='width:30%'><%= PRODUCT_TERM %></td>
+                                        <td class="entitlement" style='width:20%'>License</td>
+                                    </tr>
+                                </table>
+                                <table class="entitlementDetails" style="width:95%;">
+                                    <tr>
+                                        <td class="entitlement" style='width:18%'>
+                                            <%= bill_to_org_task.entitlement_id %>
+                                        </td>
+                                        <td class="entitlement" style='width:12%'>
+                                            <%= bill_to_org_task.tms_entitlement_id %>
+                                        </td>
+                                        <td class="entitlement" style='width:20%'>
+                                            <%= bill_to_org_task.entitlement_created_at %>
+                                        </td>
+                                        <td class="entitlement" style='width:30%'>
+                                            <%= bill_to_org_task.product_name %>
+                                        </td>
+                                        <td class="entitlement" style='width:20%'>
+                                            <%= bill_to_org_task.license_count %>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p class='entitlementModallink'>
+                                    <!--The selected entitlement is part of an order that contains a total of <b><%#= entitlement_counts_hash["#{bill_to_org_task.order_num}_#{bill_to_org_task.invoice_num}"].entitlement_count %></b>
+                                    entitlements.
+                                    <br>-->
+                                    <a href="<%= order_set_for_entitlement_path(bill_to_org_task.entitlement_id) %>">[View all entitlements in this order]</a>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td style="width: 50%; border-bottom:0px;">
+                <table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+                    <thead>
+                        <tr class="parent">
+                            <td style="background:#999;"> Task Tools</td>
+                        </tr>
+                    </thead>
+                </table>
+                <table id="task_edit" cellspacing="1" style="margin-top:5px;width:98%;">
+                    <tbody>
+                    <tr class='workDetails'>
+                        <td colspan=6>The following organizations are the most likely candidates for managing this order.  Please select one from the list, or if a different organization should manage the order, please specify that organization's UCN in the UCN looup field below.</td>
+                    </tr>
+                    <tr class='workDetails'>
+                        <td style='width:30%;' class='workDetails'>Org. Info:</td>
+                        <td style='width:10%;' class='workDetails'>Source</td>
+                        <td style='width:20%;' class='workDetails'>Group & Type</td>
+                        <td class='workDetails' colspan=2>Status</td>
+                    </tr>
+                    <%= render(:partial => "pending_entitlements/task_org", :collection => task_orgs_hash[bill_to_org_task.id]) if task_orgs_hash[bill_to_org_task.id] %>
+                </table>
+                <!--<table cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+	                <tr class='workDetails'>
+	                    <td colspan=4>The following C/S representatives have worked this task:	 </td>
+	                </tr>
+	                <tr class='workDetails'>
+	                    <td class='workDetails' style='width:25%;'>C/S Rep:</td>
+	                    <td class='workDetails'style='width:15%;'>Take</td>
+	                    <td class='workDetails' style='width:15%;'>Released</td>
+	                    <td class='workDetails' style='width:45%;'>Comments</td>
+	                </tr>
+                </tbody>
+            	</table>-->
+            </td>
+        </tr>
+	</table>
+</div>

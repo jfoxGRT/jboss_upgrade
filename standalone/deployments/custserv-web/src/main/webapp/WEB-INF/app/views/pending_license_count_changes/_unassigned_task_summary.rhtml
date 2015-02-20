@@ -1,0 +1,53 @@
+<table id="<%= unassigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:5%;">
+                <%= unassigned_task_summary.id %>
+            </td>
+			<td style="width:8%;">
+                <%= unassigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= unassigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <td class="standard_link_style" style="width:15%;">
+                <%= link_to(unassigned_task_summary.sam_customer_name, sam_customer_path(unassigned_task_summary.sam_customer_id)) %>
+            </td>
+            <td style="width:8%;">
+                <%= unassigned_task_summary.state_name %>
+            </td>
+            <td style="width:11%;">
+				<% if (unassigned_task_summary.conversion_product_name.nil?) %>
+					<%= unassigned_task_summary.subcommunity_name %>
+				<% else %>
+					<%= unassigned_task_summary.conversion_product_name %>
+				<% end %>
+			</td>
+			<td style="width:8%;">
+				<% if (unassigned_task_summary.conversion_product_name.nil?) %>
+					<%= (unassigned_task_summary.server_name) ? unassigned_task_summary.server_name : "Unallocated Pool" %>
+				<% else %>
+					Unconverted Pool
+				<% end %>
+			</td>
+			<td style="width:10%;">
+				<% if (unassigned_task_summary.conversion_product_name.nil?) %>
+					<%= unassigned_task_summary.seat_count %>
+				<% else %>
+					<%= unassigned_task_summary.unconverted_count %>
+				<% end %>
+			</td>
+			<td style="width:8%;">
+				<%= unassigned_task_summary.delta %>
+			</td>
+			<td style="width:12%;">
+                <%= translate_reason_code(unassigned_task_summary.reason_code) %>
+            </td>
+            <td style="width:13%;">
+                <%= render(:partial => "/tasks/unassigned_task_links", :locals => {:task => unassigned_task_summary, 
+                																:unassigned_task_list_path => unassigned_pending_license_count_changes_path,
+                																:edit_task_path => edit_pending_license_count_change_path(:id => unassigned_task_summary.id),
+                																:view_details => false, :reason => unassigned_task_summary.reason_code}) %>
+            </td>
+        </tr>
+    </tbody>
+</table>

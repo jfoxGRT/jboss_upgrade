@@ -1,0 +1,23 @@
+<tr>
+	<td><%= product_row.id %></td>
+	<td><%= product_row.subcommunity_id %></td>
+	<td><%= product_row.id_value %></td>
+	<td style="text-align:left;"><%= product_row.description %></td>
+  <% # the hack below allows DataTables TableTools to export true or false to CSV/PDF, while the website UI displays the icon
+  %>
+	<td><%= product_row.sam_server_product ? image_tag("choice-yes.gif") : image_tag("choice-no.gif") %><span style="visibility:hidden; display:none;"><%= product_row.sam_server_product %></span></td>
+	<td><%= product_row.product_group_id %></td>
+	<td style="text-align:left;"><%= product_row.product_group_code %></td>
+	<td	style="text-align:left;"><%= product_row.product_group_description %></td>
+	<% # embedding the product ID in the value of id attribute of the cell which it is displayed to support the inline editing
+	   # of visibility level via Datatables Editable plugin and jQuery Jeditable plugin.
+	   # example: "product_id_103" always maps to the row in the scholastic.product DB table with pkey 103 (not necessarily row 103 of the view DataTable)
+	 %>
+	<td	id='<%= "product_id_#{product_row.id}" %>' style="text-align:left;">
+		<% if (product_row.visibility_level == 'a') %>
+		All Users
+		<% elsif (product_row.visibility_level == 's') %>
+		Scholastic Only
+		<% end %>
+	</td>
+</tr>

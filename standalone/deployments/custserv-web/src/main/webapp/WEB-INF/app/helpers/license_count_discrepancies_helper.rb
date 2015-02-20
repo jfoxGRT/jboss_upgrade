@@ -1,0 +1,2 @@
+module LicenseCountDiscrepanciesHelper
+end

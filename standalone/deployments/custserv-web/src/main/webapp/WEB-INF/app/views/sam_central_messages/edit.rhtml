@@ -1,0 +1,27 @@
+<h2 style="text-align: center;"><%= @queue %> queue</h2>
+<br/>
+<table class="basic_table" align="left" style="width: 100%; table-layout: fixed">
+	<thead>
+		<tr>
+			<th>Message at Head</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="text-align: center; vertical-align: middle;">
+				<%= button_to("Delete", sam_central_message_path(:id => @head.id, :queue => @queue), :method => :delete, :confirm => "#{@current_user.first_name}, you REALLLLY sure you want to blow this away?") %>
+			</td>
+			<td style="vertical-align: top;overflow: scroll"><pre><%= @head.message if @head %></pre></td>
+		</tr>
+		<tr>
+			<td>
+				<% form_tag(sam_central_message_path(:id => @head.id, :queue => @queue), :method => :put) do |f| -%>
+					<%= text_area_tag("new_message_text", "", :rows => 16, :style => "width:100%") %><br/>
+					<%= submit_tag("Replace Head", :confirm => "#{@current_user.first_name}, you better know what the hell you're doing!  You positive??") %>
+				<% end %>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>

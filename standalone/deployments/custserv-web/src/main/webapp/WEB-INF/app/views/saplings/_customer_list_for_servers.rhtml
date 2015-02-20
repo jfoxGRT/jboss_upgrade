@@ -1,0 +1,5 @@
+<tr>
+  <td style="text-align: left; vertical-align: bottom"><%= customer_list_for_servers.id %></td>
+  <td style="text-align: left; vertical-align: bottom"><%= customer_list_for_servers.name %></td>
+  <td style="text-align: left; vertical-align: bottom"><%= button_to_remote("Show Servers", :html => {:id => "search_server_button"}, :before => "$('search_results').hide();$('server_status_indicator').show();", :url => url_for(:action => :find_server_by_customer, :id => customer_list_for_servers.id)) %></td>
+</tr>

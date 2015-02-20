@@ -1,0 +1,16 @@
+<tr>
+    <td><%= school_info_details.id %></td>
+    <td><%= school_info_details.name %></td>
+    <td><%= school_info_details.student_count %></td>
+    <td><%= school_info_details.school_number %></td>
+    <td><% (1..3).each do |num| %>
+                <% next_address_line = eval("school_info_details.address" + num.to_s) %>
+                              <% if (!next_address_line.nil? && next_address_line.length > 0) %>
+                                <%= next_address_line %><br>
+                              <% end %>
+        <% end %></td>
+    <td><%= school_info_details.city %></td>
+    <td><%= school_info_details.state %></td>
+    <td><%= school_info_details.postal_code %></td>
+    <td><%= school_info_details.country %></td>            
+</tr>

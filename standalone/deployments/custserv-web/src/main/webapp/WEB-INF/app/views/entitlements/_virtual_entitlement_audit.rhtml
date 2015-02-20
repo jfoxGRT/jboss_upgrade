@@ -1,0 +1,8 @@
+<tr>
+	<td style="width: 20%;"><%= virtual_entitlement_audit.time_created.strftime(DATE_FORM) %></td>
+	<td style="width: 5%;"><%= virtual_entitlement_audit.license_count %></td>
+	<td style="width: 30%;"><%= translate_virtual_reason_code(virtual_entitlement_audit.reason_code) %></td>
+	<td style="width: 12%;"><%= virtual_entitlement_audit.user.email if virtual_entitlement_audit.user %></td>
+	<td><%= link_to(virtual_entitlement_audit.sam_server_name, sam_customer_sam_server_path(sam_customer_id, virtual_entitlement_audit.sam_server_id)) if !virtual_entitlement_audit.sam_server_id.nil? %></td>
+	<td><%= virtual_entitlement_audit.user_comment %></td>
+</tr>

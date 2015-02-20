@@ -1,0 +1,92 @@
+<%  @page_title = ("SAMC - Edit #{@sam_server.name}") %>
+<script type="text/javascript">
+	confirm_message = "Please review your edits for this SAM Server.  Do you wish to continue?";
+ 
+  jQuery(function() {
+    jQuery( "#unignore_guid_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  });
+</script>
+
+<table id="breadcrumb_container">
+
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @sam_server.name %></span>		
+	</td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %> - <%= @sam_server.name %></h2>
+</div>
+<% form_for(:sam_server, :url => sam_customer_sam_server_path(@sam_customer.id, @sam_server.id), :html => {:method => :put, :name => "sam_customer_form", :id => "sam_server_form"}) do |f| -%>
+	<%= f.hidden_field :id %>
+  	<table class="form_table">	
+		<tr>
+			<td class="label_cell">Automatic License Count Discrepancy Resolution:</td>
+			<td class="field_cell">
+				<%= f.check_box :auto_resolve_lcd %>
+			</td>
+		</tr>
+    <tr>
+  		<td class="label_cell">Ignore GUID</td>
+			<td class="field_cell"><%= f.check_box(:ignore_guid) %></td>
+  	</tr>
+    <tr>
+			<td class="label_cell">Unignore GUID Date<br/>(YYYY-MM-DD)</td>
+			<td class="field_cell"><%= f.text_field(:unignore_guid_date_part, {:id => "unignore_guid_date"}) %>&nbsp;&nbsp;<b>at (HH:MM:SS)</b>&nbsp;<%= f.text_field(:unignore_guid_time_part) %></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;">
+				<%= button_to_function("Update SAM Server", "confirmAndSubmit('submit_tag', confirm_message, 'sam_server_form', 'status_indicator')", :id => "submit_tag") %>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;">
+				<!--
+				<%= button_to("Cancel Pending Scheduled Update Requests", {:action => :cancelScheduledUpdateRequests}, :confirm => "Are you sure you want to cancel all pending scheduled server updates?") %>
+				
+	      <% form_tag :controller => 'sam_servers', :action => 'cancelScheduledUpdateRequests' do %>
+	       <%= submit_tag("Cancel Pending Scheduled Update Requests", :confirm => 'Are you sure you want to cancel all pending scheduled server updates?' )%>
+	      <% end %>				
+			</td>
+			
+			-->
+		</tr>
+  	</table>
+	<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+	    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %>    
+	</div>
+<% end -%>
+<div align="center" style="margin-top: 20px;">
+<%
+        pendingScheduledUpdateCount = @sam_server.findNumScheduledUpdates                
+        active = @sam_server.status
+%>
+    <% form_tag :action => 'cancelScheduledUpdateRequests', :id => @sam_server.id  do %>
+        <%= submit_tag("Cancel Pending Scheduled Update Requests", :confirm => 'Are you sure you want to cancel all scheduled update requests?', :disabled => ( (pendingScheduledUpdateCount == 0) || (active != 'a') ) )%>
+    <% end %>  <br/>  <br/>
+
+  <% if @current_user.hasPermission?(Permission.cust_maint_functions) %>
+     <% form_tag :action => :reset_sam_district_admin_password, :id => @sam_server.id  do %>
+        <%= submit_tag("Reset SAM District Administrator Password", :confirm => 'A request will be submitted to reset the SAM District Admin to the default at agent checkin. Are you sure?', :disabled => @sam_server.is_local_server? ) %>
+     <% end %>  <br/>  <br/>
+     <% form_tag :action => :reset_sam_hosted_terms_acceptance, :id => @sam_server.id  do %>
+        <%= submit_tag("Reset SAM Hosted Terms Acceptance", :confirm => 'A request will be submitted to reset the Hosted Terms acceptance at agent checkin, so that they need to be accepted again. Are you sure?', :disabled => @sam_server.is_local_server? ) %>
+     <% end %>  <br/>  <br/>
+<!--
+    <%= button_to_function("Reset SAM District Administrator Password", remote_function(:update => "cs_notice_block", :url => url_for(:action => :reset_sam_district_admin_password, :id => @sam_server.id), :before => "$$('input').invoke('disable');", :success => "$$('input').invoke('enable');", :confirm => "A request will be submitted to reset the SAM District Admin to the default at agent checkin. Are you sure?"), :disabled => @sam_server.is_local_server? ) %>
+    <br/>
+    <br/>
+    <%= button_to_function("Reset SAM Hosted Terms Acceptance", remote_function(:update => "cs_notice_block", :url => url_for(:action => :reset_sam_hosted_terms_acceptance, :id => @sam_server.id), :before => "$$('input').invoke('disable');", :success => "$$('input').invoke('enable');", :confirm => "A request will be submitted to reset the Hosted Terms acceptance at agent checkin, so that they need to be accepted again. Are you sure?"), :disabled => @sam_server.is_local_server? ) %>
+    <br/>
+    <br/>
+-->
+
+  <% end %>
+</div>

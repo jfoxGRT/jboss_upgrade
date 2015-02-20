@@ -1,0 +1,35 @@
+<%  @page_title = "SAMC Alerts" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => SAM_SERVERS_CODE, :on_target => nil}) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to("Agent: #{@agent.id}", agent_path(@agent.id)) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to("Conversations", agent_conversations_path(@agent.id)) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to("Conversation: #{@conversation.id}", agent_conversation_path(@agent.id, @conversation.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Alert Instances</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Alert Instances</h2>
+</div>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Alert Instance ID</th>
+            <th>Description</th>
+            <th>Created At</th>
+			<th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "alert", :collection => @alert_instances) %>
+    </tbody>
+</table>
+</div>

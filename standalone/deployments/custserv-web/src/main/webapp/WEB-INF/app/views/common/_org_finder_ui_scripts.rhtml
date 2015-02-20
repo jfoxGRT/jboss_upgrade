@@ -1,0 +1,67 @@
+<!--<script src="http://www.google.com/jsapi" type="text/javascript"></script>-->
+<%#= javascript_include_tag("jquery-1.4.1") %>
+<script type="text/javascript">
+	//<![CDATA[
+
+			function lookup_org(ucn) {
+				jQuery('#org_widget_container input').attr('disabled', 'disabled');
+				jQuery('#org_widget_status_message').show();
+				jQuery('#org_widget_left_pane').fadeOut(300);
+				// load the contact form using ajax
+				jQuery.get('<%= url_for(:controller => :orgs, :action => "dialog_show_org_details", :id => nil) %>?ucn=' + ucn, function(data){
+					// create a modal dialog with the data
+					if (data != "ERROR")
+						jQuery('#org_widget_left_pane').html(data);
+					else
+						jQuery('#org_widget_left_pane').html("<table style='width:100%;'><tr><td style='font-size: 12px; padding-top: 50px; text-align: center; font-weight: normal; color: red; border: 0px;'>No organization match</td></tr></table>");
+					jQuery('#org_widget_status_message').hide();
+					jQuery('#org_widget_left_pane').fadeIn(300, function() {jQuery('#org_widget_container input').removeAttr('disabled'); jQuery('#org_name').focus();});
+					//$link_container.html($old_html);
+				});
+			}
+	
+			function get_children(ucn) {
+				jQuery('#org_widget_container input').attr('disabled', 'disabled');
+				jQuery('#org_widget_status_message').show();
+				jQuery('#org_widget_right_pane').fadeOut(300);
+				jQuery.get('<%= url_for(:controller => :orgs, :action => "dialog_get_children", :id => nil) %>?ucn=' + ucn, function(data){
+						// create a modal dialog with the data
+						jQuery('#org_widget_right_pane').html(data);
+						jQuery('#org_widget_status_message').hide();
+						jQuery('#org_widget_right_pane').fadeIn(300, function() {jQuery('#org_widget_container input').removeAttr('disabled'); jQuery('#org_name').focus();});
+						//$link_container.html($old_html);
+					});
+			}
+			
+			function get_parent(ucn) {
+				jQuery('#org_widget_container input').attr('disabled', 'disabled');
+				jQuery('#org_widget_status_message').show();
+				jQuery('#org_widget_right_pane').fadeOut(300);
+				jQuery.get('<%= url_for(:controller => :orgs, :action => "dialog_get_parent", :id => nil) %>?ucn=' + ucn, function(data){
+						// create a modal dialog with the data
+						jQuery('#org_widget_right_pane').html(data);
+						jQuery('#org_widget_status_message').hide();
+						jQuery('#org_widget_right_pane').fadeIn(300, function() {jQuery('#org_widget_container input').removeAttr('disabled'); jQuery('#org_name').focus();});
+						//$link_container.html($old_html);
+					});
+			}
+	
+	
+			function popup_org_dialog(ucn) {
+				jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+				jQuery('#org_widget').dialog('open');
+				jQuery.get('<%= url_for(:controller => "orgs", :action => "dialog_popup", :id => nil) %>?ucn=' + ucn, function(data){
+					jQuery('#org_widget_pane').hide();
+					jQuery('#org_widget_pane').html(data);
+					jQuery('#org_widget_pane').fadeIn(500, function() {jQuery('#org_name').focus();});
+				});
+			}
+			
+			
+			function highlight_cell(cell_elements_for_class_removal, cell_element_for_class_add) {
+				jQuery(cell_elements_for_class_removal).removeClass('cell_selected'); 
+				jQuery(cell_element_for_class_add).addClass('cell_selected');
+			}
+		
+	//]]>
+</script>

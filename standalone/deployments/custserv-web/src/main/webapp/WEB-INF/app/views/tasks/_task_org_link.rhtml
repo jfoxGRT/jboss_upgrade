@@ -1,0 +1,17 @@
+<%  selectable = (task_org_link.status_desc == CustomerStatus.find_by_code(CustomerStatus.OPEN_CODE).description)	
+	if (selectable)
+		class_text = "alert_open_org"
+	else
+		class_text = "alert_closed_org"
+	end %>
+<tr class="<%= class_text %>">
+	<td>&nbsp;
+		<%= radio_button_tag("selected_org", task_org_link.id, false) if selectable %>
+	</td>
+	<td style="text-align: left;"><%= link_to(task_org_link.name, org_path(task_org_link.id), {:target => "new"}) %></td>
+	<td><%= task_org_link.ucn %></td>
+	<td><%= task_org_link.group_desc %></td>
+	<td><%= task_org_link.type_desc %></td>
+	<td><%= task_org_link.status_desc %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if using_sam_connect?(task_org_link) %></td>
+</tr>

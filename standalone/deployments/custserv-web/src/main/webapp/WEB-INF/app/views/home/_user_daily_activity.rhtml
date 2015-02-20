@@ -1,0 +1,35 @@
+<table class="data_table">
+    <thead>
+    <tr class="data_table_first_row">
+        <td <%= sort_td_class_helper("alert_instance_id")%>>
+                <%= sort_link_helper("Task ID", "alert_instance_id", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Created At", "created_at", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("assigned_at")%>>
+                <%= sort_link_helper("Assigned At", "assigned_at", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("assigned_by")%>>
+                <%= sort_link_helper("Assigned By", "assigned_by", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("closed_at")%>>
+                <%= sort_link_helper("Closed At", "closed_at", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("state_name")%>>
+                <%= sort_link_helper("State", "state_name", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("billing_org")%>>
+                <%= sort_link_helper("Billing Org", "billing_org", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td <%= sort_td_class_helper("shipping_org")%>>
+                <%= sort_link_helper("Shipping Org", "shipping_org", update_element, "update_user_daily_activity_table", status_indicator)%></td>
+        <td>Billing Top-Level Org</td>
+        <td>Shipping Top-Level Org</td>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "unassigned_entitlement_task", :collection => alert_instances) %>
+    </tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(alert_instances, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :date => date,
+                  :user_id => user_id,
+                  :update_element => update_element,
+                  :action => "update_user_daily_activity_table") %>
+</p>

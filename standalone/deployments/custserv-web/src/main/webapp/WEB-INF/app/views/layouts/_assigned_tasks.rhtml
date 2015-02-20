@@ -1,0 +1,13 @@
+<% assigned_tasks = current_user.assigned_tasks %>
+<% favorite_sam_customers = current_user.favorite_sam_customer_set %>
+                            <td id="cs_alert_sidebar_cell">
+                                <h4>Assigned Tasks</h4>
+                                <table id="alert_cart" border="0">
+                                    <%= render(:partial => "/tasks/task_dispatched", :collection => assigned_tasks) %>
+                                </table>
+								<hr/>
+								<h4>Favorite SAM Customers</h4>
+								<table id="favorite_sam_customers">
+									<%= render(:partial => "/layouts/favorite_sam_customer", :collection => favorite_sam_customers) %>
+								</table>
+                            </td>

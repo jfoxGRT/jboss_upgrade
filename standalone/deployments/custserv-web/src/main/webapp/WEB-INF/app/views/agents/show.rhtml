@@ -1,0 +1,35 @@
+<%  @page_title = ("SAMC Agent - #{@agent.id}") %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Agent: <%= @agent.id %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Agent: <%= @agent.id %></h2>
+</div>
+<%= render(:partial => "agent_core_info", :locals => {:agent_core_info => @agent, :sam_server => @sam_server}) %>
+<br>
+<div class="table_header">
+	<h3 class="table_title">Components</h3>
+</div>
+<%= render(:partial => "agent_component_info", :object => @agent) %>
+<div class="link_set">
+	<%= link_to("Conversations", agent_conversations_path(@agent.id)) if @sam_server && @current_user.isAdminType %><br/>
+	<%= link_to("Edit", edit_agent_path(@agent.id)) if @current_user.isAdminType %><br/>
+	<% if @current_user.hasPermissionStrict?(Permission.agent_diagnostic_scheduling) %>
+	   <% if !@sam_server.is_hosted_server? %> 
+          <%= link_to("Schedule Local Server Diagnostics", :action => :diagnostics_index, :id => @agent.id )  %><br/>
+       <% else %>
+          <i>(diagnostics feature is not available for hosted servers)</i><br/>
+       <% end %>
+    <% end %>
+    <%= link_to("SCAT", "/scat/events?agent_id=#{@agent.id}") if (@current_user.hasScholasticPermission(Permission.scat_access)) %> 
+
+</div>

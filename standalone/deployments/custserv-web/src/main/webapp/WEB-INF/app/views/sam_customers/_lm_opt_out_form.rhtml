@@ -1,0 +1,16 @@
+<% form_tag(url_for(:action => :lm_opt_out)) do -%>
+<table align="center">
+    <tr>
+        <td colspan="2">Are you sure you want to Opt Out this customer and remove their access to manage licenses in SAM Connect?</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onclick="close_dialog()" value="Cancel" />
+        </td>
+        <td>
+            <input type="hidden" id="sc_id" name="sc_id" value ="<%= @sam_customer.id %>">
+            <%= submit_tag("OPT-OUT") %>
+            <% end %>
+        </td>
+    </tr>
+</table>    

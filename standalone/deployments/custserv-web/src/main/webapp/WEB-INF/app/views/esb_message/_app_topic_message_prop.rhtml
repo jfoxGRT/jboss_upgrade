@@ -1,0 +1,9 @@
+<tr>
+    <td><%= app_topic_message_prop.id %></td>
+    <td><%= app_topic_message_prop.name %></td>
+    <td><%= app_topic_message_prop.value %></td>
+    <td style="text-align: left;">
+    <% (getAppTopicMessageAdditionalDetails(app_topic_message_prop.name, app_topic_message_prop.value)).each do |ad| %>
+        <%= ad %><br>
+    <% end %></td>
+</tr>

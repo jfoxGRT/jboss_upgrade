@@ -1,0 +1,25 @@
+<%
+	matched_ucn = nil
+	if server_school.org
+		matched_ucn = server_school.org.customer.ucn
+	end
+%>
+<tr>
+	<td style="text-align: left;"><%= server_school.id %></td>
+  <td style="text-align: left;"><%= link_to(server_school.name, sam_customer_school_path(server_school.sam_server.sam_customer_id, server_school.id)) %></td>
+  <td><%= server_school.school_number %></td>
+  <td><%= server_school.address1 %></td>
+	<td><%= server_school.city %></td>
+	<td><%= server_school.state %></td>
+  <td><%= server_school.postal_code %></td>
+	<td><%= "(#{server_school.phone.slice(0,3)})#{server_school.phone.slice(3,3)}-#{server_school.phone.slice(6,4)}" if server_school.phone %></td>
+	<td><%= link_to(server_school.sam_server.name, sam_customer_sam_server_path(server_school.sam_server.sam_customer_id, server_school.sam_server_id)) %></td>
+	<td><%= server_school.get_display_status %></td>
+	<td><% if (server_school.org_id) %>
+		<a href="#" onclick="popup_org_dialog('<%= matched_ucn %>'); return false;"><%= matched_ucn %></a>
+		<% end %>
+	</td>
+	<td><%= server_school.org.name if server_school.org %></td>
+	<td><%= server_school.get_class_count %></td>
+  <td><%= server_school.created_at.strftime(DATE_FORM) %></td>
+</tr>

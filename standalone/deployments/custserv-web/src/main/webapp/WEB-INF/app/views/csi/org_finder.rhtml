@@ -1,0 +1,23 @@
+<%  @page_title = "SAMC - Orgs" %>
+<div style="margin-top:20px;"><%= render(:partial => "csi_nav") %></div>
+<div align="center" id="org_finder" style="margin-top: 20px;">
+<% org_group_category = [["All Orgs", "AO"], ["Top-Level Orgs", "TLO"]]%>
+<% form_remote_for(:search_orgs, :url => "") do |f| -%>
+<table>
+    <tr>
+        <td>Find</td>
+        <td><%= f.select(:org_group_category, org_group_category, :selected => "AO" )%></td>
+        <td>in</td>
+        <td><%= f.select(:state_id, StateProvince.find(:all).collect {|sp| [sp.name, sp.id]}, { :include_blank => true }) %></td>
+        <td>whose name matches</td>
+        <td><%= f.text_field(:name) %></td>
+        <td><%= submit_to_remote("search_for_orgs", "Search", :url => {:action => "find_orgs"}, :id => "blehhh",
+                            :before => "$('status_indicator').show();",
+                            :complete => "$('status_indicator').hide();") %></td>
+    </tr>
+</table>
+<% end -%>
+</div>
+<div style="height: 30px; margin-bottom: 20px;">&nbsp;<span id="status_indicator" style="padding-top: 10px; color: red; display: none;">
+Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></span></div>
+<div id="search_results_container"></div>

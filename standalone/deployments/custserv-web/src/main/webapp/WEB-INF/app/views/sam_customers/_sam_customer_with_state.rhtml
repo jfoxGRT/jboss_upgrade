@@ -1,0 +1,15 @@
+<% reg_date = sam_customer_with_state.registration_date 
+	style_text = (reg_date) ? "background-color: #ff6;" : "" %>
+<tr <%= "style='background-color: #ff6;'" if reg_date %>>
+	<td style="text-align: left; <%= style_text %>"><%= link_to(sam_customer_with_state.name, sam_customer_path(sam_customer_with_state.id)) %></td>
+  <td style="<%= style_text %>"><%= sam_customer_with_state.siteid %></td>
+	<td style="text-align: left; <%= style_text %>"><%= sam_customer_with_state.state_name %></td>
+	<td style="<%= style_text %>"><%= link_to(sam_customer_with_state.sc_ucn, org_path(sam_customer_with_state.org_id)) %></td>
+	<td style="<%= style_text %>"><%= translateSamCustomerActiveStatus(sam_customer_with_state.active) %></td>
+	<td style="<%= style_text %>"><%= translateYesOrNoStatus(sam_customer_with_state.fake) %></td>
+	<td style="<%= style_text %>"><%= reg_date.strftime('%I:%M:%S %p %m/%d/%y') if reg_date %></td>
+	<td style="<%= style_text %>"><%= translateManagerStatus(sam_customer_with_state.licensing_status) %></td>
+	<td style="<%= style_text %>"><%= translateManagerStatus(sam_customer_with_state.auth_status) %></td>
+	<td style="<%= style_text %>"><%= translateManagerStatus(sam_customer_with_state.update_manager_status) %></td>
+	<td style="<%= style_text %>"><%= translateYesOrNoStatus(sam_customer_with_state.update_quiz_as_available) %></td>
+</tr>

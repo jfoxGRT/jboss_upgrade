@@ -1,0 +1,154 @@
+<script>
+        jQuery(function() {
+                jQuery( "#task_created_at_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#task_created_at_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#task_closed_start_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#task_closed_end_date_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<% form_for(:task, :url => {:controller => :tasks, :action => :search}, :remote => true, :html => {:name => "task_form", :id => "task_form"}) do |f| -%>
+		<table style="width:100%; margin-top: 20px;" class="search_table">
+			<tr>
+				<td colspan="4" style="text-align: center;"><h3>Task Search</h3></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="id">Task ID</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:id, {:id => "task_id"}) %></td>
+				<td class="label_cell"><label for="task_type">Task Type</label></td>
+				<td class="field_cell"><%= f.select(:task_type_id, task_type_list, {}, {:onchange => "resetEntitlementFields(this)"}) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="task_status">Task Status</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:task_status, task_status_list, {}, {:onchange => "resetClosedBy(this)"}) %></td>
+				<td class="label_cell"><label for="entitlement_sam_customer_id"><%= SAM_CUSTOMER_TERM %> ID</label></td>
+				<td class="field_cell"><%= f.text_field(:sam_customer_id, {:id => "sam_customer_id"}) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="entitlement_state_province">State / Province</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.select(:state_id, state_province_list) %></td>
+				<td class="label_cell"><label for="closed_by_user_id">Closed By</label></td>
+				<td class="field_cell"><%= f.select(:closed_by_user_id, user_list) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="entitlement_product_id">License Count</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:license_count) %></td>
+				<td class="label_cell"><label for="tms_entitlementid">TMS Entitlement ID</label></td>
+				<td class="field_cell"><%= f.text_field(:tms_entitlementid, {:id => "task_tms_entitlementid"}) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="task_order_num">Order #</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:order_num) %></td>
+				<td class="label_cell"><label for="task_invoice_num">Invoice #</label></td>
+				<td class="field_cell"><%= f.text_field(:invoice_num) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell"><label for="task_bill_to_ucn">Bill-To UCN</label></td>
+				<td class="field_cell" style="border-right: 1px solid #ccc;"><%= f.text_field(:bill_to_ucn, {:id => "task_bill_to_ucn"}) %></td>
+				<td class="label_cell"><label for="task_ship_to_ucn">Ship-To UCN</label></td>
+				<td class="field_cell"><%= f.text_field(:ship_to_ucn, {:id => "task_ship_to_ucn"}) %></td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="entitlement_order_type">Order Type</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.select(:entitlement_type_id, order_type_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="task_created_at_start_date_field">Created between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:task_created_at_start_date, {:id => "task_created_at_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:task_created_at_end_date, {:id => "task_created_at_end_date_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="">Closed between</label>
+				</td>
+				<td class="field_cell" colspan="3">
+					<%= f.text_field(:task_closed_start_date, {:id => "task_closed_start_date_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:task_closed_end_date, {:id => "task_closed_end_date_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+                                <td colspan="2" style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+				<td colspan="2" style="text-align: center;"><%= submit_tag("Search") %></td>
+			</tr>
+		</table>
+<script type="text/javascript">
+	function resetEntitlementFields(select_box) {
+		if (select_box.value != "<%= TaskType.pending_entitlement.id %>" && select_box.value != "") {
+			$('#task_tms_entitlementid').attr("value","");
+			$('#task_tms_entitlementid').attr("disabled", "disabled");
+			$('#task_order_num').attr("value","");
+			$('#task_order_num').attr("disabled", "disabled");
+			$('#task_invoice_num').attr("value","");
+			$('#task_invoice_num').attr("disabled", "disabled");
+			$('#task_bill_to_ucn').attr("value","");
+			$('#task_bill_to_ucn').attr("disabled", "disabled");
+			$('#task_ship_to_ucn').attr("value","");
+			$('#task_ship_to_ucn').attr("disabled", "disabled");
+			$('#task_license_count').attr("value","");
+			$('#task_license_count').attr("disabled", "disabled");
+			$('#task_entitlement_type_id').attr("value","");
+			$('#task_entitlement_type_id').attr("disabled", "disabled");
+		}
+		else {
+			$('#task_tms_entitlementid').removeAttr("disabled");
+			$('#task_order_num').removeAttr("disabled");
+			$('#task_invoice_num').removeAttr("disabled");
+			$('#task_bill_to_ucn').removeAttr("disabled");
+			$('#task_ship_to_ucn').removeAttr("disabled");
+			$('#task_license_count').removeAttr("disabled");
+			$('#task_entitlement_type_id').removeAttr("disabled");
+		}
+	}
+	
+	function resetClosedBy(select_box) {
+		if (select_box.value != "<%= Task.CLOSED %>" && select_box.value != "") {
+			$('#task_closed_start_date_field').attr("value","");
+			$('#task_closed_start_date_field').attr("disabled", "disabled");
+			$('#task_task_closed_start_time').attr("value","");
+			$('#task_task_closed_start_time').attr("disabled", "disabled");
+			$('#task_closed_end_date_field').attr("value","");
+			$('#task_closed_end_date_field').attr("disabled", "disabled");
+			$('#task_task_closed_end_time').attr("value","");
+			$('#task_task_closed_end_time').attr("disabled", "disabled");
+			$('#task_closed_by_user_id').attr("value","");
+			$('#task_closed_by_user_id').attr("disabled", "disabled");
+		}
+		else {
+			$('#task_closed_start_date_field').removeAttr("disabled");
+			$('#task_task_closed_start_time').removeAttr("disabled");
+			$('#task_closed_end_date_field').removeAttr("disabled");
+			$('#task_task_closed_end_time').removeAttr("disabled");
+			$('#task_closed_by_user_id').removeAttr("disabled");
+		}
+	}
+	
+	
+	
+        jQuery(document).ready(function() {
+                    jQuery("#task_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+	<% end %>

@@ -1,0 +1,1 @@
+page["step2_container"].replace_html(:partial => "/sam_servers/step2_move_servers", :locals => {:target_sam_customer => @new_sam_customer, :new_org => @new_org, :sam_server_ids => @sam_server_id_list})

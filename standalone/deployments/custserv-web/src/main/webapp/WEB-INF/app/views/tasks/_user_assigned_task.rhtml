@@ -1,0 +1,53 @@
+<% 	
+		task = user_assigned_task[1][0]
+		ship_to = user_assigned_task[1][1] if (user_assigned_task[1].length > 1)
+%>
+<table class="testing_cells" id="task_summary_container_<%= task.id %>" style="width: 100%; margin: 2px; border: 1px solid white;">
+	<tr>
+		<td id="task_summary_container_cell_<%= task.id %>" style="border: 0px; padding: 0px;">	
+<table class="task_summary_entry" id="<%= task.id %>" cellspacing="0">
+            <tr>
+                <td style="width:7%"><%= task.id %></td>
+                <td style="width:7%"><%= task.priority %></td>
+                <td style="width:20%">
+                	<% if (ship_to) %>
+                    Bill-To: <%= task.org_name %>
+                    <br>Ship-To: <%= ship_to.org_name %>
+					<% else %>
+					<%= task.sam_customer_name %>
+					<% end %></td>
+                <td><%= task.task_type_description %></td>
+                <td>
+                	<% task.date_assigned[10] = 'T' %>
+                	<% date_assigned = Time.xmlschema(task.date_assigned) %>
+                	<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+                    <br></td>
+                <td><%= task.source_user_first_name %> <%= task.source_user_last_name %></td>
+                <td style="width:15%">
+                	<% if (ship_to) %>
+                    	<span id="view_details_link_<%= task.id %>" class="fake_link" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) onClick='toggleTheDetails("<%= task.id %>")';>View Details</span>
+					<% end %>
+					<% if @current_user.hasPermission?(Permission.edit) %>
+                    	<span class="fake_link" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) onClick=location.href="<%= edit_task_path(task.id) %>";>Work</span>
+                    	<span class="release_link" id="3_<%= task.id %>" href="<%= unassign_task_path(:id => task.id, :target_user_id => @current_user.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span>
+                    <% else %>
+                    	<span class="disabled_page_link">
+                    		Work<br/>
+                    		Release<br/>
+                    	</span>
+                    <% end %>
+                    <% if @current_user.isAdminType %>
+                        <span id="show_params_link_<%= task.id %>" class="fake_link widget_dialog" 
+                            onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) element_id="show_params" href="<%= url_for(:controller => :tasks, :action => :show_params, :id => task.id) %>">Show Params</span>
+                    <% end %>
+                </td>
+            </tr>
+    </table>
+	<% if (ship_to) %>
+				<%= render(:partial => "pending_entitlements/view_details", :locals => {:colspan => 4, :bill_to_org_task => task, :ship_to_org_task => ship_to, :task_orgs_hash => task_orgs_hash}) %>
+			<% end %>
+		</td>
+	</tr>
+</table>

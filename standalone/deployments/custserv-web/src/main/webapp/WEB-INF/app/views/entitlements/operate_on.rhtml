@@ -1,0 +1,46 @@
+<% @page_title = "SAMC - #{@operation} Entitlement(s)" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => ENTITLEMENTS_CODE, :on_target => nil}) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @operation %> Entitlement(s)</span>
+	</tr>
+</table>
+<h1 style="margin-bottom: 10px; text-align: center"><%= @operation %> Entitlement(s)</h1>
+<hr/>
+<div align="center">
+	<% if (@operation == "Move") %>
+		<h3 style="text-align: left;">Step #1 of 2</h3>
+		<br/>
+		Please confirm that you wish to move the entitlement(s) listed below and that the appropriate customer admins are aware of this operation.<br/><br/>
+		<% form_remote_tag(:url => url_for(:action => "look_up_new_sam_customer"), :before => "show_loading_msg('step2_container'); Effect.ScrollTo('step2_container', 0.4);") do %>
+			<%= hidden_field_tag(:entitlement_ids, @entitlement_id_list) %>
+			<span style="font-weight: bold; font-size: 12px;">Enter a new SAM EE Customer ID for these entitlements:&nbsp;</span><%= text_field_tag(:new_sam_customer_id) %>&nbsp;
+			<%= submit_tag("Lookup", :id => "lookup_button") %>
+			<br/><br/>
+			<table class="data_table">
+				<tr>
+					<th>TMS Entitlement ID</th>
+					<th><%= PRODUCT_TERM %> Description</th>
+					<th>Number of License</th>
+					<th>Order Number</th>
+					<th>Invoice Number</th>
+				</tr>
+				<%= render(:partial => "entitlement_to_operate_on", :collection => @entitlements) %>
+			</table>
+		<% end %>
+			<br/><br/>
+			<hr/>
+			<div id="step2_container"></div>
+			<div id="step3_container"></div>
+	<% elsif (@operation == "Deactivate") %>
+	<% end %>
+</div>
+<script type="text/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+</script>

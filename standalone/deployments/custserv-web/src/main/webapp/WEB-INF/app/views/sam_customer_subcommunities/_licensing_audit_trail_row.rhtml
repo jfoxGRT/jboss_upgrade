@@ -1,0 +1,9 @@
+<tr>
+    <td align="center"><%= licensing_audit_trail_row.event_type %></td>
+    <td align="center"><%= licensing_audit_trail_row.timestamp.strftime(DATE_FORM) %></td>
+    <td align="center"><%= licensing_audit_trail_row.server_id %></td>
+    <td align="center"><%= licensing_audit_trail_row.server_name %></td>
+    <td align="center"><%= licensing_audit_trail_row.status %></td>
+    <td align="center"><%= licensing_audit_trail_row.value %></td>
+    <td align="center"><%= translate_audit_message_reason(licensing_audit_trail_row.reason) %></td>
+</tr>

@@ -1,0 +1,83 @@
+<%  @page_title = "SAMC - Transfer Resources" %>
+<table id="transfer_resources_top_row" style="width: 100%;">
+	<tr>
+		<td id="source_sam_customer_summary">
+			<%= @sam_customer.name %><br/>
+			<%= @sam_customer.address_line_1 %><br/>
+			<%= @sam_customer.city_name %>, <%= @sam_customer.code %> <%= @sam_customer.zip_code %><br/>
+			ID: <%= @sam_customer.id %>
+		</td>
+		<td id="target_sam_customer_select_form">
+			<div align="center" style="width: 100%; height: 20px; padding-top: 5px; color: red;"><span id="status_indicator" style=" display: none;" >Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :id => "status_image", :border => "0" ) %></span></div>
+			<h2 style="text-align: left;">Transfer Resources With..</h2>
+			<% form_remote_tag(:url => {:action => :search_sam_customers}, :before => "showStatus()") do -%>
+			<table>
+				<tr>
+					<td><%= SAM_CUSTOMER_TERM %> name containing: </td>
+					<td><%= text_field_tag(:name) %></td>
+				</tr>
+				<tr>
+					<td>State / Province: </td>
+					<td><%= select_tag(:state_province_id, options_for_select(@state_province_list)) %></td>
+				</tr>
+				<tr>
+					<td>Zip Code: </td>
+					<td><%= text_field_tag(:zip_code) %></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<%= submit_tag("Search") %>
+					</td>
+				</tr>
+			</table>
+			<% end -%>
+		</td>
+		<td id="target_sam_customer_summary">&nbsp;
+			
+		</td>
+	</tr>
+</table>
+<table id="resource_transfer_container" style="width: 100%;" >
+	<tr>
+		<td id="source_sam_customer_details" style="width: 50%;">
+			<div style="width: 100%; text-align: center; border-bottom: 1px solid black; padding-bottom: 10px;"><h3><%= @sam_customer.name %></h3></div>
+			<table id="source_sam_customer_resources_container">
+				<thead>
+					<tr>
+						<th>Entitlements</th>
+						<th>SAM Servers</th>
+						<th>Customer Admins</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div style="width: 100%; height: 100%; overflow: auto;">
+								<ul>
+									<%= render(:partial => "entitlement", :collection => @entitlements) %>
+								</ul>
+							</div>
+						</td>
+						<td>
+							<div style="width: 100%; height: 100%; overflow: auto;">
+								<ul>
+									<%= render(:partial => "sam_server", :collection => @sam_servers) %>
+								</ul>
+							</div>
+						</td>
+						<td>
+							<div style="width: 100%; height: 100%; overflow: auto;">
+								<ul>
+									<%= render(:partial => "user", :collection => @users) %>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		<td id="target_sam_customer_details" style="width: 50%;">
+			&nbsp;
+		</td>
+	</tr>
+</table>

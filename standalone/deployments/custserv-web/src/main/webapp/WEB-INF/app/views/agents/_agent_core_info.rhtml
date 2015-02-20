@@ -1,0 +1,174 @@
+<script type="text/javascript" charset="utf-8">
+  jQuery(document).ready(function() {
+    jQuery('#most_recent_column_header').betterTooltip();
+  } );
+</script>
+
+<table class="property_table">
+    <tbody>
+                <tr>
+            <td>Agent ID</td>
+            <td>&nbsp;<%= agent_core_info.id %></td>
+        </tr>
+		<% class_def = ""
+		   class_def = "table_row_problem" if (sam_server.nil?) %>
+		<tr class='<%= class_def %>'>
+            <td>SAM Server ID</td>
+			<% if (!sam_server.nil?) %>
+            	<td>&nbsp;<%= link_to(sam_server.id, sam_customer_sam_server_path(sam_server.sam_customer, sam_server)) %></td>
+			<% else %>
+				<td>&nbsp;No SAM Server</td>
+			<% end %>
+        </tr>
+        <% if agent_core_info.sam_server.is_hosted_server? %>
+        <tr>
+            <td>Cluster ID</td>
+            <td>&nbsp;<%= agent_core_info.clusterid.nil? ? " " :  agent_core_info.clusterid %></td>
+        </tr>
+        <%end%>
+		<tr>
+            <td>Date Created</td>
+            <td>&nbsp;<%= agent_core_info.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+            <td>Last Updated</td>
+            <td>&nbsp;<%= agent_core_info.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+            <td>Next Poll At</td>
+            <td>&nbsp;<%= (agent_core_info.next_poll_at.nil?) ? "" : agent_core_info.next_poll_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+            <td>Current Command ID</td>
+            <td>&nbsp;<%= agent_core_info.current_command_id %></td>
+        </tr>
+        <tr>
+            <td>Cookie</td>
+            <td>&nbsp;<%= agent_core_info.cookie %></td>
+        </tr>
+        <tr>
+            <td>Cookie Verified</td>
+            <td>&nbsp;<%= agent_core_info.cookie_verified %></td>
+        </tr>
+        <tr>
+            <td>JRE Version</td>
+            <td>&nbsp;<%= agent_core_info.jre_version %></td>
+        </tr>
+        <tr>
+            <td>Microloader Version</td>
+            <td>&nbsp;<%= agent_core_info.microloader_version %></td>
+        </tr>
+        <tr>
+            <td>OS Series</td>
+            <td>&nbsp;<%= agent_core_info.os_series %></td>
+        </tr>
+        <tr>
+            <td>CPU Bits</td>
+            <td>&nbsp;<%= agent_core_info.cpu_bits %></td>
+        </tr>
+        <tr>
+            <td>OS Family</td>
+            <td>&nbsp;<%= agent_core_info.os_family %></td>
+        </tr>
+        <tr>
+            <td>CPU Type</td>
+            <td>&nbsp;<%= agent_core_info.cpu_type %></td>
+        </tr>
+        <tr>
+            <td>Last IP Address</td>
+            <td>&nbsp;<%= agent_core_info.last_ip %></td>
+        </tr>
+        <tr>
+            <td>Local Ip</td>
+            <td>&nbsp;<%= agent_core_info.last_local_ip %></td>
+        </tr>
+
+        <tr>
+            <td>Last Verified Cookie</td>
+            <td>&nbsp;<%= agent_core_info.last_verified_cookie %></td>
+        </tr>
+        <tr>
+            <td>Poll Override</td>
+            <td>&nbsp;<%= agent_core_info.poll_override %></td>
+        </tr>
+		<tr>
+            <td>Poll Override Expires At</td>
+			<% poll_override_expires_at = agent_core_info.poll_override_expires_at %>
+            <td>&nbsp;<%= poll_override_expires_at.strftime(DATE_FORM) if poll_override_expires_at %></td>
+        </tr>
+		<tr>
+            <td>Last Loop Danger Command Name</td>
+            <td>&nbsp;<%= agent_core_info.last_loop_danger_command_name %></td>
+        </tr>
+		<tr>
+            <td>Last Loop Danger Command Date</td>
+			<% last_loop_danger_command_date = agent_core_info.last_loop_danger_command_date %>
+            <td>&nbsp;<%= last_loop_danger_command_date.strftime(DATE_FORM) if last_loop_danger_command_date %></td>
+        </tr>
+		<tr>
+            <td>Command Chatter Date</td>
+			<% command_chatter_date = agent_core_info.command_chatter_date %>
+            <td>&nbsp;<%= command_chatter_date.strftime(DATE_FORM) if command_chatter_date %></td>
+        </tr>
+		<tr>
+            <td>Command Chatter Count</td>
+            <td>&nbsp;<%= agent_core_info.command_chatter_count %></td>
+        </tr>
+		<tr>
+            <td>Ignore Agent</td>
+            <td>&nbsp;<%= image_tag("choice-yes.gif") if agent_core_info.ignore_agent %></td>
+        </tr>
+		<tr>
+            <td>Unignore Agent Date</td>
+			<% unignore_agent_date = agent_core_info.unignore_agent_date %>
+            <td>&nbsp;<%= unignore_agent_date.strftime(DATE_FORM) if unignore_agent_date %></td>
+        </tr>
+		<tr>
+            <td>Sapling Digest</td>
+            <td>&nbsp;<%= agent_core_info.sapling_digest %></td>
+        </tr>
+		<tr>
+            <td>Interaction Mode</td>
+            <td>&nbsp;<%= agent_core_info.interaction_mode %></td>
+        </tr>
+		<tr>
+            <td>Interaction Subject</td>
+            <td>&nbsp;<%= agent_core_info.interaction_mode_subject %></td>
+        </tr>
+		<tr>
+            <td>Next Subcommander Stats At</td>
+			<% next_subcmdr_stats_at = agent_core_info.next_subcmdr_stats_at %>
+            <td>&nbsp;<%= next_subcmdr_stats_at.strftime(DATE_FORM) if next_subcmdr_stats_at %></td>
+        </tr>
+     <tr>
+            <td>Last Free Kilobytes</td>
+            <td>&nbsp;<%= agent_core_info.last_free_kilobytes %></td>
+        </tr>
+
+        
+    
+  </tbody>
+</table>
+<br>
+<div class="table_header">
+	<h3 class="table_title">Plugins</h3>
+</div>
+<table class="data_table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Version</th>
+      <th id="most_recent_column_header" title="True unless SAM Connect has newer published version available.">Most Recent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "agent_plugin", :collection => agent_core_info.agent_plugins) %>
+    <tr style="font-weight: bold;">
+      <td>Set Checksum</td>
+      <% # @see Agent.get_plugin_set_checksum
+      %>
+      <td><%= agent_core_info.get_plugin_set_checksum %></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

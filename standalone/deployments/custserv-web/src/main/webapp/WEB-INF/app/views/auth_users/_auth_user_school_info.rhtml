@@ -1,0 +1,15 @@
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>School Info ID</th>
+			<th>School Name</th>
+			<th>SAM Server ID</th>
+			<th>SAM Server Name</th>
+			<th>School Status</th>
+			<th>Matched UCN</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "auth_user_school", :collection => schools, :locals => {:sam_customer_id => sam_customer_id}) %>
+	</tbody>
+</table>

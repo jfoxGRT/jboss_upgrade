@@ -1,0 +1,14 @@
+<h2>Task Activity for <%= @which_user.first_name + " " + @which_user.last_name %> on <%= @which_date.strftime('%m/%d/%y') %></h2>
+<h2><%= @which_user.email %></h2>
+<h3>Task Activity</h3>
+<%= render(:partial => "unassigned_entitlement_task_summary", :locals => {:user_task_top_level_org_hash => @user_task_top_level_org_hash}) %>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+    <%= generateAjaxIndicator("status_indicator") %></div>
+<div id="user_daily_activity_table">
+<%= render(:partial => "user_daily_activity", 
+           :locals => {:alert_instances => @alert_instances_for_user,
+                       :date => @which_date,
+                       :user_id => @which_user.id,
+                       :status_indicator => "status_indicator",
+                       :update_element => "user_daily_activity_table"}) %>
+</div>

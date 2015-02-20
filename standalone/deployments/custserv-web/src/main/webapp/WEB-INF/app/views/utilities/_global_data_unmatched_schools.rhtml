@@ -1,0 +1,12 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th><%= SAM_CUSTOMER_TERM %> Name</th>
+			<th>UCN</th>
+			<th>Number of Unmatched Schools on SAM Servers</th>
+		</tr>
+	</thead>
+	<tbody class="standard_link_style">
+		<%= render :partial => "global_data_unmatched_school", :collection => unmatched_schools %>
+	</tbody>
+</table>

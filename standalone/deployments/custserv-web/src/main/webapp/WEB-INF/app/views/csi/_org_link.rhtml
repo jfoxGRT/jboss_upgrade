@@ -1,0 +1,24 @@
+<% unless (org_link.nil?) %>
+<tr>
+    <td style="text-align: left;">
+    
+    <% if (getActiveChildRelationships(org_link).length > 0) %>
+		<%= image_tag("toggleclose.gif") %>
+        <%= link_to(org_link.name.strip.upcase, {:action => "org_hierarchy", 
+        	                                     :id => org_link.id,
+        			                             :state_id => state.id},
+         			                             {:onclick => "showStatus()"}) %>
+    <% else %>
+        <%= org_link.name.upcase %>
+    <% end %>    
+    </td>
+    <td><%= org_link.customer.ucn %></td>
+    <td><%= org_link.customer.customer_group.description %></td>
+    <td><%= org_link.customer.customer_status.description %></td>
+    <% if (isUsingSamCentral?(org_link)) %>
+    <td><%= image_tag("choice-yes.gif") %></td>
+    <% else %>
+    <td>-</td>
+    <% end %>
+</tr>
+<% end %>

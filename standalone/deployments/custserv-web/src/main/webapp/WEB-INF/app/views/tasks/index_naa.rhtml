@@ -1,0 +1,15 @@
+<%	@page_title = "SAMC - #{@alert.description} Tasks" %>
+<%= render(:partial => "group_task_breadcrumb", :object => @alert, :locals => {:number_of_tasks => @number_of_tasks}) %>
+<table class="data_table" style="width: 70%;">
+	<thead>
+		<tr>
+			<%= render(:partial => "task_common_start_headings") %>
+			<th style="width: 50%;">Task Details</th>
+			<th>SAM Customer State</th>
+			<%= render(:partial => "task_common_end_headings") %>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "naa_task", :collection => @task_sets, :locals => {:user_map => @user_map, :alert_id => @alert.id}) %>
+	</tbody>
+</table>

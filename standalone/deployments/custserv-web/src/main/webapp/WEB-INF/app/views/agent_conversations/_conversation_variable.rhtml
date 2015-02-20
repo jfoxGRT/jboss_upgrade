@@ -1,0 +1,9 @@
+<tr>
+    <td style="text-align: left;">&nbsp;<%= conversation_variable.id %></td>
+    <td style="text-align: left;">&nbsp;<%= conversation_variable.name %></td>
+    <td style="text-align: left;">&nbsp;<%= conversation_variable.value %></td>
+    <td style="text-align: left;">
+    <% (getAppTopicMessageAdditionalDetails(conversation_variable.name, conversation_variable.value)).each do |ad| %>
+        <%= ad %><br>
+    <% end %></td>
+</tr>

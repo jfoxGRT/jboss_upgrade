@@ -1,0 +1,25 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Server Registration Report (by Date)", :csv_action => "export_server_registration_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>
+          <% if (@sort_order == "day") %>
+            <%= link_to("Day", {:action => :server_registration, :sort => "day_desc"}) %>
+          <% else %>
+            <%= link_to("Day", {:action => :server_registration, :sort => "day"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "registration_count") %>
+            <%= link_to("Registration Count", {:action => :server_registration, :sort => "registration_count_desc"}) %>
+          <% else %>
+            <%= link_to("Registration Count", {:action => :server_registration, :sort => "registration_count"}) %>
+          <% end %>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "server_registration_detail", :collection => @server_registrations)%>
+    </tbody>    
+</table>

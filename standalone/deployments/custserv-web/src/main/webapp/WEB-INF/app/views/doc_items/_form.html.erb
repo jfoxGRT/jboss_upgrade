@@ -1,0 +1,109 @@
+<%# Setup Yahoo User Interface GUI's for form's Question and Answer %>
+
+<script type="text/javascript">
+
+// QUESTION
+var myEditorQuestion = new YAHOO.widget.Editor('doc_item_question', { 
+       height: '100px', 
+       width: '700px', 
+       dompath: true //Turns on the bar at the bottom 
+   }); 
+myEditorQuestion._defaultToolbar.titlebar = false;
+myEditorQuestion._defaultToolbar.buttonType = 'advanced';
+myEditorQuestion.render();
+
+// ANSWER
+var myEditorAnswer = new YAHOO.widget.Editor('doc_item_answer', { 
+       height: '500px', 
+       width: '700px', 
+       dompath: true //Turns on the bar at the bottom 
+   }); 
+myEditorAnswer._defaultToolbar.titlebar = false;
+myEditorAnswer._defaultToolbar.buttonType = 'advanced';
+myEditorAnswer.render();
+
+//CONFIGURE - Inside an event handler after the Editor is rendered 
+   YAHOO.util.Event.on('doc_item_submit', 'click', function() {
+    
+       //Process the data in the Editor and put it back into the textarea
+       myEditorQuestion.saveHTML(); 
+       myEditorAnswer.saveHTML();        
+    
+       //The var html will now have the contents of the textarea 
+      var html = myEditorQuestion.get('element').value; 
+      var html = myEditorAnswer.get('element').value;
+             
+  }); 
+
+</script>
+
+
+<%# Do the form %>
+<% form_for(@doc_item) do |f| %>
+
+  <font color="red">
+    <%= f.error_messages %>
+  </font>
+  
+  <%= f.hidden_field :ref_number %>
+  
+  <table>
+    <tr>  
+      <td style="text-align: right;"><b><%= f.label :publish_status, "Publish Status:" %></b></td>
+      <td><%= f.select( "publish_status", { "Published" => "p", "In Review" => "r", "Not Published" => "n"}) %></td>
+    </tr>
+    
+    <tr>
+      <td style="text-align: right;"><b><%= f.label :doc_locations, "Display Locations:" %></b></td>
+      <td><%= render(:partial => "doc_location", :collection => @doc_locations, :locals => {:doc_item => @doc_item}) %></td>
+    </tr>    
+    
+    <tr>
+      <td style="text-align: right;"><b><%= f.label :doc_labels, "Labels:" %></b></td>
+      <td><%= render(:partial => "doc_label", :collection => @doc_labels, :locals => {:doc_item => @doc_item}) %></td>
+    </tr>
+    
+    <tr>
+      <%# HOVER: Customer => everyone can see document; Scholastic and Ops Staff => Customers can -not- see document %> 
+      <td style="text-align: right;"><b><%= f.label :user_type_id, "Target User Type:"%></b></td>
+      <td><%= f.select("user_type_id", UserType.all.collect {|ut| [ut.short_desc, ut.id] }) %></td>
+    </tr>
+    
+    <tr>
+      <td style="text-align: right;"><b><%= f.label :display_order, "Display Order:" %></b></td>
+      <td><%= f.text_field :display_order, :size => 8 %></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><b><%= f.label :ref_number, "Document Reference #:" %></b></td>
+      <td><%= @doc_item.ref_number%></td>
+    </tr>    
+  </table>
+  
+  <br />
+  <p>
+    <b><%= f.label :question, "Question:" %></b><br />
+    <%= f.text_area :question %>
+  </p>
+  
+  <br />
+   <p>
+    <b><%= f.label :answer, "Answer:" %></b><br />
+    <%= f.text_area :answer %>    
+  </p>
+  
+  <br />
+  <p>
+    <b><%= f.label :notes, "Notes (not displayed on site):" %></b><br />
+    <%= f.text_area :notes, :size => "75x15" %>
+  </p>
+ 
+  
+  <p>
+    <% if :action == "new" %>
+      <%= f.submit "Create" %>
+    <% else %>
+      <%= f.submit "Update" %>    
+    <% end %>
+  </p>
+  
+<% end %>

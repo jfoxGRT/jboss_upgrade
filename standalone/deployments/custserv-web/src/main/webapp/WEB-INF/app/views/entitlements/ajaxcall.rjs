@@ -1,0 +1,1 @@
+page[:mydiv].replace_html("hey what's up")

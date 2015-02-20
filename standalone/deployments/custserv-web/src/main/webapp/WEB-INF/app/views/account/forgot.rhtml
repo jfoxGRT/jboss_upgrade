@@ -1,0 +1,14 @@
+<p>
+  To recover your username and password, enter your email address below.  If your email
+  address is in our system, we will reset your password and send both your
+  username and new passwordto your email address.  Enter your email below:
+</p>
+
+<%= error_messages_for :user %>
+<% form_for :user do |f| -%>
+
+<p><label for="email">Email</label><br/>
+<%= f.text_field :email %></p>
+
+<p><%= submit_tag 'Find Username/Password' %></p>
+<% end -%>

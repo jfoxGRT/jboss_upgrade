@@ -1,0 +1,74 @@
+<script type="text/javascript">
+  function district_school(){
+	console.log("in function district_school")
+	var type = document.getElementById('select_type');
+	console.log(type.value)
+	if	(type.value == 'District'){
+	document.getElementById('parent_ucn').style.display = "none";
+}
+else {
+	document.getElementById('parent_ucn').style.display = "";
+}
+}
+
+  function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: #2E9AFE;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+
+</script>
+<%if @current_user.isAdminType%>
+	
+	<% form_remote_tag(:url => url_for(:action => :fake_org), :before => "Form.Element.disable('create_fake_org_button'); show_loading_msg('step2_container'); Effect.ScrollTo('step2_container');") do -%>
+		<table class="form_table">
+          <table class="form_table">
+          	<tr>
+			  <td class="label_cell">School/District : </td>
+			  <td class="field_cell"><%= select_tag(:select_type, options_for_select(["School", "District"]), {:onchange => "district_school()"})  %></td>	
+			</tr>
+          	<tr id="parent_ucn">
+          	  <td class="label_cell">Enter Parent UCN : </td>
+			  <td class="field_cell"><%= text_field_tag(:parent_ucn) %></td>
+         	</tr>
+            <tr id="ucn">
+			  <td class="label_cell">Enter UCN : </td>
+			  <td class="field_cell"><input id="ucn" name="ucn" type="text" required="required"></td>
+			</tr>
+			<tr id= "name">
+			  <td class="label_cell">Name : </td>
+			  <td class="field_cell"><%= text_field_tag(:name, "Scholastic 101") %></td>
+			</tr>
+			<tr id= "address">
+			  <td class="label_cell">Address Line 1 : </td>
+			  <td class="field_cell"><%= text_field_tag(:address_line_1, "524 Broadway") %></td>
+			</tr>
+			
+			<tr id= "city">
+			  <td class="label_cell">City : </td>
+			  <td class="field_cell"><%= text_field_tag(:city, "New York") %></td>
+			</tr>
+			<tr id= "state">
+			  <td class="label_cell">State : </td>
+			  <td class="field_cell"><%= select_tag(:state_province, options_for_select(session[:available_state_province_options])) %></td>
+			</tr>
+			<tr id= "zip_code">
+			  <td class="label_cell">Zip Code : </td>
+			  <td class="field_cell"><%= text_field_tag(:zip_code, "10012") %></td>
+			</tr>
+			<tr id= "telephone">
+			  <td class="label_cell">Telephone Number : </td>
+			  <td class="field_cell"><%= text_field_tag(:phone_number, "2123231688") %></td>
+			</tr>
+			<tr>
+			  <td class="label_cell">Email Address : </td>
+			  <td class="field_cell"><%= text_field_tag(:email_address, "school@scholastic.fake.com") %></td>
+			</tr>
+			<tr>
+			  <td colspan="2" style="text-align: right;"><%= submit_tag ("Create", :id => "create_fake_org_button")%></td>
+			</tr>
+          </table>
+
+			
+	<% end %>
+	<%end%>
+			  	<div id="step2_container"></div>
+

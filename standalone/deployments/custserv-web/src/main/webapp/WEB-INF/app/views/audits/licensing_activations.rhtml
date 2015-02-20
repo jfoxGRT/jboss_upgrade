@@ -1,0 +1,13 @@
+<% @page_title = "SAM Connect - Licensing Activations" %>
+<h2>Licensing Activations</h2>
+<table class="data_table">
+	<tr>
+		<th>Licensing Activation ID</th>
+		<th>SAM Customer</th>
+		<th>SAM Customer ID</th>
+		<th>Performed At..</th>
+		<th>Performed By..</th>
+		<th>-</th>
+	</tr>
+	<%= render(:partial => "licensing_activation", :collection => @licensing_activations) %>
+</table>

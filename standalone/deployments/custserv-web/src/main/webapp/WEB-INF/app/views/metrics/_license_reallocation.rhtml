@@ -1,0 +1,8 @@
+<% the_user = license_reallocation.user %>
+<tr>
+	<td style="text-align: left;"><%= license_reallocation.seat_pool.sam_server.name %></td>
+	<td><%= license_reallocation.starting_count %></td>
+	<td><%= license_reallocation.delta %></td>
+	<td><%= the_user.last_name%>, <%= the_user.first_name %></td>
+	<td><%= license_reallocation.created_at.strftime(DATE_FORM) %></td>
+</tr>

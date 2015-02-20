@@ -1,0 +1,12 @@
+<tr>
+    <td>&nbsp;<%= corrected_clones_detail.clone_name %></td>
+    <td>&nbsp;<%= (corrected_clones_detail.cust_id.nil? || corrected_clones_detail.clone_id.nil?) ? "" : link_to(corrected_clones_detail.clone_id, sam_customer_sam_server_path(corrected_clones_detail.cust_id, corrected_clones_detail.clone_id)) %></td>         
+    <td>&nbsp;<%= corrected_clones_detail.status %></td>
+    <td>&nbsp;<%= corrected_clones_detail.clone_created_at %></td>
+	<td>&nbsp;<%= corrected_clones_detail.cust_name %></td>
+    <td>&nbsp;<%= (corrected_clones_detail.cust_id.nil?) ? "" : link_to(corrected_clones_detail.cust_id, sam_customer_path(corrected_clones_detail.cust_id)) %></td>    
+    <td>&nbsp;<%= corrected_clones_detail.parent_name %></td>
+    <td>&nbsp;<%= (corrected_clones_detail.parent_id.nil? || corrected_clones_detail.cust_id.nil?) ? "" : link_to(corrected_clones_detail.parent_id, sam_customer_sam_server_path(corrected_clones_detail.cust_id, corrected_clones_detail.parent_id)) %></td>         
+    <td>&nbsp;<%= corrected_clones_detail.parent_status %></td>   
+    <td>&nbsp;<%= corrected_clones_detail.parent_created_at %></td>
+</tr>

@@ -1,0 +1,10 @@
+<% source_user = task_event.source_user %>
+<% target_user = task_event.target_user %>
+<tr>
+	<td><%= task_event.id %></td>
+	<td><%= (source_user.nil?) ? "_SYSTEM_" : source_user.first_name %> <%= (source_user.nil?) ? "_SYSTEM_" : source_user.last_name %></td>
+	<td><%= (target_user.nil?) ? "_SYSTEM_" : target_user.first_name %> <%= (target_user.nil?) ? "_SYSTEM_" : target_user.last_name %></td>
+	<td><%= task_event.created_at.strftime(DATE_FORM) %></td>
+	<td><%= translateTaskEventAction(task_event) %></td>
+	<td><%= task_event.comment %></td>
+</tr>

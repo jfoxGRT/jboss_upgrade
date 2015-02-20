@@ -1,0 +1,34 @@
+<tr>
+  <td><%= link_to report_requests_row.id, sam_server_report_request_path(report_requests_row.sam_server_id,report_requests_row.id) %></td>
+  <% if report_requests_row.report_type == "x" %>
+    <td>xml</td>
+  <% end %>
+  <% if report_requests_row.report_type == "p" %>
+    <td>pdf</td>
+  <% end %>
+
+  <% if report_requests_row.request_type == "g" %>
+    <td>groupinator</td>
+  <% elsif report_requests_row.request_type == "s" %>
+    <td>report scheduler</td>
+  <% end %>
+
+  <td><%= link_to report_requests_row.conversation_instance_id, agent_conversation_path(report_requests_row.agent_id,report_requests_row.conversation_instance_id) if report_requests_row.conversation_instance %></td>
+  <td><%= report_requests_row.created_at.strftime(DATE_FORM) %></td>
+  <td><%= report_requests_row.updated_at.strftime(DATE_FORM) %></td>
+  <td><%= report_requests_row.embargo_until.strftime(DATE_FORM) unless report_requests_row.embargo_until.nil? %>
+  <td><%= report_requests_row.expiration_date.strftime(DATE_FORM) unless report_requests_row.expiration_date.nil? %></td>
+  <td><%= report_requests_row.receive_date.strftime(DATE_FORM) unless report_requests_row.receive_date.nil? %></td>
+
+  <% if(report_requests_row.status == "c") %>
+    <td>Completed</td>
+  <% elsif(report_requests_row.status == "f") %>
+    <td>Failed</td>
+  <% elsif(report_requests_row.status == "p") %>
+    <td>Pending</td>
+  <% elsif(report_requests_row.status == "x") %>
+    <td>Expired</td>
+  <% else %>
+    <td></td>
+  <% end %>
+</tr>

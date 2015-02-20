@@ -1,0 +1,33 @@
+<% @page_title = "SAMC - Task Details" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+		<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+		<td>&raquo;</td>
+		<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => CS_REP_ACTIVITY_CODE, :on_target => nil}) %>
+		</td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Task: <%= @task.id %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title" style="margin-bottom: 30px;">Task: <%= @task.id %></h2>
+	<span class="super_caption">Task Details</span>
+</div>
+<%= render(:partial => "task_info", :object => @task) %>
+
+<div class="table_header">
+	<span class="super_caption">Task Events</span>
+</div>
+<table class="data_table">
+	<tr>
+		<th>Task Event ID</th>
+		<th>Source User</th>
+		<th>Target User</th>
+		<th>Created At..</th>
+		<th>Action</th>
+		<th>Comment</th>
+	</tr>
+	<%= render(:partial => "task_event", :collection => @task_events) %>
+</table>

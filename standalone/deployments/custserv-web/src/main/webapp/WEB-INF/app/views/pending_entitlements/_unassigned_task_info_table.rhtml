@@ -1,0 +1,42 @@
+<table id="serverview" class="view" cellspacing="0" style="width: 100%; margin-top:5px;">
+    <thead>
+        <tr class="parent">
+            <td>Unassigned</td>
+        </tr>
+    </thead>
+</table>
+<table id="serverlisthead" cellspacing="0" style="width:100%;">
+    <thead>
+        <tr>
+            <td style="width:5%;">Task ID</td>
+            <td style="width:11%;">
+                <% if (sort_order == "product") %>
+                <%= link_to(PRODUCT_TERM, unassigned_pending_entitlements_path(:sort => "product_desc")) %>&nbsp;<%= image_tag("sort_up.gif") %>
+                <% else %>
+                <%= link_to(PRODUCT_TERM, unassigned_pending_entitlements_path(:sort => "product")) %>&nbsp;<%= image_tag("sort_down.gif") if (sort_order == "product_desc") %>
+                <% end %>
+            </td>
+            <td style="width:8%;">
+                <% if (sort_order == "priority_desc") %>
+                <%= link_to("Priority", unassigned_pending_entitlements_path(:sort => "priority")) %>&nbsp;<%= image_tag("sort_down.gif") %>
+                <% else %>
+                <%= link_to("Priority", unassigned_pending_entitlements_path(:sort => "priority_desc")) %>&nbsp;<%= image_tag("sort_up.gif") if (sort_order == "priority") %>
+                <% end %>
+            </td>
+            <td style="width:13%;">Order</td>
+            <td style="width:13%;">Invoice</td>
+            <td style="width:8%;">
+                <% if (sort_order == "task_date_desc") %>
+                <%= link_to("Task Date", unassigned_pending_entitlements_path(:sort => "task_date")) %>&nbsp;<%= image_tag("sort_down.gif") %>
+                <% else %>
+                <%= link_to("Task Date", unassigned_pending_entitlements_path(:sort => "task_date_desc")) %>&nbsp;<%= image_tag("sort_up.gif") if (sort_order == "task_date") %>
+                <% end %>
+            </td>
+            <!--<td style="width:10%;">Reason</td>-->
+            <td style="width:13%;">Bill-To Info</td>
+            <td style="width:13%;">Ship-To Info</td>
+            <td style="width:13%;">Action</td>
+        </tr>
+    </thead>
+</table>
+<%= render(:partial => "unassigned_task_summary", :collection => @paginated_packages, :locals => {:task_orgs_hash => task_orgs_hash, :entitlement_counts_hash => entitlement_counts_hash}) %>

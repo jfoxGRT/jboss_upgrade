@@ -1,0 +1,96 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Option</th>
+			<th style="width: 55%;">Calculation</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>A</td>
+			<td>Unallocated Count:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.unallocated_count %></td>
+		</tr>
+		<tr>
+			<td>B</td>
+			<td>Unregistered Count:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.unregistered_count %></td>
+		</tr>
+		<tr>
+			<td>C</td>
+			<td>Enrollment Count on this Server:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.enrolled_on_server %></td>
+		</tr>
+		<tr>
+			<td>D</td>
+			<td>Not Enrolled Count on this Server:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.not_enrolled_on_server %></td>
+		</tr>
+		<tr>
+			<td>E</td>
+			<td>Allocated Count on this Server:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.allocated_on_server %></td>
+		</tr>
+		<tr>
+			<td>F</td>
+			<td>Total Active Hosted Subscriptions:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.total_active_hosted_subscriptions %></td>
+		</tr>
+		<tr>
+			<td>G</td>
+			<td>Allocated on Local Servers:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.allocated_on_local_servers %></td>
+		</tr>
+		<tr>
+			<td>H</td>
+			<td>Allocated on Hosted Servers:</td>
+			<td>&nbsp;</td>
+			<td><%= license_allocation_options.allocated_on_hosted_servers %></td>
+		</tr>
+		<tr>
+			<td>I</td>
+			<td>Maximum Count Allowed on Local Servers:</td>
+			<td><span style="font-style: italic;">Total sum of licenses from entitlements with no subscription period</span></td>
+			<td><%= license_allocation_options.max_allowed_on_local_servers %></td>
+		</tr>
+		<tr>
+			<td>J</td>
+			<td>Maximum Count Allowed on Hosted Servers:</td>
+			<td><span style="font-style: italic;">By referencing entitlements, sum of the total number of active Hosted subscriptions covering this product plus the total number of active subscription licenses for this product</span></td>
+			<td><%= license_allocation_options.max_allowed_on_hosted_servers %></td>
+		</tr>
+		<tr>
+			<td>K</td>
+			<td>Maximum Count Allowed on this Server via Subscription Info:</td>
+			<td>M + E</td>
+			<td><%= license_allocation_options.max_allowed_via_subscription_info %></td>
+		</tr>
+		<tr>
+			<td>L</td>
+			<td>Maximum Count Allowed on this Server via Unallocated:</td>
+			<td>A + E</td>
+			<td><%= license_allocation_options.max_allowed_from_unallocated_via_available_seats %></td>
+		</tr>
+		<tr>
+			<td>M</td>
+			<td>Maximum Count Available for Allocation via Subscription Info:</td>
+			<td>If Hosted, (J - N); otherwise (I - G)</td>
+			<td><%= license_allocation_options.max_allocatable_via_subscription_info %></td>
+		</tr>
+		<tr>
+			<td>N</td>
+			<td><%= PRODUCT_TERM %> Hosted Set Allocated on Hosted Servers</td>
+			<td><span style="font-style: italic;">Sum of license counts on hosted servers for all products covered by the hosted service of this product</span></td>
+			<td><%= license_allocation_options.product_group_allocated_on_hosted_servers %></td>
+	</tbody>
+</table>
+			

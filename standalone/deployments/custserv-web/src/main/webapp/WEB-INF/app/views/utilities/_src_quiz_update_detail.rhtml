@@ -1,0 +1,9 @@
+<tr>
+	<td>&nbsp;<%= src_quiz_update_detail.cust_name %></td>
+    <td>&nbsp;<%= (src_quiz_update_detail.cust_id.nil?) ? "" : link_to(src_quiz_update_detail.cust_id, sam_customer_path(src_quiz_update_detail.cust_id)) %></td>  
+    <td>&nbsp;<%= src_quiz_update_detail.ucn %></td>
+    <td>&nbsp;<%= src_quiz_update_detail.server_name %></td>    
+    <td>&nbsp;<%= (src_quiz_update_detail.cust_id.nil? || src_quiz_update_detail.server_id.nil?) ? "" : link_to(src_quiz_update_detail.server_id, sam_customer_sam_server_path(src_quiz_update_detail.cust_id, src_quiz_update_detail.server_id)) %></td>  
+    <td>&nbsp;<%= src_quiz_update_detail["last_applied_at"] %></td>
+    <td>&nbsp;<%= src_quiz_update_detail["last_applied_quiz"] %></td>   
+</tr>

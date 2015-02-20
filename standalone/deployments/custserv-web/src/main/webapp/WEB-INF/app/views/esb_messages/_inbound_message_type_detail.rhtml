@@ -1,0 +1,12 @@
+<tr>
+    <td><%= link_to(inbound_message_type_detail.id, :controller => :esb_message, :action => :message_detail, :id => inbound_message_type_detail.id) %></td>
+	<td><%= inbound_message_type_detail.message_class %></td>
+    <td><%= (inbound_message_type_detail.corpid_value.nil?) ? "-" : inbound_message_type_detail.corpid_value %></td>
+    <td><%= (inbound_message_type_detail.received.nil?) ? "-" : inbound_message_type_detail.received.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+    <td><%= (inbound_message_type_detail.parsed.nil?) ? "-" : inbound_message_type_detail.parsed.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+    <td><%= (inbound_message_type_detail.handled.nil?) ? "-" : inbound_message_type_detail.handled.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+    <td><%= (inbound_message_type_detail.parsed.nil?) ? "-" : (inbound_message_type_detail.parsed - inbound_message_type_detail.received) %></td>
+    <td><%= (inbound_message_type_detail.handled.nil?) ? "-" : (inbound_message_type_detail.handled - inbound_message_type_detail.parsed) %></td>
+    <td><%= (inbound_message_type_detail.ignored.nil?) ? "-" : inbound_message_type_detail.ignored.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+    <td><%= (inbound_message_type_detail.exception_class.nil?) ? "-" : inbound_message_type_detail.exception_class %></td>
+</tr>

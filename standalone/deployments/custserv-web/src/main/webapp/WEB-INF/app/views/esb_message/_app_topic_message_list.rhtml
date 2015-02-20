@@ -1,0 +1,6 @@
+<tr>
+    <td style="text-align: left;"><%= link_to(message_type[0].clazz, {:action => :app_topic_message_class, :message_type => message_type[0].clazz,
+                                                                      :message_time => message_time}, {:target => "_new"}) %></td>
+    <td><%= message_type.length.to_s %></td>
+    <td><%= (message_type[0].timestamp.nil?) ? "-" : (message_type.max{|a,b| a.timestamp.to_f <=> b.timestamp.to_f}).timestamp.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+</tr>

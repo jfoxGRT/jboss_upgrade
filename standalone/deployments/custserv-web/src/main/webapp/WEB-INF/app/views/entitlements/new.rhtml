@@ -1,0 +1,40 @@
+<% @page_title = "SAMC - Create Virtual Entitlement" %>
+
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+		<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+		<td>&raquo;</td>
+		<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => ENTITLEMENTS_CODE, :on_target => nil}) %></td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Create Virtual Entitlement</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Create Virtual Entitlement</h2>
+</div>
+<%= error_messages_for :entitlement %>
+<% form_for(:entitlement, :url => sam_customer_entitlements_path(@sam_customer), :html => {:method => :post, :onsubmit => "showStatus(); Form.Element.disable('submit_tag')"}) do |f| -%>
+
+  	<table class="form_table">
+  		<tr>
+  			<td class="label_cell"><%= PRODUCT_TERM %>:</td>
+			<td class="field_cell"><%= f.select(:product_id, @product_list) %></td>
+  		</tr>
+		<tr>
+			<td class="label_cell">License Count:</td>
+			<td class="field_cell"><%= f.text_field(:license_count, :size => 5) %></td>
+		</tr>
+		<tr>
+			<td class="label_cell">Annotation:</td>
+			<td class="field_cell"><%= text_area_tag(:annotation, @annotation, :cols => 30, :rows => 6) %></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;"><%= submit_tag("Create Virtual Entitlement", :id => "submit_tag", :onclick => "return confirm('Please review your changes.  Are you sure you wish to continue?')") %></td>
+		</tr>
+  	</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

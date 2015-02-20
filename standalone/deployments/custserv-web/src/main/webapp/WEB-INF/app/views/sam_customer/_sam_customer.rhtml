@@ -1,0 +1,6 @@
+<tr>
+    <td class="account_id" style="text-align: left;"><%= sam_customer.id %></td>
+    <td class="account_name" style="text-align: left;"><%= link_to(sam_customer.root_org.name.strip.upcase, :action => "sam_customer_details", :id => sam_customer.id) %></td>
+    <td class="account_ucn"><%= sam_customer.root_org.customer.ucn %></td>
+    <td class="date_created" style="text-align: center;"><%= (sam_customer.registration_date.nil?) ? "-" : sam_customer.registration_date.strftime(fmt='%x') %></td>
+</tr>

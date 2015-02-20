@@ -1,0 +1,38 @@
+<div class="table_header">	
+<table id="audit_history_tables" style="width: 98%; text-align: center; margin-left: auto; margin-right: auto;">
+	<tr>
+		<td style="text-align: center;">
+			<h4>Entitlement Event History</h4>
+			<table class="data_table">
+				<thead>
+					<tr>
+						<th>Message ID</th>
+						<th>Date Updated</th>
+						<th>Info</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%= render(:partial => "entitlement_change", :collection => entitlement_events) %>
+				</tbody>
+			</table>
+		</td>
+		<td style="text-align: center;">
+			<h4>Seat Pool Count History</h4>
+			<table class="data_table">
+				<thead>
+					<tr>
+						<th>Message ID</th>
+						<th>Date Created</th>
+						<th>SAM Server</th>
+						<th>Seat Count</th>
+						<th>Action</th>
+						<th>Reference ESB Message</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%= render(:partial => "/seat_pools/seat_pool_count_message", :collection => @seat_pool_msgs, :locals => {:all_seat_pools => true}) %>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+</table>

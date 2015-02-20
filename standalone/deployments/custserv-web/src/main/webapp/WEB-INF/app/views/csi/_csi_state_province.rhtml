@@ -1,0 +1,24 @@
+<table class="data_table">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("statename")%>>
+                <%= sort_link_helper("State", "statename", update_element, "update_org_hierarchy_states_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("countryname")%>>
+                <%= sort_link_helper("Country", "countryname", update_element, "update_org_hierarchy_states_table", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("num_sam_customers")%>>
+                <%= sort_link_helper("Number of SAM Customers", "num_sam_customers", update_element, "update_org_hierarchy_states_table", status_indicator)%>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "state", :collection => state_province_collection) %>
+    </tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(state_province_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_org_hierarchy_states_table") %>
+</p>

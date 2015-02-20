@@ -1,0 +1,133 @@
+<% phone_num = @org.telephone_number %>
+<div id="basicModalContent" style='display:none;margin:0px;padding=0px;'>
+    <table id="serverview" class="view" cellspacing="0" style="width:100%;margin:0px;padding:0px;">
+        <thead>
+            <tr class="parent">
+                <td style="background:#CC6600;"> Organization Information for: </td>
+            </tr>
+        </thead>
+    </table>
+    <table style='width:100%;text-align: left; margin-bottom: 30px;border-bottom:none;'>
+        <thead>
+            <tr>
+                <td style='text-align: left; font-weight: bold;width:35%;border-right:1px solid #e1e1e1;' colspan=3>
+                    <%= @org.name %>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style='text-align: center;width:40%;border-right:1px solid #e1e1e1;' rowspan=10>
+                    <table style='width:96%;text-align: left; margin-bottom: 30px;border-bottom:none;'>
+                        <tr>
+                            <td style='text-align: left; font-size:11px;font-weight: bold;width:80%;'>Children:</td>
+                            <td style='text-align: left;font-size:11px;font-weight:normal; width:20%;'><%= @org.number_of_children %></td>
+                        </tr>
+                        <tr>
+                            <td style='text-align: left; font-size:11px;font-weight: bold;'>Entitlements billed to Org.:</td>
+                            <td style='text-align: left;font-size:11px;font-weight:normal;'><%= @number_billed_to %></td>
+                        </tr>
+                        <tr>
+                            <td style='text-align: left;font-size:11px; font-weight: bold;'>Entitlements shipped to Org.:</td>
+                            <td style='text-align: left;font-size:11px; font-weight:normal; '><%= @number_shipped_to %></td>
+                        </tr>
+						<tr>
+							<td style='text-align: left; font-size: 11px; font-weight: bold;'>Entitlements assigned to Org.:</td>
+							<td style='text-align: left; font-size: 11px; font-weight:normal;'><%= @number_assigned_to %></td>
+						</tr>
+						<tr>
+							<td style='text-align: left; font-size: 11px; font-weight: bold; vertical-align: middle;'>Top-Level Org?:</td>
+							<td style='text-align: left; font-size: 11px; font-weight:normal;'>
+								<% if (@org.top_level_org_id.to_i == 3) %>
+									<%= image_tag("choice-yes.gif") %>
+								<% else %>
+									<%= image_tag("choice-no.gif") %>
+								<% end %>
+							</td>
+						</tr>
+						<tr>
+							<td style='text-align: left; font-size: 11px; font-weight: bold;'>Number of Children Orgs:</td>
+							<td style='text-align: left; font-size: 11px; font-weight:normal;'><%= @org.number_of_children %></td>
+						</tr>
+                    </table>
+                </td>
+                <td style='text-align: left; font-weight: bold;width:20%;'>Customer ID:</td>
+                <td style='text-align: left;width:30%;'><%= @org.id %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Org ID:</td>
+                <td style='text-align: left;'><%= @org.org_id %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>UCN:</td>
+                <td style='text-align: left;'><%= @org.ucn %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Address:</td>
+                <td style='text-align: left;'><%= @org.address_line_1 %>
+                    <br>
+                    <%= @org.city_name %>
+                    <br>
+                    <%= @org.state_name %>, <%= @org.postal_code %>
+                    <br>  </td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Phone Number:</td>
+                <td style='text-align: left;'><%= "(#{phone_num.slice(0,3)})#{phone_num.slice(3,3)}-#{phone_num.slice(6,4)}" if (phone_num) %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Group:</td>
+                <td style='text-align: left;'><%= @org.group_description %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Type:</td>
+                <td style='text-align: left;'><%= @org.type_description %></td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;vertical-align:top;border-bottom:0px;' colspan=2>SAM Status:</td>
+            </tr>
+            <tr>
+                <td style='text-align: left;vertical-align:top;'>
+                    <div class='status_div'>
+                        <span class='status_span'> SAM EE</span>
+						<% if (@org.sam_customer_id) %>
+							<%= image_tag("y.gif", :border => 0, :align => "right") %>
+						<% else %>
+							<%= image_tag("x.gif", :border => 0, :align => "right") %>
+						<% end %>
+					</div>
+                    <div class='status_div'>
+                        <span class='status_span'> Registered</span>
+						<% if (@org.registration_date) %>
+							<%= image_tag("y.gif", :border => 0, :align => "right") %>
+						<% else %>
+							<%= image_tag("x.gif", :border => 0, :align => "right") %>
+						<% end %></div>
+                </td>
+                <td style='text-align: left;vertical-align:top;'>
+                    <div class='status_div'>
+                        <span class='status_span'> Lic. Mgr.</span>
+						<% if (@org.sc_licensing_activated) %>
+							<%= image_tag("y.gif", :border => 0, :align => "right") %>
+						<% else %>
+							<%= image_tag("x.gif", :border => 0, :align => "right") %>
+						<% end %></div>
+                    <div class='status_div'>
+                        <span class='status_span'> Suprt. Plan:</span>
+                        <% if (@support_plan) %>
+							<%= image_tag("y.gif", :border => 0, :align => "right") %>
+						<% else %>
+							<%= image_tag("x.gif", :border => 0, :align => "right") %>
+						<% end %></div>
+                </td>
+            </tr>
+            <tr>
+                <td style='text-align: left; font-weight: bold;'>Added Date:</td>
+                <td style='text-align: left;'><%= @org.customer_added_date.strftime(DATE_FORM) %></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class='buttons'>
+        <div class='no modalClose' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Close</div>
+    </div>
+</div>

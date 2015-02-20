@@ -1,0 +1,53 @@
+<%  @page_title = "SAMC - Orgs" %>
+<div class="table_header">
+	<h2 class="table_title">Organizations By Bracket</h2>
+</div>
+<table cellspacing="0" style="width: 95%; margin-right: auto; margin-left: auto;">
+    <tr>
+        <td style="width: 33%; text-align: center; vertical-align: top;">
+            <div class="table_header">
+				<span class="super_caption">Large Districts</span>
+	            <div class="cs_loading_indicator_container">&nbsp;
+	            	<%= generateAjaxIndicator("large_org_loading_indicator") %>
+				</div>
+			</div>
+            <div id="large_org_table">
+            <%= render(:partial => "org_bracket", 
+                       :locals => {:tlo_collection => @large_tops,
+                                   :status_indicator => "large_org_loading_indicator",
+                                   :update_element => "large_org_table",
+                                   :update_action => "update_large_org_table"} )%>
+            </div>        
+        </td>
+        <td style="width: 33%; text-align: center; vertical-align: top;">
+			<div class="table_header">
+            	<span class="super_caption">Mid-Size Districts</span>
+            	<div class="cs_loading_indicator_container">&nbsp;
+            		<%= generateAjaxIndicator("mid_org_loading_indicator") %>
+				</div>
+			</div>
+            <div id="mid_org_table">
+            <%= render(:partial => "org_bracket", 
+                       :locals => {:tlo_collection => @mid_tops,
+                                   :status_indicator => "mid_org_loading_indicator",
+                                   :update_element => "mid_org_table",
+                                   :update_action => "update_mid_org_table"} )%>
+            </div>
+        </td>
+        <td style="width: 33%; text-align: center; vertical-align: top;">
+			<div class="table_header">
+            	<span class="super_caption">Small Districts</span>
+            	<div class="cs_loading_indicator_container">&nbsp;
+            		<%= generateAjaxIndicator("small_org_loading_indicator") %>
+				</div>
+			</div>
+            <div id="small_org_table">
+            <%= render(:partial => "org_bracket", 
+                :locals => {:tlo_collection => @small_tops,
+                            :status_indicator => "small_org_loading_indicator",
+                            :update_element => "small_org_table",
+                            :update_action => "update_small_org_table"} )%>
+            </div>
+        </td>
+    </tr>
+</table>

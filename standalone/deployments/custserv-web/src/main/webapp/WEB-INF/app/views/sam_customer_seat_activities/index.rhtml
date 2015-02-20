@@ -1,0 +1,28 @@
+<% @page_title = "SAMC - Seat Activity" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Seat Activity</h2>
+<% if(@seat_activities.empty?) %>
+<div align="center">No seat activity</div>
+<% else %>
+<div class="cs_loading_indicator_container">&nbsp;
+<%= generateAjaxIndicator("seat_activity_loading_indicator") %>
+</div>
+</div>
+<div id="seat_activity_table">
+<%= render(:partial => "seat_pools/seat_activity_table", :locals => {:seat_activity_collection => @seat_activities,
+                                                            :status_indicator => "seat_activity_loading_indicator",
+															:sam_server => nil,
+                                                            :update_element => "seat_activity_table",
+															:sam_customer_id => @sam_customer.id,
+															:show_subcommunity => true}) %>
+</div>
+<% end %>

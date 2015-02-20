@@ -1,0 +1,3 @@
+<div align="center">Please contact a System Administrator to create the appropriate DB records.  After the administrator has given approval, click 'Close Alert'.</div>
+ <div align="center"><%= button_to("Close Alert", {:action => :close_unrecognized_tms_item, :alert_instance_id => @chosen_alert_instance.id}) %>&nbsp;
+ <%= button_to("Cancel", {:action => :cancel_unrecognized_tms_item, :alert_instance_id => @chosen_alert_instance.id}) %></div>

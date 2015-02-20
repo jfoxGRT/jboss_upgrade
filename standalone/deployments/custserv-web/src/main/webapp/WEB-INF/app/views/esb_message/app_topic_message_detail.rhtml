@@ -1,0 +1,20 @@
+<h3><%= @message.clazz %></h3>
+<table class="data_table">
+    <tbody>
+        <%= render(:partial => "app_topic_message_field", :object => @message)%>
+    </tbody>    
+</table>
+<h4>Message Properties</h4>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Property ID</th>
+            <th>Property Name</th>
+            <th>Property Value</th>
+            <th>Additional Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "app_topic_message_prop", :collection => @message_props) %>
+    </tbody>
+</table>

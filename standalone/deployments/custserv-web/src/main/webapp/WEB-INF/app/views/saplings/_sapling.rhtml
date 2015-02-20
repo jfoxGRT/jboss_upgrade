@@ -1,0 +1,46 @@
+<tr class="<%= (sapling.state == 'p') ? 'table_row_active' : '' %>" id="sapling_<%= sapling.id %>">
+  <td><%= sapling.id %></td>
+  <td><%= sapling.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+  <!--
+  <td><%= sapling.updated_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+  <td><%= (sapling.published_at.nil?) ? "-" : sapling.published_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+  -->
+  <td><%= sapling.sapling_code %></td>
+  <td><%= sapling.sapling_type %></td>
+  <td><%= sapling.version %></td>
+  <td><%= sapling.os_family %></td>
+  <td><%= sapling.os_series %></td>
+  <td><%= sapling.cpu_type %></td>
+  <td><%= sapling.cpu_bits %></td>
+  <td><%= translate_sapling_state(sapling.state) %></td>
+  <td><%= sapling.auto_target %></td>
+  <% if sapling.isPlugin %>
+      <% if current_user.isAdminType %>
+          <td style="text-align: left;">&nbsp;
+          	<%= link_to("edit..", edit_sapling_path(sapling)) %><br/>&nbsp;
+          	<%= link_to("delete..", sapling_path(sapling), {:method => :delete, :confirm => "Deleting a sapling is irreversible.  Do you wish to continue?"}) %>
+          </td>
+      <%else%>
+        <td></td>
+      <%end%>
+  <%else%>
+  <td style="text-align: left;">&nbsp;
+    <%= link_to("edit..", edit_sapling_path(sapling)) %><br/>&nbsp;
+      <%= link_to("target..", :action => :target_sapling, :id => sapling.id)%><br>&nbsp;
+    <%= link_to("delete..", sapling_path(sapling), {:method => :delete, :confirm => "Deleting a sapling is irreversible.  Do you wish to continue?"}) %>
+  </td>
+  <%end%>
+  <td><%= link_to("show meta data..", sapling_path(sapling), {:target => "_blank"}) %></td>
+  <!-- Removing publish button
+  <% if(sapling.state != 'p') %>
+  <% button_text = "Publish" %>
+  <% else %>
+  <% button_text = "Unpublish" %>
+  <% end %>
+  <td>&nbsp;<%= button_to_remote("#{button_text}", {:condition => "confirm('Are you sure you wish to publish this sapling?')",
+									:before => "$('#{status_indicator}').show(); $$('input.publish_button').each(Form.Element.disable);", 
+									:complete => "$('#{status_indicator}').hide(); $$('input.publish_button').each(Form.Element.enable);",
+									:url => {:action => :update_sapling_row, :id => sapling.id}},
+									{:class => "publish_button"}) %></td>
+  -->
+ </tr>

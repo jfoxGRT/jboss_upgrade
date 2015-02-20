@@ -1,0 +1,3 @@
+page[:flash_message].replace_html(@flash_msg)
+page[:sam_customer_count].replace_html(:partial => "sam_customer_count", :locals => {:sam_customer_count => @sam_customer_count, :state_name => @state_province.name})
+page.remove("sam_customer_" + @sam_customer.id.to_s) if @success

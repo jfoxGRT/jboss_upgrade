@@ -1,0 +1,12 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th><%= SAM_CUSTOMER_TERM %> Name</th>
+			<th>UCN</th>
+			<th>Number of Disabled Auth Users</th>
+		</tr>
+	</thead>
+	<tbody class="standard_link_style">
+		<%= render :partial => "am_data_disabled_auth_user", :collection => disabled_auth_users %>
+	</tbody>
+</table>

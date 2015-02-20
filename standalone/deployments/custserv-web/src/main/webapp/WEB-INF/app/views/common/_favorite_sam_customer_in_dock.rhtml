@@ -1,0 +1,17 @@
+<tr>
+	<td style="width: 60%; text-align: left;">
+		<ul class="nav">
+			<li class="quickpick_item"><%= link_to(favorite_sam_customer_in_dock.name, sam_customer_path(favorite_sam_customer_in_dock.id)) %> &raquo;
+				<ul>
+					<%= render(:partial => "common/sam_customer_breadcrumb_level_rootnav", 
+								:locals => {:sam_customer_id => favorite_sam_customer_in_dock.id,
+											:site_area_code => nil}) %>
+				</ul>
+			</li>
+		</ul>
+		<div style="font-style: italic; padding-top: 4px; padding-left: 20px;">(<%= favorite_sam_customer_in_dock.ucn %>)</div>
+	</td>
+	<td style="text-align: center;">
+		<%= favorite_sam_customer_in_dock.code %>
+	</td>
+</tr>

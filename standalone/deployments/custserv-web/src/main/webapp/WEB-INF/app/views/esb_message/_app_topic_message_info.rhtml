@@ -1,0 +1,14 @@
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Message Class</th>
+            <th>Number of Messages</th>
+            <th>Time Last Message Sent</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% app_topic_message_hash.each_pair do |k,v| %>
+        <%= render(:partial => "app_topic_message_list", :locals => {:message_type => v, :message_time => message_time})%>
+        <% end %>
+    </tbody>
+</table>

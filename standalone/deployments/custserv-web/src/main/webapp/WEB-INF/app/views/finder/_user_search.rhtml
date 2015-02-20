@@ -1,0 +1,84 @@
+	<% form_for(:org, :url => search_users_path, :html => {:method => :get, :name => "user_form", :onsubmit => 
+				'ew = popUp(""); document.org_form.target = ew.name; document.user_form.submit(); return false;'}) do |f| -%>
+		<table style="width:100%;">
+			<tr>
+				<td colspan="2" style="text-align: left;"><h2><%= CUSTOMER_USERS_TERM %> Search</h2></td>
+			</tr>
+			<tr>
+				<td class="label_cell" style="width:25%;">
+					<label for="first_name">First Name</label>
+				</td>
+				<td class="field_cell" style="width:75%;">
+					<%= f.text_field(:first_name, {:id => "first_name"}) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="last_name">Last Name</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:last_name) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="email">Email</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:email) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="phone">Phone Number</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:phone) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="sam_customer_id"><%= SAM_CUSTOMER_TERM %> ID</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:sam_customer_id) %>
+				</td>				
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="created_at_start_date_field">Created between</label>
+				</td>
+				<td class="field_cell">
+					<!--<input id="date1" class="date-pick" name="created_at_start_date" size="20" type="text" />-->
+					<%= f.text_field(:created_at_start_date, :name => "created_at_start_date", :id => "date1", :class => "date-pick", :size => "20") %>
+					&nbsp;
+					<%= f.select(:created_at_start_time, TIME_BY_HALF_HOURS) %>
+					&nbsp;<span style="font-weight: bold; text-align: center;">-and-</span>
+					<%= f.text_field(:created_at_end_date, :name => "created_at_end_date", :id => "date2", :class => "date-pick", :size => "20") %>
+					&nbsp;
+					<%= f.select(:created_at_end_time, TIME_BY_HALF_HOURS, :selected => "23:30:00") %>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="registered_at_start_date_field">Registered between</label>
+				</td>
+				<td class="field_cell">
+					<!--<input id="date1" class="date-pick" name="registered_at_start_date" size="20" type="text" />-->
+					<%= f.text_field(:registered_at_start_date, :name => "registered_at_start_date", :id => "date1", :class => "date-pick", :size => "20") %>
+					&nbsp;
+					<%= f.select(:registered_at_start_time, TIME_BY_HALF_HOURS) %>
+					&nbsp;<span style="font-weight: bold; text-align: center;">-and-</span>
+					<%= f.text_field(:registered_at_end_date, :name => "registered_at_end_date", :id => "date2", :class => "date-pick", :size => "20") %>
+					&nbsp;
+					<%= f.select(:registered_at_end_time, TIME_BY_HALF_HOURS, :selected => "23:30:00") %>
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><%= submit_tag("Search") %></td>
+			</tr>
+		</table>
+	<% end %>

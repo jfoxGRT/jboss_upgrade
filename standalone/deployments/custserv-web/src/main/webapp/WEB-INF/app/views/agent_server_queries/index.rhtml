@@ -1,0 +1,117 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/jquery_shared_utilities.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js"></script>
+<%= javascript_include_tag "jquery/datatables/plugins/jquery.dataTables.editable.min.js" %>
+
+<script type="application/javascript">
+jQuery(document).ready(function() {
+	var productsTable = jQuery('#products_table').dataTable({
+        "bPaginate": false,
+        "aaSorting": [[3, "asc"]],
+        "oLanguage": {
+             "sZeroRecords": "No products match the filter criteria."
+        },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+          "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+          "aButtons": [
+            {
+              "sExtends": "copy",
+              "fnCellRender": function(sValue, iColumn, nTr, iDataIndex){
+                return getCleanedText(sValue);
+              }
+            },
+            {
+              "sExtends": "csv",
+              "fnCellRender": function(sValue, iColumn, nTr, iDataIndex){
+                return getCleanedText(sValue);
+              }
+            },
+            {
+              "sExtends": "xls",
+              "sFileName": "*.xls",
+              "sButtonText": "XLS",
+              "fnCellRender": function(sValue, iColumn, nTr, iDataIndex){
+                return getCleanedText(sValue);
+              }
+            },
+            {
+    					"sExtends": "pdf",
+    					"sPdfOrientation": "landscape",
+              "fnCellRender": function(sValue, iColumn, nTr, iDataIndex){
+                return getCleanedText(sValue);
+              }
+    				},
+            "print"
+    		]
+  		}
+    })
+    
+    <% if current_user.isAdminType %>
+	    productsTable.makeEditable({
+	    	sUpdateURL: "agent_server_queries/update/1",
+	       	"aoColumns": [
+	       		null,
+	       		null,
+	       		null,
+	       		null,
+	       		null,
+	       		null,
+	       		null,
+	       		null,
+	       		{
+	       			id: 'product_id',
+	       			method: "PUT",
+	       			tooltip: 'click to change',
+	       			indicator: '<img src="images/indicator_smallwaitanim.gif">',
+	       			event: 'click',
+	       			onblur: 'cancel',
+					type: 'select',
+					data: "{'a':'All Users','s':'Scholastic Only'}",
+					submit: 'Save'
+	       		}
+	       	]
+	    });
+    <% end %>
+} );
+</script>
+
+<% @page_title = "SAMC - Reference Data" %>
+<div class="table_header">
+  <h2 align="center">Product Reference Data</h2>
+</div>
+<table id="products_table" class="data_table filterable_table">
+  <thead>
+  	<tr class="data_table_first_row">
+  		<th>Internal SAMC Product ID</th>
+  		<th>Subcommunity ID</th>
+  		<th>Product ID Value</th>
+  		<th>Product Name</th>
+  		<th>SAM Server Product?</th>
+  		<th>Product Group ID</th>
+  		<th>Product Group Code</th>
+  		<th>Product Group Description</th>
+  		<th>Visibility Level</th>
+  	</tr>
+  </thead>
+  <tbody>
+	  <%= render(:partial => "product_row", :collection => @products) %>
+  </tbody>
+</table>
+<br>
+<div class="table_header">
+  <h2 align="center">Task Type Information</h2>
+</div>
+<table class="data_table">
+	<tr>
+		<th>Task Type ID</th>
+		<th>Code</th>
+		<th>Description</th>
+		<th>User Type</th>
+		<th>Priority</th>
+	</tr>
+	<%= render(:partial => "task_type_row", :collection => @task_types) %>
+</table>

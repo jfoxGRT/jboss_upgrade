@@ -1,0 +1,24 @@
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>SAM Server User ID</th>
+			<th>Type</th>
+			<th>Created</th>
+			<th>Updated</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+			<th>Username</th>
+			<% if @current_user.hasPermission?(Permission.show_auth_password) %>
+			  <th>Password</th>
+			<% end %>
+		  <th>SAM Server Name</th>
+			<th>Enabled</th>
+      <th>District User ID</th>
+          <th>Clever ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "/auth_users/auth_user_ssu", :collection => sam_server_users, :locals => {:sam_customer => sam_customer }) %>
+	</tbody>
+</table>

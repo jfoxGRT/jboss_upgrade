@@ -1,0 +1,21 @@
+<% @page_title = "SAMC - #{@sam_customer.name}" %>
+<h2 style="margin-bottom: 10px;"><div align="center">
+<table style="margin: 15px 0 10px 0;">
+	<tr>
+		<td class="breadcrumb_cell"><%= @sam_customer.name %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">Seat Pool Index</td>
+	</tr>
+</table>
+</div></h2>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Subcommunity Name</th>
+			<th>Total Licenses Across Pools</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "seat_pool_counts", :collection => @license_counts_by_subcommunity, :locals => {:sam_customer => @sam_customer}) %>
+	</tbody>
+</table>

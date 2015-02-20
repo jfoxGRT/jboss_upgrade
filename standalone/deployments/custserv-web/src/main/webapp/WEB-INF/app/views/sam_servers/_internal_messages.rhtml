@@ -1,0 +1,20 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>Created At</th>
+			<th>Message Class</th>
+			<th style="width: 5%;">Event Type</th>
+			<th style="width: 5%;">Token</th>
+			<th>Reason</th>
+			<th><%= SAM_CUSTOMER_TERM %> ID</th>
+			<th>Parameters / Values</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% audit_message_data.each do |key, value| %>
+			<% if !value.empty? %>
+				<%= render(:partial => "internal_message", :object => value) %>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

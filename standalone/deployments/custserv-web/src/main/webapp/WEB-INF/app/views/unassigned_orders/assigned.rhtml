@@ -1,0 +1,31 @@
+<% @page_title = "SAMC - Assigned Tasks" %>
+<!-- start of table insert test -->
+<h1>Orders Without Owner</h1>
+<a href="#" onClick='showSearch();'>Search</a>
+<%= render(:partial => "search_panel") %>
+<div id="all-servers-table"  >
+<!-- start of  Orders table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px; width: 100%;">
+		<thead>
+        	<tr class="parent"  >
+          		<td style="background:#99A36B;">In Process</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" style="width: 100%;">
+		<thead>
+			<tr>
+				<td>Order #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+				<td>Invoice #<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+				<td>Task Date<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+				<td>Assigned To<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+   		      	<td>Assigned On<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+   		      	<td>Reason<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+             	<td>B/T Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+	            <td>S/T Info<%= image_tag("sort_down_off.gif", :width => 9, :height => 9, :hspace => 0, :vspace => 0, :border => 0) %></td>
+             	<td>Action</td>
+        	</tr>
+      	</thead>
+    </table>
+	<%= render(:partial => "assigned_task_summary", :collection => @task_packages) %>
+</div>

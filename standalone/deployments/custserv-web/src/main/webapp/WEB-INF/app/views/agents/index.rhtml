@@ -1,0 +1,12 @@
+<% @page_title = "SAMC - Anonymous Agents" %>
+<h3 align="center" style="margin-top: 30px;">Anonymous Agents</h3>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+<%= generateAjaxIndicator("anonymous_agent_status_indicator") %></div>
+<div>
+	<%= "<b>#{@anonymous_agents.total_entries} Total Anonymous Agents</b><br/><br/>" %>
+	<div id="anonymous_agent_table">
+		<%= render(:partial => "anonymous_agent_info", :locals => {:agent_collection => @anonymous_agents,
+		                                                           :status_indicator => "anonymous_agent_status_indicator",
+		                                                           :update_element => "anonymous_agent_table"}) %>
+	</div>
+</div>

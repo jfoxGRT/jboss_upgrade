@@ -1,0 +1,16 @@
+<%= render(:partial => "sam_customer_assign_nav", :object => @chosen_alert_instance) %>
+<div id="org_panel" style="padding-top: 30px;">
+    <table id="alert_breadcrumb" border="0" cellspacing="0" cellpadding="0" style="vertical-align: middle;" align="center">
+        <tr>
+            <td>TOP-LEVEL ORGANIZATIONS</td>
+        </tr>
+    </table>
+    <% form_tag({:action => :assign_sam_customer_rootorg}, {:name => "alert_form", :onsubmit => "return showSubmitStatus();"}) do %>
+    <%= hidden_field_tag("selected_alert", @chosen_alert_instance.id) %>
+    <%= render(:partial => "org_info", :locals => {:org_list => @topLevelOrgList, :org_name => "TOP-LEVEL ORGANIZATIONS"}) %>
+    <div id="alert_submit_button" align="center" style="padding-top: 30px;">
+    <%= submit_tag("Assign Selected Org", {:class => "submit"}) %>
+    </div>
+    <% end %>
+    <div id="submit_indicator" align="center" style="padding-top: 10px; color: red; display: none;">Please wait..</div>
+</div>

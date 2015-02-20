@@ -1,0 +1,12 @@
+<div id="cs_nav_links">&nbsp;|&nbsp;
+<%= link_to "Home", :action => :index, :controller => :home %>&nbsp;|&nbsp;
+<%= link_to("Organizations", :action => :org_hierarchy_states, :controller => :csi) %>&nbsp;|&nbsp;
+<%= link_to("Users", :action => :index, :controller => :users) %>&nbsp;|&nbsp;
+<%= link_to("Tasks", tasks_path) %>&nbsp;|&nbsp;
+<%= link_to("Messages", :action => :index, :controller => :esb_message) %>&nbsp;|&nbsp;
+<%= link_to("SAM Connect Profile", states_sam_customers_path) %>&nbsp;|&nbsp;
+<%= link_to("Audit Reports", :action => :index, :controller => :audit) %>&nbsp;|&nbsp;
+<%= link_to("Metrics", :action => :index, :controller => :metrics) %>&nbsp;|&nbsp;
+<%= link_to("Sapling Repository", :action => :index, :controller => :saplings) + "&nbsp;|&nbsp;" if current_user.isAdminType %>
+Help&nbsp;|&nbsp;
+</div>

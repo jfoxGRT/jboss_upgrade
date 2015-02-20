@@ -1,0 +1,16 @@
+<tr>
+    <td>&nbsp;<%= link_to(anonymous_agent.id, agent_path(anonymous_agent)) %></td>
+    <td>&nbsp;<%= anonymous_agent.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+	<td>&nbsp;<%= anonymous_agent.updated_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= anonymous_agent.last_ip %></td>
+    <td>&nbsp;<%= anonymous_agent.cookie %></td>
+    <td>&nbsp;<%= anonymous_agent.cookie_verified %></td>
+    <td>&nbsp;<%= anonymous_agent.jre_version %></td>
+    <td>&nbsp;<%= anonymous_agent.microloader_version %></td>
+    <td>&nbsp;<%= anonymous_agent.os_series %></td>
+    <td>&nbsp;<%= (anonymous_agent.next_poll_at.nil?) ? "" : anonymous_agent.next_poll_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td>&nbsp;<%= anonymous_agent.cpu_bits %></td>
+    <td>&nbsp;<%= anonymous_agent.os_family %></td>
+    <td>&nbsp;<%= anonymous_agent.cpu_type %></td>
+    <td>&nbsp;<%= anonymous_agent.last_verified_cookie %></td>
+</tr>

@@ -1,0 +1,4 @@
+<%= button_to_remote("&laquo; Show Hierarchy",
+							{:before => "$$('input.submit_button').each(Form.Element.disable); $('status_indicator').show();",
+                            :complete => "$('status_indicator').hide(); $$('input.submit_button').each(Form.Element.enable); $('org_name').select();",
+							:url => {:action => :show_hierarchy, :id => right_pane_show_hierarchy_button.ucn}}, {:class => "submit_button"}) %>

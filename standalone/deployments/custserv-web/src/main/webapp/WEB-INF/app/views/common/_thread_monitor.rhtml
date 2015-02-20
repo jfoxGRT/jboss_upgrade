@@ -1,0 +1,7 @@
+<tr>
+	<td style="text-align: right;"><%= SAMC_PROCESSORS[thread_identifier] %></td>
+	<td>
+		<%= image_tag("percentImage.png", :id => thread_identifier, :alt => "0%", :class => "percentImage1", :style => "background-position: -120px 0pt;") %>
+		<span id="<%= thread_identifier %>Text">0%</span>
+	</td>
+</tr>

@@ -1,0 +1,13 @@
+<% lccs = license_conversion_counts_summary 
+   product_name = lccs[0]
+   unconverted_license_count = lccs[1]
+   ee_license_count = lccs[2]
+   converted_license_count = lccs[3] 
+%>
+
+<tr>
+  <td><span><%= product_name.to_s %></span></td>
+  <td><span><%= unconverted_license_count.to_s %></span></td>  
+  <td><span><%= ee_license_count.to_s %></span></td>
+  <td><span><%= converted_license_count.to_s %></span></td>
+</tr>

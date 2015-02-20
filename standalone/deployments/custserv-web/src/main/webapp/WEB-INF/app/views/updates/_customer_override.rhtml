@@ -1,0 +1,12 @@
+<tr id="override<%= customer_override.id %>">
+	<td style="text-align: left;"><%= customer_override.sam_customer.name %></td>
+	<td style="text-align: left;">
+	  <%= (customer_override.active == 1 ? "Active" : "Inactive" ) %>
+      <%= link_to_remote "Toggle", 
+        :url => { :action => "toggle_exception", :id => customer_override.id } %>
+	</td>
+    <td> 
+      <%= link_to_remote "Remove", 
+        :url => { :action => "remove_exception", :id => customer_override.id } %>
+    </td>	
+</tr>

@@ -1,0 +1,40 @@
+<tr>
+    <td> <%= moratorium_record.id %> </td>
+    <%if moratorium_record.start_datetime.nil? %>
+        <td>&nbsp;</td>
+    <%else%>
+        <td><%= moratorium_record.start_datetime.to_formatted_s(:db) %></td>
+    <%end%>
+    <%if moratorium_record.end_datetime.nil? %>
+        <td>&nbsp;</td>
+    <%else%>
+        <td><%= moratorium_record.end_datetime.to_formatted_s(:db) %></td>
+    <%end%>
+    <% if moratorium_record.sapling_component %>
+        <td>&nbsp;X</td>
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+    <% if moratorium_record.sapling_content %>
+        <td>&nbsp;X</td>
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+    <% if moratorium_record.hosted_servers %>
+        <td>&nbsp;X</td>
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+    <% if moratorium_record.local_servers %>
+        <td>&nbsp;X</td>
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+    <%if moratorium_record.end_datetime > Time.now &&  moratorium_record.start_datetime > Time.now %>
+        <td><%= link_to("DELETE", url_for (:action => :delete_moratorium, :id => moratorium_record.id), {:confirm => "Do you really want to DELETE this moratorium?"}) %></td>
+    <%elsif moratorium_record.end_datetime > Time.now &&  moratorium_record.start_datetime < Time.now %>
+        <td><%= link_to("STOP", url_for (:action => :stop_moratorium, :id => moratorium_record.id), {:confirm => "Are you sure you want to STOP this moratorium?"}) %></td>      
+    <%else%>
+        <td>&nbsp;</td>
+    <%end%>
+</tr>

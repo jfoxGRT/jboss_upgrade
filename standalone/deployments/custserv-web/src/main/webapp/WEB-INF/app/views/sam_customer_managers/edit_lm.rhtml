@@ -1,0 +1,62 @@
+<% @page_title = "SAMC - License Manager" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">License Manager</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;License Manager</h2>
+</div>
+<% if (@sam_customer.sam_servers.length == 0) %>
+<div style="text-align: center;">
+	This customer is not ready to be activated for <%= LICENSE_MANAGER_TERM %>.&nbsp;&nbsp;At least one server must be registered with SAM Connect.
+</div>
+<% elsif (@sam_customer.licensing_status == SamCustomer.MANAGER_NOT_ACTIVATED) %>
+<div align="center" style="margin-bottom: 30px;">
+	<script type="text/javascript">
+    	confirm_message = "Are you sure you wish to activate this customer for License Manager?  If you click OK, then the entitlement license counts will be matched to the counts reported from the servers.";		
+	</script>   
+	</script>
+	<% if (@syncable) %>
+		<% form_tag(activate_sam_customer_manager_path(:sam_customer_id => @sam_customer.id, :id => SamCustomer.LICENSE_MANAGER), :method => :put, :id => "activate_form") do -%>
+			<%= button_to_function("Activate SC-Licensing for #{@sam_customer.name.strip}", "confirmAndSubmit('submit_tag', confirm_message, 'activate_form', 'status_indicator')", :id => "submit_tag") %><br/>
+		<% end -%>
+	<% else %>
+		<%= button_to_function("Activate SC-Licensing for #{@sam_customer.name.strip}", "", :disabled => "disabled") %><br/><br/>
+		<span style="color: red; font-size: 12px;">There are one or more products for which the internal license counts are not consistent.  Please notify a SAMC Administrator.  You will not be able to activate this <%= SAM_CUSTOMER_TERM %> for <%= LICENSE_MANAGER_TERM %>
+		until all products' license counts are consistent.</span>
+	<% end %>
+</div>
+<div style="height: 1.5em; margin-bottom: 1em; text-align: center;">&nbsp;<span id="status_indicator" style="vertical-align: middle; color: red; display: none;">Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %></span><br/><br/></div>
+
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Subcommunity</th>
+            <th>Total Count From SAM Servers</th>
+			<th>Total Entitlement Count</th>
+			<th>Difference</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "la_subcommunity_scale", :collection => @license_count_comparisons, :locals => {:sam_customer => @sam_customer}) %>
+    </tbody>
+</table>
+<% elsif (@sam_customer.licensing_status == SamCustomer.MANAGER_PENDING_ACTIVATION) %>
+<div style="text-align: center;">
+	<%= LICENSE_MANAGER_TERM %> is in the process of being activated.
+</div>
+<% elsif (@sam_customer.licensing_status == SamCustomer.MANAGER_ENABLED) %>
+<div style="text-align: center;">
+	<%= LICENSE_MANAGER_TERM %> is enabled.<br/><br/>
+	<% activation_date = @sam_customer.sc_licensing_activated %>
+	<% if(!activation_date.nil? && @current_user.isAdminType) %>
+		&nbsp;&nbsp;<%= button_to("Deactivate #{LICENSE_MANAGER_TERM}", deactivate_sam_customer_manager_path(:sam_customer_id => @sam_customer.id, :id => SamCustomer.LICENSE_MANAGER), :method => :put, :confirm => "Are you sure you wish to deactivate this SAMC Customer's License Manager?") %>
+	<% end %>	
+</div>
+<% end %>

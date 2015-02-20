@@ -1,0 +1,63 @@
+<% task = unassigned_task_summary.task
+ entitlements = unassigned_task_summary.entitlement_set %>
+<table id="<%= task.id %>"  cellspacing="1" class="new_jeff_def" style='margin-bottom:15px; width: 100%;'>
+<tbody>
+    <tr>
+
+
+
+      <td>
+
+          <%= unassigned_task_summary.order_num %>
+      </td>
+
+      <td><%= unassigned_task_summary.invoice_num %></td>
+
+      <td><%= task.created_at.strftime('%m/%d/%y') %><br/><%= task.created_at.strftime('%I:%M:%S %p') %></td>
+      <td><%= unassigned_task_summary.reason %></td>
+
+      <td><%= unassigned_task_summary.bill_to_org_name %><br/>UCN:  <%= unassigned_task_summary.bill_to_ucn %>
+      </td>
+
+<td> <%= unassigned_task_summary.ship_to_org_name %><br/>UCN:  <%= unassigned_task_summary.ship_to_ucn %></td>
+
+
+      <td>
+      <%= link_to("Take It", assign_task_path(:id => task.id, :target_user_id => current_user.id, :alert_id => alert_id), :method => :put) %>
+      <!--<a href="#" onClick='window.open("<%= edit_task_path(task.id) %>","Window1",
+"menubar=no,width=230px,height=160px,toolbar=no")';>Take It</a>--><br/>	<a href=# onClick='viewDetails("task_details_<%= task.id %>","<%= task.id %>")';>View Details</a>
+
+      </td>
+    </tr>
+
+
+      <!-- PUT TFOOT HERE -->
+
+
+<tr style="visibility: hidden;display:none" id="task_details_<%= task.id %>">
+<td colspan=7 style="border-bottom:0px;">
+
+<table class="entitlementCat">
+<tr>
+  <td class="entitlement" style="width: 18%;">Entitlement ID</td>
+
+  <td class="entitlement" style="width: 12%;">TMS ID</td>
+
+  <td class="entitlement" style="width: 20%;">Date Created</td>
+
+  <td class="entitlement" style="width: 30%;"><%= PRODUCT_TERM %> Name
+  </td>
+
+  <td class="entitlement" style="width: 20%;">
+
+      License Count
+  </td>
+   </tr>
+</table>
+<%= render(:partial => "/tasks/assigned_task_entitlement", :collection => entitlements) %>
+</td>
+</tr>
+
+
+  </tbody>
+</table>

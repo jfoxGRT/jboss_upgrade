@@ -1,0 +1,32 @@
+<% edit_permission = @current_user.hasPermission?(Permission.edit) %>
+<table class="data_table" width="90%">
+    <thead>
+        <tr class="data_table_first_row">
+        	<td>ID</td>
+        	<td <%= sort_td_class_helper("bill_to_org")%>>
+        		<%= sort_link_helper("Bill-To Organization", "bill_to_org", update_element, "update_known_entitlement_destinations_table", status_indicator) %>
+        	</td>
+			<td>Bill-To UCN</td>
+            <td <%= sort_td_class_helper("ship_to_org")%>>
+                <%= sort_link_helper("Ship-To Organization", "ship_to_org", update_element, "update_known_entitlement_destinations_table", status_indicator)%>
+			</td>
+            <td>Ship-To UCN</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "known_entitlement_destination", :collection => known_entitlement_destination_collection,
+					:locals => {:sam_customer_id => sam_customer_id, :status_indicator => status_indicator, :edit_permission => edit_permission}) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(known_entitlement_destination_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_known_entitlement_destinations_table",
+				  :sam_customer_id => sam_customer_id) %>
+</p>
+
+

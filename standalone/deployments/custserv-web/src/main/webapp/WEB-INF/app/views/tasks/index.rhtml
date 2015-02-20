@@ -1,0 +1,26 @@
+<%	@page_title = "SAMC - Task Categories" %>
+<table>
+<%= render(:partial => "/common/task_type_counts_for_dock", :collection => TASK_CONTROLLER_LIST, :locals => {:task_counts => @task_counts, :controller_name => @controller_name}) %>
+</table>
+</br>
+<hr>
+</br>
+<h1>My Assigned Tasks</h1>
+<div id="all-servers-table">
+    <!-- start of  Orders table -->
+    <table id="serverlisthead" cellspacing="0">
+        <thead>
+            <tr>
+                <td style="width:7%">Task ID</td>
+                <td style="width:7%">Priority</td>
+                <td style="width:20%">Organization</td>
+                <td>Task Type</td>
+                <td>Date Assigned</td>
+                <td>Assigned By</td>
+                <td style="width:15%">Action</td>
+            </tr>
+        </thead>
+    </table>
+    <!-- start of tasks table query and result -->
+    <%= render(:partial => "user_assigned_task", :collection => @task_packages, :locals => {:task_orgs_hash => @task_orgs_hash}) %>
+</div>

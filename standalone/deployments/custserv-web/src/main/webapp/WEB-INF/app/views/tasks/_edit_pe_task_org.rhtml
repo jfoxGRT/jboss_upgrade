@@ -1,0 +1,53 @@
+<tr id="task_org_<%= edit_pe_task_org.org_id %>_row">
+    <td style="width:5%;">
+        <input type=radio name=ucn value='<%= edit_pe_task_org.ucn %>' style='width:9px;' id='<%= edit_pe_task_org.name %>'></td>
+    <td style="margin:0px;padding:0px;text-align: left;vertical-align:top;padding:4px;" class='searchModallink'>
+        <%= link_to(edit_pe_task_org.name, search_summary_info_for_org_path, :id => edit_pe_task_org.ucn) %>
+        <br>
+		UCN: <%= edit_pe_task_org.ucn %><br>
+        <%= edit_pe_task_org.city_name %>, <%= edit_pe_task_org.code %> <%= edit_pe_task_org.zip_code %>
+        <br>
+        County Code: <%= edit_pe_task_org.county_code %>
+	</td>
+    <td>
+		<% if (edit_pe_task_org.email) %>
+			Added by: <%= edit_pe_task_org.email %>
+			<span class="delete_task_org" style='display:block;'><a org_id="<%= edit_pe_task_org.org_id %>" task_id="<%= edit_pe_task_org.id %>"
+								href="<%= url_for(:action => :destroy, :controller => :task_orgs) %>">Delete</a></span>
+		<% else %>
+			<%= edit_pe_task_org.entitlement_org_type_description %>
+		<% end %>
+	</td>
+    <td>
+        <%= edit_pe_task_org.group_description %>
+        <br> <%= edit_pe_task_org.type_description %>
+	</td>
+    <td>
+        <div class='status_div'>
+            <span class='status_span'> SAM EE</span>
+            <% if (edit_pe_task_org.sam_customer_id) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+        <div class='status_div'>
+            <span class='status_span'> Registered:</span>
+            <% if (edit_pe_task_org.registration_date) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+    </td>
+    <td>
+        <div class='status_div'>
+            <span class='status_span'> Lic. Mgr.</span>
+            <% if (edit_pe_task_org.sc_licensing_activated) %>
+            <%= image_tag("y.gif", :border => 0, :align => "right") %>
+            <% else %>
+            <%= image_tag("x.gif", :border => 0, :align => "right") %>
+            <% end %>
+        </div>
+    </td>
+</tr>

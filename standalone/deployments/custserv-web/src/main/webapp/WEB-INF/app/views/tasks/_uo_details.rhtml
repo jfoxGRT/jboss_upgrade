@@ -1,0 +1,28 @@
+<%  alert_instances = uo_details.alert_instances
+	entitlement = alert_instances[0].entitlement 
+	bill_to_entitlement_org = entitlement.billed_to_entitlement_org
+	ship_to_entitlement_org = entitlement.shipped_to_entitlement_org %>
+<tr>
+	<td><%= uo_details.id %></td>
+	<td><%= uo_details.priority %></td>
+	<td><%= entitlement.order_num %></td>
+	<td><%= entitlement.invoice_num %></td>
+	<td><%= link_to(bill_to_entitlement_org.name, org_path(bill_to_entitlement_org.org_id), {:target => "new"}) %><br/>UCN: <%= bill_to_entitlement_org.ucn %></td>
+	<td><%= link_to(ship_to_entitlement_org.name, org_path(ship_to_entitlement_org.org_id), {:target => "new"})  %><br/>UCN: <%= ship_to_entitlement_org.ucn %></td>
+	<td>
+		<table class="data_table" style="width: 100%;">
+			<thead>
+			<tr>
+				<th>TMS Entitlement ID</th>
+				<th><%= PRODUCT_TERM %></th>
+				<th>License Count</th>
+			</tr>
+			</thead>
+			<tbody>
+				<%= render(:partial => "entitlement", :collection => alert_instances.collect {|ai| ai.entitlement}) %>
+			</tbody>
+		</table>
+	</td>
+	<td><%= uo_details.task_params[0].value %></td>
+	<td><%= button_to("Cancel", unassign_task_path(uo_details.id), {:method => :put}) %></td>
+</tr>

@@ -1,0 +1,101 @@
+<%  @page_title = ("SAMC - #{@sam_server.name}") %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @sam_server.name %></span>		
+	</td>
+	</tr>
+</table>
+<hr/>
+
+<div class="table_header" style="margin-bottom: 30px;">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @sam_server.name %></h2>
+</div>
+<%= render(:partial => "sam_server_info", :object => @sam_server) %>
+<div class="link_set">
+	<%= link_to("Edit", edit_sam_customer_sam_server_path(@sam_customer.id, @sam_server.id)) %><br/>
+	<%= link_to("SAM Server Users", sam_server_sam_server_users_path(@sam_server.id)) %><br/>
+	<%= link_to("Schools Installed on this SAM Server", sam_server_sam_server_school_infos_path(@sam_server.id)) if (@sam_server.server_type != SamServer.TYPE_UNREGISTERED_GENERIC) %><br/>
+	<%= link_to("Seat Activity for this SAM Server", sam_customer_sam_server_seat_activities_path(@sam_customer.id, @sam_server.id)) %><br/>
+	<%= link_to("Server Report Requests", sam_server_report_requests_path(@sam_server.id)) if @sam_server.id %>
+</div>
+
+<% if (@sam_server.server_type == SamServer.TYPE_UNREGISTERED_GENERIC) %>
+	<%= render(:partial => "license_count_info_for_unregistered_generic", :object => @license_counts) %>
+<% else %>
+<table style="margin-left: auto; margin-right: auto; width: 95%; text-align: center;">
+	<tr>
+		<% if @sam_server.sam_server_community_infos.length > 0 || @license_counts.length > 0 %>
+		<td style="width: 60%;">
+			<div class="table_header">
+				<h3 class="table_title">Installed <%= PRODUCT_TERM %> Groups</h3>
+			</div>
+			<%= render(:partial => "server_community_info", :object => @sam_server) %>
+			<div class="table_header">
+				<h3 class="table_title">License Counts</h3>
+			</div>
+				<%= render(:partial => "license_count_info", :object => @license_counts, :locals => {:sam_customer => @sam_customer}) %>
+		</td>
+		<% end %>
+		<td style="width: 40%;">
+			<div class="table_header">
+				<h3 class="table_title">Address Info</h3>
+			</div>
+			<%= render(:partial => "sam_server_address_info", :object => @sam_server.sam_server_address) %>
+			<% if @installed_quizzes.length > 0 %>
+				<div class="table_header">
+					<h3 class="table_title">Installed SRC Quizzes</h3>
+				</div>
+				<%= render(:partial => "server_quiz_info", :object => @installed_quizzes) %>
+			<% end %>
+			<br />
+			<% if @sam_server.is_hosted_server? && @sc_hosting_agreement_info %>
+			    <div class="table_header">
+                    <h3 class="table_title">Hosting Agreement Info</h3>
+                </div>
+                <%= render(:partial => "sam_customer_hosting_agreement_info", :object => @sc_hosting_agreement_info) %>
+            <%end%>
+		</td>
+	</tr>
+</table>
+<% end %>
+<hr/>
+
+<div align="center" style="margin-top: 20px; margin-bottom: 20px;">
+	<% if (@current_user.hasScholasticPermission(Permission.customer_resource_edit) && @sam_server.server_type != SamServer.TYPE_UNREGISTERED_GENERIC) %>
+		<%= button_to("Remediate Server", show_remediate_sam_server_path(:id => @sam_server.id), :method => :get) %><br/><br/>
+	<% end %>
+	<% if (@current_user.isAdminType) %>
+        <%= button_to_function("Send Updated Server Information to TMS", 
+		    remote_function(:update => "cs_notice_block", :url => url_for(:action => :send_updated_server_information, :id => @sam_customer.id, :server_id => @sam_server.id), :before => "$$('input').invoke('disable'); $('status_indicator2').show();", :success => "$('status_indicator2').hide(); $$('input').invoke('enable');"), :id => "updated_server_information_button") %><br/><br/>
+	<% end %>
+  <% if (@current_user.hasScholasticPermission(Permission.samc_resource_flag) && @sam_server.server_type != SamServer.TYPE_UNREGISTERED_GENERIC && @sam_server.active_non_transitioning?) %>
+    <%= button_to("Flag for Deactivation", show_flag_for_transition_sam_server_path(:id => @sam_server.id), :method => :get) %>
+    <br/>
+    <br/>
+  <% end %>
+	<% if (@current_user.hasScholasticPermission(Permission.customer_resource_edit) && @sam_server.server_type != SamServer.TYPE_UNREGISTERED_GENERIC) %>
+	  <% if @sam_server.active_non_transitioning? %>
+  		<% form_tag(operate_on_sam_servers_path, :name => 'deactivate_server', :method => :post) do -%>
+        <%= hidden_field_tag(:operation, '0') %>
+        <%= hidden_field_tag(:sam_server_id, @sam_server.id) %>
+        <%= submit_tag 'Deactivate Server' %>
+      <% end %>
+      <br/>
+    <% end %>
+	  
+	  <% form_tag(operate_on_sam_servers_path, :name => 'move_server', :method => :post) do -%>
+			<%= hidden_field_tag(:operation, '1') %>
+			<%= hidden_field_tag(:sam_server_id, @sam_server.id) %>
+			<%= submit_tag 'Move Server' %>
+		<% end %>
+	<% end %>
+	<div id="status_indicator2" align="center" style="padding-top: 10px; color: red; display: none;">
+		Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %>    
+	</div>
+</div>

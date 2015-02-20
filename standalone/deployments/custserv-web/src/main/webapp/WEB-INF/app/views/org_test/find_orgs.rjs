@@ -1,0 +1,1 @@
+page[:search_results_container].replace_html(:partial => "org_search_results", :locals => {:search_results => @search_results})

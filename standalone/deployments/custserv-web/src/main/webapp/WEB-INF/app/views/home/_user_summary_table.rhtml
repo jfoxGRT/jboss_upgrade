@@ -1,0 +1,14 @@
+<table border="1" align="center" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th># Grabbed</th>
+            <th># Assigned</th>
+            <th># Closed</th>
+            <th>Total Owned</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "user_summary", :collection => user_stats_list, :locals => {:summary_date => summary_date}) %>
+    </tbody>
+</table>

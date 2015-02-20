@@ -1,0 +1,15 @@
+<table class="data_table">
+	<thead>
+		<tr>
+			<th><%= PRODUCT_TERM %> Name</th>
+			<th>Allocated Count According to SAMC</th>
+			<th>Allocated Count According to SAM Server</th>
+			<th>Enrolled Count</th>
+			<th>Initial Allocated Count During Registration</th>
+			<th>Initial Enrolled Count During Registration</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "license_count_record", :collection => license_count_info, :locals => {:sam_customer => sam_customer}) %>
+	</tbody>
+</table>

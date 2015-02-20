@@ -1,0 +1,53 @@
+<% @page_title = "SAMC - #{@subcommunity.code} for #{@sam_customer.name}" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false})%>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @subcommunity.name %></span></td>
+	</tr>
+</table>
+<hr/>
+
+<div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @subcommunity.name %></h2>
+	<hr/>
+	<% if @current_user.hasScholasticPermission(Permission.find_by_code(Permission::CODE_ADJUST_CUSTOMER_LICENSES)) %>
+		<span class="super_caption">
+			<%= link_to("Adjust Total Licenses", edit_sam_customer_subcommunity_seat_pool_path(@sam_customer.id, @subcommunity.id, @unallocated_seat_pool.id)) if !@unallocated_seat_pool.nil? %>
+		</span>
+	<hr/>
+	<% end %>
+	<span class="super_caption">
+			<br/><input class="widget_dialog" type="button" value="Show License Conversion Policy" element_id="conversion_policy" 
+					href="<%= license_conversion_policy_for_sam_customer_subcommunities_path(:sam_customer_id => @sam_customer.id, :subcommunity_id => @subcommunity.id) %>"/><br/><br/>
+				<input class="widget_dialog" type="button" value="Show Global License Allocation Policy" element_id="global_license_allocation_policy"
+					href="<%= global_allocation_policy_for_sam_customer_subcommunities_path(:sam_customer_id => @sam_customer.id, :subcommunity_id => @subcommunity.id) %>"/><br/><br/>
+				<input class="widget_dialog" type="button" value="Show Licensing Audit Trail" element_id="licensing_audit_trail"
+                    href="<%= licensing_audit_trail_for_sam_customer_subcommunities_path(:sam_customer_id => @sam_customer.id, :subcommunity_id => @subcommunity.id) %>"/><br/><br/>
+			<%= link_to("Unallocated Count: #{@unallocated_count}", sam_customer_subcommunity_seat_pool_path(@sam_customer.id, @subcommunity.id, @unallocated_seat_pool.id)) if !@unallocated_seat_pool.nil? %><br/>
+			<%= link_to("Unregistered Pool Count: #{@unregistered_pool.seat_count}", sam_customer_subcommunity_seat_pool_path(@sam_customer.id, @subcommunity.id, @unregistered_pool.id)) if @unregistered_pool %>
+	</span>
+</div>
+<table class="data_table" style="width: 90%;">
+    <thead>
+        <tr>
+            <th style="width: 5%;">SAM Server ID</th>
+			<th style="width: 10%;">SAM Server Name</th>
+			<th style="width: 10%;">SAM Server Installation Code</th>
+			<% if @current_user.isAdminType %>
+				<th style="width: 6%;">Subcommunity Info ID</th>
+			<% end %>
+			<th style="width: 10%;">Allocated Count According to SAMC</th>
+			<th style="width: 8%;">Allocated Count According to SAM Server</th>
+			<th style="width: 8%;">Enrolled Count According to SAM Server</th>
+			<th style="width: 8%;">Licenses Being Reallocated</th>
+            <th style="width: 10%;">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "license_count_comparison", :collection => @license_count_comparisons, :locals => {:sam_customer => @sam_customer, :subcommunity => @subcommunity, :mirror_hash => @mirror_hash}) %>
+    </tbody>
+</table>

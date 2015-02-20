@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+	<%= render(:partial => "/common/layout_static_resources") %>
+	<%= stylesheet_link_tag("dock") %>
+	<title><%= @page_title %></title>
+  </head>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+	<!--<div id="content">-->
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<%= render(:partial => "/common/layout_primary_navigation_block") %>
+			<div id="subtabnav" style="margin-left: 60px;">
+				<%= render(:partial => "common/sub_tabs_with_sam_customer_search") %>
+			</div>
+			<%= render(:partial => "common/dock") %>
+			<%= render(:partial => "/common/layout_main_body_with_docking") %>
+		</div> <!-- end header -->        
+        <%= render(:partial => "/common/widget_container_creator", :object => @widget_list) %>
+		<div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer --> <!-- end maincontent -->
+	</div> <!-- end canvas -->
+	<% if @crappy_modal_support %>
+		<!-- Confirm Take Dialog -->
+	    <div id='confirm_take' style='display:none;text-align:center;'>
+	        <div class='header'>
+	            <span>Confirm</span>
+	        </div>
+	        <p class='message' style="margin:19px 0px 18px 0px;padding:0px;"></p>
+	        <div class='buttons'>
+	            <div class='yes' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Work Task</div>
+	            <div class='no modalClose' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Cancel</div>
+			</div>
+		</div>
+		<!-- Confirm Release Dialog -->
+		<div id='confirm_release' style='display:none'>
+
+			<div class='header'><span >Confirm</span></div>
+			<p class='message'></p>
+			<div class='buttons'>
+
+				<div class='yes' style="padding-top:6px;">Release Task</div>
+				<div class='no modalClose' style="padding-top:6px;">Cancel</div>
+			</div>
+		</div>
+		<% if (@current_user.hasPermission?(Permission.assign_tasks)) %>
+	    <div id="assignModalContent" style='display:none;margin:0px;padding=0px;'>
+	        <table id="serverview" class="view" cellspacing="0" style="width:100%;margin:0px;padding:0px;">
+	            <thead>
+	                <tr class="parent">
+	                    <td style="background:#CC6600;"> Assign Task</td>
+	                    <!--     <td style="text-align:center;border-right:2px solid #fff;"><a href='#' class='modalClose' style='text-decoration:none;color:#fff;'>Close</a></td>-->
+	                </tr>
+	            </thead>
+	        </table>
+			<!-- <div> added by dan to prevent the overflow of the names -->
+			<div style='overflow: auto;height:360px;'>
+	        <table cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+	            <tr class='workDetails'>
+	                <td colspan=4>The following C/S representatives are available to work this task:	 </td>
+	            </tr>
+	            <tr class='workDetails'>
+	                <td>C/S Rep.</td>
+	                <td>Status</td>
+	                <td># Assigned Tasks</td>
+	                <td>Action</td>
+	            </tr>
+	            <%= render(:partial => "tasks/user_list", :collection => @user_list) %>
+	        </table>
+			</div>
+	        <div class='buttons'>
+	            <div class='no modalClose' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Cancel</div>
+	        </div>
+	    </div>
+		<% end %>
+	<% end %>
+	<%= render(:partial => "/common/org_finder_ui_container") %>
+	<%= render(:partial => "/common/google_analytics") %>
+  </body>
+</html>

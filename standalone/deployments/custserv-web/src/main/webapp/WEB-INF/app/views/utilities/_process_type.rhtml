@@ -1,0 +1,7 @@
+<tr>
+	<td style="text-align: left;"><%= translate_process_code(process_type[0]) %></td>
+	<% # link_to doesn't handle nil, make sure to pass 0 if process_type[1][1] or process_type[1][0] is nil.
+	 %>
+	<td><%= link_to(process_type[1][1] ? process_type[1][1] : 0, :action => :processes, :id => process_type[0], :complete => 1) %></td>
+	<td><%= link_to(process_type[1][0] ? process_type[1][0] : 0, :action => :processes, :id => process_type[0], :complete => 0) %></td>
+</tr>

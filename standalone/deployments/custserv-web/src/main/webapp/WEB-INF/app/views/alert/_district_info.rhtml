@@ -1,0 +1,23 @@
+<h2 style="text-align: center;">Organizations</h2>
+<table class="data_table">
+<thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Organization Name</th>
+        <th>Organization Type</th>
+        <th># of Subdistricts</th>
+        <th># of Schools</th>
+        <th>Registered with SC?</th>
+        <th># of SAM Servers</th>
+        <th># of READ180 - Stage A Seats</th>
+        <th># of READ180 - Stage B Seats</th>
+        <th># of READ180 - Stage C Seats</th>
+        <th># of SRI Seats</th>
+        <th># of SRC Seats</th>
+        <th>&nbsp;</th>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "district_link", :collection => district_info) %>
+</tbody>
+</table>

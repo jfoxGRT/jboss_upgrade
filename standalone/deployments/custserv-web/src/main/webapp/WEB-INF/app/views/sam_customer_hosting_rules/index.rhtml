@@ -1,0 +1,25 @@
+<% @page_title = "SAMC - #{@sam_customer.name}" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Hosting Rules Activity</h2>
+<% if(@hosting_rules.empty?) %>
+<div align="center">No hosting rules activity</div>
+<% else %>
+<div class="cs_loading_indicator_container">&nbsp;
+<%= generateAjaxIndicator("hosting_rules_loading_indicator") %>
+</div>
+<div id="sam_customer_hosting_rules_table">
+ 	<%= render(:partial => "sam_customer_hosting_rules_table", :locals => {:hosting_rules_collection => @hosting_rules,
+ 																:status_indicator => "hosting_rules_loading_indicator",
+	                                                            :sam_customer_id => @sam_customer.id,
+	                                                            :update_element => "sam_customer_hosting_rules_table"}) %>
+</div>
+<% end %>

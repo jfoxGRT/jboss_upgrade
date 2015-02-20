@@ -1,0 +1,676 @@
+<script type="text/javascript">
+	function checkAuthStatus(authUserId) {
+		jQuery.getJSON("/auth/api/check-authorization/DTS/" + authUserId, function(pJson) {
+			if(pJson.length == 0) {
+			  feedback("Cannot determine authorization status for user");
+			}
+			else {
+				var itsAuthorized = pJson.its_authorized;
+				jQuery('#failReason').empty();
+				if(itsAuthorized) {
+					jQuery('#statusValue').html("ITS Authorized: <b><font color='green'>YES</font></b>");
+				}
+				else {
+					jQuery('#statusValue').html("ITS Authorized: <b><font color='red'>NO</font></b>");
+				}
+			}
+        });
+	}
+	
+	function feedback(pMsg) {
+    	if(pMsg == null) {
+     		jQuery('#feedback').html(pMsg);
+       	}
+      	else {
+      		jQuery('#feedback').html(pMsg + "<br/><br/>");
+       	}
+   	}
+   	
+   	function checkEreadsAuthStatus(authUserId) {
+   		jQuery.getJSON("/auth/api/check-authorization/EREADS/" + authUserId, function(pJson) {
+   			if(pJson.length == 0) {
+   				feedback("Cannot determine authorization status for user");
+   			}
+   			else {
+   				var authorized = pJson.authorized;
+   				if(authorized) {
+   					jQuery('#statusValue').html("Ereads Authorized: <b><font color='green'>YES</font><b>");
+   				}
+   				else {
+   				    jQuery('#statusValue').html("Ereads Authorized: <b><font color='red'>NO</font><b>");
+   				}    
+   					
+   					jQuery('#failReason').empty();
+   					var type = pJson.type;
+   					var userEnabled = pJson.status.userEnabled;
+   					var premiumSupport = pJson.status.checkPremiumSupport;
+                    var limitedSupport = pJson.status.checkLimitedSupport;
+                    var onAHostedServer = pJson.status.checkOnAHostedServer;
+   					if(userEnabled) {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ereads Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   					}
+   					else {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ereads Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   					}
+   					if(type == 's') {
+   						var checkIsEreadsEnabled = pJson.status.checkIsEreadsEnabled;
+   						if(checkIsEreadsEnabled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Ereads Enabled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Ereads Enabled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else if(type == 't') {
+   						var checkNgAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var checkNgProductsInstalled = pJson.status.checkNgProductsInstalled;
+   						var checkClassManageNg = pJson.status.checkClassManageNg;
+   						var checkStudentsEnrolled = pJson.status.checkStudentsEnrolled;
+   						if(checkNgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkNgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkClassManageNg) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage NG: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage NG: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkStudentsEnrolled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else { // admins
+   						var checkNgAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var checkNgProductsInstalled = pJson.status.checkNgProductsInstalled;
+   						if(checkNgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkNgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   			}
+   		});
+   	}
+   	
+   	function checkDashAuthStatus(authUserId) {
+   		jQuery.getJSON("/auth/api/check-authorization/DASH/" + authUserId, function(pJson) {
+   			if(pJson.length == 0) {
+   			  feedback("Cannot determine authorization status for user");
+   			}
+   			else {
+   				var authorized = pJson.authorized;
+   				if(authorized) {
+   					jQuery('#statusValue').html("Dashboard Authorized: <b><font color='green'>YES</font><b>");
+   				}
+   				else {
+   				    jQuery('#statusValue').html("Dashboard Authorized: <b><font color='red'>NO</font><b>");
+   				}    
+   				if(pJson.authorized != null) {
+   					jQuery('#failReason').empty();
+   					var type = pJson.type;
+   					var userEnabled = pJson.status.userEnabled;
+   					if(userEnabled) {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard Authorization Status</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   					}
+   					else {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   					}
+   					if(type == "t") {
+   						var ngAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var ngProductInstalled = pJson.status.checkNgProductsInstalled;
+   						var classManageNg = pJson.status.checkClassManageNg;
+   						var studentEnrolled = pJson.status.checkStudentsEnrolled;
+   						var validClassSize = pJson.status.checkClassSizeNotExceedingMax;
+   						var premiumSupport = true;
+   						var limitedSupport = true;
+   						var onAHostedServer = pJson.status.checkOnAHostedServer;
+   						if(ngAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(ngProductInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(classManageNg) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage NG: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage NG: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(studentEnrolled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(validClassSize) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Not Exceeding Max: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Not Exceeding Max: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+   						    jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   						    jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access) </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   					}
+   					else if(type == "sa") {
+   						var ngAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var ngProductInstalled = pJson.status.checkNgProductsInstalled;
+   						var premiumSupport = true;
+                        var limitedSupport = true;
+                        var onAHostedServer = pJson.status.checkOnAHostedServer;
+   						if(ngAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(ngProductInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access) </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access) </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else if(type == "da") {
+   						var centralizedDistrict = pJson.status.checkCentralizedAdminAccess;
+   						var ngAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var ngProductInstalled = pJson.status.checkNgProductsInstalled;
+   						var premiumSupport = true;
+                        var limitedSupport = true;
+                        var onAHostedServer = pJson.status.checkOnAHostedServer;
+   						if(centralizedDistrict) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centralized District:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centralized District:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(ngAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						if(ngProductInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   				    }				
+   				}
+   			}
+   		});
+   	}
+   	
+   	function checkEbooksAuthStatus(authUserId) {
+   		jQuery.getJSON("/auth/api/check-authorization/EBOOKS/" + authUserId, function(pJson) {
+   			if(pJson.length == 0) {
+   				feedback("Cannot determine authorization status for user");
+   			}
+   			else {
+   				var authorized = pJson.authorized;
+   				if(authorized) {
+   					jQuery('#statusValue').html("eBooks Authorized: <b><font color='green'>YES</font><b>");
+   				}
+   				else {
+   				    jQuery('#statusValue').html("eBooks Authorized: <b><font color='red'>NO</font><b>");
+   				}    
+   				if(pJson.authorized != null) {
+   					jQuery('#failReason').empty();
+   					var type = pJson.type;
+   					var userEnabled = pJson.status.userEnabled;
+   					var premiumSupport = pJson.status.checkPremiumSupport;
+                    var limitedSupport = pJson.status.checkLimitedSupport;
+                    var onAHostedServer = pJson.status.checkOnAHostedServer;
+   					if(userEnabled) {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eBooks Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   					}
+   					else {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eBooks Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   					}
+   					if(type == 's') {
+   						var checkIsNg = pJson.status.checkIsNg;
+   						if(checkIsNg) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Enrolled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Enrolled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else if(type == 't') {
+   						var checkNgAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var checkNgProductsInstalled = pJson.status.checkNgProductsInstalled;
+   						var checkClassManageNg = pJson.status.checkClassManageNg;
+   						var checkStudentsEnrolled = pJson.status.checkStudentsEnrolled;
+   						if(checkNgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkNgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkClassManageNg) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage R180NG: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage R180NG: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkStudentsEnrolled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else { // admins
+   						var checkNgAllocatedServer = pJson.status.checkNgAllocatedServer;
+   						var checkNgProductsInstalled = pJson.status.checkNgProductsInstalled;
+   						if(checkNgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkNgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with R180NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   				}
+   			}
+   		});
+   	}
+   	
+   	function checkEbooks44AuthStatus(authUserId) {
+   		jQuery.getJSON("/auth/api/check-authorization/EBOOKS44/" + authUserId, function(pJson) {
+   			if(pJson.length == 0) {
+   				feedback("Cannot determine authorization status for user");
+   			}
+   			else {
+   				var authorized = pJson.authorized;
+   				if(authorized) {
+   					jQuery('#statusValue').html("eBooks44 Authorized: <b><font color='green'>YES</font><b>");
+   				}
+   				else {
+   				    jQuery('#statusValue').html("eBooks44 Authorized: <b><font color='red'>NO</font><b>");
+   				}    
+   				if(pJson.authorized != null) {
+   					jQuery('#failReason').empty();
+   					var type = pJson.type;
+   					var userEnabled = pJson.status.userEnabled;
+   					var premiumSupport = pJson.status.checkPremiumSupport;
+                    var limitedSupport = pJson.status.checkLimitedSupport;
+                    var onAHostedServer = pJson.status.checkOnAHostedServer;
+   					if(userEnabled) {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eBooks Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   					}
+   					else {
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eBooks44 Authorization Status:</td><td></td></tr>");
+   						jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   					}
+   					if(type == 's') {
+   						var checkIsS44Ng = pJson.status.checkIsS44Ng;
+   						if(checkIsS44Ng) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Enrolled:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student Enrolled:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else if(type == 't') {
+   						var checkS44NgAllocatedServer = pJson.status.checkS44NgAllocatedServer;
+   						var checkS44NgProductsInstalled = pJson.status.checkS44NgProductsInstalled;
+   						var checkClassManageS44Ng = pJson.status.checkClassManageS44Ng;
+   						var checkStudentsEnrolled = pJson.status.checkStudentsEnrolled;
+   						if(checkS44NgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkS44NgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkClassManageS44Ng) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage S44NG: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class(es) Manage S44NG: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkStudentsEnrolled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(s) Enrolled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   					else { // admins
+   						var checkS44NgAllocatedServer = pJson.status.checkS44NgAllocatedServer;
+   						var checkNgProductsInstalled = pJson.status.checkNgProductsInstalled;
+   						if(checkS44NgAllocatedServer) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Licenses Allocated:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Licenses Allocated:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(checkNgProductsInstalled) {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Products Installed:</td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+   						}
+   						else {
+   							jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server with S44NG Products Installed:</td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+   						}
+   						if(premiumSupport || limitedSupport || onAHostedServer){
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>");
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Support Plan or Hosted (iPad Access): </td><td><img src='/custserv/images/choice-no.gif'></td></tr>");
+                        }
+   					}
+   				}
+   			}
+   		});
+   	}
+   	
+   	function checkExpertStatus(authUserId) {
+        jQuery.getJSON("/auth/api/check-authorization/EXPERT/" + authUserId, function(pJson) {
+            if(pJson.length == 0) {
+              feedback("Cannot determine authorization status for user");
+            }
+            else {
+                var isAuthorized = pJson.isAuthorized;
+                var hasE21Entitlement = pJson.hasE21Entitlement;
+                var isStudent = pJson.isStudent;
+                var isE21Student = pJson.isE21Student;
+                var isEnabled = pJson.isEnabled;
+                var onE21Server = pJson.onE21Server;
+                jQuery('#failReason').empty();
+                if(isAuthorized) {
+                    jQuery('#statusValue').html("Expert Space Authorized: <b><font color='green'>YES</font></b>");
+                }
+                else {
+                    jQuery('#statusValue').html("Expert Space Authorized: <b><font color='red'>NO</font></b>");
+                    
+                }
+                if(pJson.isAuthorized != null) {
+                    jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expert Space Authorization Status:</td><td></td></tr>");
+                    if(isEnabled) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")
+                        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(isStudent) {
+                        if(isE21Student) {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Enrolled in Expert 21: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Enrolled in Expert 21: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                        }  
+                    }
+                    if(onE21Server) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User on an Expert Space Server: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")
+                        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User on an Expert Space Server: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(hasE21Entitlement) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Expert Space Entitlement: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")
+                        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Expert Space Entitlement: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }        
+                }    
+            }
+        });
+    }
+    
+    function checkNextpertStatus(authUserId) {
+        jQuery.getJSON("/auth/api/check-authorization/NEXTPERT/" + authUserId, function(pJson) {
+            if(pJson.length == 0) {
+              feedback("Cannot determine authorization status for user");
+            }
+            else {
+                var authorized = pJson.authorized;
+                var hasNextNetwork = pJson.hasNextNetwork;
+                var hasNextpert = pJson.hasNextpert;
+                var userEnabled = pJson.userEnabled;
+                var isStudent = pJson.isStudent;
+                var hasHostedNextpert = pJson.hasHostedNextpert;
+                jQuery('#failReason').empty();
+                if(authorized) {
+                    jQuery('#statusValue').html("Nextpert Authorized: <b><font color='green'>YES</font></b>");
+                }
+                else {
+                    jQuery('#statusValue').html("Nextpert Authorized: <b><font color='red'>NO</font></b>");
+                }
+                if(authorized != null) {
+                    jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nextpert Authorization Status:</td><td></td></tr>");
+                    if(userEnabled) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(isStudent) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Teacher, Admin or Tech: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Teacher, Admin or Tech: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")
+                        if(hasNextpert && !hasHostedNextpert) {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Nextpert Entitlement At School: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Nextpert Entitlement At School: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                        }
+                        if(hasNextNetwork && !hasHostedNextpert) {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Next Network Entitlement At School: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")       
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Next Network Entitlement At School: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                        }
+                        if(hasNextpert && hasHostedNextpert) {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Nextpert Entitlement At District (Hosted) </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")       
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Nextpert Entitlement At District (Hosted) </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                        }
+                        if(hasNextNetwork && hasHostedNextpert) {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Next Network Entitlement At District (Hosted) </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")       
+                        }
+                        else {
+                            jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has Next Network Entitlement At District (Hosted) </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                        }
+                    }        
+                }        
+            }
+        });
+    }
+    
+    function checkStrchStatus(authUserId) {
+        jQuery.getJSON("/auth/api/check-authorization/STRCH/" + authUserId, function(pJson) {
+            if(pJson.length == 0) {
+              feedback("Cannot determine authorization status for user");
+            }
+            else {
+                var authorized = pJson.authorized;
+                var isStudent = pJson.isStudent;
+                var userEnabled = pJson.userEnabled;
+                var hasFluencyMatrix = pJson.hasFluencyMatrix;
+                var isFMNG = pJson.isFMNG;
+                jQuery('#failReason').empty();
+                if(authorized) {
+                    jQuery('#statusValue').html("FMNG Stretch Authorized: <b><font color='green'>YES</font></b>");
+                }
+                else {
+                    jQuery('#statusValue').html("FMNG Stretch Authorized: <b><font color='red'>NO</font></b>");
+                }
+                if(authorized != null) {
+                    jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FMNG Stretch Authorization Status:</td><td></td></tr>");
+                    if(userEnabled) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Enabled: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(isStudent) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is a Student: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is a Student: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(isFMNG) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is enrolled in FasttMath: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is enrolled in FasttMath: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                    if(hasFluencyMatrix) {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has one or more fluency matrices: </td><td><img src='/custserv/images/choice-yes.gif'></td></tr>")        
+                    }
+                    else {
+                        jQuery('#failReason').append("<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Has one or more fluency matrices: </td><td><img src='/custserv/images/choice-no.gif'></td></tr>")
+                    }
+                }        
+            }
+        });
+    }
+   	
+</script>
+
+<table style="table-layout: fixed;width: 100%">
+    <tr style="border-bottom:thick double black">
+        <td >
+          <ul>
+            <li><input id="checkStatusButton" type="button" value="Check ITS Authorization" onclick="checkAuthStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check Dashboard Authorization" onclick="checkDashAuthStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check Ereads Authorization" onclick="checkEreadsAuthStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check eBooks Authorization" onclick="checkEbooksAuthStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check eBooks44 Authorization" onclick="checkEbooks44AuthStatus(<%= auth_user_id %>)" /></li>
+          </ul>
+        </td> 
+        <td style="border-bottom:none">
+          <ul>
+            <li><input id="checkStatusButton" type="button" value="Check Expert Space Authorization" onclick="checkExpertStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check Nextpert Authorization" onclick="checkNextpertStatus(<%= auth_user_id %>)" /></li>
+            <li><input id="checkStatusButton" type="button" value="Check FMNG Stretch Authorization" onclick="checkStrchStatus(<%= auth_user_id %>)" /></li>
+          </ul>
+        </td>
+    </tr></br>
+    <tr>
+        <td colspan="2" style="border-bottom:none"> 
+          <span id="statusValue" style="font-size:125%"/><br/>
+          <table id="failReason" />
+          <div>
+            <span id="feedback" />
+          </div>
+    </tr>
+</table>        
+

@@ -1,0 +1,91 @@
+<script type="text/javascript">
+
+     jQuery(document).ready(function(){
+	
+		// Set the number of items docked
+        var docked = <%= @num_docked %>;
+
+		// Set the total height that the docks can take up on the screen
+        jQuery("#dock li ul.dock_panel").height(jQuery(window).height() - 200);
+		
+		// Set the offset and height of each item that is docked
+		var dockHeight = (jQuery(window).height() - 200) / docked
+		var dockTop = 0;
+		jQuery("#dock li ul.docked").each(function(){
+				jQuery(this).css("left", "40px");
+            jQuery(this).height(dockHeight).css("top", dockTop + "px");
+            dockTop += dockHeight;
+        });
+		
+		// Now adjust the rest of the content
+		if (docked > 0)
+            jQuery("#content").css("margin-left","320px");
+        else
+            jQuery("#content").css("margin-left", "60px");	
+
+        jQuery("#dock .dock").click(function(){
+
+			dock_element = jQuery(this).parent().parent();
+
+            jQuery(this).parent().parent().addClass("docked").removeClass("free");
+
+            docked += 1;
+            var dockH = (jQuery(window).height() - 200) / docked
+            var dockT = 0;               
+
+            jQuery("#dock li ul.docked").each(function(){
+                jQuery(this).height(dockH).css("top", dockT + "px");
+                dockT += dockH;
+            });
+            jQuery(this).parent().find(".undock").show();
+            jQuery(this).hide();
+
+            if (docked > 0)
+                jQuery("#content").css("margin-left","320px");
+            else
+                jQuery("#content").css("margin-left", "60px");
+
+			// Finally set the status to docked
+			jQuery.post("<%= url_for(:controller => :users, :action => :update_dock_setting) %>" + "?dock_code=" + dock_element.attr('id').substr(10) + "&status=1");	
+        });
+
+         jQuery("#dock .undock").click(function(){
+
+			dock_element = jQuery(this).parent().parent();
+
+            jQuery(this).parent().parent().addClass("free").removeClass("docked")
+                .animate({left:"-180px"}, 200).height(jQuery(window).height() - 200).css("top", "0px");
+
+            docked = docked - 1;
+            var dockH = (jQuery(window).height() - 200) / docked
+            var dockT = 0;               
+
+            jQuery("#dock li ul.docked").each(function(){
+                jQuery(this).height(dockH).css("top", dockT + "px");
+                dockT += dockH;
+            });
+            jQuery(this).parent().find(".dock").show();
+            jQuery(this).hide();
+
+            if (docked > 0)
+                jQuery("#content").css("margin-left", "320px");
+            else
+                jQuery("#content").css("margin-left", "60px");
+
+			// Finally set the status to undocked
+			jQuery.post("<%= url_for(:controller => :users, :action => :update_dock_setting) %>" + "?dock_code=" + dock_element.attr('id').substr(10) + "&status=0");
+        });
+
+        jQuery("#dock li").hover(function(){
+            jQuery(this).find("ul.dock_panel").animate({left:"40px"}, 200);
+        }, function(){
+            jQuery(this).find("ul.free").animate({left:"-180px"}, 200);
+       	});
+
+		<% if (@initial_focus) %>
+			jQuery("#sam_customer_search_keystring").focus();
+		<% end %>
+
+    });
+
+</script>

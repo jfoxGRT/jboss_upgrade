@@ -1,0 +1,58 @@
+<% @page_title = "SAMC - Landscape View" %>
+<div><%= link_to("School-Level View", landscape_schools_for_sam_customer_path(:sam_customer_id => @sam_customer.id)) %></div>
+<h2 align="center">Landscape Data</h2>
+<!-- MODEL #1 -->
+<table class="data_table" cellspacing="0">
+	<tr>
+		<th>SAM Server</th>
+		<%= render(:partial => "subcommunity_heading", :collection => @subcommunities.collect{|c| c.code}) %>
+	</tr>
+	<tr>
+		<td><%= @landscape_data[0].sam_server_name %></td>
+	<% 	sam_server_id = @landscape_data[0].sam_server_id
+	 	subcommunities_array_index = 0
+		@landscape_data.each do |ld|
+			if (ld.sam_server_id != sam_server_id)
+				while (subcommunities_array_index != (@subcommunities.length)) %>
+					<td colspan="2">N/A</td>
+					<% subcommunities_array_index += 1 %>
+				<% end
+				sam_server_id = ld.sam_server_id %>
+				</tr>
+				<tr>
+					<td><%= ld.sam_server_name %></td>
+			 	<% subcommunities_array_index = 0 
+			end %>
+			<% 	while (ld.subcommunity_id > @subcommunities[subcommunities_array_index].id) 
+					subcommunities_array_index += 1 %>
+					<td colspan="2">N/A</td>
+				<% end %>
+			<% 	if (ld.subcommunity_id == @subcommunities[subcommunities_array_index].id) %>
+					<% 	logger.info("===================================")
+						logger.info("C,ld.sam_server_id: #{ld.sam_server_id}")
+						logger.info("C,ld.subcommunity_id: #{ld.subcommunity_id} (#{ld.subcommunity_code})") 
+						logger.info("C,subcommunities_array_index: #{subcommunities_array_index}")
+						logger.info("C,@subcommunities[subcommunities_array_index].id: #{@subcommunities[subcommunities_array_index].id} (#{@subcommunities[subcommunities_array_index].code})") %>
+					<td><%= ld.seat_count %></td>
+					<td><%= ld.enrolled_count %></td>
+			<% 	else %>
+					<td colspan="2">N/A</td>
+			<% 	end
+			subcommunities_array_index += 1
+		end 
+		while (subcommunities_array_index != (@subcommunities.length)) %>
+			<td colspan="2">N/A</td>
+			<% subcommunities_array_index += 1 %>
+		<% end %>
+	</tr>
+</table>
+<!-- MODEL #2 -->
+<!--<table class="data_table" cellspacing="0">
+	<tr>
+		<th>SAM Server</th>
+		<%#= render(:partial => "subcommunity_heading", :collection => @subcommunities.collect{|c| c[1]}) %>
+	</tr>
+	<%# @landscape_view.each_key do |ek| %>
+		<%#= render(:partial => "landscape_row", :object => @landscape_view[ek], :locals => {:subcommunities => @subcommunities}) %>
+	<%# end %>
+</table> -->

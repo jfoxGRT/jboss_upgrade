@@ -1,0 +1,6 @@
+<tr>
+    <td>&nbsp;<%= link_to(app_topic_message_list_element.id, :action => :app_topic_message_detail, :id => app_topic_message_list_element.id) %></td>
+    <td>&nbsp;<%= app_topic_message_list_element.event_type %></td>
+    <td>&nbsp;<%= app_topic_message_list_element.token %></td>
+    <td>&nbsp;<%= app_topic_message_list_element.timestamp.strftime('%m/%d/%y %I:%M:%S %p') %></td>
+</tr>

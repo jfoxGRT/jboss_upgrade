@@ -1,0 +1,52 @@
+	<table id="org_widget_container" cellspacing="0" cellpadding="0" style="width: 100%; margin: 0px; padding: 0px;">
+		<thead>
+			<tr>
+				<td style="vertical-align: middle;">
+					<form action="" id="ucn_search_form">
+						UCN:&nbsp;&nbsp;
+						<%= text_field_tag("org_name") %>
+						<%= submit_tag("Lookup") %>
+					</form>
+				</td>
+				<td id="org_widget_status_cell" style="height: 38px;">
+					<span id="org_widget_status_message" style="font-weight: normal; display: none; vertical-align: bottom;">Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image", :style => "vertical-align: bottom;" ) %></span>
+				</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="width: 50%; vertical-align: top; border-bottom: 0px; height 400px;">
+					<table class="modalPopupWindow" cellspacing="0" cellpadding="0" style="width: 100%; margin: 0px;">
+						<tr>
+							<td style="padding: 0px; border-right: 1px dotted black; border-bottom: 0px; vertical-align: top;">
+								<div id="org_widget_left_pane">
+									<%= render(:partial => "/orgs/org_widget_org_details", :object => org_widget) %>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td style="width: 50%; vertical-align: top; padding: 0px; border-bottom: 0px; height: 400px;">
+					<div>
+					<div id="org_widget_right_pane">
+						<table style="width:100%;">
+							<tr>
+								<td style="padding-top: 30px; text-align: center; font-size: 11px; font-style: italic; border: 0px;">Click 'Show Parent/Show Children'</td>
+							</tr>
+						</table>
+					</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<script type="text/javascript">
+		
+	jQuery('form#ucn_search_form').submit(function() {
+			lookup_org(jQuery('#org_name').val());
+			return false;
+		});
+		
+		
+	
+		
+</script>

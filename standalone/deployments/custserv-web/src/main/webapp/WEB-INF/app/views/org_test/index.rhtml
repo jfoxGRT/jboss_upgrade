@@ -1,0 +1,11 @@
+<div id="form_container">
+<% form_remote_for(:org) do |f| -%>
+<%= f.text_field(:name) %>
+<%= submit_to_remote("searchorgs", "Search", :url => {:action => "find_orgs"}, :id => "blehhh",
+                            :before => "$('status_indicator').update('Processing request..');",
+                            :interactive => "$('status_indicator').update('Rendering results..');",
+                            :complete => "$('status_indicator').update('');") %>
+<% end -%>
+</div>
+<div>&nbsp;<span id="status_indicator" style="color: red;"></span></div>
+<div id="search_results_container"></div>

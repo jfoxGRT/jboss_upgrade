@@ -1,0 +1,16 @@
+<div id="navcontainer">
+<ul>
+  <li><%= link_to "Home", :action => :index, :controller => :home %></li>
+  <% if logged_in? %>
+    <!--<li><%= link_to "Licensing", :action => :index, :controller => :licensing if current_user.permissions.with_code( "LICENSE" ) %></li>
+    <li><%= link_to "Auto Update", :action => :index, :controller => :auto_update if current_user.permissions.with_code( "SERVER" ) %></li>
+    <li><%= link_to "Users", :action => :index, :controller => :users if current_user.permissions.with_code( "USER" ) %></li> -->
+    
+    <li><%= link_to("Alerts", :action => :index, :controller => :alert) %></li>
+    <li><%= link_to("SAM Connect Accounts", :action => :index, :controller => :sam_customer) %></li>
+    <li><%= link_to("Organizations", :action => :org_hierarchy_states, :controller => :csi) %></li>
+    <li><%= link_to("All Entitlements", :action => :index, :controller => :entitlement) %></li>
+
+  <% end %>
+</ul>
+</div>

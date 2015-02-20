@@ -1,0 +1,20 @@
+<% connectivity = registered_sam_customer.connectivity.to_i %>
+<tr>
+	<td style="text-align: left; width: 10%;"><%= (registered_sam_customer.sam_customer_id.nil?) ? "" : link_to(registered_sam_customer.sam_customer_id, sam_customer_path(registered_sam_customer.sam_customer_id)) %></td>
+	<td style="text-align: left;"><%= (registered_sam_customer.sam_customer_id.nil?) ? "" :link_to(registered_sam_customer.sam_customer_name, sam_customer_path(registered_sam_customer.sam_customer_id)) %></td>
+	<td style="text-align: left;"><%= registered_sam_customer.state_code %></td>	
+	<td><%= registered_sam_customer.registration_date.strftime(DATE_FORM) %></td>
+    <td>&nbsp;<%= (registered_sam_customer.sam_server_count.nil?) ? "" : link_to(registered_sam_customer.sam_server_count, sam_customer_sam_servers_path(registered_sam_customer.sam_customer_id)) %></td>          
+	<td style="text-align: left;"><% if (connectivity < 25) %>
+			<%= image_tag("led-red.gif", :style => "vertical-align: bottom;") %>
+		<% elsif (connectivity < 50) %>
+			<%= image_tag("led-orange.gif", :style => "vertical-align: bottom;") %>
+		<% elsif (connectivity < 75) %>
+			<%= image_tag("led-yellow.gif", :style => "vertical-align: bottom;") %>
+		<% else %>
+			<%= image_tag("led-green.gif", :style => "vertical-align: bottom;") %>
+		<% end %>
+        &nbsp;<%= (connectivity.nil?) ? "" : link_to(connectivity, sam_customer_sam_servers_path(registered_sam_customer.sam_customer_id)) %>%         		
+	</td>
+    <td><%= (registered_sam_customer.unmatched_school_count.nil?) ? "" : link_to(registered_sam_customer.unmatched_school_count, sam_customer_schools_path(registered_sam_customer.sam_customer_id)) %></td>
+</tr>

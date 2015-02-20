@@ -1,0 +1,28 @@
+<% @page_title = "SAMC - Add Entitlement Assignment Suppression" %>
+<table id="breadcrumb_container">
+	<tr>
+		<td><%= link_to("Entitlement Assignment Suppressions", entitlement_assignment_suppressions_path) %></td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title">Add</span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Add Entitlement Assignment Suppression</h2>
+</div>
+<%= error_messages_for :entitlement_assignment_suppression %>
+<% form_for(:entitlement_assignment_suppression, :url => entitlement_assignment_suppressions_path, :html => {:method => :post, :onsubmit => "showStatus(); Form.Element.disable('submit_tag')"}) do |f| -%>
+  	<table class="form_table">
+		<tr>
+			<td class="label_cell">Root Organization UCN:</td>
+			<% root_org = @entitlement_assignment_suppression.org %>
+			<td><%= f.text_field(:ucn) %></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align: center;"><%= submit_tag("Add Entitlement Suppression Record", :id => "submit_tag") %></td>
+		</tr>
+  	</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>

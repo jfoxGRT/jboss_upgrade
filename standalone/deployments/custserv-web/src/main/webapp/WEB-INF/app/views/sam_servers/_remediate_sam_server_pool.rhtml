@@ -1,0 +1,13 @@
+<% unallocated_pool = SeatPool.find_seat_pool(remediate_sam_server_pool.sam_customer, remediate_sam_server_pool.subcommunity, nil) 
+	unallocated_count = unallocated_pool ? unallocated_pool.seat_count : 0 %>
+<tr>
+	<td style="text-align: left;"><%= remediate_sam_server_pool.subcommunity.name %></td>
+	<td><%= unallocated_count %></td>
+	<td><%= remediate_sam_server_pool.seat_count %></td>
+	<td><%= check_box_tag("change_license_count_#{remediate_sam_server_pool.id}", "1", false, 
+			:onclick => "toggle_editability('#{remediate_sam_server_pool.id}'); validate_form(#{unallocated_count}, '#{remediate_sam_server_pool.id}', parseInt($('license_count_#{remediate_sam_server_pool.id}').value))") %>
+	<td><%= text_field_tag("license_count_#{remediate_sam_server_pool.id}", remediate_sam_server_pool.seat_count, {:disabled => "disabled", :class => "licenses_to_keep", 
+		:onkeyup => "validate_form(#{unallocated_count}, '#{remediate_sam_server_pool.id}', parseInt(this.value));"}) %>
+		<%= hidden_field_tag("original_license_count_#{remediate_sam_server_pool.id}", remediate_sam_server_pool.seat_count) %>
+		<%= hidden_field_tag("text_field_status_#{remediate_sam_server_pool.id}", "0") %></td>
+</tr>

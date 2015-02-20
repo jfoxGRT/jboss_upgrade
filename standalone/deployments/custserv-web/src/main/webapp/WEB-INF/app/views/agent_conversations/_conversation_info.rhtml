@@ -1,0 +1,50 @@
+<% agent_id = sam_server.agent.id %>
+<table class="data_table" style="width: 80%;">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("conversationid")%>>
+                <%= sort_link_helper("Conversation Instance ID", "conversationid", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("adapteridentifier")%>>
+                <%= sort_link_helper("Adapter Identifier", "adapteridentifier", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("conversationidentifier")%>>
+                <%= sort_link_helper("Conversation Identifier", "conversationidentifier", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("started")%>>
+                <%= sort_link_helper("Started", "started", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("completed")%>>
+                <%= sort_link_helper("Completed", "completed", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("resultmsg")%>>
+                <%= sort_link_helper("Result", "resultmsg", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td>Result Message</td>
+            <td <%= sort_td_class_helper("retrytimeoutend")%>>
+                <%= sort_link_helper("Retry Timeout End", "retrytimeoutend", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("retryparentconversationid")%>>
+                <%= sort_link_helper("Retry Parent Conversation ID", "retryparentconversationid", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("retryoriginalconversationid")%>>
+                <%= sort_link_helper("Retry Original Conversation ID", "retryoriginalconversationid", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+            <td <%= sort_td_class_helper("priority")%>>
+                <%= sort_link_helper("Priority", "priority", "conversation_table", "update_table", "conversation_status_indicator")%>
+            </td>
+			<td>Failure Result Code</td>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "conversation", :collection => conversation_collection, :locals => {:agent_id => agent_id}) %>
+    </tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(conversation_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => "conversation_status_indicator",
+                  :update_element => "conversation_table",
+                  :action => "update_table",
+				  :sam_customer_id => sam_customer.id,
+				  :sam_server_id => sam_server.id) %>
+</p>

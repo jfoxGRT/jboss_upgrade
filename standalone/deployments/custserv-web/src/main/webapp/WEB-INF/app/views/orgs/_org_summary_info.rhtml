@@ -1,0 +1,16 @@
+<% if (link) %>
+	<%= link_to(org_summary_info.org_name, show_summary_info_for_org_path(org_summary_info.ucn), :id => org_summary_info.ucn) %>
+<% else %>
+	<%= org_summary_info.org_name %>
+<% end %>
+<br>UCN: <%= org_summary_info.ucn %><br>
+<% if (org_summary_info.city_name.empty? && org_summary_info.state_code.empty? && org_summary_info.zip_code.empty?) %>
+	<%= org_summary_info.address_line_1 %><br/>
+	<%= org_summary_info.address_line_2 %><br/>
+	<%= org_summary_info.address_line_3 %><br/>
+<% else %>
+	<%= "#{org_summary_info.city_name}" if !org_summary_info.city_name.empty? %><%= "," if (org_summary_info.city_name && !org_summary_info.state_code.empty?) %><%= " #{org_summary_info.state_code}" if !org_summary_info.state_code.empty? %><%= " #{org_summary_info.zip_code}" %>
+	<% if !org_summary_info.county_code.empty? %>
+		<%= "<br/>County Code: #{org_summary_info.county_code}" %>
+	<% end %>
+<% end %>

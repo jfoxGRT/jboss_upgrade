@@ -1,0 +1,33 @@
+<% class_definition = ""
+	#total_pool_count = ((lcd_subcommunity_scale.pool_count.nil? || lcd_subcommunity_scale.unallocated_count.nil?) ? 0 : (lcd_subcommunity_scale.pool_count.to_i + lcd_subcommunity_scale.unallocated_count.to_i))
+	#specific_pool_count = (lcd_subcommunity_scale.pool_count) ? lcd_subcommunity_scale.pool_count.to_i : 0
+
+	difference = lcd_subcommunity_scale.server_count - lcd_subcommunity_scale.allocated_pool_count
+
+	#total_pool_count = (lcd_subcommunity_scale.pool_count.to_i + lcd_subcommunity_scale.unallocated_count.to_i)
+	#specific_pool_count = lcd_subcommunity_scale.pool_count.to_i
+	#entitlement_pool_mismatch = (lcd_subcommunity_scale.entitlement_count.to_i != total_pool_count)
+	#pool_server_mismatch = (specific_pool_count != lcd_subcommunity_scale.server_count.to_i)
+	#server_count = lcd_subcommunity_scale.server_count.to_i
+	#difference = server_count - specific_pool_count
+	#virtual_count = lcd_subcommunity_scale.virtual_count.to_i
+   class_definition = "table_row_problem" if (lcd_subcommunity_scale.license_count_integrity_problem?) %>
+<tr class="<%= class_definition %>">
+    <td style="text-align: left;"><%= link_to(lcd_subcommunity_scale.subcommunity.name, sam_customer_subcommunity_path(sam_customer.id, lcd_subcommunity_scale.subcommunity.id)) %></td>
+	<td><%= lcd_subcommunity_scale.unallocated_pool_count %></td>
+	<td><%= lcd_subcommunity_scale.allocated_pool_count %></td>
+	<td><%= lcd_subcommunity_scale.server_count %></td>
+	<td><%= difference %></td>
+	<td><%= lcd_subcommunity_scale.virtual_entitlement_count %></td>
+    <td>&nbsp;
+		<% if (lcd_subcommunity_scale.license_count_integrity_problem?) %>
+		*INFORM SYSTEM ADMINISTRATOR*
+		<% elsif (lcd_subcommunity_scale.license_count_discrepancy?) 
+			   if (lcd_subcommunity_scale.seat_pool_pending_reallocations) %>
+				 	Pending license reallocations on one or more SAM servers
+			<% else %>
+		<%= link_to("Add Virtual Entitlement", new_task_license_count_discrepancy_path(task.id, :subcommunity_id => lcd_subcommunity_scale.subcommunity.id)) %>
+			<% end
+		 end %>
+    </td>
+</tr>

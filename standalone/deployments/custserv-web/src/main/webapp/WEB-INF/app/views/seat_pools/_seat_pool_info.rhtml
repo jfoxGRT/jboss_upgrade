@@ -1,0 +1,37 @@
+<% sam_server = seat_pool_info.sam_server %>
+<%= render(:partial => "seat_pools/seat_pool_properties", :object => seat_pool_info) %>
+<% if sam_server %>
+<div align="center" class='basicModallink' style="margin-bottom: 7px;">
+	<input class="widget_dialog" type="button" value="Show License Allocation Policy" element_id="license_allocation_options" href="<%= url_for(:action => :options_for, :id => seat_pool_info.id) %>" />&nbsp;&nbsp;
+</div>
+<% end %>
+<div align="center" style="height: 30px;">&nbsp;
+	<span id="status_indicator" style="color: red; display: none;"><%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></span>
+</div>
+<% if @school_enrollments && !@school_enrollments.empty? %>
+<div class="table_header" style="margin-top: 0px;">
+	<h3 class="table_title">School Enrollments</h3>
+</div>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>School Enrollment ID</th>
+			<th>School ID</th>
+			<th>School Name</th>
+			<th>UCN</th>
+			<th>Enrolled</th>
+			<th>Allowed Max</th>
+			<th>Allowed Max from NOOP</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "school_enrollment", :collection => @school_enrollments) %>
+	</tbody>
+</table>
+<% end %>
+<div align="center" class='basicModallink' style="margin-bottom: 7px;">
+	<input class="widget_dialog" type="button" value="Show SAMC License Count History" element_id="seat_pool_msgs" href="<%= url_for(:action => :seat_pool_msgs, :id => seat_pool_info.id) %>" /><br/><br/>
+	<% if sam_server and !sam_server.is_unregistered_generic? %>
+		<input class="widget_dialog" type="button" value="Show Server License Count History" element_id="server_license_count_msgs" href="<%= url_for(:action => :server_license_count_msgs, :id => seat_pool_info.id) %>" />
+	<% end %>
+</div>

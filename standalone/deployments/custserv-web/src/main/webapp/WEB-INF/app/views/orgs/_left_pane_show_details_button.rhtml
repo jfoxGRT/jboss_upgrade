@@ -1,0 +1,4 @@
+<%= button_to_remote("Show Details &raquo;",
+							{:before => "$$('input.submit_button').each(Form.Element.disable); $('status_indicator').show();",
+                            :complete => "$('status_indicator').hide(); $$('input.submit_button').each(Form.Element.enable); $('org_name').select();",
+							:url => {:action => "find_ucn", :id => left_pane_show_details_button.ucn}}, {:class => "submit_button"}) if !left_pane_show_details_button.nil? %>

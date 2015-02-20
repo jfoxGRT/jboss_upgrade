@@ -1,0 +1,25 @@
+<p>Entering a UCN will prevent that customer from receiving Banner Messages</p><br />
+
+<% form_remote_tag(:url => url_for(:action => :add_to_blacklist), :html => {:name => 'blacklistform'}) do -%>
+<h4>Enter a UCN:</h4><br />
+      <p><%= text_field_tag(:customer_number, "", :size => 20) %> &nbsp;&nbsp; 
+          <%=submit_tag "Add"%>
+      </p>
+<%end%>      
+<br /><br />      
+<div id="blacklist">
+<table class="data_table">
+    <tr>
+        <th>SAM Customer Name</th>
+        <th>UCN</th>
+        <th width="75px">&nbsp;</th>
+    </tr>
+
+        <%= render(:partial => "blacklist", :collection => @list) %>
+
+</table>    
+</div>
+<br/>
+<div align="center">
+    <input type="button" onclick="close_dialog()" value="Cancel" />
+</div>

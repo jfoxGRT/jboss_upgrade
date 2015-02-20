@@ -1,0 +1,34 @@
+<%  @page_title = "SAMC - #{@user.first_name} #{@user.last_name}" %>
+<table id="breadcrumb_container">
+	<% if @sam_customer.nil? %>
+	<tr>
+		<td><%= link_to("Scholastic Users", users_path) %></td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title"><%= @user.first_name + " " + @user.last_name %></span></td>
+	</tr>
+	<% else %>
+	<tr>
+		<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+		<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+		<td>&raquo;</td>
+		<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => CUSTOMER_ADMINS_CODE, :on_target => nil}) %>
+		</td>
+		<td>&raquo;</td>
+		<td><span id="current_page_title"><%= @user.first_name + " " + @user.last_name %></span></td>
+	</tr>
+	<% end %>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @user.first_name + " " + @user.last_name %></h2>
+</div>
+<%= render(:partial => "user_details", :object => @user, :locals => {:sam_customer => @sam_customer}) %>
+<hr/>
+<% if((@user.isScholasticType and @current_user.email != @user.email) or @user.isAdminType ) %>
+	<% if(@current_user.hasPermission?(Permission.manage_s_users) && @current_user.hasPermission?(Permission.edit)) %>
+<div class="link_set">
+	<%= link_to("Edit", edit_user_path(@user)) %><br/><br/>
+	<%= button_to("Delete", user_path(@user), {:method => :delete, :confirm => "Are you sure you wish to delete this person?"}) %>
+</div>
+	<% end %>
+<% end %>

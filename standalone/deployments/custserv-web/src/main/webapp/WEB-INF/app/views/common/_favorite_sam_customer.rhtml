@@ -1,0 +1,20 @@
+<tr>
+	<td class="favorite_sam_customer_link_cell" style="text-align: left;">
+		<ul class="nav">
+			<li class="quickpick_item"><%= link_to(favorite_sam_customer.name, sam_customer_path(favorite_sam_customer.id)) %> &raquo;
+				<ul>
+					<%= render(:partial => "common/sam_customer_breadcrumb_level_rootnav", 
+								:locals => {:sam_customer_id => favorite_sam_customer.id,
+											:site_area_code => nil}) %>
+				</ul>
+			</li>
+		</ul>
+		<div style="font-style: italic; padding-top: 4px; padding-left: 20px;">(<%= favorite_sam_customer.ucn %>)</div>
+	</td>
+	<td>
+		<%= favorite_sam_customer.code %>
+	</td>
+	<td style="width: 30%;">
+		<%= button_to_remote("Remove", {:before => "$('remove_favorite_sam_customer_#{favorite_sam_customer.id}').disable();", :url => remove_favorite_sam_customer_path(:id => favorite_sam_customer.id, :favorite_id => favorite_sam_customer.favorite_id), :method => :delete }, {:id => "remove_favorite_sam_customer_#{favorite_sam_customer.id}", :class => "remove_link"}) %>
+	</td>
+</tr>

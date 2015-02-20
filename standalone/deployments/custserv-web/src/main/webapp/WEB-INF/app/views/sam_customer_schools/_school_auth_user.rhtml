@@ -1,0 +1,8 @@
+<tr>
+  <td>&nbsp;<%= link_to(school_auth_user.id, sam_customer_auth_user_path(school_auth_user.sam_customer_id, school_auth_user.id)) %></td>
+  <td>&nbsp;<%= school_auth_user.username %></td>
+  <td>&nbsp;<%= school_auth_user.type %></td>
+  <td>&nbsp;<%= school_auth_user.created_at.strftime(DATE_FORM) %></td>
+  <td>&nbsp;<%= school_auth_user.updated_at.strftime(DATE_FORM) %></td>
+  <td>&nbsp;<%= image_tag("choice-yes.gif") if school_auth_user.enabled %></td>
+</tr>

@@ -1,0 +1,31 @@
+<table class="property_table" style="width: 40%;">
+	<tr>
+		<td>Task ID</td>
+		<td><%= @task.id %></td>
+	</tr>
+	<tr>
+		<td>Task Type</td>
+		<td><%= @task.task_type.description %></td>
+	</tr>
+	<tr>
+		<td>State / Province</td>
+		<td><%= @task.state_province.name %></td>
+	</tr>
+	<tr>
+		<td>Created At</td>
+		<td><%= @task.created_at.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Status</td>
+		<td><%= translateTaskStatus(@task) %></td>
+	</tr>
+	<tr>
+		<td>Currently Assigned User</td>
+		<% user = @task.current_user %>
+		<td>&nbsp;
+			<% if user %>
+				<%= user.first_name %> <%= user.last_name %>
+			<% end %>
+		</td>
+	</tr>
+</table>

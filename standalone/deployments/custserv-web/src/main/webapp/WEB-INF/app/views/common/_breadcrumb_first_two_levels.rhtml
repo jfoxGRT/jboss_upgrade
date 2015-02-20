@@ -1,0 +1,12 @@
+<%= render(:partial => "common/breadcrumb_state_link", :object => state) %>
+<td id="breadcrumb">
+	<ul class="nav">
+		<li><%= link_to(sam_customer.name, sam_customer_path(sam_customer.id), :style => "vertical-align: middle;") %>&nbsp;<%= image_tag("rba-arrow-small-down.gif", :style => "vertical-align: middle;") %>
+			<ul>
+				<%= render(:partial => "common/sam_customer_breadcrumb_level_rootnav", 
+					:locals => {:sam_customer_id => @sam_customer.id, 
+								:site_area_code => site_area_code}) %>
+			</ul>				
+		</li>
+	</ul>
+</td>

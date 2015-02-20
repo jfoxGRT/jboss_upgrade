@@ -1,0 +1,30 @@
+<table class="data_table">
+<thead>
+    <tr class="data_table_first_row">
+        <td <%= sort_td_class_helper("product_description")%>>
+            <%= sort_link_helper("#{PRODUCT_TERM} Description", "product_description", update_element, "update_server_subcommunity_table", status_indicator)%>
+        </td>
+        <td <%= sort_td_class_helper("server_name")%>>
+            <%= sort_link_helper("Installed On..", "server_name", update_element, "update_server_subcommunity_table", status_indicator)%>
+        </td>
+        <td <%= sort_td_class_helper("allocated_seats")%>>
+            <%= sort_link_helper("Number of Allocated Seats", "allocated_seats", update_element, "update_server_subcommunity_table", status_indicator)%>
+        </td>
+        <td <%= sort_td_class_helper("enrolled_seats")%>>
+            <%= sort_link_helper("Number of Enrolled Seats", "enrolled_seats", update_element, "update_server_subcommunity_table", status_indicator)%>
+        </td>
+        <td <%= sort_td_class_helper("unused_seats")%>>
+            <%= sort_link_helper("Number of Unused Seats", "unused_seats", update_element, "update_server_subcommunity_table", status_indicator)%>
+        </td>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "server_subcommunity", :collection => server_subcommunity_info_collection) %>
+</tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(server_subcommunity_info_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_server_subcommunity_table") %>
+</p>

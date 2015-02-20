@@ -1,0 +1,13 @@
+<%  			
+	sapling = outdated_component_quiz_history_row
+	
+			sapling_name = sapling["sapling_name"]
+			curr_version = sapling["sapling_version"]
+			updated_version = sapling["max_sapling_version"]
+	%>
+	<tr>
+		<td align = "center"><%= sapling_name.to_s %></td>
+		<td align = "center"><%= curr_version.to_s %></td>
+		<td align = "center"><%= updated_version.to_s %></td>
+	</tr>
+

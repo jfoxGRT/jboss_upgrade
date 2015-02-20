@@ -1,0 +1,23 @@
+<h2 align="center">Tasks - Unassigned Accounts</h2>
+<% if (@unassignedSamCustomers.length > 0) %>
+<table class="data_table" width="50%">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Account Name</th>
+            <th>Old Associated Organization</th>
+            <th>New Associated Organization</th>
+            <th>Date Registered</th>
+            <th>Task Details</th>
+            <th>Dispatched By..</th>
+            <th>Task Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "alert_unassigned_sam_customer", :collection => @unassignedSamCustomers) %>
+    </tbody>
+</table>
+<% else %>
+<div "no_unassigned_sam_customer_alerts" align="center">There are currently no Unassigned Account alerts</div>
+<% end %>

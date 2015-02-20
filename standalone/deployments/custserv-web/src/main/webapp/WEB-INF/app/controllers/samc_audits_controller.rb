@@ -1,0 +1,2 @@
+class SamcAuditsController < ApplicationController
+end

@@ -1,0 +1,94 @@
+<table class="property_table shadow" style="width: 50%;">
+    <tbody>
+        <tr>
+            <td><%= SAM_CUSTOMER_TERM %> Name</td>
+			<% sam_customer = user_details.sam_customer %>
+            <td>&nbsp;<%= link_to(sam_customer.name, sam_customer_path(sam_customer.id)) if sam_customer %></td>
+        </tr>
+		<tr>
+            <td>User ID</td>
+            <td>&nbsp;<%= user_details.id %></td>
+        </tr>
+		<tr>
+            <td>Email Address</td>
+            <td>&nbsp;<%= user_details.email %></td>
+        </tr>
+		<tr>
+			<td>Active?</td>
+			<td>&nbsp;<%= user_details.active ? image_tag("choice-yes.gif") : image_tag("choice-no.gif") %></td>
+		</tr>
+		<tr>
+			<td>Salutation</td>
+			<td>&nbsp;<%= user_details.salutation.description %></td>
+		<tr>
+            <td>First Name</td>
+            <td>&nbsp;<%= user_details.first_name %></td>
+        </tr>
+		<tr>
+            <td>Last Name</td>
+            <td>&nbsp;<%= user_details.last_name %></td>
+        </tr>
+		<tr>
+			<td>Phone Number</td>
+			<td>&nbsp;<%= user_details.phone %></td>
+		</tr>
+		<tr>
+			<td>Job Title</td>
+			<td>&nbsp;<%= user_details.job_title.description %></td>
+		</tr>
+        <tr>
+            <td>Date Created</td>
+			<% created_at = user_details.created_at %>
+            <td>&nbsp;<%= created_at.strftime(DATE_FORM) if created_at %></td>
+        </tr>
+		<tr>
+            <td>Last Updated</td>
+			<% updated_at = user_details.updated_at %>
+            <td>&nbsp;<%= updated_at.strftime(DATE_FORM) if updated_at %></td>
+        </tr>
+		<tr>
+            <td>Registration Date</td>
+			<% registration_date = user_details.registered_at %>
+            <td>&nbsp;<%= registration_date.strftime(DATE_FORM) if registration_date %></td>
+        </tr>
+		<tr>
+			<td>EULA Acceptance Date</td>
+			<td><%= user_details.eula_accepted.strftime(DATE_FORM) if user_details.eula_accepted %></td>
+		</tr>
+		<tr>
+			<td>EULA Version</td>
+			<td><%= user_details.eula_version %></td>
+		</tr>
+		<tr>
+            <td>Token</td>
+            <td>&nbsp;<%= user_details.token %></td>
+        </tr>
+		<tr>
+            <td>User Type</td>
+            <td>&nbsp;<%= user_details.display_type %></td>
+        </tr>
+		<tr>
+			<td>Permissions</td>
+			<td>
+			<% permission_list_sorted = user_details.permissions.sort{|a,b| a.name <=> b.name} %>
+		    <%= "&nbsp;" if permission_list_sorted.length == 0 %>
+		    <% permission_list_sorted.each do |p| %>
+		        <%= p.name %><br/>
+		    <% end %>
+			</td>
+		</tr>
+		<tr>
+			<td>TMS User ID</td>
+			<td><%= user_details.tms_userid %></td>
+		</tr>
+		<tr>
+			<td>Added By</td>
+			<td><% if !user_details.added_by_user.nil? %>
+			       <%= link_to(user_details.added_by_user.email, user_path(user_details.added_by_user.id)) if user_details.added_by_user %>
+			    <% else %>
+			       User no longer exists.
+			    <% end %>
+			</td>
+		</tr>
+    </tbody>
+</table>

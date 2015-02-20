@@ -1,0 +1,38 @@
+<% @page_title = "SAMC - Remediate Server" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => SAM_SERVERS_CODE, :on_target => nil}) %>
+	</td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Remediate SAM Server</span>		
+	</td>
+	</tr>
+</table>
+<h1 style="margin-bottom: 10px; text-align: center">Remediate SAM Server</h1>
+<hr/>
+<div align="center">
+		<h3 style="text-align: left;">Select Action on License Counts</h3>
+		<br/>
+		<% form_remote_tag(:url => url_for(:action => :remediate_server_submit), :before => "Form.Element.disable('remediate_server_button')") do -%>
+			<table class="data_table">
+				<tr>
+					<th>SAM Server ID</th>
+					<th>SAM Server Name</th>
+				</tr>
+				<%= render(:partial => "server_to_operate_on", :object => @sam_server) %>
+			</table><br/>
+			<%= render(:partial => "splitting_licenses_on_server", :locals => {:sam_server => @sam_server, :enabled => true}) %>
+			<br/>
+			<%= submit_tag("Remediate SAM Server", :id => "remediate_server_button") %>
+		<% end %>
+		<br/><br/>
+		<hr/>
+</div>
+<script type="text/javascript">
+	function show_loading_msg(pElement) {
+		$(pElement).update("<br/><br/><span style='color: blue;'>Loading..&nbsp;&nbsp;<%= escape_javascript(image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" )) %></span>");
+	}
+</script>

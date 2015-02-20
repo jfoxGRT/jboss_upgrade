@@ -1,0 +1,4 @@
+<% form_remote_tag(:url => {:action => "save_license_manager_defaults"}) do -%>
+  <%= text_field_tag (:license_manager_version, current_license_manager_version, {:size => 10, :maxlength => 32} ) %>
+  <%= submit_tag "Save" %>
+<% end -%>

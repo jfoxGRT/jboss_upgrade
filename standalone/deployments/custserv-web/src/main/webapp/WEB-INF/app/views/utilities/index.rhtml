@@ -1,0 +1,11 @@
+<% @page_title = "SAMC - Utilities" %>
+<%# TAKE OUT --> THIS PAGE IS 99% SURE NOT USED -- CONFIRM AND REMOVE %>
+<div>
+	<%= link_to("Create Fake Order", :action => :new_fake_order) %><br/><br/>
+	<%= button_to("Update Subscriptions", {:action => :update_subscriptions}, {:confirm => "Are you sure you want to continue?"}) %>&nbsp;&nbsp;
+	<% if SamcSystem.find(:first).updating_subscriptions %>
+		Currently Updating Subscriptions <%= image_tag("choice-no.gif") %>
+	<% end %><br/><br/>
+	<%= button_to("Repair Tasks", {:action => :repair_tasks}, {:confirm => "Are you sure you want to continue?"}) if @current_user.isAdminType %><br/><br/>
+	<%= button_to("Redrive Pending License Count Change Tasks", {:action => :redrive_plcc_tasks}, {:confirm => "Are you sure you want to continue?"})%>
+</div>

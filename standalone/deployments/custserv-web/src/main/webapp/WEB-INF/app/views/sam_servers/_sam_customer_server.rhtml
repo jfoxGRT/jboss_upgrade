@@ -1,0 +1,122 @@
+<% 
+ 	class_definition = ""
+  connecting = false
+  tooltip_string = String.new
+  next_poll_at_valid = false
+  missing_agent = false
+  img_span_display_value = "none;"
+  details = ""
+  countdown_class_name = "dormant"
+  if (sam_customer_server.agent)
+    if (sam_customer_server.agent.updated_at && sam_customer_server.agent.next_poll_at)
+      next_poll_at_valid = true
+      diff = (sam_customer_server.agent.next_poll_at - Time.now).floor
+      diff_hours = (diff / 3600).floor #need to recalculate floor now that we've changed diff
+      diff_minutes = ((diff % 3600) / 60).floor
+      diff_seconds = diff % 60
+
+      seconds_since_last_agent_connection = Time.now - sam_customer_server.agent.updated_at
+      seconds_since_last_agent_connection = 0  if seconds_since_last_agent_connection < 0 #maybe clocks are a little off
+      hours_since_last_agent_connection = (seconds_since_last_agent_connection/3600).floor
+        
+      # 24-hour No Connectivity criteria takes precedence over the Possible Hung Connection criteria
+      dormant = ((sam_customer_server.agent.updated_at < sam_customer_server.agent.next_poll_at) || hours_since_last_agent_connection > 24) #TODO: use agent.updated_at < 24
+  			
+  		if (diff < 0)
+        diff = diff * -1
+        diff_hours = (diff / 3600).floor #need to recalculate floor now that we've changed diff
+        diff_minutes = ((diff % 3600) / 60).floor
+        diff_seconds = diff % 60
+
+        if dormant
+          #if the agent is being ignored, display appropriate message
+          if (sam_customer_server.agent.ignore_agent)
+            countdown_class_name = "disconnected"
+         		details = "<span style='color: red;'>Agent ignored. No connectivity."
+         	#if the GUID is being ignored, display appropriate message
+          elsif (sam_customer_server.ignore_guid)
+            countdown_class_name = "disconnected"
+          	details = "<span style='color: red;'>GUID ignored. No connectivity."
+       		elsif (hours_since_last_agent_connection > 24)
+       			countdown_class_name = "disconnected"
+       			details = "No connectivity."
+       		else
+       			countdown_class_name = "waiting"
+       		  details = "SAMC waiting for connection..&nbsp;&nbsp;&nbsp;(#{diff_hours}:#{('%02d' % diff_minutes)}:#{('%02d' % diff_seconds)})"
+       		end      
+        else # not dormant
+        	if (diff_hours > 0 || diff_minutes > 10)
+            tooltip_string = 'Connection to SAM Connect has been open longer than normal.  This may be due to a large amount of data being synced, or an agent issue if it persists.'
+        	  countdown_class_name = "hung_connection"
+        		details = "Possible hung connection"
+        	else
+        		countdown_class_name = "connected"
+        		img_span_display_value = "inline;"
+        		details = "<span style='color: blue;'>#{translate_command_id_text(sam_customer_server.current_command_id)}&nbsp;&nbsp;&nbsp;(#{diff_hours}:#{('%02d' % diff_minutes)}:#{('%02d' % diff_seconds)})</span>"
+        	end
+        end
+  	  else # diff >= 0
+        details = "#{diff_hours}:#{('%02d' % diff_minutes)}:#{('%02d' % diff_seconds)}"
+      end
+    else # sam_customer_server.next_poll_at was nil
+      missing_agent = true
+    end
+  end
+  
+  class_definition = "table_row_problem" if (sam_customer_server.agent_id && missing_agent)
+%>
+
+<tr class="<%= class_definition %>" id="server_row_<%= sam_customer_server.id %>">
+	<% if (customer_resource_edit && status == SamServer.STATUS_ACTIVE) %>
+		<td>&nbsp;
+		<%= check_box_tag(:sam_server_ids, sam_customer_server.id, false, :name => "sam_server_ids" + ((number_of_servers > 1) ? "[]" : ""), :onclick => "edit_resource_click('server_row_#{sam_customer_server.id}')") if sam_customer_server.server_type != 2 %>
+		</td>
+	<% end %>
+    <td><%= sam_customer_server.id %></td>
+    <td>
+		<table class="inner_table">
+			<tr>
+				<td style="text-align: left;"><%= link_to(sam_customer_server.name, sam_customer_sam_server_path(sam_customer_id, sam_customer_server)) %></td>
+				<td style="text-align: right;">
+					<%= image_tag("choice-no.gif", :title => "Inactive") if sam_customer_server.status == 'i' %>
+					<%= image_tag("choice-transitioning.png", :title => "Transitioning") if sam_customer_server.status == 't' %>
+					<%= image_tag("hard_drive_clone.png", :style => "width: 20px; height: 20px; vertical-align: bottom;", :title => "Clone") if !sam_customer_server.clone_parent.nil? %>
+					<%= image_tag("icon_aggregation_server.gif", :style => "vertical-align: top;", :title => "Aggregation Server") if (!sam_customer_server.agg_server.nil? && sam_customer_server.agg_server == true) %>
+					<%= image_tag("icon_hosted_server.gif", :style => "vertical-align: top;", :title => "Hosted") if sam_customer_server.is_hosted_server? %>
+				</td>
+			</tr>
+		</table>
+	</td>
+  <td><%= sam_customer_server.created_at.strftime(DATE_FORM) %></td>
+  <td><%= (sam_customer_server.agent_id.nil?) ? nil : link_to(sam_customer_server.agent_id, agent_path(sam_customer_server.agent_id)) %></td>
+  <% agent_updated_at_display = nil
+         # Time.local bombing out on parsing the hour:min:sec values through regex, when agent.updated_at 
+         # is at midnight (00:00:00). Since there is no need to localize the time (servers are in UTC), 
+         # no need for Time.local - JF
+		 if sam_customer_server.agent_id
+			 agent_updated_at_display = sam_customer_server.agent.updated_at.strftime(DATE_FORM)
+		 end
+	%>
+	<td id="countdown_lua_<%= sam_customer_server.id %>" ><%= agent_updated_at_display %></td>
+	
+  <% if next_poll_at_valid %>
+		<td id="countdown_npa_<%= sam_customer_server.id %>"><%= sam_customer_server.agent.next_poll_at.strftime(DATE_FORM) %></td>
+    
+		<td style="text-align: left;" id="countdown_cell_<%= sam_customer_server.id %>" class="<%= countdown_class_name %>">
+      <% if (tooltip_string && tooltip_string.length > 0) %>
+        <span id="countdown_<%= sam_customer_server.id %>" class="connection_status_text" title="<%= tooltip_string %>">
+      <% else %>
+        <span id="countdown_<%= sam_customer_server.id %>">
+      <% end %>
+          <%= details %>
+        </span>
+      
+    	<span id="countdown_img_<%= sam_customer_server.id %>" style="margin: 0px; padding: 0px; vertical-align: bottom; display: <%= img_span_display_value %>" >
+    		&nbsp;&nbsp;<%= image_tag("mozilla_blu.gif", :style => "margin: 0px; padding: 0px; vertical-align: bottom;") %>
+    	</span>
+    </td>
+	<% else %>
+    <td></td>
+		<td id="countdown_cell_<%= sam_customer_server.id %>" class="<%= countdown_class_name %>" style="text-align: left;"><span id="countdown_<%= sam_customer_server.id %>">Cannot compute countdown</span></td>
+	<% end %>
+</tr>

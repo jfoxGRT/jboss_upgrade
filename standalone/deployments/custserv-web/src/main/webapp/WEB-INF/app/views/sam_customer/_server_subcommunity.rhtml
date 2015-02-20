@@ -1,0 +1,7 @@
+<tr>
+    <td class="product_description" style="text-align: left;"><%= server_subcommunity.subcommunity.name %></td>
+    <td class="installed_on" style="text-align: left;"><%= server_subcommunity.sam_server_community_info.sam_server.name %></td>
+    <td class="number_of_allocated_seats"><%= server_subcommunity.licensed_seats %></td>
+    <td class="number_of_enrolled_seats"><%= server_subcommunity.used_seats %></td>
+    <td class="number_of_unused_seats"><%= server_subcommunity.difference %></td>
+</tr>

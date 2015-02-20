@@ -1,0 +1,285 @@
+
+<table class="property_table shadow-large" style="width: 70%;">
+  <tbody>
+        <tr>
+            <td><%= SAM_CUSTOMER_TERM %> ID:</td>
+            <td colspan="2" style="width: 300px;">&nbsp; <%= sam_customer_details.id %></td>
+        </tr>
+		<tr>
+            <td><%= SAM_CUSTOMER_TERM %> Name:</td>
+            <td style="height: 20px; border-right: 0px;">&nbsp; <%= sam_customer_details.name %></td>
+			<td id="favorite_icon_container" style="height: 20px; border-left: 0px;">
+				<% if @favorite.nil? %>
+					<a href="#" id="toggle_favorite_link" data-add_favorite="true"><%= image_tag("icon-green-plus-sign.gif", :class => "tTip", :title => "Add to left sidebar!") %></a>
+				<% else %>
+					<a href="#" id="toggle_favorite_link" data-add_favorite="false"><%= image_tag("icon-green-minus-sign.gif", :class => "tTip", :title => "Remove from left sidebar") %></a>
+				<% end %>
+			</td>
+        </tr>
+		<tr>
+            <td>UCN:</td>
+			<% root_org = sam_customer_details.root_org %>
+			<% ucn = root_org.customer.ucn %>
+            <td colspan="2">&nbsp; <a href="#" onclick="popup_org_dialog('<%= ucn %>'); return false;"><%= ucn %></a></td>
+    	</tr>
+		<% if @current_user.isAdminType %>
+		<tr>
+			<td>Batch Process Inclusion List:
+			<td id="batch_process_inclusion" colspan="2">
+				<%= render(:partial => "batch_process_inclusion", :locals => {:batch_process_excluded => batch_process_excluded}) %>
+			</td>
+		</tr>
+		<% end %>
+		<tr>
+      		<td>Hosted Site ID:</td>
+      		<td colspan="2" style="width: 300px;">
+      		<% if sam_customer_details.siteid != nil %>	
+      		<%= link_to (sam_customer_details.siteid, "https://"+sam_customer_details.siteid+".education.scholastic.com/slms/educatoraccess", :target => "_blank") %>
+      		<% end %>
+      		</td>
+    	</tr>
+    	<tr>
+            <td>Clever ID:</td>
+            <td colspan="2" style="width: 300px;">&nbsp;
+            <% if sam_customer_details.cleverid != nil %> 
+            <%= sam_customer_details.cleverid %>
+            <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td>Date Created:</td>
+			<% created_at = sam_customer_details.created_at %>
+            <td colspan="2">&nbsp; <%= created_at.strftime(DATE_FORM) if created_at %></td>
+        </tr>
+        <tr>
+        	<td>Enabled?</td>
+        	<td colspan="2">&nbsp;
+        	<% if !sam_customer_details.active %>
+        		<%= image_tag("choice-no.gif")  %>
+        	<% else %>
+        		<%= image_tag("choice-yes.gif") %>
+        	<% end %>
+        	</td> 
+        </tr>
+		<tr>
+            <td><%= SCHOLASTIC_INDEX_TERM %>:</td>
+            <td colspan="2">&nbsp; <%= sam_customer_details.scholastic_index.description %></td>
+        </tr>
+		<tr>
+            <td>SAMC Registration Date:</td>
+			<% registration_date = sam_customer_details.registration_date %>
+            <td colspan="2">&nbsp; <%= registration_date.strftime(DATE_FORM) if registration_date %></td>
+        </tr>
+        <tr>
+        	<td>Certified for License Manager:</td>
+        	<td colspan="2">&nbsp;
+        	<%  if sam_customer_details.licensing_certified %>
+        		<%= image_tag("choice-yes.gif") %>
+        	<% else %>
+        		<%= image_tag("choice-no.gif") %>
+        	<% end %>
+        	</td>
+        </tr>
+		<tr>
+			<td>License Manager Version:</td>
+			<td colspan="2">&nbsp; <%= license_manager.version if license_manager %>
+			</td>
+		</tr>
+		<tr>
+			<td>License Manager Upgraded:</td>
+			<td colspan="2">&nbsp;
+				<%= license_manager.activation_date.strftime(DATE_FORM) if (license_manager and license_manager.activation_date) %>
+			</td>
+		</tr>
+		<tr>
+            <td><%= LICENSE_MANAGER_TERM %> Customer Access:</td>
+            <td colspan="2">&nbsp;
+			<%  if sam_customer_details.licensing_status == "a" %>
+        		<%= image_tag("choice-yes.gif") %>
+        		
+        		<% if (@current_user.hasPermission?(Permission.lm_opt_in)) %> 
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" onclick="popup_lm_opt_out(); return false;">License Manage Opt-Out Request </button>
+                <%end%>
+        	<% else %>
+        		<%= image_tag("choice-no.gif") %>
+
+                <% if (@current_user.hasPermission?(Permission.lm_opt_in)) %>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="button" onclick="popup_lm_opt_in(); return false;">License Manage Opt-In Request </button>
+                <%end%> 
+        	<% end %>
+			</td>
+        </tr>
+		<tr>
+            <td><%= LICENSE_MANAGER_TERM %> Customer Access Date:</td>
+			<% activation_date = sam_customer_details.sc_licensing_activated %>
+            <td colspan="2">&nbsp; <%= activation_date.strftime(DATE_FORM) if activation_date %></td>
+        </tr>
+		<tr>
+			<td><%= LICENSE_MANAGER_TERM %> Customer Access Status:</td>
+			<td colspan="2">&nbsp; <%= translateManagerStatus(sam_customer_details.licensing_status) %></td>
+		</tr>
+		<tr>
+        	<td>Manual License Decommission:</td>
+        	<td colspan="2">&nbsp;
+        	<%  if sam_customer_details.manual_license_decommission %>
+        		<%= image_tag("choice-yes.gif") %>
+        	<% else %>
+        		<%= image_tag("choice-no.gif") %>
+        	<% end %>
+        	</td>
+        </tr>
+		<tr>
+        	<td>Automatic License Count Discrepancy Resolution:</td>
+        	<td colspan="2">&nbsp;
+        	<%  if sam_customer_details.auto_resolve_lcd %>
+        		<%= image_tag("choice-yes.gif") %>
+        	<% else %>
+        		<%= image_tag("choice-no.gif") %>
+        	<% end %>
+        	</td>
+        </tr>
+        <tr>
+           	<td>Hosting Enrollment Limits Sent Date: </td>
+            <% if(pending_hosting_rules_for_server.nil?) %>
+            	<td colspan="2">&nbsp; 
+                <% if(!most_recent_hosting_rules_delivered.nil?) %>
+                  <%= most_recent_hosting_rules_delivered.delivered.strftime(DATE_FORM) if most_recent_hosting_rules_delivered.delivered %>
+                <% end %>  
+                <% form_tag :action => 'send_hosting_rules', :id => sam_customer_details.id do %>
+					<%= submit_tag("Resend Hosting Limits") %>
+				<% end %>
+                </td>
+            <% else %>
+              <td colspan="2">&nbsp; To update at next checkin</td>
+            <% end %>
+        </tr>
+		<tr>
+            <td><%= AUTH_MANAGER_TERM %> Activation Date:</td>
+			<% auth_activation_date = sam_customer_details.auth_activated %>
+            <td colspan="2">&nbsp; <%= auth_activation_date.strftime(DATE_FORM) if auth_activation_date %></td>
+        </tr>
+		<tr>
+            <td><%= AUTH_MANAGER_TERM %>:</td>
+            <td colspan="2">&nbsp; <%= translateManagerStatus(sam_customer_details.auth_status) %></td>
+        </tr>
+		<tr>
+            <td><%= UPDATE_MANAGER_TERM %> Activation Date:</td>
+			<% um_activation_date = sam_customer_details.update_manager_activated %>
+            <td colspan="2">&nbsp; <%= um_activation_date.strftime('%I:%M:%S %p %m/%d/%y') if um_activation_date %></td>
+        </tr>
+		<tr>
+            <td><%= UPDATE_MANAGER_TERM %>:</td>
+            <td colspan="2">&nbsp; <%= translateManagerStatus(sam_customer_details.update_manager_status) %>
+				<% if(sam_customer_details.fake && !um_activation_date.nil? && @current_user.isAdminType) %>
+				&nbsp;&nbsp;<%= button_to("Deactivate", deactivate_sam_customer_manager_path(:sam_customer_id => sam_customer_details.id, :id => SamCustomer.UPDATE_MANAGER), :method => :put, :confirm => "Are you sure you wish to deactivate this SAMC Customer's Update Manager?") %>
+				<% end %>
+			</td>
+        </tr>
+		<tr>
+			<td>SRC Quiz Preferences:</td>
+			<td colspan="2">&nbsp; <%= src_quiz_preferences %></td>
+		</tr>
+		<tr>
+			<td>SRC Quiz Preferences Activation Date:</td>
+			<td colspan="2">&nbsp; <%= Time.parse(@earliest_quiz_activation_date).strftime(DATE_FORM) if (@earliest_quiz_activation_date != "") %></td>
+		</tr>		
+		<tr>
+			<td>Number of Entitlements:</td>
+			<td colspan="2">&nbsp; <%= sam_customer_details.entitlements.length %></td>
+		</tr>
+		<tr>
+            <td>Number of Active SAM Servers:</td>
+            <td style="width: 20%;">&nbsp; <%= active_server_count - 1 %></td>
+            <td style="width: 30%; text-align: center;">
+            	<% if @active_server_count > 0 %>
+            	<h5 style="margin: 0px; padding: 0px;">Connectivity:</h5>
+            	<img class="clickable" border="0" src="http://chart.apis.google.com/chart?cht=gom&chd=t:<%= @google_meter_value %>&chs=100x40" alt="Server Connectivity"  style="padding: 0px; margin: 0px;" onclick='window.location.href = "<%= sam_customer_sam_servers_path(sam_customer_details.id) %>"' />
+            	<% end %>
+            </td> 
+        </tr>
+        <% if (@matched_school_count > 0 || @unmatched_school_count > 0) %>
+        <tr>
+			<td>School Installations:</td>
+			<td colspan="2" style="vertical-align: middle;">
+				<img border="0" src="http://chart.apis.google.com/chart?cht=bhs&chco=B0C659,DAEF8C&chd=t:<%= @matched_school_pct %>|<%= @unmatched_school_pct %>&chs=240x50" /><br/>
+				<%= @matched_school_count %> Matched<br/>
+				<%= @unmatched_school_count %> Unmatched
+			</td>
+		</tr>
+		<% end %>
+		<tr>
+			<td>Number of Customer Admins:</td>
+			<td colspan="2">&nbsp; <%= sam_customer_admins.length %></td>
+		</tr>
+		<tr>
+            <td>Fake SAMC Customer?:</td>
+            <td colspan="2">&nbsp; <%= sam_customer_details.fake %></td>
+        </tr>
+		<tr>
+            <td>Source Entitlement ID:</td>
+			<% source_entitlement = sam_customer_details.source_entitlement %>
+            <td colspan="2">&nbsp; <%= link_to(source_entitlement.id, sam_customer_entitlement_path(sam_customer_details.id, source_entitlement.id)) if source_entitlement %></td>
+        </tr>
+		<tr>
+            <td>Source User:</td>
+			<% source_user = sam_customer_details.source_user %>
+            <td colspan="2">&nbsp; <%= link_to("#{source_user.last_name}, #{source_user.first_name}", user_path(source_user.id)) if source_user %></td>
+        </tr>
+        <% if (@current_user.hasPermission?(Permission.run_export_batch_actions)) %>
+        <tr>
+            <td>Dashboard Force Publish Eligible?</td>
+            <td colspan="2">
+              <% form_tag :controller => :conv_export_master_batches, :action => :execute_force_publish, :id => sam_customer_details.id, :ucn => sam_customer_details.ucn, :user => @current_user  do %>
+                     <%= submit_tag("Execute Force Publish") %>
+              <% end %>
+            </td>
+        </tr>
+        <% end %>
+		<tr>
+            <td>Dashboard Export Blacklisted (by UCN)?</td>
+            <td colspan="2">
+              &nbsp; <%= sam_customer_details.is_dashboard_export_blacklisted %>
+              <% if @current_user.hasPermission?(Permission.export_batch_blacklist_edit) %>
+                &nbsp; 
+                <% if sam_customer_details.is_dashboard_export_blacklisted %>
+                  <% form_tag :action => 'removeCustFromExportBlacklist', :id => sam_customer_details.id, :ucn => sam_customer_details.ucn  do %>
+                     <%= submit_tag("unBlacklist Customer", :confirm => 'Are you sure you want to remove this customer from Blacklist?') %>
+                  <% end %>
+  	            <% else %>
+                  <% form_tag :action => 'addCustToExportBlacklist', :id => sam_customer_details.id, :ucn => sam_customer_details.ucn  do %>
+                     <%= submit_tag("Blacklist Customer", :confirm => 'Are you sure you want to blacklist this customer?') %>
+                  <% end %>
+               <% end %>
+             <% end %>
+            </td>
+        </tr>
+        <tr>
+            <td>Dashboard Decentralize District Admin?</td>
+            <td colspan="2">
+                &nbsp; <%= sam_customer_details.decentralize_dadmin_for_dashboard %>
+                <% if @current_user.isAdminType %>
+                    <% if sam_customer_details.decentralize_dadmin_for_dashboard %>
+                        <% form_tag :action => 'restore_dadmin_dashboard', :id => sam_customer_details.id do %>
+                            <%= submit_tag("Restore District Admins for Dashboard", :confirm => 'Are you sure you want to restore district admin access for Dashboard?') %>
+                        <% end %>
+                    <% else %>
+                        <% form_tag :action => 'decentralize_dadmin_dashboard', :id => sam_customer_details.id do %>
+                            <%= submit_tag("Decentralize District Admins for Dashboard", :confirm => 'Are you sure you want to remove district admin access for Dashboard?') %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+	function toggleBatchProcessInclusion(pElement) {
+		element = jQuery(pElement);
+		element.attr("disabled","disabled");
+		jQuery.post("<%= url_for(:action => :toggle_batch_process_inclusion) %>" + "?id=<%= sam_customer_details.id %>&operation=" + element.val(), function(data) {
+			jQuery("#batch_process_inclusion").html(data);
+		});
+	}
+</script>

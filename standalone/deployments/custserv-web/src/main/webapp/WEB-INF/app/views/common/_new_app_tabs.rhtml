@@ -1,0 +1,27 @@
+<div id="tabnav"> <!-- updated to prototype links -->
+	<ul>
+		<li><%= link_to("Home", {:action => :index, :controller => :home}, {:id => "t-home"}) %></li>
+		<li><%= link_to("Tasks", tasks_path, {:id => "t-tasks"}) %></li>
+		
+		<% if (current_user.isAdminType) %>
+		  <li><%= link_to("ESB Messages", {:action => :index, :controller => :esb_message}, {:id => "t-esb_messages"}) %></li>
+    <% if current_user.hasPermission?(Permission.advanced_debug) %>
+    <% end %>
+		  <li><%= link_to("TwinzMQ Dashboard", sam_central_messages_path, {:id => "t-twinzmq_dashboard"}) %></li>
+		<% end %>
+		
+		<li><%= link_to(SAM_CUSTOMER_TERM + "s", states_sam_customers_path, {:id => "t-sam_ee_customers"}) %></li>
+		<li><%= link_to("Organizations", org_path(4), {:id => "t-organizations"}) %></li>
+		<li><%= link_to("Scholastic Users", users_path, {:id => "t-users"}) %></li>
+		<% if current_user.hasScholasticPermission(Permission.run_utilities) %>
+			<li><%= link_to("Utilities", {:action => :index, :controller => :utilities}, {:id => "t-utilities"}) %></li>
+		<% end %>
+		<% if (current_user.isAdminType) %>
+          <li><%= link_to("Sapling Repository", {:action => :index, :controller => :saplings}, {:id => "t-sapling_repository"}) %></li>
+		  <li><%= link_to("Agent Diagnostics", {:action => :index, :controller => :agent_server_queries}, {:id => "t-agent_diagnostics"}) %></li> 
+		<% end %>
+
+        <li><%= link_to("Finder", {:action => :index, :controller => :finder}, {:id => "t-finder"}) %></li>
+        <!--<li><%# link_to("Help", {:action => :index, :controller => :doc_items}, {:id => "t-help"}) %></li>-->   
+	</ul>
+</div> <!-- end tabnav -->

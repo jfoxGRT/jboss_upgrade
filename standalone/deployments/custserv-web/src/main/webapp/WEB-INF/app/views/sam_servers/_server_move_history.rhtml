@@ -1,0 +1,14 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>Started At</th>
+			<th>Completed At</th>
+			<th>Sam Server</th>
+			<th>Old <%= SAM_CUSTOMER_TERM %></th>
+			<th>New <%= SAM_CUSTOMER_TERM %></th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "server_move_process", :collection => processes) %>
+	</tbody>
+</table>

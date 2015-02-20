@@ -1,0 +1,130 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/jquery_shared_utilities.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#entitlement_index_table').dataTable({
+    "bPaginate": false,
+		"aaSorting": [[1, "desc"]],
+    "oLanguage": {
+      "sEmptyTable": "No entitlements to display.",
+      "sZeroRecords": "No entitlements match the search criteria."
+    },
+    "sDom": 'T<"clear">lfrtip',
+    "oTableTools": {
+      "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+      "aButtons": [
+				{
+          "sExtends": "copy",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "csv",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "xls",
+          "sFileName": "*.xls",
+          "sButtonText": "XLS",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+          "mColumns": get_export_columns_array(),
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+				},
+				"print"
+			]
+		}
+	});
+} );
+
+<% # return the array of column indices that should be exported to the CSV/XLS/PDF.
+%>
+function get_export_columns_array() {
+  return [ 1, 2, 3, 4, 5, 6, 7, 8 ];
+}
+</script>
+
+<h2 align="center" style="margin-bottom: 20px;"><%= "#{product.description} - " if !product.nil? %><%= status %></h2>
+<% if show_limit_msg %>
+    <span class="super_caption">Showing the most recent 300 entitlements..</span>
+<% end %>
+<% customer_resource_edit = @current_user.hasScholasticPermission(Permission.customer_resource_edit) %>
+<% form_tag(operate_on_sam_customer_entitlements_path(sam_customer_id), :name => "operate_on_entitlements", :method => :post) do -%>
+    <%= hidden_field_tag(:operation, "0") %>
+<table id="servers_table_container" style="width: 80%; margin-left: auto; margin-right: auto; border: 0px;">
+  <tr>
+    <td style="border: 0px;">
+      <table id="entitlement_index_table" class="data_table filterable_table">
+        <thead>
+          <tr class="data_table_first_row">
+            <th style="width: 10%;">Action</th>
+            <th style="width: 7%;">TMS Entitlement ID</th>
+            <th style="width: 8%;">Created</th>
+            <th style="width: 12%;">Subscription Start</th>
+            <th style="width: 12%;">Subscription End</th>
+            <th style="width: 15%;"><%= PRODUCT_TERM %> Description</th>
+            <th style="width: 8%;">License Count</th>
+            <th style="width: 9%;">Order Number</th>
+            <th style="width: 16%;">Installed To</th>
+         </tr>
+        </thead>
+        <tbody>
+          <%= render(:partial => "entitlement", :collection => entitlement_collection, 
+                     :locals => {:customer_resource_edit => customer_resource_edit,
+                                 :number_of_entitlements => entitlement_collection.length}) %>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: 0px;">
+        <input type="button" value="Move" id="move_entitlements_button" style="display:none;" onclick="document.operate_on_entitlements.operation.value = '1'; document.operate_on_entitlements.submit();" />
+    </td>
+  </tr>
+</table>
+<% end %>
+<script type="text/javascript">
+
+    function edit_resource_click(row_id) {
+        $('#'+row_id).toggleClass("row_highlight");
+        if (any_checked(document.operate_on_entitlements.moving_entitlements)) {
+            //show buttons
+            $('#move_entitlements_button').show();
+            //$('deactivate_servers_button').show();
+        } 
+        else {
+            $('#move_entitlements_button').hide();
+            //$('deactivate_servers_button').hide();
+        }   
+    }
+    
+    function any_checked(field_name) {
+        var array_len = field_name.length
+        if (array_len != undefined) {
+            for (var i = 0; i < array_len; i++)
+                if (field_name[i].checked)
+                    return true;
+            return false;
+        }
+        else {
+            return field_name.checked;
+        }
+        
+    }
+</script>

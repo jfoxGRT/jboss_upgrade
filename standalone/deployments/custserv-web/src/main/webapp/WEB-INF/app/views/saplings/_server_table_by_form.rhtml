@@ -1,0 +1,27 @@
+<b>Select from the following list of servers for targeting, and click on "Insert Targeting Rules"</b>
+<br><br><br>
+<% form_remote_tag :url => { :action => :insert_server_targeting_rules } do -%>
+<%= hidden_field_tag("sapling_id", @sapling_id) %>
+<div>
+&nbsp;&nbsp;&nbsp;<%= submit_tag("Insert Targeting Rules") %>
+</div>
+<br><br>
+<table class="data_table" align="LEFT">
+  <thead>
+    <tr class="data_table_first_row"> 
+      <td>Select</td>
+      <td>SAM Server ID</td>
+      <td>SAM Server Name</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "server_row_by_form", :collection => @result) %>
+    <tr>
+      <td style="text-align: left; vertical-align: bottom"><input type="checkbox" id="check_all" onclick='selectAllServers()' /></td>
+      <td style="text-align: left; vertical-align: bottom">All</td>
+      <td style="text-align: left; vertical-align: bottom">All</td>
+    </tr>
+  </tbody>
+</table>
+<br><br><br>
+<%- end %>

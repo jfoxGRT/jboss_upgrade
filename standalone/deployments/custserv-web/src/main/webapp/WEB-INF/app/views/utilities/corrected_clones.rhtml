@@ -1,0 +1,81 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "System Corrected Clone Report", :csv_action => "export_corrected_clones_to_csv"})%>
+
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>
+          <% if (@sort_order == "clone_name") %>
+            <%= link_to("Clone Server Name", {:action => :corrected_clones, :sort => "clone_name_desc"}) %>
+          <% else %>
+            <%= link_to("Clone Server Name", {:action => :corrected_clones, :sort => "clone_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "clone_id") %>
+            <%= link_to("Clone Server ID", {:action => :corrected_clones, :sort => "clone_id_desc"}) %>
+          <% else %>
+            <%= link_to("Clone Server ID", {:action => :corrected_clones, :sort => "clone_id"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "clone_status") %>
+            <%= link_to("Clone Status", {:action => :corrected_clones, :sort => "clone_status_desc"}) %>
+          <% else %>
+            <%= link_to("Clone Status", {:action => :corrected_clones, :sort => "clone_status"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "clone_created_at") %>
+            <%= link_to("Clone Registration Date", {:action => :corrected_clones, :sort => "clone_created_at_desc"}) %>
+          <% else %>
+            <%= link_to("Clone Registration Date", {:action => :corrected_clones, :sort => "clone_created_at"}) %>
+          <% end %>
+        </th>
+        <th>        
+		  <% if (@sort_order == "cust_name") %>
+            <%= link_to("SAM Customer Name", {:action => :corrected_clones, :sort => "cust_name_desc"}) %>
+          <% else %>
+            <%= link_to("SAM Customer Name", {:action => :corrected_clones, :sort => "cust_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "cust_id") %>
+            <%= link_to("SC ID", {:action => :corrected_clones, :sort => "cust_id_desc"}) %>
+          <% else %>
+            <%= link_to("SC ID", {:action => :corrected_clones, :sort => "cust_id"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "parent_name") %>
+            <%= link_to("Parent Server Name", {:action => :corrected_clones, :sort => "parent_name_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Server Name", {:action => :corrected_clones, :sort => "parent_name"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "parent_id") %>
+            <%= link_to("Parent Server ID", {:action => :corrected_clones, :sort => "parent_id_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Server ID", {:action => :corrected_clones, :sort => "parent_id"}) %>
+          <% end %>
+        </th>        
+        <th>
+          <% if (@sort_order == "parent_status") %>
+            <%= link_to("Parent Status", {:action => :corrected_clones, :sort => "parent_status_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Status", {:action => :corrected_clones, :sort => "parent_status"}) %>
+          <% end %>
+        </th>
+        <th>
+          <% if (@sort_order == "parent_created_at") %>
+            <%= link_to("Parent Registration Date", {:action => :corrected_clones, :sort => "parent_created_at_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Registration Date", {:action => :corrected_clones, :sort => "parent_created_at"}) %>
+          <% end %>
+        </th>        
+      </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "corrected_clones_detail", :collection => @corrected_clones)%>
+    </tbody>    
+</table>

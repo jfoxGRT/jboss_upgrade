@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<%= stylesheet_link_tag("master") %>
+	<%= stylesheet_link_tag("jeff_stuff") %>
+	<%= render(:partial => "/common/org_finder_ui_styles") %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+    <%#= javascript_include_tag("jquery-1.4.1") %>
+	<%= render(:partial => "/common/org_finder_ui_scripts", :locals => {:layout_uses_prototype => false, :layout_uses_jqueryui => false}) %>
+	
+	<%#= javascript_include_tag("jquery/jquery.form") %>
+	<%#= javascript_include_tag("jquery/util") %>
+	<%#= javascript_include_tag("jquery/jquery.simplemodal") %>
+	<%#= javascript_include_tag("jquery/jquery_modaldialog_support") %>
+	
+	<%#= stylesheet_link_tag("basic") %>
+	<%#= stylesheet_link_tag("confirm") %>
+	<%#= stylesheet_link_tag("contact") %>
+	<%#= stylesheet_link_tag("ui.all.css") %>
+	<%#= javascript_include_tag("jquery/jquery.ui.all.js") %>
+	<%#= javascript_include_tag("jquery/ui_demos.js") %>
+	<%#= javascript_include_tag("jquery/ui_tabs.js") %>
+	
+	<% if @table_support %>
+		<%= javascript_include_tag("jquery/jquery.quicksearch") %>
+		<%= javascript_include_tag("jquery/jquery.tablesorter.min") %>
+	<% end %>
+	<% if @scrolling_support %>
+		<%= javascript_include_tag("jquery/jquery.scrollTo-min") %>
+	<% end %>
+	
+	<%#= javascript_include_tag("date.js") %>
+
+	<!--[if IE]><%#= javascript_include_tag("jquery/jquery.bgiframe.min") %></script><![endif]-->
+
+    <title><%= @page_title %></title>
+    <style type="text/css">
+				body{ font: 62.5% Verdana, sans-serif; }
+				/*demo page css*/
+				/*#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+				#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+				ul#icons {margin: 0; padding: 0;}
+				ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+				ul#icons span.ui-icon {float: left; margin: 0 4px;}*/
+				.cell_highlight {background-color: #BBBBBB; cursor: pointer;}
+				/*.cell_selected {background-color: LightBlue;}*/
+				/*#modalContainer {height: 600px;}*/
+				/*.modalPopupWindow table td {text-align: left; vertical-align: middle; font-size: 10px; padding-top: 2px; padding-bottom: 2px;}
+				.modalPopupWindow table td:nth-child(2n-1) {font-weight: bold;}
+				.modalPopupWindow table td:nth-child(2n) {border-right: dotted 1px #e1e1e1;}*/
+				/*#entitlement_details_widget_pane table tbody td {text-align: left; vertical-align: middle; font-size: 10px; padding-top: 2px; padding-bottom: 2px;}*/
+				/*#entitlement_details_widget_pane  table td:nth-child(2n-1) {font-weight: bold;}
+				#entitlement_details_widget_pane  table td:nth-child(2n) {border-right: dotted 1px #e1e1e1;}*/
+				#tabs .ui-widget-header {background: #bdcc5c;}
+				#entitlement_event_history td {font-weight: normal;}
+		</style>
+	
+    
+    <script type="text/javascript">
+
+		jQuery(document).ready(function () {
+			
+			if ($('#tabs'))
+				jQuery(function() {
+					$('#tabs').tabs();
+				});
+			
+			// jQuery.ajaxSetup({ 
+			// 				'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+			// 			});
+			
+			<%= render(:partial => "/common/org_widget_dialog_definer") %>
+			<%= render(:partial => "/common/widget_creator", :object => @widget_list) %>
+			<%= render(:partial => "/common/widget_onclick_creator", :object => @widget_list) %>
+			
+			/*jQuery(function() {
+				jQuery("#entitlement_details_widget").dialog({autoOpen: false, title: "Entitlement Information", height: 500, width: 700});
+			});*/
+			
+		});
+    
+        /*function showStatus() {
+            $('status_indicator').show();
+        }
+        
+        function showSubmitIndicator() {
+            if ($('submit_indicator'))
+                $('submit_indicator').show();
+        }
+		
+		function confirmAndSubmit(button_id, confirm_text, form_id) {
+        	var confirmed = confirm(confirm_text);
+        	if (!confirmed)
+            	return false;
+        	showStatus();
+        	Form.Element.disable(button_id);
+        	$(form_id).submit();
+			$('status_image').src = $('status_image').src;
+    	}
+    
+        function showSubmitStatus(text_field) {
+        
+			text_field_value = document.getElementById(text_field).value;
+            selected_org_radio = document.alert_form.selected_org;
+            size = selected_org_radio.length;
+            selected = false;
+            if (size == null) {
+                selected = selected_org_radio.checked;
+            }
+            else {
+                i = 0;
+                while ((selected == false) && (i < size)) {
+                    if (selected_org_radio[i].checked)
+                        selected = true;
+                    i++;
+                }
+            }
+            if (selected == false && text_field_value == "") {
+                alert("You must select an organization or specify a value.");
+                return false;
+            }
+            $('submit_indicator').show();
+			$$('input.submit_button').each(Form.Element.disable);
+            return true;
+        }
+		
+		function jsleep(s){
+			var a=true;
+			var n=new Date();
+			var w;
+			var sMS=n.getTime();
+			while(a){
+				w=new Date();
+				wMS=w.getTime();
+				if(wMS-sMS>s) a=false;
+			}
+		}
+    
+        function reset_status_indicator() {
+            if ($('status_indicator')) {
+                $('status_indicator').hide();
+            }
+            if ($('submit_indicator')) {
+                $('submit_indicator').hide();
+            }
+        }*/
+
+		<% if @prototype_required %>
+			jQuery.noConflict();
+		<% end %>
+		
+    </script>
+  </head>
+  <% home_page_link = url_for(:controller => :account, :action => :login) %>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<div id="samlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></div>
+			<dl>
+				<dt class="schlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></dt>
+				<dt></dt>
+			</dl>
+			<div class="hide">
+				<a href="#content" title="skip navigation" accesskey="2">Skip Navigation</a>
+			</div>
+			<div id="meta">
+			    <%= render(:partial => "/common/header_top_links") %>
+				<p>Logged in as <strong><%= @current_user.first_name %> <%= @current_user.last_name %></strong></p>
+		  	</div> <!-- end meta -->
+			<div class="line" id="navigation">
+	  			<div class="item" id="primary-nav">
+	    			<div class="sap-content">
+	    				<%= render(:partial => "/common/app_tabs_with_ucn_search") %>
+					</div>
+	  			</div> <!-- end primary-nav -->
+			</div> <!-- end navigation -->
+			<div id="subtabnav"></div>
+			<div id="main" class="line">
+	  			<div class="item column" id="sidebar-left">
+	    			<div class="sap-content">
+	    				<div id="block-user-0" class="block block-user">
+							<%= render(:partial => "/common/left_sidebar") %>
+						</div> <!-- end block-user-0 -->
+					</div>
+				</div> <!-- end sidebar-left -->
+				<div class="item column" id="maincontent">
+	    			<div class="sap-content">
+		   				<div class="tabs">
+		   				</div>
+					   	<div id="node-1" class="node clear-block">
+							<div class="meta">
+							</div>
+							<div class="content" id="the-body">
+								<div id="cs_notice_block">
+								<% if flash[:notice] %>
+	                                	<div id="<%= (flash[:msg_type] == 'info') ? 'cs_notice_message' : 'cs_error_message' %>"><br/>
+											<%= flash[:notice] %><br/><br/>
+										</div>
+									
+	                            <% end %>
+								</div>
+	                            <%= yield(:layout) %>								
+							</div>
+						</div>
+					</div>
+					<div class="item column" id="sidebar-right">
+						<div class="sap-content">
+							<div id="block-user-3" class="block block-user"></div>
+						</div>
+					</div> <!-- end sidebar-right -->
+				</div> <!-- end maincontent -->
+			</div> <!-- end main -->
+		</div> <!-- end header -->
+        
+        <div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer -->
+        <%= render(:partial => "/common/widget_container_creator", :object => @widget_list) %>
+	</div>
+	<%= render(:partial => "/common/org_finder_ui_container") %>
+	
+	<!-- snippet from layout was here -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-4047083-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+  </body>
+</html>

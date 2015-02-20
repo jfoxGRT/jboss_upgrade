@@ -1,0 +1,23 @@
+<table class="data_table">
+<thead>
+    <tr class="data_table_first_row">
+        <td <%= sort_td_class_helper("org_name")%>
+            <%= sort_link_helper("Organization Name", "org_name", update_element, "update_org_hierarchy_table", status_indicator)%>
+        </td>
+        <td>UCN</td>
+        <td>Organization Type</td>
+        <td>Organization Status</td>
+        <td>Registered with SC?</td>
+    </tr>
+</thead>
+<tbody>
+    <%= render(:partial => "org_link", :collection => org_collection, :locals => {:state => state}) %>
+</tbody>
+</table>
+<p class="page_links" align="center">
+<%= will_paginate(org_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :state => state,
+                  :action => "update_org_hierarchy_table") %>
+</p>

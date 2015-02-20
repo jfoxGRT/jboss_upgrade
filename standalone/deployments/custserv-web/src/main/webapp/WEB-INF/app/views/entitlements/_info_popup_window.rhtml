@@ -1,0 +1,136 @@
+	<% product = entitlement.product %>
+	<% license_portability = entitlement.license_portability %>
+	<% sc_entitlement_type = entitlement.sc_entitlement_type %>
+	<% bill_to_org = entitlement.bill_to_org %>
+	<% ship_to_org = entitlement.ship_to_org %>
+	<% install_to_org = entitlement.install_to_org %>
+	<% entitlement_grace_periods = entitlement.entitlement_grace_periods %>
+    <table class="popup_one_table_pane" style='width: 99%;  margin-bottom: 10px; border-bottom: none;'>
+        <thead>
+            <tr>
+                <td style='width:35%; border-right:1px solid #e1e1e1;' colspan=4>
+                    ID:&nbsp;&nbsp;<%= entitlement.tms_entitlementid %>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+				<td style='width:25%;'>Internal SAMC ID:</td>
+                <td style='width:25%;'>&nbsp;<%= entitlement.id %></td>
+				<td style='width:25%;'>Order Number:</td>
+                <td style='width:25%;'>&nbsp;<%= entitlement.order_num %></td>
+			</tr>
+			<tr>
+				<td>Date Created:</td>
+				<td>&nbsp;<%= entitlement.created_at.strftime(DATE_FORM) %></td>
+				<td>PO Number:</td>
+                <td>&nbsp;<%= entitlement.po_num %></td>
+				
+			</tr>
+			<tr>
+				<td>Date Updated:</td>
+				<td>&nbsp;<%= entitlement.updated_at.strftime(DATE_FORM) %></td>
+				<td>Shipment Number:</td>
+                <td>&nbsp;<%= entitlement.shipment_num %></td>
+			</tr>
+			<tr>				
+				<td><%= PRODUCT_TERM %> Group:</td>
+				<td>&nbsp;<%= product.product_group.description if !product.product_group.nil? %></td>
+				<td>Invoice Number:</td>
+                <td>&nbsp;<%= entitlement.invoice_num %></td>
+			</tr>
+			<tr>
+				<td><%= PRODUCT_TERM %>:</td>
+				<td>&nbsp;<%= product.description if !product.nil? %></td>
+				<td>Master Order Number:</td>
+                <td>&nbsp;<%= entitlement.master_order_num %></td>
+			</tr>
+			<tr>
+				<td>Marketing Version:</td>
+				<td>&nbsp;<%= entitlement.marketing_version %></td>
+				<td>Originating Order Number:</td>
+                <td>&nbsp;<%= entitlement.originating_order_num %></td>
+			</tr>
+			<tr>
+				<td>License Count:</td>
+				<td>&nbsp;<%= entitlement.license_count %></td>
+				<td>Item Quantity:</td>
+                <td>&nbsp;<%= entitlement.item_quantity %></td>
+			</tr>
+			<tr>				
+				<td>License Portability:</td>
+				<td>&nbsp;<%= license_portability.description if !license_portability.nil? %></td>
+				<td>Order Date:</td>
+                <td>&nbsp;<%= entitlement.ordered.strftime(JUST_DATE_FORM) if !entitlement.ordered.nil? %></td>
+			</tr>
+			<tr>
+				<td>Subscription Start Date:</td>
+				<td>&nbsp;<%= entitlement.subscription_start.strftime(JUST_DATE_FORM) if !entitlement.subscription_start.nil? %></td>
+				<td>Ship Date:</td>
+                <td>&nbsp;<%= entitlement.ordered.strftime(JUST_DATE_FORM) if !entitlement.shipped.nil? %></td>
+			</tr>
+			<tr>
+				<td>Subscription End Date:</td>
+				<td>&nbsp;<%= entitlement.subscription_end.strftime(JUST_DATE_FORM) if !entitlement.subscription_end.nil? %></td>
+				<td>Package:</td>
+                <td>&nbsp;<%= entitlement.order_type.description if !entitlement.order_type.nil? %></td>
+			</tr>
+			<tr>
+				<td>Licenses Active?:</td>
+				<td>&nbsp;<%= (!entitlement.seats_active.nil? && entitlement.seats_active == true) ? image_tag("choice-yes.gif") : (!entitlement.subscription_start.nil? ? image_tag("choice-no.gif") : "N/A") %></td>
+				<td>Entitlement Type:</td>
+				<td>&nbsp;<%= sc_entitlement_type.description if !sc_entitlement_type.nil? %></td>
+			</tr>
+			<tr>
+				<td>Bill-To Organization:</td>
+				<td>&nbsp;<%= bill_to_org.name if !bill_to_org.nil? %></td>
+				<td>Bill-To UCN:</td>
+				<td>&nbsp;<%= bill_to_org.customer.ucn if !bill_to_org.nil? %></td>
+			</tr>
+			<tr>
+				<td>Ship-To Organization:</td>
+				<td>&nbsp;<%= ship_to_org.name if !ship_to_org.nil? %></td>
+				<td>Ship-To UCN:</td>
+				<td>&nbsp;<%= ship_to_org.customer.ucn if !ship_to_org.nil? %></td>
+			</tr>
+			<tr>
+				<td>Install-To Organization:</td>
+				<td>&nbsp;<%= install_to_org.name if !install_to_org.nil? %></td>
+				<td>Install-To UCN:</td>
+				<td>&nbsp;<%= install_to_org.customer.ucn if !install_to_org.nil? %></td>
+			</tr>
+			<% if entitlement_grace_periods.length > 0 %>
+				<% entitlement_grace_period = entitlement_grace_periods[0] %>
+				<tr>
+					<td>Grace Period Type:</td>
+					<td>&nbsp;<%= entitlement_grace_period.grace_period.description %></td>
+					<td>Grace Period:</td>
+					<td>&nbsp;
+						<% if (entitlement_grace_period.start_date && entitlement_grace_period.end_date) %>
+							<%= entitlement_grace_period.start_date.strftime(JUST_DATE_FORM) %> - <%= entitlement_grace_period.end_date.strftime(JUST_DATE_FORM) %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+			<tr>
+				<td>Renewal Entitlement ID:</td>
+				<td>&nbsp;<%= entitlement.renewal_entitlement.tms_entitlementid if !entitlement.renewal_entitlement.nil? %></td>
+				<td>Visibility Level:</td>
+				<td>&nbsp;<%= entitlement.visibility_level == 'a' ? "All Users" : "Scholastic Only" %></td>
+			</tr>
+			<tr>
+				<td>Generated:</td>
+				<td>&nbsp;<%= entitlement.generated ? image_tag("choice-yes.gif") : image_tag("choice-no.gif") %></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+	
+<% if(current_user.isAdminType && entitlement.fake?) %>
+  <div align="center">
+  	<% form_tag :action => :delete, :id => entitlement.id do %>
+      <%= submit_tag('Delete', :confirm => 'Are you sure you want to delete this entitlement?')%>
+    <% end %>
+  </div>
+<% end %>

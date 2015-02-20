@@ -1,0 +1,22 @@
+<% @page_title = "SAMC - Drive Incoming ESB Message" %>
+<div class="table_header">
+	<h2 class="table_title">Drive Incoming ESB Message</h2>
+	<span class="super_caption">Message Text</span>
+</div>
+<%= error_messages_for :esb_message %>
+<% form_for(:tms_fake_in, :url => esb_messages_path, :html => {:method => :post, :onsubmit => "$('status_indicator').show(); Form.Element.disable('submit_tag')"}) do |f| -%>
+   	<table class="form_table">
+  		<tr>
+			<td class="field_cell"><%= f.text_area(:message, :cols => 70, :rows => 30, :id => "message_text") %></td>
+  		</tr>
+		<tr>
+			<td style="text-align: center;"><%= submit_tag("Drive Message", :id => "submit_tag") %></td>
+		</tr>
+  	</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>
+<script type="text/javascript">
+	$('message_text').focus();
+</script>

@@ -1,0 +1,9 @@
+<tr>
+    <td style="text-align: left;"><%= large_top_org.top_level_org.name.strip.upcase %></td>
+    <td><%= large_top_org.the_count %>
+    <td><% if(large_top_org.top_level_org.sam_customer.nil?) %>
+        -
+        <% else %>
+       		<%= image_tag("choice-yes.gif") %>
+        <% end %></td>
+</tr>

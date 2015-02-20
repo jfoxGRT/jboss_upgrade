@@ -1,0 +1,17 @@
+<% doc_item = doc_item_faq %>
+
+<dl class="help">
+
+  <dd class="title">
+    <a href="#" id="question<%=label.id%>99999<%=doc_item.id%>" class="question" onclick="setAnswer(<%=label.id%>99999<%=doc_item.id%>); return false;" 
+      title=""><%= doc_item.question %></a>
+  </dd>
+  
+  <dd id="answer<%=label.id%>99999<%=doc_item.id%>" class="answer hide">
+    <%= doc_item.answer %>
+    <br>
+    <br>
+    document reference number: <%= doc_item.ref_number %>
+  </dd>
+
+</dl>

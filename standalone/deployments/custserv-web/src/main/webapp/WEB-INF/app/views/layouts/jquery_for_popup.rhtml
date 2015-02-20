@@ -1,0 +1,190 @@
+<% @popup_title ||= "Default Title" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+  	<%= stylesheet_link_tag("master") %>
+	<%= stylesheet_link_tag("jeff_stuff") %>
+	<%= stylesheet_link_tag("nav_menu") %>
+	<%= render(:partial => "/common/org_finder_ui_styles") %>
+    <% unless @page_stylesheets.nil? %>
+      <% @page_stylesheets.each do |t| %>
+        <%= stylesheet_link_tag t %>
+      <% end %>
+    <% end %>
+	<%#= render(:partial => "/common/org_finder_ui_scripts", :locals => {:layout_uses_jquery => true, :layout_uses_jqueryui => true}) %>
+    <%#= javascript_include_tag("jquery/jquery-1.3") %>
+	<%#= javascript_include_tag("jquery/jquery.form") %>
+	<%#= javascript_include_tag("jquery/util") %>
+	<%#= javascript_include_tag("jquery/jquery.simplemodal") %>
+	<%#= javascript_include_tag("jquery/jquery_modaldialog_support") %>
+	<%#= javascript_include_tag("jquery/basic") %>
+	
+	<%= stylesheet_link_tag("basic") %>
+	<%= stylesheet_link_tag("confirm") %>
+	<%= stylesheet_link_tag("contact") %>
+	<%#= stylesheet_link_tag("ui.all.css") %>
+	<%#= javascript_include_tag("jquery/jquery.ui.all.js") %>
+	<%#= javascript_include_tag("jquery/ui_demos.js") %>
+	<%#= javascript_include_tag("jquery/ui_tabs.js") %>
+	
+	<%#= javascript_include_tag("jquery/jquery.quicksearch") %>
+	<%#= javascript_include_tag("jquery/jquery.tablesorter.min") %>
+	<%#= javascript_include_tag("jquery/jquery.scrollTo-min") %>
+	
+	<%#= javascript_include_tag("date.js") %>
+
+	<!--[if IE]><%= javascript_include_tag("jquery/jquery.bgiframe.min") %></script><![endif]-->
+
+    <title><%= @page_title %></title>
+	<%= render(:partial => "/common/org_finder_ui_scripts", :locals => {:layout_uses_prototype => false, :layout_uses_jqueryui => false}) %>
+	<%= javascript_include_tag("nav_menu") %>
+	<style type="text/css">
+		table.popup_pane td {border-right: 1px dotted black;}
+		table.popup_pane td:last-child {border-right: none;}
+		table.popup_pane th {text-align: center; border-right: 1px dotted black;}
+		table.popup_pane th:last-child {border-right: none;}
+	</style>
+    <script type="text/javascript">
+		//<![CDATA[	
+		jQuery(document).ready(function () {	
+			
+			<%= render(:partial => "/common/org_widget_dialog_definer") %>
+			
+			jQuery(function() {
+				jQuery("#popup_widget").dialog({autoOpen: false, title: "<%= @popup_title %>", height: 500, width: 700});
+			});
+			
+			$('#submitWithAjax').submit(function() {
+				//alert("yo");
+				$("input").attr('disabled', 'disabled');
+				$('#status_indicator').show();
+				$.post($(this).attr("action") + ".js", $(this).serialize(), function(data){
+					$('#status_indicator').hide();
+					$("input").removeAttr('disabled');
+				}, "script");
+				return false;
+			});
+		
+			$('.basicModallink input').click(function(e) {
+				e.preventDefault();
+				$("input").attr('disabled', 'disabled');
+				jQuery("#popup_widget").dialog("open");
+				// load the contact form using ajax
+				$.get($(this).attr("href"), function(data){
+					jQuery("#popup_widget_pane").hide();
+					jQuery("#popup_widget_pane").html(data);
+					jQuery("#popup_widget_pane").fadeIn(500);
+					//$('#modalContainer').css("width","550px");
+					// create a modal dialog with the data
+					/*$(data).modal({				
+						close: false,
+						overlayId: 'modalOverlay',
+						onClose: contact.close
+					});*/
+					$("input").removeAttr('disabled');
+				});
+			});
+			
+		});
+	</script>
+    <style type="text/css">
+			body{ font: 62.5% Verdana, sans-serif; }
+			/*demo page css*/
+			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+			ul#icons {margin: 0; padding: 0;}
+			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+			ul#icons span.ui-icon {float: left; margin: 0 4px;}
+			.cell_highlight {background-color: #BBBBBB; cursor: pointer;}
+			.cell_selected {background-color: LightBlue;}
+			#modalContainer {height: 600px;}
+	</style>
+  </head>
+  <% home_page_link = url_for(:controller => :account, :action => :login) %>
+  <body id="page-<%= controller.controller_name() -%>" class="action-<%= controller.action_name() -%>">      
+  	<div id="canvas"> <!--width independent from body-->
+		<div id="header" class="line">
+			<div id="samlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></div>
+			<dl>
+				<dt class="schlogo" onclick="location.href='<%= home_page_link %>';" style="cursor: pointer;"></dt>
+				<dt></dt>
+			</dl>
+			<div class="hide">
+				<a href="#content" title="skip navigation" accesskey="2">Skip Navigation</a>
+			</div>
+			<div id="meta">
+			    <%= render(:partial => "/common/header_top_links") %>
+				<p>Logged in as <strong><%= @current_user.first_name %> <%= @current_user.last_name %></strong></p>
+		  	</div> <!-- end meta -->
+			<div class="line" id="navigation">
+	  			<div class="item" id="primary-nav">
+	    			<div class="sap-content">
+	    				<%= render(:partial => "/common/app_tabs_with_ucn_search") %>
+					</div>
+	  			</div> <!-- end primary-nav -->
+			</div> <!-- end navigation -->
+			<div id="subtabnav"></div>
+			<div id="main" class="line">
+	  			<div class="item column" id="sidebar-left">
+	    			<div class="sap-content">
+	    				<div id="block-user-0" class="block block-user">
+							<%= render(:partial => "/common/left_sidebar") %>
+						</div> <!-- end block-user-0 -->
+					</div>
+				</div> <!-- end sidebar-left -->
+				<div class="item column" id="maincontent">
+	    			<div class="sap-content">
+		   				<div class="tabs">
+		   				</div>
+					   	<div id="node-1" class="node clear-block">
+							<div class="meta">
+							</div>
+							<div class="content" id="the-body">
+								<div id="cs_notice_block">
+								<% if flash[:notice] %>
+	                                	<div id="<%= (flash[:msg_type] == 'info') ? 'cs_notice_message' : 'cs_error_message' %>"><br/>
+											<%= flash[:notice] %><br/><br/>
+										</div>
+									
+	                            <% end %>
+								</div>
+	                            <%= yield(:layout) %>								
+							</div>
+						</div>
+					</div>
+					<div class="item column" id="sidebar-right">
+						<div class="sap-content">
+							<div id="block-user-3" class="block block-user"></div>
+						</div>
+					</div> <!-- end sidebar-right -->
+				</div> <!-- end maincontent -->
+			</div> <!-- end main -->
+		</div> <!-- end header -->
+        
+        <div id="footer">
+          <%= render :partial => "/common/footer" %>
+        </div> <!-- end footer -->
+		<div id="popup_widget">
+			<div id="popup_widget_pane">
+				<table style="width:100%;">
+					<tr>
+						<td style="border: 0px;text-align: center; padding-top: 200px;">Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image", :style => "vertical-align: bottom;" ) %></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div> <!-- end canvas -->
+	<%= render(:partial => "/common/org_finder_ui_container") %>
+	
+	<!-- snippet from layout was here -->
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-4047083-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<% @page_title = "SAMC - TwinzMQ Dashboard" %>
+<div class="table_header">
+	<h2 class="table_title">TwinzMQ Dashboard</h2>
+</div>
+<% # stats_div is what the jQuery popup binds to, has to be here since we refresh the update_message_queue_counts partial and could clear it out 
+%>
+<div id="stats_div"></div>
+<div align="center" id="message_queue_counter">
+	<%= render(:partial => "message_queue_counter") %>
+</div>
+<%= periodically_call_remote(
+   :update => "message_queue_counter",
+   :frequency => 4,
+   :url => { :action => "update_message_queue_counts" }) %>

@@ -1,0 +1,11 @@
+<tr>
+    <td>
+        <%= blacklist.name %>
+    </td>
+    <td>
+        <%= blacklist.ucn %>
+    </td>
+    <td>
+        <%=button_to "Remove", {:action => :remove_blacklist_customer, :id => blacklist.sam_customer_id}, :confirm => "Are you sure you want to remove this Id?" %>
+    </td>
+</tr>

@@ -1,0 +1,182 @@
+
+<script type="text/javascript"> 
+    function popup_create_dialog() {
+                jQuery('#banner_pane').html("<%= escape_javascript(render(:partial => 'banner_message_form')) %>");
+                jQuery('#banner_pane').dialog({
+                modal: true,
+                width: 550,
+                height: 730
+            });
+        }
+    function popup_blacklist_dialog() {
+                jQuery('#banner_pane').html("<%= escape_javascript(render(:partial => 'blacklisting')) %>");
+                jQuery('#banner_pane').dialog({
+                modal: true,
+                width: 500,
+                height: 400
+            });
+        }	
+	function popup_dialog(url) {
+	       jQuery('#banner_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+				jQuery('#banner_pane').dialog({
+        		modal: true,
+        		width: 550,
+        		height: 750
+    		});
+    		jQuery.get(url, function(data) {
+                jQuery('#banner_pane').html(data); 
+            });
+        }   
+    function popup_view_dialog(url) {
+           jQuery('#banner_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery('#banner_pane').dialog({
+                modal: true,
+                width: 550,
+                height: 400
+            });
+            jQuery.get(url, function(data) {
+                jQuery('#banner_pane').html(data); 
+            });
+        }
+    function close_dialog() {
+        jQuery('#banner_pane').dialog('close');
+    }		
+	function changeImg(id) {
+	    if (id == 1) {
+	        document.getElementById("type_icon").src = 'images/icon_acknowledgement.gif';
+	    }
+	    if (id == 2) {
+            document.getElementById("type_icon").src = 'images/icon_alert.gif';
+        }
+        if (id == 3) {
+            document.getElementById("type_icon").src = 'images/icon_notification.gif';
+        }
+        if (id == 4) {
+            document.getElementById("type_icon").src = 'images/icon_reminder.gif';
+        }
+	}
+	function check_form() {
+	    var kosher = false;
+	    var message = "";
+	    var systemtimezone = document.getElementById("current_time").value.split(" ");
+	    if (systemtimezone[4] == "UTC") {
+	        systemtimezone[4] = "+00:00"
+	    }
+	    var currentdatetime = new Date(document.getElementById("current_time").value); 
+	    var startdatetime = new Date(document.getElementById("date1").value + 'T' + document.getElementById("start_time_hour").value + ':' + document.getElementById('start_time_minute').value + systemtimezone[4]);
+	    var enddatetime = new Date(document.getElementById("date2").value + 'T' + document.getElementById("end_time_hour").value + ':' + document.getElementById('end_time_minute').value + systemtimezone[4]);	     
+	    if (document.getElementById("message_name").value.length == 0) {
+	        message += "Please enter a message name. \n\n";
+	    } 
+        if (document.getElementById("message").value.length == 0) {
+            message += "Please enter a message. \n\n";
+        }
+        if (document.getElementById('samclient').checked == false && document.getElementById('educatoraccess').checked == false && document.getElementById('scholasticcentral').checked == false) {
+            message += "Please select where to post this message. \n\n";
+        }
+        if (startdatetime < currentdatetime) {
+            message += "Please change the start date-time to a current or future time. \n\n";
+        }
+        if (enddatetime < startdatetime || (enddatetime - startdatetime) == 0) {
+            message += "Please adjust your end date-time to occur after your start date-time.\n\n";         
+        }                        	      
+	    if (message.length > 0) {
+	        alert(message);   
+            kosher = false;
+	    }
+	    else {
+	        kosher = true;
+	    }	    
+	    return kosher;
+	}		
+
+    function validate_ucn(url) {
+        document.getElementById("loading_icon").style.display = '';
+        document.getElementById("invalid_ucns").value = "The following UCNs are not valid: ";
+        document.getElementById("invalid_ucns").style.display = 'none';
+        url += "?ucn_input=" + get_ucns();
+        var errormsg = "";
+        jQuery.get(url, function(data) {
+            for(i=0; i<data.length; i++) {
+                if (data[i].valid == undefined) {
+                    errormsg += data[i].invalid + ", ";
+                }
+                else {
+                    adducn(data[i].valid);                
+                }
+            }
+            errormsg = errormsg.substr(0,errormsg.lastIndexOf(","))
+            document.getElementById("invalid_ucns").value += errormsg;
+            document.getElementById("loading_icon").style.display = 'none';
+            if(errormsg.length > 0) {
+                document.getElementById("invalid_ucns").style.display = '';
+            }
+        });
+    }
+    
+    function get_ucns() {
+        return document.getElementById("ucn_field").value.replace(/\s/g, "");
+    }       
+    
+    function adducn(ucn) {
+        var newtext = ucn;
+        var select = document.getElementById("ucn_list");        
+        var found = 0;
+        for(i=0;i<select.options.length;i++) {
+            if (select.options[i].value == newtext) {
+                found = 1;
+            } 
+        }
+        if (found == 0 && newtext.length > 0) {
+            select.options[select.options.length] = new Option(newtext, newtext);
+            document.getElementById("ucn_string").value += newtext + ',';
+        }
+    
+        document.getElementById("ucn_field").value = "";
+    }
+    
+    function remove_ucn() {
+        var selected = document.getElementById("ucn_list");
+        for (i=0; i<selected.options.length; i++) {
+            if (selected.options[i].selected) {
+                string = document.getElementById("ucn_string").value;
+                string = string.replace(selected.options[i].value + ',', '');
+                document.getElementById("ucn_string").value = string;
+                selected.remove(i);
+            }
+        }
+    }      
+</script>
+        
+<div id="banner_pane"></div>
+
+<% @page_title = "SAMC - Banner Message" %>
+<% if @current_user.hasScholasticPermission(Permission.banner_messaging) %>
+<div>
+    <table class="noclass" style="table-layout: fixed;">
+        <tr>
+            <td style="width: 33%">&nbsp;</td>
+            <td style="width: 33%"><h2 align="center">Post a Banner Message</h2></td>
+            <td style="width: 33%"><%= render(:partial => "banner_message_info", :locals => {:active => @active, :pending => @pending}) %></td>
+        </tr>
+    </table>
+</div>
+<div align="center">
+    <br/>
+    <button type="button" onclick="popup_create_dialog(); return false;">Create New Message</button>
+    <br/><br/><hr>
+</div>
+
+<h2>Existing Messages</h2>
+<br />
+<div align="left">
+    <%= render(:partial => "banner_message_detail") %>
+</div>
+
+<br />
+<div align="center">
+    <%= button_to("Historical Messages", :action => :historical_messages) %>
+    <br />
+    <button type="button" onclick="popup_blacklist_dialog(); return false;">Blacklisting</button>
+</div>
+<%end%>     

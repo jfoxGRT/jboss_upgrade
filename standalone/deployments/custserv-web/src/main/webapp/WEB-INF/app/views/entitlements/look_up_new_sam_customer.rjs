@@ -1,0 +1,1 @@
+page["step2_container"].replace_html(:partial => "/entitlements/step2_move_entitlements", :locals => {:target_sam_customer => @new_sam_customer, :new_org => @new_org, :entitlement_ids => @entitlement_id_list})

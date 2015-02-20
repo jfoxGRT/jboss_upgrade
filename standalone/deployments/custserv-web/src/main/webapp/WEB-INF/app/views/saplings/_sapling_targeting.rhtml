@@ -1,0 +1,20 @@
+<tr id="<%= sapling_targeting.id %>">
+    <!--<td><%= sapling_targeting.id %></td>-->
+    <% unless(sapling_targeting.samc_id_from_server.nil?) %>
+	  <td><%= sapling_targeting.samc_id_from_server %>&nbsp;(<%= SaplingTargeting.get_sam_customer_name(sapling_targeting.samc_id_from_server) %>)</td>
+	<% else %>
+	  <td></td>
+	<% end %>
+	<% unless(sapling_targeting.sam_server_id.nil?) %>
+	  <td><%= sapling_targeting.sam_server_id %>&nbsp;(<%= SaplingTargeting.get_server_name(sapling_targeting.sam_server_id) %>)</td>
+	<% else %>
+	  <td></td>
+	<% end %>
+	<% unless(sapling_targeting.product_id.nil?) %>
+	  <td><%= sapling_targeting.product_id %>&nbsp;(<%= SaplingTargeting.get_product_name(sapling_targeting.product_id) %>)</td>
+	<% else %>
+	  <td></td>
+	<% end %>
+	<td><%= sapling_targeting.white_list %></td>
+	<td><input type="button" value="Remove" onclick="removeTargetingRule('<%= sapling_targeting.id %>', 'sapling_targeting_hidden_<%= sapling_targeting.id %>')" /></td>
+</tr>

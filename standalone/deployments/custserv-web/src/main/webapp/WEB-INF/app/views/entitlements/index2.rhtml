@@ -1,0 +1,10 @@
+<h2 align="center">Entitlements</h2>
+<div align="center" style="padding: 0px 0 10px 0;">&nbsp;
+<%= image_tag("3MA_processingbar.gif",
+              :align => "absmiddle",
+              :border => 0,
+              :id => "entitlement_loading_indicator",
+              :style => "display: none;" ) %></div>
+<div id="entitlement_test_table">
+    <%= render(:partial => "test_entitlement_info_2", :locals => {:entitlements => @entitlements}) %>
+</div>

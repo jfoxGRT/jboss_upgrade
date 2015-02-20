@@ -1,0 +1,21 @@
+<h2 align="center">Tasks - Unrecognized TMS Items</h2>
+<% if (@unrecognizedItems.length > 0) %>
+<table border="1" align="center">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>TMS Entitlement ID</th>
+            <th>Item Number</th>
+            <th>Task Details</th>
+            <th>Dispatched By..</th>
+            <th>Task Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "alert_unrecognized_tms_item", :collection => @unrecognizedItems) %>
+    </tbody>
+</table>
+<% else %>
+<div "no_unrecognized_tms_items" align="center">There are currently no Unrecognized TMS Items</div>
+<% end %>

@@ -1,0 +1,9 @@
+case (@error_code)
+  when 0 then page["task-" + @task.id.to_s].hide
+  when 1 then page["task-" + @task.id.to_s + "-status"].replace_html "Task is no longer closed.  Cannot reopen. (EC: 1)"
+  when 2 then page["task-" + @task.id.to_s + "-status"].replace_html "Cannot reopen task: Missing subcommunity for product.  Please contact a system administrator. (EC: 2)"
+  when 3 then page["task-" + @task.id.to_s + "-status"].replace_html "Cannot reopen task: There are not enough available licenses to claim.  Please have the customer unallocate licenses. (EC: 2)"
+  when -1 then page["task-" + @task.id.to_s + "-status"].replace_html "Unexpected error. Cannot reopen task.  Please contact a system administrator (EC: -1)"
+  else
+    page["number_of_tasks"].replace_html @new_number_of_tasks
+end

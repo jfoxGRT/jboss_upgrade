@@ -1,0 +1,47 @@
+<%  if (orgIsSelectable(@chosen_alert_instance, org_link)) %>
+<tr class="alert_open_org">
+<% else %>
+<tr class="alert_closed_org">
+<% end %>
+    <td>
+    <% if (orgIsSelectable(@chosen_alert_instance, org_link)) %>
+    <%= radio_button_tag("selected_org", org_link.id, false) %>
+    <% else %>
+    &nbsp;
+    <% end %>
+    </td>
+    <td style="text-align: left;">
+    
+    <% if (getActiveChildRelationships(org_link).length > 0) %>
+        <img src="/images/toggleclose.gif"><%= link_to(org_link.name.strip.upcase, {:action => :org_hierarchy,
+                                                                                                       :id => org_link.id,
+                                                                                                       :alert_instance_id => @chosen_alert_instance.id},
+                                                                                                       {:onclick => "showStatus()"}) %>
+    <% else %>
+        <%= org_link.name.upcase %>
+    <% end %>    
+    </td>
+    <td><%= org_link.customer.ucn %></td>
+    <td><%= org_link.customer.customer_group.description %></td>
+    <td><%= org_link.customer.customer_status.description %></td>
+    <td><%= getSubdistricts(org_link).length %></td>
+    <td><%= getSchools(org_link).length %></td>
+    <% if (sc = isUsingSamCentral?(org_link)) %>
+    <td><img src="/images/choice-yes.gif"></td>
+    <td><%= getServers(sc).length %></td>
+    <% seatCounts = partitionEntitlementSeatCountsByProduct(org_link.sam_customer) %>
+    <td><%= seatCounts[0] %></td>
+    <td><%= seatCounts[1] %></td>
+    <td><%= seatCounts[2] %></td>
+    <td><%= seatCounts[3] %></td>
+    <td><%= seatCounts[4] %></td>
+    <% else %>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <% end %>
+</tr>

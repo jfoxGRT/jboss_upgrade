@@ -1,0 +1,38 @@
+<table id="sam_customers_resizable_table" class="data_table" style="width: 90%;">
+	<thead>
+		<tr class="data_table_first_row">	
+			<td><%= SAM_CUSTOMER_TERM %> ID</td>	
+			<td <%= sort_td_class_helper("sam_customer_name")%>>
+				<%= sort_link_helper("#{SAM_CUSTOMER_TERM} Name", "sam_customer_name", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+			<td <%= sort_td_class_helper("sam_customer_state")%>>
+				<%= sort_link_helper("State", "sam_customer_state", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+			<td <%= sort_td_class_helper("registration_date")%>>
+				<%= sort_link_helper("SAMC Registration Date", "registration_date", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+			<td style="width: 12%;" <%= sort_td_class_helper("number_registered_servers")%>>
+				<%= sort_link_helper("Number Of Registered SAM Servers", "number_registered_servers", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+			<td style="width: 12%;" <%= sort_td_class_helper("number_registered_servers")%>>
+				<%= sort_link_helper("SAM Server Connectivity", "connectivity", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+			<td style="width: 10%;" <%= sort_td_class_helper("unmatched_school_count")%>>
+				<%= sort_link_helper("Number Of Unmatched Schools", "unmatched_school_count", update_element, "update_sam_customers_table", status_indicator)%>
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "registered_sam_customer", :collection => sam_customer_collection) %>
+	</tbody>
+</table>
+
+<p class="pagination_links">
+  <%= will_paginate(sam_customer_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_sam_customers_table") %>
+</p>
+<div align="center">
+  <%= link_to("Export Table to CSV", :action => :export_registered_customers_to_csv) %>
+</div>

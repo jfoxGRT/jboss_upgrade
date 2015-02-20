@@ -1,0 +1,7 @@
+page["step3_container"].replace_html(:partial => "/entitlements/step3_move_entitlements", :locals => 
+          {:failure => @failure, :process_token => @process_token, :error_descriptions => @error_descriptions, :process_threads => @process_threads, :process => @process})
+if (!@failure)
+  page.call 'monitor_process', @process.id.to_s, SAMC_PROCESS_ENTITLEMENT_MOVE, 'process_thread_table', 'process_msg_indicator'
+else
+  page["move_entitlements_button"].enable
+end

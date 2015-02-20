@@ -1,0 +1,35 @@
+     <% is_assigned = !alert_unrecognized_tms_item.assigned_user.nil?
+        was_handled = !alert_unrecognized_tms_item.status.nil?
+        if (is_assigned || was_handled) %>
+        <tr class="dispatched_alert_instance">
+        <% else %>
+        <tr class="undispatched_alert_instance">
+        <% end %>
+        <td style="text-align: center;"><%= alert_unrecognized_tms_item.id %></td>
+        <td style="text-align: center;"><%= alert_unrecognized_tms_item.token %></td>
+        <td style="text-align: center;"><%= alert_unrecognized_tms_item.token_2 %></td>
+        <td><%= alert_unrecognized_tms_item.message %></td>
+        <td style="text-align: center;">
+            <% if (is_assigned) %>
+            <%= alert_unrecognized_tms_item.assigned_user.email %>
+            <% else %>
+            -
+            <% end %>
+        </td>
+        <td style="text-align: center;">
+        <% if (was_handled) %>
+            <img src="/images/closed.gif">
+        <% elsif (is_assigned) %>
+            <img src="/images/wip.gif">
+        <% else %>
+            -
+        <% end %>
+        </td>
+        <td style="vertical-align: middle;">
+        <% if (is_assigned || was_handled) %>
+        <%= button_to("Take ownership", {:action => :handle_unrecognized_tms_item}, :disabled => "disabled") %>
+        <% else %>
+        <%= button_to("Take ownership", {:action => :handle_unrecognized_tms_item, :alert_instance_id => alert_unrecognized_tms_item.id}) %>
+        <% end %>
+        </td>
+    </tr>

@@ -1,0 +1,87 @@
+<table class="popup_one_table_pane" style="width:100%;">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Option</th>
+			<th style="width: 55%;">Calculation</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>A.</td>
+			<td>Total Licenses Allocated on Local Servers</td>
+			<td>&nbsp;</td>
+			<td><%= @seat_count_profile.allocated_on_local_servers %></td>
+		</tr>
+		<tr>
+			<td>B.</td>
+			<td>Total Licenses Allocated on Hosted Servers</td>
+			<td>&nbsp;</td>
+			<td><%= @seat_count_profile.allocated_on_hosted_servers %></td>
+		</tr>
+		<tr>
+			<td>C.</td>
+			<td>Maximum Count Allowed on Local Servers</td>
+			<td><i>The number of active perpetual licenses of the product</i></td>
+			<td><%= @seat_count_profile.max_allowed_on_local_servers %></td>
+		</tr>
+		<tr>
+			<td>D.</td>
+			<td>Maximum Count Allowed on Hosted Servers</td>
+			<td><i>The number of active Hosted subscriptions for the product plus the number of active subscription-based licenses of the product</i></td>
+			<td><%= @seat_count_profile.max_allowed_on_hosted_servers %></td>
+		</tr>
+		<tr>
+			<td>E.</td>
+			<td>Total Active Hosted Subscriptions</td>
+			<td><i>The number of active Hosted subscriptions for the product</i></td>
+			<td><%= @seat_count_profile.total_active_hosted_subscriptions %></td>
+		</tr>
+		<tr>
+			<td>F.</td>
+			<td>Product Group Allocated on Hosted Servers</td>
+			<td><i>&nbsp;</i></td>
+			<td><%= @seat_count_profile.product_group_allocated_on_hosted_servers %></td>
+		</tr>
+		<tr>
+			<td>H.</td>
+			<td>Nominal Out of Compliance Count</td>
+			<td><i>(F - E)</i></td>
+			<td><%= (@seat_count_profile.product_group_allocated_on_hosted_servers - @seat_count_profile.total_active_hosted_subscriptions) < 0 ? 0 : @seat_count_profile.product_group_allocated_on_hosted_servers - @seat_count_profile.total_active_hosted_subscriptions %></td>
+		</tr>
+	</tbody>
+</table>
+<table class="canvas" style="margin-right: auto; margin-left: auto;">
+	<tr>
+		<td style="width: 100%;"> 
+            <canvas id="canvas2" width="400" height="350"></canvas>
+        </td>
+	</tr>
+</div>
+<script type="text/javascript">
+	function global_license_allocation_policy_loaded() {
+		new CanvasXpress('canvas2', {
+														venn: 
+														{
+															data: 
+															{
+																A: <%= @seat_count_profile.max_allowed_on_local_servers - @seat_count_profile.total_active_hosted_subscriptions %>, 
+																B: <%= @seat_count_profile.max_allowed_on_hosted_servers - @seat_count_profile.total_active_hosted_subscriptions %>, 
+																AB: <%= @seat_count_profile.total_active_hosted_subscriptions %>
+															},
+								                           	legend: 
+															{
+																A: 'Total Licenses Allowed on Local Servers',
+								                                B: 'Total Licenses Allowed on Hosted Servers'
+															}}},
+								                  	{
+														graphType: 'Venn',
+														background: 'rgb(0,0,0)',
+														colors: ['rgb(0,0,0)', 'rgb(120,120,120)', 'rgb(200,200,200)'],
+														vennGroups: 2,
+														autoExtend: true
+											});
+	}
+</script>
+			

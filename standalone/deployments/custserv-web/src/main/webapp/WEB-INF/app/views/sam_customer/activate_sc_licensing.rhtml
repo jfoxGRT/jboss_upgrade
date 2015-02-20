@@ -1,0 +1,4 @@
+<div align="center" style="margin-top: 30px;">
+<%= @sam_customer.root_org.name.strip %> is now being prepared for SC Licensing.  This may take several minutes.  Once the process is complete, check back on the SAM Customer
+details page to confirm that licensing is activated.<br/><br/>
+<%= link_to("Back to " + @sam_customer.root_org.name.strip, :action => :sam_customer_details, :id => @sam_customer.id) %></div>

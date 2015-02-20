@@ -1,0 +1,10 @@
+<tr>
+    <td><%= lcd_message_detail.id %></td>
+    <td><%= lcd_message_detail.timestamp %></td>
+	<td><%= lcd_message_detail.clazz %></td>
+	<td><%= lcd_message_detail.event_type %></td>
+    <td><%= lcd_message_detail.token %></td>
+    <td><%= lcd_message_detail.resource_id %></td>
+    <td><%= lcd_message_detail.reason %></td>
+    <td>&nbsp;<%= link_to("..see properties", {:action => :get_LCD_message_props, :am_id => lcd_message_detail.id}) %></td>
+</tr>

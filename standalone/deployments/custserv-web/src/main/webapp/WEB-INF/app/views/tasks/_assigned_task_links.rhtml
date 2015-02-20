@@ -1,0 +1,19 @@
+<% if (@current_user.hasPermission?(Permission.assign_tasks) && @current_user.hasPermission?(Permission.edit)) %>
+	<span class="unassign_link" id="3_<%= task.id %>" href="<%= unassign_task_path(:id => task.id, :target_user_id => task.target_user_id, :revocation => 1) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) >
+		<%= @current_user == task.current_user ? "Release" : "Revoke" %>
+	</span>
+	<% if @current_user == task.current_user %>
+		<span class="fake_link" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) onClick=location.href="<%= edit_task_path(task.id) %>";>Work</span>
+	<% end %>
+<% elsif (@current_user.hasPermission?(Permission.assign_tasks)) %>
+	<span class="disabled_page_link">
+		Revoke<br/>
+	</span>
+<% end %>
+<% if @current_user.isAdminType %>
+    <span id="show_params_link_<%= task.id %>" class="fake_link widget_dialog" 
+        onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) element_id="show_params" href="<%= url_for(:controller => :tasks, :action => :show_params, :id => task.id) %>">Show Params</span>
+<% end %>
+<% if view_details %>
+	<span id="view_details_link_<%= task.id %>" class="fake_link" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this) onClick='toggleTheDetails("<%= task.id %>")';>View Details</span>
+<% end %>

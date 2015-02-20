@@ -1,0 +1,3 @@
+<% if !tasks[sam_customer_task[0]].nil? %>
+	<%= link_to(tasks[sam_customer_task[0]].description, eval("unassigned_#{sam_customer_task[1]}_path(:sam_customer_id => #{sam_customer.id}, :scholastic_index => #{sam_customer.scholastic_index_id})")) %> (<%= tasks[sam_customer_task[0]].task_count %>)<br/>
+<% end %>

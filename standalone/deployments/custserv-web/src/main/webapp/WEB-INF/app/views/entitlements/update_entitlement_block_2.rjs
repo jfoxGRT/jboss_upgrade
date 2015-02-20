@@ -1,0 +1,1 @@
+page.replace_html('entitlement_test_table', :partial => "test_entitlement_info_2", :locals => {:entitlements => @entitlements})

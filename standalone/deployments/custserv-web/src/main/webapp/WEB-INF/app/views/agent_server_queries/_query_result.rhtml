@@ -1,0 +1,12 @@
+<% agent_id = query_result.agent_id
+	server_id = query_result.server_id 
+	sam_customer_id = query_result.sam_customer_id %>
+<tr>
+	<td>&nbsp;<%= (agent_id.nil?) ? ""  : link_to(agent_id, agent_path(agent_id)) if agent_id %></td>
+	<td>&nbsp;<%= (server_id.nil?) ? "" : link_to(server_id, sam_customer_sam_server_path(sam_customer_id, server_id)) %></td>
+	<td style="text-align: left;">&nbsp;<%= link_to(query_result.server_name, sam_customer_sam_server_path(sam_customer_id, server_id)) if server_id %></td>
+	<td style="text-align: left;">&nbsp;<%= link_to(query_result.sam_customer_name, sam_customer_path(sam_customer_id)) if sam_customer_id %></td>
+	<td><%= query_result.updated_at.strftime(DATE_FORM) if query_result.updated_at %></td>
+	<td style="text-align: left;"><%= query_result.last_ip %></td>
+	<td><%= query_result.next_poll_at.strftime(DATE_FORM) if query_result.next_poll_at %></td>
+</tr>

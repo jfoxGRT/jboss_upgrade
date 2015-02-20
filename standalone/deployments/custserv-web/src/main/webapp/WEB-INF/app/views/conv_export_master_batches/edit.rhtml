@@ -1,0 +1,38 @@
+<h1>Editing conv_export_master_batch</h1>
+
+<% form_for(@conv_export_master_batch) do |f| %>
+  <%= f.error_messages %>
+
+
+
+<!--
+  <p>
+    <%= f.label :export_date_range_end %><br />
+    <%= f.datetime_select :export_date_range_end %>
+  </p>
+  <p>
+    <%= f.label :export_date_range_1w_begin %><br />
+    <%= f.datetime_select :export_date_range_1w_begin %>
+  </p>
+  <p>
+    <%= f.label :export_date_range_4w_begin %><br />
+    <%= f.datetime_select :export_date_range_4w_begin %>
+  </p>
+  <p>
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </p>
+  <p>
+    <%= f.label :closed %><br />
+    <%= f.check_box :closed %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+-->
+
+
+<% end %>
+
+<%= link_to 'Show', @conv_export_master_batch %> |
+<%= link_to 'Back', conv_export_master_batches_path %>

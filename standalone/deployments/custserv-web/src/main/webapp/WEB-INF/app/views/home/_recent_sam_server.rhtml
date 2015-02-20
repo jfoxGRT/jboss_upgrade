@@ -1,0 +1,12 @@
+<tr>
+	<td style="text-align: left;"><%= link_to(recent_sam_server.sam_server_name, sam_customer_sam_server_path(recent_sam_server.sam_customer_id, recent_sam_server.sam_server_id)) %></td>
+	<td style="text-align: left;"><%= link_to(recent_sam_server.sam_customer_name, sam_customer_path(recent_sam_server.sam_customer_id)) %></td>
+	<td><%= recent_sam_server.state_code %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if recent_sam_server.server_type == 1 %></td>
+	<% server_registration_date = nil
+		recent_sam_server.server_registration_date[/(\d+)\-(\d+)\-(\d+)\s(\d+):(\d+):(\d+)/]
+		server_registration_date = Time.local(y=$1.to_i,m=$2.to_i,d=$3.to_i, h=$4.to_i,min=$5.to_i,s=$6.to_i) if($1 && $2 && $3 && $4 && $5 && $6) %>
+	<td><%= server_registration_date.strftime(DATE_FORM) %></td>
+	<td>&nbsp;<%= image_tag("choice-yes.gif") if(recent_sam_server.new_customer) %></td>
+		
+</tr>

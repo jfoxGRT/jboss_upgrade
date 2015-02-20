@@ -1,0 +1,53 @@
+<%  @page_title = ("SAMC - #{@school.name}") %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => false}) %>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @school.name %></span>		
+	</td>
+	</tr>
+</table>
+<hr/>
+
+<div class="table_header" style="margin-bottom: 30px;">
+	<h2 class="table_title"><%= @school.name %></h2>
+</div>
+<%= render(:partial => "sam_customer_school_info", :object => @school, :locals => {:sam_server => @sam_server, :org => @org}) %>
+<div class="link_set">
+	<%= link_to("Auth Users", {:controller => :sam_customer_schools, :action => :auth_users_by_school, :sam_customer_id => @sam_customer.id, :school_id => @school.id, :school_name => @school.name}) %>
+</div>
+<% if @products.length > 0 %>
+<table class="data_table" width="35%">
+  <thead>
+	<tr>
+    <th>Active Subscriptions for this School</th>
+	</tr>
+  <thead>
+  <tbody>
+    <%= render(:partial => "school_products", :collection => @products) %>
+  </tbody>
+</table>
+<% end %>
+<% if @classes.length > 0 %>
+<div class="table_header">
+	<h3 class="table_title">Classes</h3>
+</div>
+<table class="data_table" style="width: 50%;">
+    <thead>
+        <tr>
+        	<th>ID</th>
+            <th>Name</th>
+			<th>Created At</th>
+            <th>Updated At</th>
+            <th>Manages Application</th>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "sam_server_class_info", :collection => @classes) %>
+    </tbody>
+</table>
+<% end %>

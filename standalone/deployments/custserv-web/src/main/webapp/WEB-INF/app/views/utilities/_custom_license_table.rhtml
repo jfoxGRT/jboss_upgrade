@@ -1,0 +1,10 @@
+<tr>
+	<% subcommunity_id = custom_license_table.subcommunity_id %>
+	<% subcommunity_name = custom_license_table.subcommunity_name %>
+	<% unallocated_pool_id = custom_license_table.unallocated_pool_id %>
+	<% virtual_count = custom_license_table.virtual_count %>
+    <td style="text-align: left;"><%= link_to(subcommunity_name, sam_customer_subcommunity_path(sam_customer.id, subcommunity_id)) %></td>
+        <td><%= custom_license_table.unallocated_count %></td>
+	<td><%= virtual_count.nil? ? "0" : virtual_count %></td>
+        <td class="field_cell"><%= text_field_tag("delta_" + unallocated_pool_id.to_s, "", :size => 10) %></td>
+</tr>

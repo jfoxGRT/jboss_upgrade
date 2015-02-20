@@ -1,0 +1,31 @@
+<%  @page_title = "SAMC - Batch Central - Dash Loader History" %>
+
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+
+  <div class="table_header">
+  	<h1 class="table_title">Dashboard Server Load Status</h1>
+  	<h2 class="table_title">Master Batch Number: <%= params[:master_batch_id] %></h2>
+  	<h2 class="table_title">UCN: <%= params[:ucn] %></h2>
+  </div>
+
+
+  <table class="data_table" style="width: 80%;">
+    <thead>
+      <tr class="data_table_first_row">
+        <td>UCN</td>
+        <td>Master Batch</td>
+        <td>GUID</td>
+        <td>CommunityId</td>
+        <td>Load Start Date</td>
+        <td>Load End Date</td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => "dash_hist", :collection => @dash_load_bean_list) %>
+    </tbody>
+  </table>
+
+
+<% end %>

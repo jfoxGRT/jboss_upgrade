@@ -1,0 +1,22 @@
+<% @page_title = "SAMC - Entitlement Assignment Suppressions" %>
+
+<div class="table_header">
+	<h2 class="table_title">Entitlement Assignment Suppressions</h2>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("status_indicator") %>
+	</div>	
+</div>
+<div id="eas_table" style="margin-bottom: 30px;">
+	<%= render(:partial => "eas_info", :locals => {:eas_collection => @entitlement_assignment_suppressions,
+                                                            :status_indicator => "status_indicator",
+                                                            :update_element => "eas_table"}) %>
+</div>
+<div class="link_set">
+	<% if @current_user.hasPermission?(Permission.edit) %>
+		<%= link_to("Add Entitlement Assignment Suppression", new_entitlement_assignment_suppression_path) %>
+	<% else %>
+		<span class="disabled_page_link">
+			Add Entitlement Assignment Suppression
+		</span>
+	<% end %>
+</div>

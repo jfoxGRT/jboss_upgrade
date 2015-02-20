@@ -1,0 +1,12 @@
+<tr>
+    <td style="text-align:left;"><b>
+        <% full_name_link = user_summary.which_user.last_name + ", " + user_summary.which_user.first_name %>
+        <%= link_to( full_name_link, {:action => "user_task_details", :user_id => user_summary.which_user.id, :date => summary_date}, {:target => "_new"} )%>
+        </b><br/>
+        <%= user_summary.which_user.email %>
+    </td>
+    <td><%= user_summary.grabbed %></td>
+    <td><%= user_summary.assigned %></td>
+    <td><%= user_summary.closed %></td>
+    <td><%= user_summary.total_owned %></td>
+</tr>

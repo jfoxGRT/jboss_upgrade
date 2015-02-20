@@ -1,0 +1,1 @@
+page.replace_html 'server_name_block', :partial => "server_name", :object => @server

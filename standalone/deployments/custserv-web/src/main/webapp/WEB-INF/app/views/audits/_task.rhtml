@@ -1,0 +1,9 @@
+<tr>
+	<td><%= task.id %></td>
+	<td style="text-align: left;"><%= task.description %></td>
+	<td><%= task.name %></td>
+	<td><%= task.created_at.strftime(DATE_FORM) %></td>
+	<td><%= translateTaskStatus(task) %></td>
+	<td><%= task.first_name %> <%= task.last_name %></td>
+	<td><a href="#" onclick = "javascript:showTaskDetailsPopup(<%= task.id %>);return false;">view details</a></td>
+</tr>

@@ -1,0 +1,25 @@
+<div id="cs_notice_block">
+	<% logger.info("Flash Notice: #{flash[:msg_type]}") %>
+	<%= render(:partial => "/common/flash_area", :locals => {:flash_notice => flash[:notice], :flash_type => flash[:msg_type]}) %>
+</div>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th><%= SAM_CUSTOMER_TERM %> ID</th>
+			<th>UCN</th>
+			<th><%= SAM_CUSTOMER_TERM %></th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody id="conversion_whitelist_table">
+		<%= render(:partial => "whitelist_entry", :collection => @whitelist) %>
+	</tbody>
+</table>
+<% if @current_user.isAdminType %>
+<div align="center" style="margin-top: 20px;">
+	<% form_remote_tag(:url => lm_conversion_blacklist_path(-1), :method => :delete, :before => "$$('input.form_button').each(Form.Element.disable);",
+						:complete => "$$('input.form_button').each(Form.Element.enable);") do -%>
+		Add SAM EE Customer UCN:&nbsp;&nbsp;<%= text_field_tag(:sam_customer_ucn) %>&nbsp;&nbsp;<%= submit_tag("Add to Whitelist", :class => "form_button") %>
+	<% end %>
+</div>
+<% end %>

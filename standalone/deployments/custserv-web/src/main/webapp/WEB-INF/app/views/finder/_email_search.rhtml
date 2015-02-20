@@ -1,0 +1,114 @@
+<script>
+        jQuery(function() {
+                jQuery( "#generated_date_start_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#generated_date_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#sent_date_start_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#sent_date_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#ignored_date_start_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+                jQuery( "#ignored_date_end_field" ).datetimepicker({ dateFormat: 'yy-mm-dd' });
+        });
+</script>
+
+<% form_for(:email_message, :url => {:controller => :email_messages, :action => :search}, :remote => true, :html => {:name => "email_message_form", :id => "email_message_form"}) do |f| -%>
+		<table style="width:100%; margin-top: 20px;" class="search_table">
+			<tr>
+				<td colspan="2" style="text-align: center;"><h3>Email Search</h3></td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_email_type">Email Type</label>
+				</td>
+				<td class="field_cell">
+					<%= f.select(:email_type, email_type_list) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_user_id">User ID</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:user_id, {:id => "user_id"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_auth_user_id">Auth User ID</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:auth_user_id, {:id => "auth_user_id"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_sam_cust_id">SAM Customer ID</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:cust_id, {:id => "cust_id"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="to_address">Recipient Email Address</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:to_address, {:id => "to_address", :style => "width: 15em;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_generated_date">Generated Between</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:generated_date_start, {:id => "generated_date_start_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:generated_date_end, {:id => "generated_date_end_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_sent_date">Sent Between</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:sent_date_start, {:id => "sent_date_start_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:sent_date_end, {:id => "sent_date_end_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+				<td class="label_cell">
+					<label for="em_ignored_date">Ignored Between</label>
+				</td>
+				<td class="field_cell">
+					<%= f.text_field(:ignored_date_start, {:id => "ignored_date_start_field", :style => "width: 30%;"}) %>
+					<span style="font-weight: bold; text-align: center;">&nbsp;-and-&nbsp;</span>
+					<%= f.text_field(:ignored_date_end, {:id => "ignored_date_end_field", :style => "width: 30%;"}) %>
+				</td>
+			</tr>
+			<tr>
+                                <td style="text-align: center;"><%= submit_tag("Reset", { :name => 'reset', :id => 'reset_button', :type => "reset" }) %></td>
+				<td style="text-align: center;"><%= submit_tag("Search") %></td>
+			</tr>
+		</table>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+                    jQuery("#email_message_form").submit(function() {
+                serial = jQuery(this).serialize();
+                jQuery('#org_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+                jQuery.post(jQuery(this).attr("action"), serial, function(data) {
+                            jQuery('#org_widget_pane').hide();
+                            jQuery('#org_widget_pane').html(data);
+                            jQuery('#org_widget').dialog('option', 'width', 1100);
+                            jQuery('#org_widget').dialog('option', 'height', 650);
+                            jQuery('#org_widget').dialog('option', 'position', 'center');
+                            jQuery('#org_widget_pane').slideFadeToggle(550, "swing", null);
+                        });
+                        return false;
+                    });
+                });
+	
+
+</script>
+<%= javascript_include_tag "jquery.dataTables" %>
+            <% end %>

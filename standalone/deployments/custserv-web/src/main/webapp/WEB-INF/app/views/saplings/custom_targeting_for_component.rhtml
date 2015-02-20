@@ -1,0 +1,42 @@
+<script type="text/javascript">
+  function selectAllServers() 
+  { // Checks or unchecks all checkboxes on page
+  	checkAllBox = document.getElementById("check_all");
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName('input');
+    for(i = 0; i < inputArray.length; i++) {
+    	if(inputArray[i].type == 'checkbox') {
+    		if(checkAllBox.checked) {
+      			inputArray[i].checked = true;
+      		}
+      		else {
+      			inputArray[i].checked = false;
+      		}
+      	}
+     }
+  }
+</script>
+<h2>Custom Targeting For Sapling Id : <%= @sapling.id %></h2>
+<br>
+<div id="custom_targeting_body">
+<% form_remote_tag :url => { :action => :retrieve_server_list_by_form } do -%>
+<b>Fill in the form below to retrieve a list of servers for sapling targeting:</b>
+<br>Note: This tool will only bring up regular servers (no hosted servers). <br>
+<br><br><br>
+  <table align="center">
+    <%= hidden_field_tag("sapling_code", @sapling.sapling_code) %>
+    <%= hidden_field_tag("sapling_version", @sapling.version) %>
+    <%= hidden_field_tag("sapling_id", @sapling.id) %>
+    <% if (@minimum_version != nil && @minimum_version.value != nil) %>
+      <tr><td style="text-align: left;">Minimum <%= @sapling.sapling_code %> version on SAM Server:</td><td style="text-align: left;"><%= text_field_tag("min_component_version", "#{@minimum_version.value}", :size => 10) %></td></tr>
+    <% else %>
+      <tr><td style="text-align: left;">Minimum <%= @sapling.sapling_code %> version on SAM Server:</td><td style="text-align: left;"><%= text_field_tag("min_component_version", "", :size => 10) %></td></tr>
+    <% end %>
+    <tr><td style="text-align: left;">Include Fake Customers:</td><td style="text-align: left;"><%= check_box_tag("include_fake_checkbox") %></td></tr>
+    <tr><td style="text-align: left;">Server OS Type:</td><td style="text-align: left;">
+        <%= select_tag "os_family", options_for_select(["WINDOWS","OSX","LINUX"], @sapling.os_family) %></td></tr>
+  </table>
+<br><br>
+<p><%= submit_tag "Retrieve Servers" %></p>
+<%- end %>
+</div>

@@ -1,0 +1,7 @@
+<% if(sapling_meta.name != "minimumSamVersion" and sapling_meta.name != "maximumSamVersion" and sapling_meta.name != "local_or_hosted_deploy" and sapling_meta.name !="distributionScope" and sapling_meta.name !="customersIds" and sapling_meta.name !="agentIds" and sapling_meta.name !="fromVersion" and sapling_meta.name !="quizType" and sapling_meta.name !="IS_IA_SAPLING")%>
+<tr id="<%= sapling_meta.name %>">
+	<td><%= sapling_meta.name %></td>
+	<td><%= sapling_meta.value %></td>
+	<td><input type="button" value="Remove" onclick="removeMetaData('<%= sapling_meta.name %>', 'sapling_meta_<%= sapling_meta.name %>')" /></td>
+</tr>
+<% end %>

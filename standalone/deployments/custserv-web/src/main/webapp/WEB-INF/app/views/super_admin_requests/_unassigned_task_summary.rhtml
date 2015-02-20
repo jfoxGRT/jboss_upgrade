@@ -1,0 +1,38 @@
+<% samc = unassigned_task_summary.sam_customer %>
+<table id="<%= unassigned_task_summary.id %>" cellspacing="1">
+    <tbody>
+        <tr>
+            <td style="width:5%; text-align: left;">
+                <%= unassigned_task_summary.id %>
+            </td>
+            <td style="width:8%; text-align: left;">
+                <%= unassigned_task_summary.priority %>
+            </td>
+            <td class="standard_link_style" style="width:28%; text-align: left;">
+                <%= link_to(unassigned_task_summary.sam_customer_name, sam_customer_path(unassigned_task_summary.sam_customer_id)) %>
+            </td>
+            <td style="width:12%; text-align: left;">
+                <%= unassigned_task_summary.state_name %>
+            </td>
+            <td style="width:8%; text-align: left;">
+                <%= unassigned_task_summary.created_at.strftime('%m/%d/%y') %>
+                <br/>
+                <%= unassigned_task_summary.created_at.strftime('%I:%M:%S %p') %>
+            </td>
+            <td style="width:23%; text-align: left;">
+                <% if (unassigned_task_summary.admin_permission_requested == "1") %>
+					Admin Permission Requested
+				<% elsif (samc.users.length == 0) %>
+					No Super Admins Currently Exist
+				<% else %>
+					Unknown
+				<% end %>
+            </td>
+            <td style="width:13%; text-align: left;">
+            	<%= render(:partial => "/tasks/unassigned_task_links", :locals => {:task => unassigned_task_summary, 
+            																		:unassigned_task_list_path => unassigned_super_admin_requests_path,
+            																		:edit_task_path => edit_super_admin_request_path(:id => unassigned_task_summary.id),
+            																		:view_details => false}) %>
+            </td>
+    </tbody>
+</table>

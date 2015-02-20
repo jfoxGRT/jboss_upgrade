@@ -1,0 +1,36 @@
+<% @page_title = "SAMC - Notifications" %>
+
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">All Notifications</h2>
+</div>
+<table class="data_table">
+	<thead>
+		<tr>
+		  <th>
+		    <% if (@sort_order == "description") %>
+              <%= link_to("Notification Description", {:action => :alerts_report, :sort => "description_desc"}) %>
+            <% else %>
+              <%= link_to("Notification Description", {:action => :alerts_report, :sort => "description"}) %>
+            <% end %>
+          </th>
+          <th>
+            <% if (@sort_order == "msg_type") %>
+              <%= link_to("Notification Type", {:action => :alerts_report, :sort => "msg_type_desc"}) %>
+            <% else %>
+              <%= link_to("Notification Type", {:action => :alerts_report, :sort => "msg_type"}) %>
+            <% end %>
+          </th>
+          <th>
+			<% if (@sort_order == "alert_count") %>
+              <%= link_to("Count", {:action => :alerts_report, :sort => "alert_count_desc"}) %>
+            <% else %>
+              <%= link_to("Count", {:action => :alerts_report, :sort => "alert_count"}) %>
+            <% end %>
+		  </th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "alert", :collection => @alert_counts) %>
+	</tbody>
+</table>

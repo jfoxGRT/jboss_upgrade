@@ -1,0 +1,1 @@
+page.remove("known_entitlement_destination_" + @killed_destination_id.to_s)

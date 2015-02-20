@@ -1,0 +1,15 @@
+multiple_servers = (@sam_server_ids.split(',').length > 1)
+
+page["step2_container"].replace_html(:partial => "/sam_servers/step2_deactivate_servers", :locals => 
+            {:failure => @failure, :process_token => @process_token, :error_descriptions => @error_descriptions, :process_threads => @process_threads, :process => @process, :multiple_servers => multiple_servers})
+unless @failure
+  unless multiple_servers
+    if @process
+      page.call 'monitor_process', @process.id.to_s, SAMC_PROCESS_SAM_SERVER_DEACTIVATION, 'process_thread_table', 'process_msg_indicator'
+    else # the process record is created asynchronously by api-web and might not exist at the time this view is rendered
+      page["step2_container"].replace_html("\<br\>We are unable to provide a deactivation status at this time.")
+    end
+  end
+else
+  page["deactivate_servers_button"].enable
+end

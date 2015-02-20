@@ -1,0 +1,107 @@
+<%  org_name = @samCustomer.root_org.name.strip.upcase
+    @page_title = ("SAMC - " + org_name + " Summary") %>
+<h2 align="center"><%= org_name %></h2>
+<h3 align="center" style="margin: 30px 0 0px 0;">Entitlement Details</h3>
+<% if(@entitlements.length > 0) %>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+    <%= generateAjaxIndicator("entitlement_loading_indicator") %></div>
+<div id="entitlement_table">
+    <%= render(:partial => "entitlement_info", 
+               :locals => {:entitlement_collection => @entitlements,
+                           :status_indicator => "entitlement_loading_indicator",
+                           :update_element => "entitlement_table"}) %>
+</div>
+<% else %>
+<div align="center" style="margin: 20px 0 0px 0;">There are no entitlements at this SAM Connect account.</div>
+<% end %>
+
+
+<h3 align="center" style="margin: 30px 0 0px 0;">Server Details</h3>
+<% if(@servers.length > 0) %>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+    <%= generateAjaxIndicator("server_loading_indicator") %></div>
+<div id="server_table">
+    <%= render(:partial => "server_info",
+               :locals => {:server_collection => @servers,
+                           :status_indicator => "server_loading_indicator",
+                           :update_element => "server_table"}) %>
+</div>
+<% else %>
+    <div align="center" style="margin: 20px 0 0px 0;">There are no servers registered with this SAM Connect account.</div>
+<% end %>
+
+
+<h3 align="center" style="margin: 30px 0 0px 0;"><%= PRODUCT_TERM %> Details (SAM Server view)</h3>
+<% if(@server_subcommunity_infos.length > 0) %>
+<div align="center" style="padding: 5px 0 10px 0;">&nbsp;
+    <%= generateAjaxIndicator("server_subcommunity_info_loading_indicator") %></div>
+<div id="server_subcommunity_info_table">
+    <%= render(:partial => "server_subcommunity_info",
+               :locals => {:server_subcommunity_info_collection => @server_subcommunity_infos,
+                           :status_indicator => "server_subcommunity_info_loading_indicator",
+                           :update_element => "server_subcommunity_info_table"}) %>
+</div>
+<% else %>
+    <div align="center" style="margin: 20px 0 0px 0;">There are no SAM <%= PRODUCT_TERM %>s installed on any servers.</div>
+<% end %>
+
+<h3 align="center" style="margin: 30px 0 30px 0;">Licensing Scale</h3>
+<script type="text/javascript">
+    function confirmAndShowStatus(button_id, confirm_text) {
+        var confirmed = confirm(confirm_text);
+        if (!confirmed)
+            return false;
+        showStatus();
+        Form.Element.disable(button_id);
+        return true;
+    }
+</script>
+<div align="center" style="margin-bottom: 20px;">
+<% licensing_status = @samCustomer.licensing_status %>
+<% if (licensing_status == 'a') %>
+<script type="text/javascript">
+    confirm_message = "Are you sure you wish to synchronize this customer's entitlement license counts with the counts reported from the servers?";
+</script>
+<span style="color: green;">SC-Licensing Activated&nbsp;&nbsp;&nbsp;</span>
+<% if(@licensing_activation_enabled) %>
+<%= button_to("Sync License Counts on SAM Servers", {:action => :activate_sc_licensing, :id => @samCustomer.id}, {:onclick => "return confirmAndShowStatus('submit_tag', confirm_message)", :id => "submit_tag"}) %>
+<% else %>
+<%= button_to("Sync License Counts on SAM Servers", {:action => :activate_sc_licensing}, {:disabled => "disabled"}) %>
+<% end %>
+
+<% elsif (licensing_status == 'n') %>
+<script type="text/javascript">
+    confirm_message = "Are you sure you wish to activate this customer for Sc-Licensing?  If you click OK, then the entitlement license counts will be synchronized with the counts reported from the servers.";   
+</script>
+SC-Licensing Not Activated&nbsp;&nbsp;&nbsp;
+<% if(@licensing_activation_enabled) %>
+<%= button_to("Activate SC-Licensing", {:action => :activate_sc_licensing, :id => @samCustomer.id}, {:onclick => "return confirmAndShowStatus('submit_tag', confirm_message)", :id => "submit_tag"}) %>
+<% else %>
+<%= button_to("Activate SC-Licensing", {:action => :activate_sc_licensing}, {:disabled => "disabled"}) %>
+<% end %>
+
+<% else %>
+
+<span style="color: blue;">SC-Licensing Activation is in progress..&nbsp;&nbsp;&nbsp;</span>
+
+<% end %>
+</div>
+<div style="height: 1.5em; margin-bottom: 1em;">&nbsp;<span id="status_indicator" style="vertical-align: middle; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</span></div>
+
+
+<table class="data_table">
+    <thead>
+        <tr>
+            <th><%= PRODUCT_TERM %></th>
+            <th>License Count From All Entitlements</th>
+            <th>License Count Installed On Servers</th>
+            <th>Details</th>
+            <th> - </th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "subcommunity_scale", :collection => @subcommunity_scales, :locals => {:sam_customer => @samCustomer}) %>
+    </tbody>
+</table>

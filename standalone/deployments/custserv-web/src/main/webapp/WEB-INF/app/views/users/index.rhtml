@@ -1,0 +1,36 @@
+<% @page_title = "SAMC - #{@user_term}s" %>
+<% if @sam_customer %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<% end %>
+
+
+<div class="table_header">
+	<h2 class="table_title">
+		<% if @sam_customer %>
+			<%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;
+		<% end %>		
+		<%= @user_term %>s</h2>
+</div>
+<br>
+<% if @sam_customer.nil? %>
+	<div class="link_set">
+	<% if @current_user.hasPermission?(Permission.manage_s_users) %>
+		<%= link_to("Add #{@user_term}", new_user_path) %>
+	<% end %>
+	</div>
+<% end %>
+
+<div id="users_table">
+  <%= render(:partial => "users_info", :locals => {:users_collection => @users,
+                                                   :current_user => @current_user,
+  												 												 :sam_customer => @sam_customer}) %>
+</div>

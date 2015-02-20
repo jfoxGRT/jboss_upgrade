@@ -1,0 +1,56 @@
+<table cellspacing="0" cellpadding="0" style="width: 100%;">
+						<tr>
+							<td>Name:</td>
+							<td><%= org_widget_org_details.name %></td>
+						</tr>
+						<tr>
+							<td>Number of Children:</td>
+							<td>
+								<table><tr><td style="font-weight: normal; text-align: left; border-bottom: 0px;"><%= org_widget_org_details.number_of_children %></td><td style="text-align: right; border-bottom: 0px;"><input class="show_children" type="button" value="Show Children &raquo;" onclick="get_children('<%= org_widget_org_details.ucn %>');" /></td></tr></table>
+							</td>
+						</tr>
+						<tr>
+							<td><%= SAM_CUSTOMER_TERM %>:</td>
+							<td>
+								<span style="font-weight: normal;"><%= link_to(org_widget_org_details.sam_customer_name, sam_customer_path(org_widget_org_details.sam_customer_id)) if org_widget_org_details.sam_customer_id %></span>
+							</td>
+						</tr>
+						<tr>
+							<td>UCN:</td>
+							<td><%= org_widget_org_details.ucn %></td>
+						</tr>
+						<tr>
+							<td>Address:</td>
+							<td>
+								<%= "#{org_widget_org_details.address_line_1}<br/>" if org_widget_org_details.address_line_1 && !org_widget_org_details.address_line_1.strip.empty? %>
+								<%= "#{org_widget_org_details.address_line_2}<br/>" if org_widget_org_details.address_line_2 && !org_widget_org_details.address_line_2.strip.empty?  %>
+								<%= "#{org_widget_org_details.address_line_3}<br/>" if org_widget_org_details.address_line_3 && !org_widget_org_details.address_line_3.strip.empty?  %>
+								<%= "#{org_widget_org_details.city_name},&nbsp;" if org_widget_org_details.city_name && !org_widget_org_details.city_name.strip.empty?  %><%= "#{org_widget_org_details.state_name}&nbsp;" if org_widget_org_details.state_name %>
+								<%= "<br/>#{org_widget_org_details.postal_code}" if org_widget_org_details.postal_code %>
+							</td>
+						</tr>
+						<tr>
+							<td>Phone Number:</td>
+							<td>(<%= org_widget_org_details.telephone_number.slice(0,3) %>)<%= org_widget_org_details.telephone_number.slice(3,3) %>-<%= org_widget_org_details.telephone_number.slice(6,4) %></td>
+						</tr>
+						<tr>
+							<td>Country:</td>
+							<td><%= org_widget_org_details.country_name %></td>
+						</tr>
+						<tr>
+							<td>Group:</td>
+							<td><%= org_widget_org_details.group_description %></td>
+						</tr>
+						<tr>
+							<td>Type:</td>
+							<td><%= org_widget_org_details.type_description %></td>
+						</tr>
+						<tr>
+							<td>Status:</td>
+							<td><%= org_widget_org_details.status_description %></td>
+						</tr>
+						<tr>
+							<td>Added Date:</td>
+							<td><%= org_widget_org_details.customer_added_date.strftime(DATE_FORM) if org_widget_org_details.customer_added_date %></td>
+						</tr>
+					</table>

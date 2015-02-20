@@ -1,0 +1,28 @@
+<% @page_title = "SAMC - Flag Server for Deactivation" %>
+
+<table id="breadcrumb_container">
+	<tr>
+	  <td>&raquo;</td>
+    <td><span class="breadcrumb_level"><%= link_to(@sam_server.name, sam_server_path(@sam_server)) %></span></td>
+    <td>&raquo;</td>
+	  <td>
+  		<span id="current_page_title">
+  			Flag for Deactivation
+  		</span>
+	  </td>
+	</tr>
+</table>
+
+<div align="center">
+  <h1 style="margin-bottom: 10px; text-align: center">
+    <%= "Flag Server #{@sam_server.id} for Deactivation" %>
+  </h1>
+  <hr/>
+  <br/>
+  <% form_tag :action => 'flag_for_deactivation', :id => @sam_server.id  do %>
+    Reason for Deactivation: <input id="comment" name="comment" size="80" type="text" />
+    <br/>
+    <br/>
+    <%= submit_tag("Flag for Deactivation", :id => "flag_for_transition_button") %>
+  <% end %>
+</div>

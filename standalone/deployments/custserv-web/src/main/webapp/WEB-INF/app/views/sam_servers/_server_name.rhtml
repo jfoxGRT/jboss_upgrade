@@ -1,0 +1,5 @@
+<%= server_name.name %>
+&nbsp;&nbsp;
+<% if server_name.server_type != SamServer::TYPE_UNREGISTERED_GENERIC %>
+<%= link_to_remote("(change)", :url => {:action => "edit_server_name", :id => server_name.id }) if (current_user.hasPermission?(Permission.edit)) %>
+<% end %>

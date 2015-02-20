@@ -1,0 +1,103 @@
+<div align="center">
+    <table>
+        <tr>
+            <td style="white-space: nowrap">
+                Message Name:
+            </td>
+            <td colspan="3">
+                <%= @banner_message.message_name %>
+            </td>
+        </tr>
+        <tr>
+            <td>Message Type:</td>
+            <td>
+                <%if @is_subpage %>
+                    <% @path = '../' %>
+                <%else%>
+                    <% @path = '' %>
+                <%end%>        
+                <%if @banner_message.slms_message_type_code == 1 %>
+                    <img id="type_icon" src="<%= @path %>images/icon_acknowledgement.gif" alt="" /> &nbsp;
+                    Acknowledgment
+                <%elsif @banner_message.slms_message_type_code == 2 %>
+                    <img id="type_icon" src="<%= @path %>images/icon_alert.gif" alt="" /> &nbsp;
+                    Alert
+                <%elsif @banner_message.slms_message_type_code == 3 %>
+                    <img id="type_icon" src="<%= @path %>images/icon_notification.gif" alt="" /> &nbsp;
+                    Notification
+                <%elsif @banner_message.slms_message_type_code == 4 %>
+                    <img id="type_icon" src="<%= @path %>images/icon_reminder.gif" alt="" /> &nbsp;
+                    Reminder
+                <%end%>    
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Message:
+            </td>
+            <td colspan="3">
+                <%= @banner_message.message %>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                UCN List:
+            </td>
+            <td colspan="3">    
+                <% @ucnlist.each do |u| %>
+                    <%= u.to_s%>&nbsp;
+                <%end%>
+            </td>
+        </tr>
+        <tr>
+            <td>Creator:</td>
+            <td>
+                <%= @banner_message.last_name%>,&nbsp;<%= @banner_message.first_name%>
+            </td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                Posts to:
+            </td>
+            <td <td colspan="3">
+                <% if @banner_message.post_to_sam_client %>
+                    Sam Client&nbsp;
+                <%end%>    
+                <%if @banner_message.post_to_dashboard %>
+                    Dashboard&nbsp;
+                <%end%>    
+                <%if @banner_message.post_to_studentaccess %>
+                    Student Access&nbsp;
+                <%end%>    
+                <%if @banner_message.post_to_educatoraccess %>
+                    Educator Access&nbsp;
+                <%end%>
+                <%if @banner_message.post_to_scholasticcentral %>
+                    Scholastic Central
+                <%end%>
+            </td>
+        </tr>
+        <tr>
+            <td>Date Created:</td>
+            <td>
+                <%= @banner_message.created_at.to_formatted_s(:db) %>
+            </td>
+            <td>Last Updated:</td>
+            <td>
+                <%= @banner_message.updated_at.to_formatted_s(:db) %>
+            </td>
+        </tr>
+        <tr>
+            <td>Start Date:</td>
+            <td>
+                <%= @banner_message.start_datetime.to_formatted_s(:db) %>
+            </td>
+            <td>End Date:</td>
+            <td>
+                <%= @banner_message.end_datetime.nil? ? "&nbsp;" : @banner_message.end_datetime.to_formatted_s(:db) %>
+            </td>
+        </tr>
+    </table>
+</div>    

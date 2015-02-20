@@ -1,0 +1,3 @@
+<% if(sapling_meta_hidden.name != "local_or_hosted_deploy") %>
+<input type="hidden" name="sapling_meta[<%= sapling_meta_hidden.name %>]" id="sapling_meta_<%= sapling_meta_hidden.name %>" value="<%= sapling_meta_hidden.value %>" />
+<% end %>

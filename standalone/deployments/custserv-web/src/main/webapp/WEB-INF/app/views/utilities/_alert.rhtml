@@ -1,0 +1,7 @@
+<tr>
+	<td style="text-align: left;">
+		<%= link_to(alert.description, {:action => "alert_type_report", :notification_type_id => alert.id}) %>
+	</td>
+	<td><%= alert.msg_type %></td>
+	<td><%= alert.alert_count %></td>
+</tr>

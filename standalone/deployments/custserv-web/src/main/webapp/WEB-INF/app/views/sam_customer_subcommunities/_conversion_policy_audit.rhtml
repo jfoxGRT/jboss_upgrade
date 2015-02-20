@@ -1,0 +1,10 @@
+		<tr>
+			<td style="width: 15%;"><%= conversion_policy_audit.created_at.strftime(DATE_FORM) %></td>
+			<td><%= conversion_policy_audit.starting_converted_count %></td>
+			<td><%= conversion_policy_audit.ending_converted_count %></td>
+			<td><%= conversion_policy_audit.starting_unconverted_count %></td>
+			<td><%= conversion_policy_audit.ending_unconverted_count %></td>
+			<td><%= conversion_policy_audit.source_user.email if conversion_policy_audit.source_user %></td>
+			<td><%= conversion_policy_audit.source_entitlement.id if conversion_policy_audit.source_entitlement %></td>
+			<td style="width: 15%;"><%= translate_conversion_audit_reason(conversion_policy_audit.reason) %></td>
+		</tr>

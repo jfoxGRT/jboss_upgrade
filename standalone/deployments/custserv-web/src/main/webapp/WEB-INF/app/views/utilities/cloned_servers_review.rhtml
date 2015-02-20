@@ -1,0 +1,33 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Clone Review Report", :csv_action => "export_clone_review_to_csv", :extra_param => @report_type})%>
+
+<table align="center">
+<tr><td>
+To qualify for this clone report, a clone should satisfy the following criteria :<br/>
+- The name of clone should be "$Parent - CLONE".<br/>
+- Parent should have not been connected for a minimum of 3 months, while clone should be connecting.<br/>
+<% if @report_type == "licenseExactCheck" %>
+- Parent and clone should have the exact same products installed, and exact same number of licenses for all those products<br/>
+<% end %>
+- No licensing tasks exist for this server (LCD, LCI, Pending seat activity) and there are no outstanding report requests<br/>
+- Server is not registered to a License Managed customer<br/>
+- Server is not hosted<br/>
+</td></tr>
+</table>
+ 
+<br/><br/>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>Customer Name</th>
+        <th>Customer UCN</th>
+        <th>Clone Parent Name</th>
+        <th>Clone Parent ID</th>
+        <th>Clone Parent Last Checkin</th>        
+        <th>Clone Name</th>
+        <th>Clone ID</th>
+      </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "clone_review_report_detail", :collection => @clones)%>
+    </tbody>    
+</table>

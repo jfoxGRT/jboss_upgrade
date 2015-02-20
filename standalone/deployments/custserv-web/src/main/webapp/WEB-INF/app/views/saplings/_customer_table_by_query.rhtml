@@ -1,0 +1,27 @@
+<b>Select from the following list of customers for targeting, then enter sapling ID and click on submit</b>
+<br><br><br>
+<% form_remote_tag :url => { :action => :insert_targeting_rules } do -%>
+<div>
+Sapling IDs (IDs could be a comma separated list):&nbsp;&nbsp;<%= text_field_tag(:sapling_id_list) %>&nbsp;&nbsp;&nbsp;<%= submit_tag("Insert Targeting Rules") %>
+</div>
+<br><br>
+<table class="data_table" align="LEFT">
+  <thead>
+    <tr class="data_table_first_row"> 
+      <td>Select</td>
+      <td>SAM Customer ID</td>
+      <td>SAM Customer Name</td>
+    </tr>
+  </thead>
+  <tbody>
+  	 <tr>
+      <td style="text-align: left; vertical-align: bottom"><input type="checkbox" id="check_all" onclick='selectAllCustomers()' /></td>
+      <td style="text-align: left; vertical-align: bottom">All</td>
+      <td style="text-align: left; vertical-align: bottom">All</td>
+    </tr>
+    <%= render(:partial => "customer_row_by_query", :collection => @result) %>
+   
+  </tbody>
+</table>
+<br><br><br>
+<%- end %>

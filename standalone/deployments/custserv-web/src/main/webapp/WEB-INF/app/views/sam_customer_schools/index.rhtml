@@ -1,0 +1,20 @@
+<% @page_title = "SAMC - Schools" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Schools on SAM Servers</h2>
+<span class="super_caption"><%= @schools.length %> Schools on Active Servers</span>
+</div>
+<div>
+	<div id="schools_table" style="margin-bottom: 30px;">
+		<%= render(:partial => "sam_customer_schools_info", :locals => {:schools_collection => @schools,
+		                                                            :status_indicator => "schools_loading_indicator" }) %>
+	</div>
+</div>

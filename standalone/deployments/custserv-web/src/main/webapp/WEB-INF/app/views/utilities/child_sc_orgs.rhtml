@@ -1,0 +1,81 @@
+<%= render(:partial => "report_header", :locals => {:report_title => "Child SAM Connect Organizations Report", :csv_action => "export_child_sc_orgs_to_csv"})%>
+
+<table class="data_table">
+  <thead>
+    <tr>
+        <th>    
+          <% if (@sort_order == "child_ucn") %>
+            <%= link_to("Child UCN", {:action => :child_sc_orgs,:sort => "child_ucn_desc"}) %>
+          <% else %>
+            <%= link_to("Child UCN", {:action => :child_sc_orgs,:sort => "child_ucn"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "child_name") %>
+            <%= link_to("Child Name", {:action => :child_sc_orgs,:sort => "child_name_desc"}) %>
+          <% else %>
+            <%= link_to("Child Name", {:action => :child_sc_orgs,:sort => "child_name"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "child_account_type") %>
+            <%= link_to("Child Account Type", {:action => :child_sc_orgs,:sort => "child_account_type_desc"}) %>
+          <% else %>
+            <%= link_to("Child Account Type", {:action => :child_sc_orgs,:sort => "child_account_type"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "number_of_entitlements_at_child") %>
+            <%= link_to("Number of Entitlements Assigned to Child", {:action => :child_sc_orgs,:sort => "number_of_entitlements_at_child_desc"}) %>
+          <% else %>
+            <%= link_to("Number of Entitlements Assigned to Child", {:action => :child_sc_orgs,:sort => "number_of_entitlements_at_child"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "number_of_servers_at_child") %>
+            <%= link_to("Number of Servers Registered to Child", {:action => :child_sc_orgs,:sort => "number_of_servers_at_child_desc"}) %>
+          <% else %>
+            <%= link_to("Number of Servers Registered to Child", {:action => :child_sc_orgs,:sort => "number_of_servers_at_child"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "parent_ucn") %>
+            <%= link_to("Parent UCN", {:action => :child_sc_orgs,:sort => "parent_ucn_desc"}) %>
+          <% else %>
+            <%= link_to("Parent UCN", {:action => :child_sc_orgs,:sort => "parent_ucn"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "parent_name") %>
+            <%= link_to("Parent Name", {:action => :child_sc_orgs,:sort => "parent_name_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Name", {:action => :child_sc_orgs,:sort => "parent_name"}) %>
+          <% end %>
+        </th>
+        <th>    
+          <% if (@sort_order == "parent_account_type") %>
+            <%= link_to("Parent Account Type", {:action => :child_sc_orgs,:sort => "parent_account_type_desc"}) %>
+          <% else %>
+            <%= link_to("Parent Account Type", {:action => :child_sc_orgs,:sort => "parent_account_type"}) %>
+          <% end %>
+        </th>
+        <th>        
+          <% if (@sort_order == "parent_sam_customer_id") %>
+            <%= link_to("Parent SAM Customer ID", {:action => :child_sc_orgs,:sort => "parent_sam_customer_id_desc"}) %>
+          <% else %>
+            <%= link_to("Parent SAM Customer ID", {:action => :child_sc_orgs,:sort => "parent_sam_customer_id"}) %>
+          <% end %>
+        </th>                                        
+        <th>    
+          <% if (@sort_order == "child_is_parent") %>
+            <%= link_to("Child is Own Parent", {:action => :child_sc_orgs,:sort => "child_is_parent_desc"}) %>
+          <% else %>
+            <%= link_to("Child is Own Parent", {:action => :child_sc_orgs,:sort => "child_is_parent"}) %>
+          <% end %>
+        </th>                                                
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "child_sc_orgs_detail", :collection => @child_sc_orgs)%>
+  </tbody>  
+</table>

@@ -1,0 +1,31 @@
+<table class="data_table">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Created At", "created_at", update_element, "update_eas_table", status_indicator)%>
+            <td <%= sort_td_class_helper("updated_at")%>>
+                <%= sort_link_helper("Updated At", "updated_at", update_element, "update_eas_table", status_indicator)%>
+            </td>
+			<td <%= sort_td_class_helper("organization")%>>
+                <%= sort_link_helper("Root Organization for Suppression", "organization", update_element, "update_eas_table", status_indicator)%>
+            </td>
+			<td>State</td>
+			<td <%= sort_td_class_helper("user")%>>
+                <%= sort_link_helper("Created By", "user", update_element, "update_eas_table", status_indicator)%>
+            </td>
+			<td>&nbsp;</td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "eas", :collection => eas_collection, :locals => {:status_indicator => status_indicator}) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(eas_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_eas_table") %>
+</p>
+
+

@@ -1,0 +1,53 @@
+<% @page_title = "SAMC - Known Entitlement Destinations" %>
+<script type="text/javascript">
+	confirm_message = "Please review your edits.  Do you wish to continue?";
+</script>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => ENTITLEMENTS_CODE, :on_target => nil}) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to("Known Entitlement Destinations", sam_customer_entitlement_known_destinations_path(@sam_customer)) %></td>
+	<td>&raquo;</td>
+	<td>
+		<span id="current_page_title">
+			<%= @mode %>
+		</span>
+	</td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= "#{@mode} Known Entitlement Destination" %><%= ": #{@entitlement_known_destination.id}" if @mode == "Edit" %></h2>
+</div>
+<%= error_messages_for :entitlement_known_destination %>
+<% form_for(:entitlement_known_destination, 
+			:url => (@mode == "Edit") ? sam_customer_entitlement_known_destination_path(@sam_customer, @entitlement_known_destination) : 
+					sam_customer_entitlement_known_destinations_path, 
+					:html => {:method => (@mode == "Edit") ? :put : :post, :id => "entitlement_known_destinations_form"}) do |f| -%>
+  <%= f.hidden_field(:sam_customer_id, :value => @sam_customer.id) %>
+  <% if @mode == 'Edit' %>
+    <%= f.hidden_field :id %>
+  <% end %>
+  
+  	<table class="form_table">
+  		<tr>
+  			<td class="label_cell">Bill-To UCN:</td>
+			<td class="field_cell"><%= f.text_field(:bill_to_ucn) %></td>
+  		</tr>
+		<tr>
+			<td class="label_cell">Ship-To UCN:</td>
+			<td class="field_cell"><%= f.text_field(:ship_to_ucn) %></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<%= button_to_function((@mode == "Edit") ? "Update Destination" : "Add Destination", "confirmAndSubmit('submit_tag', confirm_message, 'entitlement_known_destinations_form')", :id => "submit_tag") %>
+			</td>
+		</tr>
+  	</table>
+<% end -%>
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image" ) %>    
+</div>

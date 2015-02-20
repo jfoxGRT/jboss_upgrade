@@ -1,0 +1,49 @@
+<% @page_title = "SAMC - Email Message Detail" %>
+
+<table class="property_table shadow-large">
+	<thead>
+		<tr>
+			<th>
+            </th>
+			<th>
+            </th>
+		</tr>
+	</thead>
+	<tbody>
+<tr>
+        <td>Email ID</td>
+        <td><%= @email.id %></td>
+</tr>
+<tr>
+        <td>To</td>
+        <td><%= @email.recipient_address %></td>
+</tr>
+<tr>
+        <td>Subject</td>
+        <td><%= @email.subject %></td>
+</tr>
+<tr>
+        <td>Generated</td>
+        <td><%= @email.generated_date %></td>
+</tr>
+<tr>
+        <td>Sent</td>
+        <td><%= @email.sent_date %></td>
+</tr>
+<tr>
+        <td>Text Body</td>
+        <td><pre><%= @email.text_body %></pre></td>
+</tr>
+<tr>
+        <td>HTML Body</td>
+        <td>
+          <%= @email.html_body %><br/><br/><a href="" onClick="toggleMe('para');return false;">Expand/Collapse HTML Source</a>
+          <br/><br/>
+          <div id="para" style="display:none">
+            <form><textarea rows="20" cols="75" readonly><%= @email.html_body %></textarea></form>
+          </div>
+</td>
+</tr>
+
+	</tbody>
+</table>

@@ -1,0 +1,136 @@
+<script type="text/javascript">	
+    jQuery(function() {
+                jQuery( "#date1" ).datepicker({ 
+                    dateFormat: 'yy-mm-dd',
+                    startDate: new Date(),
+                    minDate: new Date,
+                    showOn: "button",
+                    buttonImage: "images/calendar.gif",
+                    buttonImageOnly: true,
+                    numberOfMonths: 2,
+                    onSelect: function( selectedDate ) {
+                        $( "#date2" ).datepicker( "option", "minDate", selectedDate );
+                    } 
+                    });
+                jQuery( "#date2" ).datepicker({ 
+                    dateFormat: 'yy-mm-dd',
+                    startDate: new Date(),
+                    minDate: new Date,
+                    showOn: "button",
+                    buttonImage: "images/calendar.gif",
+                    buttonImageOnly: true,
+                    numberOfMonths: 2,
+                    onSelect: function( selectedDate ) {
+                        $( "#date1" ).datepicker( "option", "maxDate", selectedDate );
+                    } 
+                    });
+    });
+</script>
+
+<div align="center">
+<% form_for(@banner_message, :url => url_for(:action => :update_banner_message, :id => @banner_message.id), :html => {:name => 'editform', :onsubmit => "return check_form();"} ) do |f| -%>
+  <input type="hidden" id="ucn_string" name="ucn_string" value="<% @ucnlist.each do |u| %><%= u.to_s%>,<%end%>"/>
+  <% current_time = Time.now.change(:sec => 0) %>
+    <input type="hidden" id="current_time" value="<%= current_time.to_s %>"/>
+  <table>
+	<tr>
+		<td colspan="2">
+			<b>Message Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= text_field_tag(:message_name, @banner_message.message_name, :size => 20, :disabled => true) %>
+			<br />
+		</td>
+	</tr>    
+    <tr>
+    	<td colspan="2"><h4>Message:</h4>
+		<br />
+    	<%= text_area_tag (:message, @banner_message.message, :size => "80x9") %>
+    	</td>
+    </tr>
+    <tr>
+		<td>
+			<h4>Post to:</h4>
+			<br />
+			<%= check_box_tag(:samclient, 'SAM Client', @banner_message.post_to_sam_client) %>
+			<%= label_tag(:samclient, "SAM Client") %> &nbsp;&nbsp;
+		<!--	<%= check_box_tag(:studentaccess, 'Student Access', @banner_message.post_to_studentaccess) %>
+			<%= label_tag(:studentaccess, "Student Access") %> -->
+			<br/>
+		<!--	<%= check_box_tag(:dashboards, 'Dashboards', @banner_message.post_to_dashboard) %>
+			<%= label_tag(:dashboards, "Dashboards") %>	&nbsp; -->
+			<%= check_box_tag(:educatoraccess, 'Educator Access', @banner_message.post_to_educatoraccess) %>
+			<%= label_tag(:educatoraccess, "Educator Access") %>
+			<br />
+            
+            <%= check_box_tag(:scholasticcentral, 'Scholastic Central Login', @banner_message.post_to_scholasticcentral) %>
+            <%= label_tag(:scholasticcentral, "Scholastic Central Login") %>
+		</td>
+		<td>
+            <h4>Message Type:</h4> <br />
+            <% image = @slms_list[@banner_message.slms_message_type_code - 1].icon_url.split(/\//) %>
+            <img id="type_icon" src="images/<%= image[6] %>" alt="" /> &nbsp;
+            <%= select_tag :slms_code, options_from_collection_for_select(@slms_list, 'id', 'message_type_description', @banner_message.slms_message_type_code), :include_blank => true, :onchange => 'changeImg(this.value)' %>          
+        </td>
+	</tr>
+	<tr>
+		<td style="vertical-align: top;" colspan="2">
+		    <h4>Message Scope:</h4>
+		    <table>
+                <tr>
+                    <td>
+                        <br />
+                        <%= radio_button_tag(:ucn, "GLOBAL", @banner_message.distribution_scope == 'GLOBAL', :onclick => "document.editform.ucn_field.disabled = true") %>  
+                        <%= label_tag(:ucn, "All UCNs") %>
+                        <br />
+                        <%= radio_button_tag(:ucn, "BY_CUSTOMER", @banner_message.distribution_scope == 'BY_CUSTOMER', :onclick => "document.editform.ucn_field.disabled = false") %>   
+                        <%= label_tag(:ucn, "Restrict to UCNs") %>
+                    </td>
+                    <td>
+                        <%= radio_button_tag(:server_scope, "ALL", @banner_message.server_scope == 'ALL') %>  
+                        <%= label_tag(:server_scope, "All") %>
+                        <br />
+                        <%= radio_button_tag(:server_scope, "HOSTED", @banner_message.server_scope == 'HOSTED') %>    
+                        <%= label_tag(:server_scope, "Hosted") %>
+                        <br />
+                        <%= radio_button_tag(:server_scope, "LOCAL", @banner_message.server_scope == 'LOCAL') %> 
+                        <%= label_tag(:server_scope, "Non-hosted") %>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            
+			<input type="text" id="ucn_field" size="21" <% if @banner_message.distribution_scope == "GLOBAL"%>disabled<%end%>></input>&nbsp;
+			<button type="button" onclick="validate_ucn('<%= url_for(:action => :validUCN) %>'); return false;">Add UCNs</button>
+			<input type="button" value="Remove UCN" onclick="remove_ucn();">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+			<select id="ucn_list" name="ucn_list" size="7" style="width: 150px">
+				<% @ucnlist.each do |u| %>
+  					<option><%= u.to_s%>
+  				<%end%>
+  			</select>
+  			&nbsp;
+            <div id="loading_icon" style="display: none">Please wait..&nbsp;&nbsp;<%= image_tag("/images/indicator_smallwaitanim.gif", :border => "0", :id => "status_image", :style => "vertical-align: bottom;" ) %></div>
+  			<textarea id="invalid_ucns" rows="5" cols="50" style="vertical-align: top;border: none; background: none; resize: none; display: none;color: red">The following UCNs are not valid: </textarea>
+		</td>		
+	</tr>
+	<tr>
+		<td colspan="2">
+		    <span style="color: red">Editing this message will start the revised message at the current time and expire the previous message.</span>
+            <h4>Start Datetime:</h4>
+            Date:&nbsp;<%= text_field_tag(:start_date, Date.today, {:id => "date1", :size => "10", :readonly => true}) %>&nbsp;
+            Time:&nbsp;<%= select_time(Time.now, :prefix => 'start_time')%> &nbsp; (UTC)<br /><br />
+            <h4>End Datetime:</h4>
+            Date:&nbsp;<%= text_field_tag(:end_date, @banner_message.end_datetime.to_date, {:id => "date2", :size => "10", :readonly => true}) %>&nbsp;
+            Time:&nbsp;<%= select_time(@banner_message.end_datetime, :prefix => 'end_time')%> &nbsp; (UTC)
+        </td>
+	</tr>		
+	<tr>
+		<td colspan="2">
+			<%=submit_tag "Update Message"%>
+			<% end %>
+			<%=button_to "Stop Message", {:action => :hide_banner_message, :id => @banner_message.id}, :confirm => "Are you sure you want to STOP this message?"%>
+			<%=button_to "Delete Message", {:action => :delete_banner_message, :id => @banner_message.id}, :confirm => "Are you sure you want to DELETE this message?" %>
+			<input type="button" onclick="close_dialog()" value="Cancel" />
+		</td>
+	</tr>
+  </table>
+</div>

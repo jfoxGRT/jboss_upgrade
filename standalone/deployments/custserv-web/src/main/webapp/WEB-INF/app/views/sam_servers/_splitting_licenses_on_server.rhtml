@@ -1,0 +1,48 @@
+<div id="split_licenses_container">
+	<table class="data_table">
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Current License Count</th>
+				<th>License Count to Keep</th>
+				<th>License Count to Discard</th>
+				<th>
+				<a href = "#"><%= image_tag("question_mark_small_blue.png", :class => "colInfo", :title => "This column indicates the maximum number of licenses that can be discarded, due to PLCCs at this customer.") %></a>
+                Maximum Number of Licenses That Can Be Discarded
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render(:partial => "sam_server_pool", :collection => sam_server_deactivation_info, :locals => {:enabled => enabled}) %>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	
+	jQuery(document).ready(function() {
+		jQuery('.colInfo').betterTooltip({speed: 250, delay: 75});
+	});
+	
+	var records_invalid = 0;
+	function update_license_count_fields(old_count, new_count, elem_id, record_status) {
+		count_now = old_count - new_count;
+		if (isNaN(count_now) || count_now < 0 || new_count < 0) {
+			$(elem_id).update('<span style="color: red;">Invalid</span>');
+			if ($(record_status).value == "0")
+				records_invalid++;
+			$(record_status).value = "1"
+		}
+		else {
+			$(elem_id).update(''+count_now);
+			if ($(record_status).value == "1")
+				records_invalid--;
+			$(record_status).value = "0"
+		}
+		if (records_invalid == 0) {
+			$('deactivate_servers_button').enable();
+		}
+		else {
+			$('deactivate_servers_button').disable();
+		}
+	}
+</script>

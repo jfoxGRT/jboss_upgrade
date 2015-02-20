@@ -1,0 +1,7 @@
+		<tr>
+			<td><%= global_data_logged_in_user.first_name %></td>
+			<td><%= global_data_logged_in_user.last_name %></td>
+			<td><%= link_to(global_data_logged_in_user.email, user_path(global_data_logged_in_user.id)) %></td>
+			<td><%= link_to(global_data_logged_in_user.sam_customer_name, sam_customer_path(global_data_logged_in_user.sam_customer_id)) %></td>
+			<td><%= global_data_logged_in_user.updated_at.strftime(DATE_FORM) %></td>
+		</tr>

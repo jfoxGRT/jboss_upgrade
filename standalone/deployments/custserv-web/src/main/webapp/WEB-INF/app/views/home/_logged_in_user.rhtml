@@ -1,0 +1,6 @@
+<tr>
+	<td><%= logged_in_user.first_name %></td>
+	<td><%= logged_in_user.last_name %></td>
+	<td><%= logged_in_user.display_type %></td>
+	<td><%= link_to(logged_in_user.sam_customer_name, sam_customer_path(logged_in_user.sam_customer_id)) if logged_in_user.sam_customer_id %></td>
+</tr>

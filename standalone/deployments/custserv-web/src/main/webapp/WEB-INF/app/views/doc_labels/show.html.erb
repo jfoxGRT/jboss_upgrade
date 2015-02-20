@@ -1,0 +1,36 @@
+<%= link_to 'Edit Document Label', edit_doc_label_path(@doc_label) %> |
+<%= link_to 'Create New Document Label', new_doc_label_path %> |
+<%= link_to 'Back to List', doc_labels_path %>
+<br />
+
+<p>
+  <b>Code:</b>
+  <%=h @doc_label.code %>
+</p>
+
+<p>
+  <b>Display text:</b>
+  <%=h @doc_label.display_text %>
+</p>
+
+<p>
+  <b>Display desc:</b>
+  <%=h @doc_label.display_desc %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @doc_label.notes %>
+</p>
+
+<p>
+  <b>Display order:</b>
+  <%=h @doc_label.display_order %>
+</p>
+
+
+<%= link_to 'Edit Document Label', edit_doc_label_path(@doc_label) %> |
+<%= link_to 'Create New Document Label', new_doc_label_path %> |
+<%= link_to 'Back to List', doc_labels_path %>
+<br />
+<br />

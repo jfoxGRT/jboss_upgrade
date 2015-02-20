@@ -1,0 +1,22 @@
+<h2 align="center"><%= @server.name %></h2>
+<div align="center" style="margin: 0px 0px 30px 0px;">
+<%= link_to("BACK TO: " + @server.sam_customer.root_org.name.strip.upcase, :action => :sam_customer_details, :id => @server.sam_customer.id) %>
+</div>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>School ID</th>
+        <th>School Name</th>
+        <th>Student Count</th>
+        <th>School Number</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Postal Code</th>
+        <th>Country</th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "school_info_details", :collection => @server.sam_server_school_infos) %>
+    </tbody>
+</table>

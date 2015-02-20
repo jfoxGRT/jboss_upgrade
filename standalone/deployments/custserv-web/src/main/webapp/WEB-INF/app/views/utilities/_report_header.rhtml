@@ -1,0 +1,22 @@
+<% row_text = @num_rows_reported == 1 ? "row" : "rows" %>
+
+<div class="table_header">
+  <h2 class="table_title"><%= report_title %></h2>
+  <br>
+  <% if @max_rows_reportable.nil? or (@num_rows_reported < @max_rows_reportable) %>
+     <span class="super_caption"><%= number_with_delimiter(@num_rows_reported) %> <%= row_text %></span>
+  <% else %>
+     <span class="super_caption">First <%= number_with_delimiter(@num_rows_reported) %> <%= row_text %> shown</span>  
+  <% end %>
+</div>
+
+<% if defined? csv_action %>
+   <div align="center">
+   <% if defined? extra_param %>
+       <%= link_to("Export Table to CSV", {:action => csv_action, :extra_param => extra_param}) %>
+   <% else %>
+       <%= link_to("Export Table to CSV", {:action => csv_action}) %>
+   <% end %> 
+   </div> 
+  <br> 
+<% end %>

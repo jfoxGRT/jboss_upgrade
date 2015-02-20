@@ -1,0 +1,85 @@
+<%  @page_title = "SAMC Asynchronous Activities" %>
+<h2 style="margin-bottom: 30px;"><div align="center">
+<table style="margin: 15px 0 0 0;">
+	<tr>
+		<td class="breadcrumb_cell"><%= @sam_customer.name %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">
+			<%= link_to("Entitlements", sam_customer_entitlements_path(@sam_customer)) %><br/>
+			<%= link_to("License Counts", sam_customer_subcommunities_path(@sam_customer.id)) %><br/>
+			<span style="background-color: #dddddd;"><%= link_to("SAM Servers & Agents", sam_customer_sam_servers_path(@sam_customer.id)) %></span><br/>
+			<%= link_to("Seat Activity", sam_customer_seat_activities_path(@sam_customer.id)) %>
+		</td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">
+			<span style="background-color: #dddddd;"><%= link_to("Agent ID #{@agent.id}", agent_path(@agent.id)) %></span><br/>
+			<%= link_to("SAM Server ID #{@sam_server.id}", sam_customer_sam_server_path(@sam_customer.id, @sam_server.id)) %>
+		</td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell"><%= link_to("Conversations", agent_conversations_path(@agent.id)) %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell"><%= link_to("Conversation Instance ID #{@conversation.id}", agent_conversation_path(@agent.id, @conversation.id)) %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell">Async Activity ID <%= @async_activity.id %></td>
+	</tr>
+</table>
+</div></h2>
+
+
+
+
+<div class="table_header">
+	<h2 class="table_title">Async Activity: <%= @async_activity.id %></h2>
+</div>
+<table class="property_table" style="margin-top: 20px;">
+	<tr>
+		<td>Async Activity ID</td>
+		<td><%= @async_activity.id %></td>
+	</tr>
+	<tr>
+		<td>Status</td>
+		<td><%= (@async_activity.status.nil? ? "" : @async_activity.status.name) %></td>
+	</tr>
+	<tr>
+		<td>Handler Tag</td>
+		<td><%= @async_activity.handler_tag %></td>
+	</tr>
+	<tr>
+		<td>Handled On</td>
+		<td><%= (@async_activity.handled_on.nil?) ? "" : @async_activity.handled_on.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Created At</td>
+		<td><%= (@async_activity.created_at.nil?) ? "" : @async_activity.created_at.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Updated At</td>
+		<td><%= (@async_activity.updated_at.nil?) ? "" : @async_activity.updated_at.strftime(DATE_FORM) %></td>
+	</tr>
+	<tr>
+		<td>Expiration Date</td>
+		<td><%= (@async_activity.expiration_date.nil?) ? "" : @async_activity.expiration_date.strftime(DATE_FORM) %></td>
+	</tr>
+</table>
+
+
+
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Alias</th>
+            <th>Updated</th>
+            <th>Filename</th>
+            <th>Requested</th>
+            <th>Created</th>
+            <th>Failed</th>
+            <th>Expired on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "async_file_upload", :collection => @async_activity.async_file_uploads) %>
+    </tbody>
+</table>
+</div>

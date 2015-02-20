@@ -1,0 +1,21 @@
+<h2 align="center">Tasks - No Account Administrators</h2>
+<% if (@noUserAIs.length > 0) %>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>SAM Connect Account ID</th>
+            <th>SAM Connect Account Name</th>
+            <th>Originating TMS Entitlement ID</th>
+            <th>Dispatched By..</th>
+            <th>Task Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "alert_no_user", :collection => @noUserAIs) %>
+    </tbody>
+</table>
+<% else %>
+<div "no_entitlement_alerts" align="center">There are currently no SAM Customer Accounts without users.</div>
+<% end %>

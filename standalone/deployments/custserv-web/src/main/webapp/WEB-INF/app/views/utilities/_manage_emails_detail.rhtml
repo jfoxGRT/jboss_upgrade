@@ -1,0 +1,17 @@
+<% 
+if(manage_emails_detail.status == 1)
+    button_text = "Disable"
+    email_type_status = "Enabled"
+else
+    button_text = "Enable"
+    email_type_status = "Disabled"
+end
+%>
+<tr>
+    <td> <%= manage_emails_detail.code %> </td>
+    <td> <%= manage_emails_detail.description %> </td>
+    <td> <%= email_type_status %> </td>
+    <td> <%= button_to button_text, { :action => :enable_disable_emails, :id => manage_emails_detail.id }, 
+            :confirm => "Are you sure you want to change the status for email type code " + manage_emails_detail.code + "?"  %></tr>
+ </td>
+</tr>

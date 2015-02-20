@@ -1,0 +1,2 @@
+page[:org_hierarchy].replace_html(:partial => "org_hierarchy_info", :locals => {:customer_under_lens => @customer_under_lens, :descendant_orgs => @descendant_orgs})
+page[:left_pane_show_details_button].replace_html(:partial => "left_pane_show_details_button", :object => @customer_under_lens)

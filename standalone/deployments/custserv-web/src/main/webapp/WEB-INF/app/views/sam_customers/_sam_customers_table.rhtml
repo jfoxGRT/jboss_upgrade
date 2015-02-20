@@ -1,0 +1,35 @@
+<table class="data_table" style="width: 85%;">
+    <thead>
+        <tr class="data_table_first_row">
+            <td <%= sort_td_class_helper("sam_customer_name")%>>
+                <%= sort_link_helper("#{SAM_CUSTOMER_TERM} Name", "sam_customer_name", update_element, "update_sam_customers_table", status_indicator)%>
+            </td>
+			<td>UCN</td>
+			<td style="width: 8%;" <%= sort_td_class_helper("sc_index")%>>
+                <%= sort_link_helper(SCHOLASTIC_INDEX_TERM, "sc_index", update_element, "update_sam_customers_table", status_indicator) %>
+			</td>
+			<td style="width: 14%;" <%= sort_td_class_helper("sc_registration_date")%>>
+                <%= sort_link_helper("SAMC Registration Date", "sc_registration_date", update_element, "update_sam_customers_table", status_indicator) %>			
+			</td>
+			<td style="width: 13%;" <%= sort_td_class_helper("sc_licensing_status")%>>
+                <%= sort_link_helper("License Manager Status", "sc_licensing_status", update_element, "update_sam_customers_table", status_indicator) %>
+            </td>
+			<td <%= sort_td_class_helper("autd_status")%>>
+                <%= sort_link_helper("Auth Status", "auth_status", update_element, "update_sam_customers_table", status_indicator) %>
+            </td>
+			<td style="width: 15%;" <%= sort_td_class_helper("update_manager_status")%>>
+                <%= sort_link_helper("Update Manager Status", "update_manager_status", update_element, "update_sam_customers_table", status_indicator) %>
+            </td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "sam_customer", :collection => sam_customer_collection, :locals => {:state_id => state_id, status_indicator => status_indicator, :sam_customer_count => sam_customer_count}) %>
+    </tbody>
+</table>
+
+<p class="pagination_links">
+  <%= will_paginate(sam_customer_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_sam_customers_table") %>
+  </p>

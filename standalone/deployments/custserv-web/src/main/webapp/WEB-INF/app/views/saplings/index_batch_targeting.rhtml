@@ -1,0 +1,66 @@
+<script type="text/javascript">
+  function selectAllCustomers() 
+  { // Checks or unchecks all checkboxes on page
+  	checkAllBox = document.getElementById("check_all");
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName('input');
+    for(i = 0; i < inputArray.length; i++) {
+    	if(inputArray[i].type == 'checkbox') {
+    		if(checkAllBox.checked) {
+      			inputArray[i].checked = true;
+      		}
+      		else {
+      			inputArray[i].checked = false;
+      		}
+      	}
+     }
+  }
+ 
+ function which_type()
+ { //Check which query to run
+	var query_type = document.getElementById('query_type');
+	if (query_type.value == 'sam_customer sc') {
+		document.getElementById("p2").style.display = "none";
+		document.getElementById("p1").style.display="";
+	}
+	else 
+		if (query_type.value == 'sam_server ss') {
+			document.getElementById("p1").style.display = "none";
+			document.getElementById("p2").style.display="";
+		} 
+	
+	}
+	
+function selectAllServers() 
+  { // Checks or unchecks all checkboxes on server page
+  	checkAllBox = document.getElementById("check_all");
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName('input');
+    for(i = 0; i < inputArray.length; i++) {
+    	if(inputArray[i].type == 'checkbox') {
+    		if(checkAllBox.checked) {
+      			inputArray[i].checked = true;
+      		}
+      		else {
+      			inputArray[i].checked = false;
+      		}
+      	}
+     }
+  }
+	
+</script>
+<h2>Batch Sapling Targeting Utility</h2>
+<br>
+<div id="batch_targeting_body">
+<% form_remote_tag :url => { :action => :retrieve_list_by_query } do -%>
+<b>Enter query below to retrieve a list of customers:</b>
+<br><br><br>
+<p id="p1">SELECT DISTINCT sc.id, sc.name</p>
+<p id="p2" style="display: none;">SELECT DISTINCT ss.id, ss.name</p>
+<p>FROM 
+<%=select_tag (:query_type, options_for_select([ "sam_customer sc", "sam_server ss" ]), { :onchange => "which_type();"})  %></p>
+<%= text_area_tag(:custom_query, "", :cols => 50, :rows => 10, :id => "custom_query") %>
+<br><br>
+<p><%= submit_tag "Execute Query" %></p>
+<%- end %>
+</div>

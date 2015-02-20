@@ -1,0 +1,15 @@
+<tr>
+    <td class="created_at" style="text-align: center;"><%= entitlement.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td class="order_date" style="text-align: center;"><%= (entitlement.ordered.nil?) ? "-" : entitlement.ordered.strftime(fmt='%x') %></td>
+    <td class="shipped_date" style="text-align: center;"><%= (entitlement.shipped.nil?) ? "-" : entitlement.shipped.strftime(fmt='%x') %></td>
+    <td class="tms_entitlement_id"><%= entitlement.tms_entitlementid %></td>
+    <td class="product_description" style="text-align: left;"><%= entitlement.product.description %></td>
+    <td class="number_of_licenses" style="text-align: center;"><%= (entitlement.license_count.nil?) ? "-" : entitlement.license_count %></td>
+    <td class="order_number"><%= (entitlement.order_num.nil?) ? "-" : entitlement.order_num %></td>
+    <td class="invoice_number"><%= (entitlement.invoice_num.nil?) ? "-" : entitlement.invoice_num %></td>
+    <td class="billed_to" style="text-align:left;"><%= ((shipped_to = entitlement.shipped_to_org).nil?) ? "-" : shipped_to.name %></td>
+    <td class="shipped_to" style="text-align:left;"><%= ((billed_to = entitlement.billed_to_org).nil?) ? "-" : billed_to.name %></td>
+    <td class="entitlement_type">
+    <%= (entitlement.isLegacy?) ? "Pre-SAM Connect" : ((entitlement.isVirtual?) ? "Virtual" : "SAM Connect") %>
+    </td>
+</tr>

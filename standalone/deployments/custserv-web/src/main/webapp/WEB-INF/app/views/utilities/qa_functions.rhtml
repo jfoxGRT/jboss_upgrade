@@ -1,0 +1,11 @@
+<% @page_title = "SAMC - QA Functions" %>
+<div>
+  	<%= link_to("Send Test Emails", :action => :request_test_emails) %> <br /><br />
+	
+	<%if @current_user.isAdminType%>
+	<%= link_to("Create Fake Org", :action => :create_fake_org) %> <br/><br/>
+	<%end%>
+	<%= button_to("Update Licenses for Subscriptions", {:action => :update_subscriptions}, {:confirm => "Are you sure you want to continue?"}) %><br /><br />
+	<%= button_to("Send Subscription Email Notifications", {:action => :send_subscription_notifications}, {:confirm => "Are you sure you want to continue?"}) %><br /><br />	
+	<%= button_to("Redrive Pending License Count Change Tasks", {:action => :redrive_plcc_tasks}, {:confirm => "Are you sure you want to continue?"})%><br /><br />	
+</div>

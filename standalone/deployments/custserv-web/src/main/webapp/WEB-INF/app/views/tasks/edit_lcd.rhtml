@@ -1,0 +1,328 @@
+<% @page_title = "SAMC - License Count Discrepancy Task" %>
+
+<% 	last_task_event = @task.last_task_event
+	date_assigned = last_task_event.created_at
+	assigning_user = last_task_event.source_user 
+	phone_number = @org_details.telephone_number
+	difference = @sssi.licensed_seats.to_i - @seat_pool.seat_count.to_i
+%>
+
+<h1>Work Task</h1>    
+<div id="all-servers-table">
+	<% form_tag(license_count_discrepancy_path(@task.id), {:method => :put, :id => "task_resolution_form", :name => "task_resolution"}) do %>
+	<!--<form name='task_resolution' id='task_resolution' >-->
+<!-- start of  Orders table -->
+
+<!-- active tasks list table -->
+	<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;">
+    	<thead>
+        	<tr class="parent">
+				<td >Active Task</td>
+        	</tr>
+		</thead>
+    </table>
+    <table id="serverlisthead" cellspacing="0" >
+		<thead>
+        	<tr>
+     			<td style='width:25%;'>Task ID</td>
+				<td style='width:25%;'>Task Type</td>
+				<td style='width:25%;'>Date Assigned</td>
+				<td style='width:25%;'>Assigned By</td>
+			</tr>
+		</thead>
+	</table>
+
+<!-- start of tasks table query and result -->
+	<table id="5"  cellspacing="1" style="border:1px solid black;">
+		<tbody>
+      		<tr>
+				<td style='width:25%;'><%= @task.id %></td>
+				<td style='width:25%;'><%= @task.task_type.description %></td>
+				<td style='width:25%;'>
+					<%= date_assigned.strftime('%m/%d/%y') %>
+                	<br/>
+                	<%= date_assigned.strftime('%I:%M:%S %p') %>
+				</td>
+				
+				<td style='width:25%;'><%= assigning_user.first_name %> <%= assigning_user.last_name %></td>
+			</tr>
+      		<!-- PUT TFOOT HERE -->
+			<tr>
+				<td colspan=2 style="border-bottom:0px;">
+				<!-- start of details area for selected active task -->
+					<table id="serverview" class="view" cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+        					<tr class="parent"  >
+          						<td style="background:#99A36B;">Task Details</td>
+        					</tr>
+      					</thead>
+    				</table>
+					<table id="4250712"  cellspacing="1" style="margin-top:5px;width:98%;">
+						<tbody>
+							<tr>
+								<td  style="width:13%" class='workDetails'><%= SAM_CUSTOMER_TERM %> ID:</td>
+                 				<td style="width:37%" class='basicModallink'><%= @sam_customer.id %></td>
+		                		<td style="width:15%" class='workDetails' class='basicModallink'><%= SAM_CUSTOMER_TERM %>:</td>
+	 		                 	<td style="width:35%" class='basicModallink'>
+	 		                 		<%= link_to(@org_details.org_name, show_summary_info_for_org_path(@org_details.ucn), :id => @org_details.ucn) %>
+									<br>UCN: <%= @org_details.ucn %><br>
+				 					<%= @org_details.city_name %>, <%= @org_details.state_code %> <%= @org_details.zip_code %><br>
+				 					County Code: <%= @org_details.county_code %>
+				         		</td>
+        					</tr>
+      						<tr>
+             					<td class='workDetails'>SAM Server:</td>
+        						<td><%= @sam_server.name %></td>
+            					<td class='workDetails'><%= PRODUCT_TERM %>:</td>
+          						<td><%= @subcommunity.name %></td>
+        					</tr>
+							<tr>
+             					<td class='workDetails'>Seat Pool Count:</td>
+        						<td><%= @seat_pool.seat_count %></td>
+            					<td class='workDetails'>Server Count:</td>
+          						<td><%= @sssi.licensed_seats %></td>
+        					</tr>
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+      					<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#999;"> Task History</td>
+		        			</tr>
+      					</thead>
+    				</table>
+		    		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_history">
+						<tr class='workDetails'>
+							<td  colspan=4 >The following C/S representatives have worked this task:	 </td>
+		       			</tr>
+		      			<tr class='workDetails'>
+		             		<td class='workDetails' style='width:25%;'>C/S Rep:</td>
+							<td class='workDetails'style='width:15%;'>Take</td>
+		
+		 					<td class='workDetails' style='width:15%;'>Released</td>
+		          			<td class='workDetails' style='width:45%;'>Comments</td>
+		
+		        		</tr>
+		              	<tr class='workDetails'>
+		
+				        	<td ><%= @current_user.first_name %> <%= @current_user.last_name %></td>
+		
+		
+				        	<td><%= date_assigned.strftime('%m/%d/%y') %>
+                					<br/>
+                				<%= date_assigned.strftime('%I:%M:%S %p') %>
+							</td>
+		
+							<td> <span class="release_link"  id="3_<%= @task.id %>" href="<%= unassign_task_path(:id => @task.id, :target_user_id => @current_user.id, :alert_id => @task.alert.id) %>" onMouseOver=SimulateLink(this) onMouseOut=EndSimulateLink(this)>Release</span></td>
+		
+		 			 		<td id='commentModallink'><!--<a href='#' id=67_4815 style='display:block' >View/Add Comments</a>-->&nbsp;</td>        
+						</tr>
+		  			</table>
+		
+		
+					<!-- end of details area for selected active task-->
+				</td>
+				<td colspan=2 style="border-bottom:0px;">
+					<!--start of task tools areas for selected active task -->
+		
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		      			<thead>
+		        			<tr class="parent"  >
+		          				<td style="background:#666;"> Task Tools</td>
+		        			</tr>
+		      			</thead>
+		    		</table>
+		      		<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_edit">
+		
+						<tbody>
+							<!--<tr class='workDetails' >
+								<td  colspan=6 >The following organizations are the most likely candidates for managing this order.  Please select one from the list, or if a different organization should manage the order, please specify that organization's UCN in the UCN looup field below.</td>
+		
+		        			</tr>
+		
+		     			 	<tr class='workDetails'>
+		      					<td style="width:5%;"></td>
+		             			<td style='width:30%;' class='workDetails'>Org. Info:</td>
+		
+		
+		        				<td style='width:10%;' class='workDetails'>Source</td>
+		            			<td style='width:20%;' class='workDetails'>Group & Type</td>
+		
+		                   		<td  class='workDetails' colspan=2>Status</td>
+		        			</tr>
+							
+							<tr id='noUCN'>
+								<td style="width:5%;">
+									<input type=radio name=ucn value='' id='Close Task Without UCN' style='width:9px;' />
+								</td>
+		
+								<td style="text-align: left;" class='basicModallink' colspan=5><b>Close task without assigning UCN</b></td>
+							</tr>-->
+							<tr class='workDetails' >
+								<% 	phrase = (difference > 0) ? "Add to" : "Subtract from" 
+									phrase_2 = (difference > 0) ? "Deduct from" : "Credit"
+									phrase_3 = (difference > 0) ? "add new licenses to the customer's total" : "decrement the customer's total licenses"
+									phrase_4 = (difference > 0) ? "deduct licenses from" : "return licenses to" 
+								%>
+								
+								<td  colspan=2 >Choosing "<%= phrase %> Total Licenses" will <%= phrase_3 %> for this subcommunity.&nbsp;&nbsp;Choosing "<%= phrase_2 %> Unallocated Pool" 
+								will <%= phrase_4 %> the unallocated pool.</td>
+		        			</tr>
+							<tr>
+								<td class='workDetails' style="width: 15%;">
+									Difference:
+								</td>
+								<td style="width: 85%;">
+									<%= difference %>
+								</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 10%;">
+									<input type=radio name=balance_option value='1' id='Apply to total licenses' style='width:9px;' />
+								</td>
+								<td style="font-weight: bold; vertical-align: bottom;">
+									<%= phrase %> Total Licenses
+								</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 10%;">
+									<input type=radio name=balance_option value='2' id='Credit debit unallocated pool' style='width:9px;' />
+								</td>
+								<td style="font-weight: bold; vertical-align: bottom;">
+									<%= phrase_2 %> Unallocated Pool
+								</td>
+							</tr>
+							<tr>
+								<td class='workDetails' style="width: 10%;">
+									<span style="color: red;">*</span>&nbsp;&nbsp;<label for="user_email">Reason:</label>
+								</td>
+								<td>
+									<textarea id="balance_reason" name="reason" value="" rows="5" cols="50"></textarea>
+								</td>
+							</tr>							
+						</tbody>
+					</table>
+					<table  class="view"  cellspacing="0" style="margin-top:5px;width:98%;">
+		  				<thead>
+		    				<tr class="parent"  >
+		      					<td style="background:#CC6600;">Task Resolution</td>
+		    				</tr>
+		  				</thead>
+		
+					</table>
+		
+					<table  cellspacing="1" style="margin-top:5px;width:98%;" id="task_resolve">
+						<tr class='workDetails'>
+							<td  colspan=3 >Please follow the steps below to resolve and close out the task </td>
+		
+		    			</tr>
+		  				<tr class='workDetails'>
+		
+		         			<td class='workDetails'  style='width:50%; vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;">Step 1:<br>
+		
+		        					<span style='font-weight:normal'>
+		        						Please verify that the above information is correct.
+									</span>
+								</div>
+								<input type=hidden name='task_page_path' value="<%= edit_task_path(@task.id) %>" />
+								<span id='assigned_name' style="margin-top:8px;padding-top:8px;display:block;"></span>
+								<span id='assigned_ucn' style="margin-top:8px;padding-top:8px;"></span>
+							</td>
+							<td class='workDetails'  style='width:50%;vertical-align:top'>
+								<div style="height:45px;margin:0px;padding:0px;" class='step3' >Step
+									<span id='num'>2</span>:<br>
+									<span style='font-weight:normal'> Resolve Discrepancy and Close Task </span>
+								</div>
+		         				<div class='buttons'>
+				 					<div class='resolve' style="padding-top:8px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Close Task</div>
+								</div>
+		         			</td>
+		
+		
+		
+		    			</tr>
+					</table>
+		
+		
+				
+		
+		
+		
+			<!-- end of task tooks area for selected active task -->
+		
+				</td>
+		
+			</tr>
+		</tbody>
+		
+	</table>
+		
+		
+		<!-- end of active tasks list table -->
+		
+		
+		
+		<!-- end of Orders table -->
+	<% end %>
+	<!--</form>-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

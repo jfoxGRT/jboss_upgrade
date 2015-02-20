@@ -1,0 +1,14 @@
+<h1><%= @messageList[0].clazz %></h1>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>Message ID</th>
+        <th>Event Type</th>
+        <th>Message Token</th>
+        <th>Time Sent</th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "app_topic_message_list_element", :collection => @messageList)%>
+    </tbody>    
+</table>

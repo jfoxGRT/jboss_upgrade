@@ -1,0 +1,9 @@
+&nbsp;
+<%  if batch_process_excluded.nil? %>
+	<%= image_tag("choice-yes.gif", :style => "vertical-align: middle;") %>&nbsp;&nbsp;
+	<% button_text = "Remove" %>
+<% else %>
+	<%= image_tag("choice-no.gif", :style => "vertical-align: middle;") %>&nbsp;&nbsp;
+	<% button_text = "Add" %>
+<% end %>
+<input type="button" value="<%= button_text %>" onclick="toggleBatchProcessInclusion(this);" />

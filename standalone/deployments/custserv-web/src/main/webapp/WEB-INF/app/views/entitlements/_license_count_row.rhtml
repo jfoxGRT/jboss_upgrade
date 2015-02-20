@@ -1,0 +1,13 @@
+<% if (!license_count_row.items_pending.nil? || !license_count_row.items_active.nil? || !license_count_row.items_expired.nil?)
+	items_pending = license_count_row.items_pending || 0
+	items_active = license_count_row.items_active || 0
+	items_expired = license_count_row.items_expired || 0 
+%>
+<tr>
+	<td style="text-align: left;"><%= license_count_row.description %></td>
+	<td><%= items_pending.to_i + items_active.to_i + items_expired.to_i %></td>
+	<td><%= items_pending %></td>
+	<td><%= items_active %></td>
+	<td><%= items_expired %></td>
+</tr>
+<% end %>

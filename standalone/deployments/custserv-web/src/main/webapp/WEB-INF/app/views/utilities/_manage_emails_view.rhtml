@@ -1,0 +1,30 @@
+<script> 
+jQuery(document).ready(function() {
+    jQuery('#manage_emails_table').dataTable({
+        "aaSorting": [[0, "asc"]],
+        "oLanguage": {
+            "oPaginate": {
+                "sNext": "",
+                "sPrevious": ""
+             }
+        }
+    });
+} );
+</script>
+
+<%= javascript_include_tag "jquery.dataTables" %>
+<% @page_title = "SAMC - Manage Email Types" %><br />
+<h1 align="center">Manage Email Types</h1>
+<table class="data_table" id="manage_emails_table" align="left" style="width: 100%; table-layout: fixed">
+    <thead>
+        <tr class="data_table_first_row">
+            <th>Code</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "manage_emails_detail", :collection => @email_type_list) %>
+    </tbody>
+</table>

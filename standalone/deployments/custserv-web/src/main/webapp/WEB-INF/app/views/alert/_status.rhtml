@@ -1,0 +1,9 @@
+<% if logged_in? %>
+  Logged in as <%= current_user.first_name %> <%= current_user.last_name %> 
+  <%= link_to "(profile)", :action => :profile, :controller => :account %>
+  <%= link_to "(logout)", :action => :logout, :controller => :account %><br/>
+<% else %>
+  Not Logged In 
+  <%   store_location %>
+  <%= link_to "(login)", :action => :login, :controller => :account %>
+<% end %>

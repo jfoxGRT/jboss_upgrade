@@ -1,0 +1,29 @@
+<%  @page_title = "SAMC - Merge #{SAM_CUSTOMER_TERM}" %>
+
+<table id="breadcrumb_container">
+    <tr>
+        <%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+        <td>
+            <span id="current_page_title"><%= @sam_customer.name %></span>
+        </td>
+    </tr>
+</table>
+<hr/><% form_remote_tag(:url => merge_sam_customer_path) do -%>
+<table>
+    <tr>
+        <td style="width: 45%;">
+            <div class="table_header">
+                <h2 class="table_title"><%= @sam_customer.name %></h2>
+            </div>
+            <%= render(:partial => "sam_customer_details", :object => @sam_customer, :locals => {:active_server_count => @active_server_count}) %>
+        </td>
+        <td style="vertical-align: middle; width: 10%;">
+            <span style="font-weight: bold;">Enter a merge-to <%= SAM_CUSTOMER_TERM %> ID to view its information:</span><br/><br/><%= text_field_tag(:merge_to_id, "", {:size => 5}) %>
+            <br/><br/>
+            <%= submit_to_remote("submit_button", "Look up #{SAM_CUSTOMER_TERM}", :url => merge_sam_customer_path) %>
+        </td>
+        <td style="width: 45%;">&nbsp;</td>
+    </tr>
+</table>
+<% end -%>
+<hr/>

@@ -1,0 +1,12 @@
+<% legacy_count = license_types["#{license_type_row.id}_LEG"]
+	postlm_count = license_types["#{license_type_row.id}_TMS"]
+	virtual_count = license_types["#{license_type_row.id}_VIRT"]
+%>
+<% if legacy_count || postlm_count || virtual_count %>
+<tr>
+	<td style="border-right: 1px dotted black;"><%= license_type_row.description %></td>
+	<td style="border-right: 1px dotted black;"><%= legacy_count ? legacy_count.result_count : 0 %></td>
+	<td style="border-right: 1px dotted black;"><%= postlm_count ? postlm_count.result_count : 0 %></td>
+	<td><%= virtual_count ? virtual_count.result_count : 0 %></td> 
+</tr>
+<% end %>

@@ -1,0 +1,14 @@
+<h2 >
+<table align="center">
+	<tr>
+		<td class="breadcrumb_cell"><%= link_to("Tasks", tasks_path) %></td>
+		<td class="breadcrumb_cell">&lt;</td>
+		<td class="breadcrumb_cell"><%= group_task_breadcrumb.description %> Tasks</td>
+	</tr>
+</table>
+</h2>
+<h3><%= number_of_tasks %> open tasks
+<% if (number_of_tasks > 50) %>
+<br/>Showing the first 50
+<% end %>
+</h3>

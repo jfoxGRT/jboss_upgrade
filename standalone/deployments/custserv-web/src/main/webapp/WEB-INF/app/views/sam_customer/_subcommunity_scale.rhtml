@@ -1,0 +1,23 @@
+<% class_definition = ""
+    total_sp_count = subcommunity_scale.total_seat_pool_count.to_i
+	total_sssi_count = subcommunity_scale.total_sssi_count.to_i
+	count_discrepancy = subcommunity_scale.count_discrepancy?
+	install_licenses = subcommunity_scale.install_licenses?
+    total_sssi_count = subcommunity_scale.total_sssi_count.to_i
+   pending_realloc_sp = subcommunity_scale.seat_pool_pending_reallocations
+   class_definition = "table_row_problem" if (count_discrepancy || install_licenses) %>
+<tr class="<%= class_definition %>">
+    <td style="text-align: left;"><%= subcommunity_scale.subcommunity.name %></td>
+    <td><%= total_sp_count %></td>
+    <td><%= total_sssi_count %></td>
+    <%  style_text = ""
+        style_text = "color: blue;" if (count_discrepancy) %>
+    <td style="<%= style_text %>">&nbsp;<%= "Pending reallocation(s) on " + pending_realloc_sp.sam_server.name + "<br/>" if (!pending_realloc_sp.nil?) %>
+    <%= "Licenses not installed?" if (install_licenses) %>
+    </td>
+    <td style="text-align: left;">&nbsp;    
+    <%= link_to("balance", :action => :balance, :subcommunity_id => subcommunity_scale.subcommunity.id,
+                                     :sam_customer_id => sam_customer.id, :seat_pool_count => subcommunity_scale.total_seat_pool_count,
+                                     :sssi_count => subcommunity_scale.total_sssi_count) if (subcommunity_scale.balanceable?) %>
+    </td>
+</tr>

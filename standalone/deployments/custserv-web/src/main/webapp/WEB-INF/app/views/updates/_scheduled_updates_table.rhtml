@@ -1,0 +1,17 @@
+<table class="data_table" style="width: 90%;">
+	<thead>
+		<tr class="data_table_first_row">	
+			<td>Day</td>	
+			<td>Hour</td>
+			<td>Scheduled Updates</td>
+		</tr>
+	</thead>
+	<tbody>
+	  <%= render(:partial => "scheduled_update", 
+	             :collection => scheduled_updates) unless scheduled_updates.empty? %>
+	  <% if scheduled_updates.empty? %>
+	    <tr>
+	      <td colspan="3" style="text-align: center;">No Updates Scheduled</td>
+	  <% end %>
+	</tbody>
+</table>

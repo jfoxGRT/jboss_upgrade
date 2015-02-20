@@ -1,0 +1,16 @@
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Agent ID</th>
+			<th>SAM Server ID</th>
+			<th>SAM Server Name</th>
+			<th><%= SAM_CUSTOMER_TERM %> Name</th>
+			<th>Agent Updated At</th>
+			<th>Agent Last IP</th>
+			<th>Agent Next Poll At</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "query_result", :collection => result_set) %>
+	</tbody>
+</table>

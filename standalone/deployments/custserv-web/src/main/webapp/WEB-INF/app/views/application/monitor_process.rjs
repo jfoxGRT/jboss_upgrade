@@ -1,0 +1,30 @@
+# if the whole process is done..
+if (@complete)
+  # simply hide the status msg indicator
+  page[@status_msg_element].hide
+# otherwise, the whole process is not done
+else
+  pt_identifier = "#{@process_code}_INIT_0"
+  if (SAMC_PROCESSORS[pt_identifier])
+	page << "if($('#{pt_identifier}') == null) {"
+	page.insert_html(:bottom, @thread_table_element, :partial => "/common/thread_monitor", 
+	:locals => {:thread_identifier => pt_identifier})
+	page.call 'update_progress', pt_identifier, 0, @process.id, 'INIT', '0'
+	page << "}"
+  end
+  # for each process thread..
+  @process_threads.each do |pt|
+    pt_identifier = "#{@process_code}_#{pt.processor_code}_#{pt.phase}"
+    if (SAMC_PROCESSORS[pt_identifier])
+      # if a thread monitor progress bar isn't represented for this thread, create one and start its monitor
+      page << "if($('#{pt_identifier}') == null) {"
+        page.insert_html(:bottom, @thread_table_element, :partial => "/common/thread_monitor", 
+                :locals => {:thread_identifier => pt_identifier})
+        page.call 'update_progress', pt_identifier, 0, @process.id, pt.processor_code, pt.phase
+      page << "}"
+    end
+  end
+  # call the daemon monitor again
+  sleep(2) # don't try to update progress constantly, sleep a few seconds in between.
+  page.call 'monitor_process', @process.id, @process_code, @thread_table_element, @status_msg_element
+end

@@ -1,0 +1,39 @@
+<% @page_title = "SAMC - Seat Activity" %>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= link_to(@server_link, sam_customer_sam_servers_path(@sam_customer.id)) %><br/>
+			<%= link_to(CUSTOMER_STATISTICS_TERM, sam_customer_metrics_path(@sam_customer.id)) %><br/>
+			<%= link_to(CUSTOMER_USERS_TERM, users_path(:sam_customer_id => @sam_customer.id)) %><br/>
+			<%= link_to("Entitlements", sam_customer_entitlements_path(@sam_customer.id)) %><br/>
+			<%= link_to("License Counts", sam_customer_subcommunities_path(@sam_customer.id)) %><br/>
+			<%= link_to("Schools Installed on SAM Servers", sam_customer_schools_path(@sam_customer.id)) %><br/>
+			<%= link_to("Seat Activity", sam_customer_seat_activities_path(@sam_customer.id)) %>
+	</td>
+	<td>&raquo;</td>
+	<td><%= link_to(@sam_server.name, sam_customer_sam_server_path(@sam_customer, @sam_server)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title">Seat Activity for <%= @sam_server.name %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title">Seat Activity for <%= @sam_server.name %></h2>
+	<div class="cs_loading_indicator_container">&nbsp;
+		<%= generateAjaxIndicator("seat_activity_loading_indicator") %>
+	</div>
+</div>
+<% if(@seat_activities.nil?) %>
+<div align="center">No seat activity</div>
+<% else %>
+<div id="seat_activity_table">
+<%= render(:partial => "seat_pools/seat_activity_table", :locals => {:seat_activity_collection => @seat_activities,
+                                                            :status_indicator => "seat_activity_loading_indicator",
+                                                            :update_element => "seat_activity_table",
+															:sam_customer_id => @sam_customer.id,
+															:sam_server => @sam_server,
+															:show_subcommunity => true}) %>
+</div>
+<% end %>

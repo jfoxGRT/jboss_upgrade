@@ -1,0 +1,31 @@
+<table id="alert_breadcrumb" class="breadcrumb_table" border="0" cellspacing="0" cellpadding="0" style="vertical-align: middle;" align="center">
+    <tr>
+        <td><%= link_to("STATES", {:action => :org_hierarchy_states}, {:onclick => "showStatus()"}) %></td><td>></td>
+        <td><%= link_to(@state.name.upcase, {:action => :top_level_orgs, :id => @state.id},
+                                                    {:onclick => "showStatus()"}) %></td>
+        <td>></td>
+        <%  last_index = @breadcrumbArray.length - 1
+            i = 0
+            j = 0
+            while (i <= last_index) %>
+            <td>
+                <% if (i != last_index) %>
+                <% while (j < @breadcrumbArray[i].length) %>
+                    <%= link_to(@breadcrumbArray[i][j].name.strip.upcase, {:action => :org_hierarchy,
+                                                                    :id => @breadcrumbArray[i][j].id,
+                                                                    :state_id => @state.id},
+                                                                    {:onclick => "showStatus()"}) %>
+                <%  j += 1
+                    end
+                else %>
+                    <%= @breadcrumbArray[i][j].name.strip.upcase %>
+                <% end %>
+            </td>
+            <% if (i != last_index) %>
+                <td>></td>
+            <% end %>            
+        <% i += 1
+           j = 0
+           end %>
+    </tr>
+</table>

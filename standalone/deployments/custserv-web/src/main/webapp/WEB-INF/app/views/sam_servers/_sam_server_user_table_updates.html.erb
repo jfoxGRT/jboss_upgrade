@@ -1,0 +1,37 @@
+<%
+def get_auth_user_id_link_string(auth_user)
+  if auth_user
+    html_string = link_to(auth_user.id, sam_customer_auth_user_path(auth_user.sam_customer.id, auth_user.id)) 
+    html_string.gsub('"',"'") #we want single quotes around our HTML attributes to not confuse the JSON interpreter
+	else
+    return nil
+  end
+end
+%>
+
+{
+"sEcho": <%=h @sEcho %>,
+"iTotalRecords": <%= @iTotalRecords %>,
+"iTotalDisplayRecords": <%= @iTotalDisplayRecords %>,
+"aaData" : [ 
+<% @sam_server_users.each do |sam_server_user| %>
+   [   "<%=h sam_server_user.id %>",
+       "<%=h sam_server_user.get_display_type %>",
+       "<%=h sam_server_user.created_at.strftime(DATE_FORM) %>",
+       "<%=h sam_server_user.updated_at.strftime(DATE_FORM) %>",
+       "<%= get_auth_user_id_link_string(sam_server_user.auth_user) %>",
+       "<%=h sam_server_user.first_name.escape_json %>",
+       "<%=h sam_server_user.last_name.escape_json %>",
+       "<%=h sam_server_user.email.nil? ? sam_server_user.email : sam_server_user.email.escape_json %>",
+       "<%=h sam_server_user.username.escape_json %>",
+       <% if @current_user.hasPermission?(Permission.show_auth_password) %>
+         "<%=h sam_server_user.password.escape_json %>",
+       <% end %>
+       "<%=h sam_server_user.enabled %>",
+       "<%=h sam_server_user.district_user_id %>",
+       "<%=h sam_server_user.cleverid %>"
+   <%= "]," unless sam_server_user == @sam_server_users.last %>
+<% end %>
+<%= "]" unless @sam_server_users.empty? %>
+]
+}

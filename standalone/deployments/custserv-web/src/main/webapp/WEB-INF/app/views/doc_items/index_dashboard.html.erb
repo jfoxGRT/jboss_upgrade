@@ -1,0 +1,25 @@
+<h1>Dashboard</h1>
+
+<br/>
+
+<p class="infographic">
+  <b>Use the Frequently Asked Question tabs above to find help</b>
+</p>
+ 
+<p class="infographic">
+  <b>Each tab provides targeted help to specific user groups</b>
+</p>
+
+<p class="infographic">
+  <b>A FAQ may be listed under more than one tab (eg. under both the Customer Service FAQs and the Field Engineer FAQs), and under more than one label (eg. under both General Questions and Installation Help)</b>
+</p>
+
+<br />
+<p>
+  <h4><%= current_user.first_name %>, you have permission to manage (add, update, delete) the following documents types:</h4>
+  <ol>
+    <li><b>Document Item</b> - Each question-answer is a "Document Item, also known as a single FAQ</li>
+    <li><b>Location</b> - A location describes where (what webpage) a "Document Item" is diplayed on. Updating the "Code" value for a location REQUIRES a system change to related rhtml pages. A document item can belong to many locations.</li>
+    <li><b>Label</b> - A grouping or category for listing Document Items under.  A document item can belong to many labels.</li>
+  </ol>
+</p>

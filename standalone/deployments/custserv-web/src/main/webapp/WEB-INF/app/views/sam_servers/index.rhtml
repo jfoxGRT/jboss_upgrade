@@ -1,0 +1,53 @@
+<% @page_title = "SAMC - Servers for #{@sam_customer.name}" 
+
+	def get_opposite_status(status)
+		if( status == 'a' || status == "true" )
+			return "Deactivated"
+		else return "Active"
+		end
+	end
+	
+	def get_status(status)
+		if( status == 'a' || status == "true" )
+			return "Active"
+		else return "Deactivated"
+		end
+	end
+	
+	def get_opposite_status_character(status)
+		if( status == 'a' || status == "true" )
+			return "i"
+		else return "a"
+		end
+	end
+-%>
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @server_link %></h2>
+	<span class="super_caption"><%= @sam_servers.length %> Total <%= get_status(@status) %> Servers</span>
+</div>
+<div id="sam_customer_servers_table">
+	<%= render(:partial => "sam_customer_servers_table", :locals => {:server_collection => @sam_servers,
+	                                                            :status_indicator => "servers_loading_indicator",
+	                                                            :update_element => "sam_customer_servers_table",
+	                                                            :sam_customer_id => @sam_customer.id,
+																:status => @status}) %>
+</div>
+<div style="margin-right: auto; margin-left: auto; margin-bottom: 20px; text-align: center;">
+	<%= link_to("See #{get_opposite_status(@status)} SAM Servers", sam_servers_path(:sam_customer_id => @sam_customer.id, :status => get_opposite_status_character(@status)), :style => "font-size: 12px;") %>
+</div>
+<div align="center">
+	<input class="widget_dialog" type="button" value="Show Server Move History" element_id="server_move_history" 
+		href="<%= show_move_history_for_sam_servers_path(:sam_customer_id => @sam_customer.id) %>"/><br/></br/>
+	<input class="widget_dialog" type="button" value="Show Outdated Components" element_id="outdated_components_quizzes" 
+		href="<%= url_for(:controller => :sam_servers, :action => :outdated_components_quizzes, :id => @sam_customer.id) %>"/><br/></br/>
+</div>

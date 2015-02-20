@@ -1,0 +1,137 @@
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/jquery_shared_utilities.min.js" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<% @page_title = "SAMC - Licenses for #{@sam_customer.name}" %>
+
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#subcommunities_table').dataTable({
+    "bPaginate": false,
+    "aaSorting": [[0, "asc"]],
+    "oLanguage": {
+      "sEmptyTable": "No license records to display.",
+      "sZeroRecords": "No license records match the search criteria."
+    },
+    "sDom": 'T<"clear">lfrtip',
+    "oTableTools": {
+      "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+      "aButtons": [
+        {
+          "sExtends": "copy",
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "csv",
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+          "sExtends": "xls",
+          "sFileName": "*.xls",
+          "sButtonText": "XLS",
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+        },
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+          "fnCellRender": function ( sValue, iColumn, nTr, iDataIndex ) {
+            return getCleanedText(sValue);
+          }
+				},
+				"print"
+			]
+		}
+	});
+} );
+</script>
+
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<div class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;License Counts</h2><br></div>
+
+<div id="subcommunities_table_container">
+  <table id="subcommunities_table" class="data_table filterable_table">
+    <thead>
+      <tr class="data_table_first_row">
+        <th style="width: 20%;"><%= (@current_user.isAdminType) ? "Subcommunity" : PRODUCT_TERM %></th>
+        <th style="width: 9%; vertical-align: top;">A. Total Usable Count In SAMC</th>
+        <th style="width: 6%; vertical-align: top;">B. Net PLCC Delta</th>
+        <th style="width: 6%; vertical-align: top;">C. Conversion Factor</th>
+        <th style="width: 9%; vertical-align: top;">D. Total Active Count From Entitlements<br/>(A + B + C)</th>
+        <th style="width: 10%; vertical-align: top;">E. Unallocated Count</th>
+        <th style="width: 10%; vertical-align: top;">F. Total Allocated Count According to SAMC, including _UNREG server</th>
+        <th style="width: 10%; vertical-align: top;">G. Total Allocated Count According to SAM Servers, including _UNREG server</th>
+        <th style="width: 10%; vertical-align: top;">H. Total Enrollment Count</th>
+      </tr>
+    </thead>
+      <tbody>
+        <%= render(:partial => "subcommunity_scale", :collection => @license_count_comparisons, :locals => {:sam_customer => @sam_customer}) %>
+      </tbody>
+  </table>
+</div>
+<div/>
+<br>
+<div align="center" class='basicModallink' style="margin-bottom: 20px;">
+	<input class="widget_dialog" type="button" value="Show Active License Count Information" element_id="active_license_count_information" 
+			href="<%= license_types_for_sam_customer_subcommunities_path(@sam_customer.id) %>"/>
+	<% if @current_user.isAdminType %>
+	 <br/>
+	 <br/>
+    <%= button_to("Perform License Audit", {:action => :perform_license_audit, :sam_customer_id => @sam_customer.id }, {:confirm => "Forcing license audit may create LCI tasks. Proceed?"}) %>
+  <% end %>
+</div>
+<br>
+<hr/>
+<div align="center" style="height: 30px;">&nbsp;
+	<span id="status_indicator" style="color: red; display: none;"><%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %></span>
+</div>
+
+<div id="audit_license_count_results" align="center" style="margin-top: 20px;">
+</div>
+<div class="table_header">
+<h2 align="left">License Conversion Counts</h2></div>
+<table class="data_table" align="left" style="width: 46%; margin-bottom: 40px;">
+    <thead>
+        <tr>
+			<th style="vertical-align: top; width: 60%;">Subcommunity</th>
+			<th style="vertical-align: top; width: 20%;">EE to NG Conversions Available</th>
+			<th style="vertical-align: top; width: 20%;">EE Licenses</th>
+			<th style="vertical-align: top; width: 20%;">EE to NG Conversions Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<%= render(:partial => "license_conversion_counts_summary", :collection => @license_conversions_list, :locals => {:sam_customer => @sam_customer}) %>
+    </tbody>
+</table>
+<script type="text/javascript">
+
+	jQuery(document).ready(function() {
+		jQuery('.tTip').betterTooltip({speed: 250, delay: 75});
+	});
+
+	$('#submitWithAjax').submit(function() {
+		//alert("yo");
+		$("input").attr('disabled', 'disabled');
+		$('#status_indicator').show();
+		$.post($(this).attr("action") + ".js", $(this).serialize(), function(data){
+			$('#status_indicator').hide();
+			$("input").removeAttr('disabled');
+		}, "script");
+		return false;
+	});
+</script>			

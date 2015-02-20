@@ -1,0 +1,23 @@
+<tr>
+    <td class="server_id"><%= server.id %></td>
+    <td class="server_name" style="text-align: left;"><%= link_to(server.name, :action => :server_details, :id => server.id) %></td>
+    <td class="date_registered"><%= server.created_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+    <td class="school_count"><%= server.sam_server_school_infos.length %></td>
+    <% server_address = server.sam_server_address %>
+    <td class="address">&nbsp;<% if (!server_address.nil?)
+                                  (1..3).each do |a| %>
+                              <% next_address_line = eval("server_address.address_line_" + a.to_s) %>
+                              <% if (!next_address_line.nil? && next_address_line.length > 0) %>
+                                <%= next_address_line %><br>
+                              <% end %>
+                              <% end %>
+                              <% end %>
+    </td>
+    <td>&nbsp;<%= server_address.city_name if !server_address.nil? %></td>
+    <td>&nbsp;<%= server_address.state_province.code if !server_address.nil? %></td>
+    <td>&nbsp;<%= server_address.postal_code if !server_address.nil? %></td>
+    <td class="registration_entitlement" style="text-align: center;"><%= (server.registration_entitlement.nil?) ? "-" : server.registration_entitlement.tms_entitlementid %></td>
+    <td class="installation_code"><%= (server.installation_code.nil?) ? "-" : server.installation_code %></td>
+    <% agent = server.agent %>
+    <td class="next_poll_at"><%= (agent.nil? || agent.next_poll_at.nil?) ? "-" : agent.next_poll_at.strftime('%I:%M:%S %p %m/%d/%y') %></td>
+</tr>

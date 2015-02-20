@@ -1,0 +1,403 @@
+<%  @page_title = "SAMC - Batch Central - #{@conv_export_master_batch.id}" %>
+
+
+<% if @current_user.hasPermission?(Permission.show_export_batch_data) %>
+
+  <% if flash[:msg] %>
+      <div style="color: red"><%= flash[:msg] %></div>
+  <% end %>
+
+
+  <div class="table_header">
+  	<h1 class="table_title">Master Batch Number: <%= @conv_export_master_batch.id %></h2>
+  	<h2 class="table_title">
+        <%= (@conv_export_master_batch.closed?) ? "THIS BATCH IS CLOSED" : "*Current*" %>      
+      </h2>
+
+      <% if !params[:ucn].nil? %>
+        <h2 class="table_title">UCN: <%=h params[:ucn] %></h2>
+        <% if !@ucn_name.nil?  %>
+          <h3 class="table_title"><%=h @ucn_name %></h2>
+        <% end %>
+      <% end %>
+  </div>
+
+
+  <table class="property_table shadow-large" style="width: 70%;">
+      <tbody>
+        <tr>
+          <td><b>Id:</b></td>
+          <td><%= link_to(@conv_export_master_batch.id, conv_export_master_batch_path) %></td>
+        </tr>
+        <tr>
+          <td><b>STATUS:</b></td>
+          <td><%=h  (@conv_export_master_batch.closed) ? "CLOSED" : "Open, Current" %></td>
+        </tr>
+        <tr>
+          <td><b>Export date range: 4w BEGIN:</b></td>
+          <td><%=h (@conv_export_master_batch.export_date_range_4w_begin.nil?) ? "" : @conv_export_master_batch.export_date_range_4w_begin.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+          <td><b>Export date range: 1w BEGIN:</b></td>
+          <td><%=h (@conv_export_master_batch.export_date_range_1w_begin.nil?) ? "" : @conv_export_master_batch.export_date_range_1w_begin.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+          <td><b>Export date range: END:</b></td>
+          <td><%=h (@conv_export_master_batch.export_date_range_end.nil?) ? "" : @conv_export_master_batch.export_date_range_end.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+          <td><b>Created at:</b></td>
+          <td><%=h (@conv_export_master_batch.created_at.nil?) ? "" : @conv_export_master_batch.created_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+          <td><b>Updated at:</b></td>
+          <td><%=h (@conv_export_master_batch.updated_at.nil?) ? "" : @conv_export_master_batch.updated_at.strftime(DATE_FORM) %></td>
+        </tr>
+        <tr>
+          <td><b>Number of Sub-Batches:</b></td>
+          <td><%=h @conv_export_master_batch.conv_export_sub_batches.length %></td>
+        </tr>
+
+        <tr>
+          <td><b>Number of Original Conversations:</b></td>
+          <td><%=h @conv_export_master_batch.number_of_original_conversations %></td>
+        </tr>
+        <tr>
+          <td><b>Number of Total Conversations:</b></td>
+          <td><%=h @conv_export_master_batch.number_of_total_conversations %></td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <% if @batch_status_bean.nil? %>
+              <%= link_to("List Stretch Fetch Non-Completes for this batch", {:action => :show_dash_stretch_fails, :controller => :dashboard, :master_batch_id => @conv_export_master_batch.id }) %>
+            <% else %>
+              <%= link_to("List Fetch History for this ucn and batch", {:action => :show_dash_fetch_history, :controller => :dashboard, :master_batch_id => @batch_status_bean.batch_id, :ucn => @batch_status_bean.ucn }) %>
+
+
+
+            <% end %>
+          </td>
+        </tr>
+
+      </tbody>
+  </table>
+
+
+
+
+
+
+  <% if !@batch_status_bean.nil? %>
+    <div class="table_header">
+      <h2 class="table_title">Customer Export Batch Status Controller Results</h2>
+    </div>
+    <table class="property_table shadow-large" style="width: 90%;">
+      <tbody>
+        <tr>
+          <td><b>Current Batch ID: </b></td>
+          <td><%=h @batch_status_bean.batch_id %></td>
+        </tr>
+        <tr>
+          <td><b>UCN: </b></td>
+          <td><%=h @batch_status_bean.ucn %></td>
+        </tr>
+        <tr>
+          <td><b>Drop Dead Date: </b></td>
+          <td><%=h (@batch_status_bean.dropDeadDate.nil?) ? "" : @batch_status_bean.dropDeadDate %></td>
+        </tr>
+        <tr>
+          <td><b>Drop Dead: </b></td>
+          <td><%=h @batch_status_bean.dropDead %></td>
+        </tr>
+        <tr>
+          <td><b>Complete: </b></td>
+          <td><%=h @batch_status_bean.complete %></td>
+        </tr>
+        <tr>
+          <td colspan="2"><b>Servers: </b></td>
+        <tr>
+          <td colspan="2">
+          <% if @batch_status_bean.servers.nil? %>            
+            NOTHING HERE
+          <% else %>
+            <table style="width: 100%;">
+              <tr>
+                <th>Server Name</th>
+                <th>Status</th>
+                <th>Guid</th>
+                <th>Products</th>
+              </tr>
+              <% @batch_status_bean.servers.each do |server| %>
+                <tr>
+                  <td><%=h server.samServerName %></td>
+                  <td><%=h server.status %></td>
+                  <td><%=h server.samServerGuid %></td>
+                  <td>
+                    <% if !server.communityIds.nil? %>
+                      <% server.communityIds.each do |comcode| %>
+                        <%=h comcode %>&nbsp;
+                      <% end %>
+                    <% else %>
+                      &nbsp;  ---   &nbsp;
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <%= link_to("Corresponding Dashboard loader status", {:action => :show_dash_hist, :controller => :dashboard, :master_batch_id => @batch_status_bean.batch_id, :ucn => @batch_status_bean.ucn }) %>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+  <% end %>
+
+
+  <% if !@dash_status_bean.nil? %>
+    <%= render(:partial => "dash_status",  :object => @dash_status_bean) %>
+  <% end %>
+
+
+
+  <div class="table_header">
+    <h2 class="table_title">Sub Batches</h2>
+  </div>
+
+
+
+
+
+  <% if !@my_sub_batches.nil? %>
+    <table class="data_table" style="width: 80%;">
+      <thead>
+          <tr class="data_table_first_row">
+            <td>id</td>
+            <td>master id</td>
+            <td>Type Code</td>
+            <td>Drop Dead Date</td>
+            <td>Conv Start Date</td>
+            <td>Conv End Date</td>
+            <td>Num Convos</td>
+            <td>Created</td>
+            <td>Updated</td>
+            <td>Note</td>
+          </tr>
+      </thead>
+      <% @my_sub_batches.each do |subbatch| %>
+        <tbody>
+          <tr>
+            <td>&nbsp;<%= !params[:ucn].nil? ? link_to(subbatch.id, conv_export_sub_batch_path(subbatch.id, :ucn => params[:ucn])) : link_to(subbatch.id, conv_export_sub_batch_path(subbatch)) %>&nbsp;</td>
+            <td>&nbsp;<%= subbatch.conv_export_master_batch_id %></td>
+            <td>&nbsp;<%= subbatch.type_code %></td>
+  		  <td style="color: <%= (subbatch.drop_dead_date.nil? || (subbatch.drop_dead_date > DateTime.now)) ? 'green' : 'red' %>">
+                &nbsp;<%= subbatch.drop_dead_date.strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%= (subbatch.conv_start_date.nil?) ? "" : subbatch.conv_start_date.strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%= (subbatch.conv_end_date.nil?) ? "" : subbatch.conv_end_date.strftime(DATE_FORM) %></td>
+
+            <td>&nbsp;<%= (subbatch.conversation_instances.nil?) ? "-" : subbatch.conversation_instances.length %></td>
+
+            <td>&nbsp;<%= (subbatch.created_at.nil?) ? "" : subbatch.created_at.strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%= (subbatch.updated_at.nil?) ? "" : subbatch.updated_at.strftime(DATE_FORM) %></td>
+            <td>&nbsp;<%= subbatch.note %></td>
+          </tr>
+      </tbody>
+    <% end %>
+    </table>
+  <% end %>
+
+
+
+
+
+
+
+  <div class="table_header">
+    <h2 class="table_title">Customers</h2>
+  </div>
+
+  <table class="data_table" style="width: 80%;">
+    <thead>
+        <tr class="data_table_first_row">
+          <td>UCN (click to restrict)</td>
+          <td>Customer Name</td>
+          <td>Number of Servers in Batch</td>
+        </tr>
+    </thead>
+  <% if !@cust_data.nil? %>
+    <% @cust_data.each do |cust| %>
+      <tbody>
+        <tr>
+          <td>&nbsp;<%= link_to(cust.ucn, conv_export_master_batch_path(@conv_export_master_batch.id, :ucn => cust.ucn)) %></td>
+          <td>&nbsp;<%=h cust.cust_name %></td>
+          <td>&nbsp;<%=h cust.num_sam_servers %></td>
+        </tr>
+      </tbody>
+    <% end %>
+  <% end %>
+  </table>
+
+
+  <% if @current_user.hasPermission?(Permission.run_export_batch_actions) %> 
+
+  <% if !params[:ucn].nil? %>
+
+    <div class="table_header">
+      <h2 class="table_title">Actions</h2>
+    </div>
+
+    <table class="data_table" style="width: 80%;">
+      <thead>
+        <tr class="data_table_first_row">
+          <td>Action</td>
+          <td>Available?</td>
+          <td>Details</td>
+        </tr>
+      </thead>
+      <tbody>
+
+        
+        <% ### set up the messages and booleans to switch the reload option forms 
+           show_redo                   = false
+           show_redo_msg               = "Not Available"
+           show_force_redo             = false
+           show_force_redo_msg         = "Not Available"
+           show_force_partial_redo     = false
+           show_force_partial_redo_msg = "Not Available"
+
+           if @ucnRedoFailedExportAvailable
+             show_redo        = "true"
+             show_redo_msg    = "Yes"
+             show_force_partial_redo_reason = "Archive empty"
+           else 
+             # regular redo not available
+             show_redo_reason = "Some exports worked.  Use a 'FORCE' option instead"
+             # figure out if FORCE redo is available
+             if @ucnForceRedoExportAvailable
+               if @ucnHasPendingArchiveReloadRequests
+                   show_force_redo_reason = "There is a pending or recent archive reload request" 
+               else  #no pending archive action
+                   show_force_redo        = true
+                   show_force_redo_msg    = "Yes"
+               end           
+             else #not available 
+                 if @ucnRedoFailedExportAvailable
+                    show_force_redo_reason = "All exports failed.  Use 'Redo failed export' option instead" 
+                 else
+                    show_force_redo_reason = "There appears to be an open sub batch already"
+                 end
+             end               
+             # figure out if force partial is availabl
+             if @ucnHasPendingArchiveReloadRequests
+                 show_force_partial_redo_reason = "There is a pending or recent archive reload request" 
+             else
+                 if !@ucnForceRedoExportAvailable
+                   show_force_partial_redo_reason = "There appears to be an open sub batch already"
+                 else 
+                   show_force_partial_redo     = true
+                   show_force_partial_redo_msg = "Yes"
+                 end
+             end
+           end
+         %> 
+
+
+
+        <!-- REDO FAILED EXPORT BATCHES -->
+        <tr>
+          <td>&nbsp;Redo failed export</td>
+          <td>&nbsp;<%= show_redo_msg %></td>
+          <td>&nbsp;
+            <% if show_redo %>
+              <table class="form_table">
+                <% form_tag :action => 'redoFailedExport', :master_id => @conv_export_master_batch.id, :ucn => params[:ucn]  do %>
+                <tr><td class="label_cell">Conversations should start: </td>
+                    <td class="field_cell"><%= select_tag("conv_start_mins", options_for_select(@convStartMinsSelectList, 0)) %></td></tr>
+                <tr><td class="label_cell">Spread Conversations over: </td>
+                    <td class="field_cell"><%= select_tag("conv_window_mins", options_for_select(@convWindowsMins, 0)) %> </td></tr>
+                <tr><td class="label_cell">Drop Dead after: </td>
+                    <td class="field_cell"><%= select_tag("dropdead_window_mins", options_for_select(@dropdeadWindowMins, 0)) %></td></tr>
+                <tr><td class="label_cell">&nbsp;</td>
+                    <td class="field_cell"><%= submit_tag("Do it") %></td></tr>
+                <% end %>
+              </table>
+            <% else %>
+              <%= show_redo_reason %>
+            <% end %>
+          </td>
+        </tr>
+
+
+        <!-- FORCE REDO EXPORT BATCH -->
+        <tr>
+          <td>&nbsp;FORCE Redo export</td>
+          <td>&nbsp;<%= show_force_redo_msg %></td>
+          <td>&nbsp;
+            <% if show_force_redo %>
+              <table class="form_table">
+                <% form_tag :action => 'forceRedoAllExportForUcn', :master_id => @conv_export_master_batch.id, :ucn => params[:ucn]  do %>
+                <tr><td class="label_cell">Conversations should start: </td>
+                    <td class="field_cell"><%= select_tag("conv_start_mins", options_for_select(@convStartMinsSelectList, 0)) %></td></tr>
+                <tr><td class="label_cell">Spread Conversations over: </td>
+                    <td class="field_cell"><%= select_tag("conv_window_mins", options_for_select(@convWindowsMins, 0)) %> </td></tr>
+                <tr><td class="label_cell">Drop Dead after: </td>
+                    <td class="field_cell"><%= select_tag("dropdead_window_mins", options_for_select(@dropdeadWindowMins, 0)) %></td></tr>
+                <tr><td class="label_cell">Run Notifications: </td>
+                    <td class="field_cell"><%= check_box_tag('reNotify', 'true') %></td></tr>
+                <tr><td class="label_cell">&nbsp;</td>
+                    <td class="field_cell"><%= submit_tag("Do it") %></td></tr>
+                <% end %>
+              </table>
+            <% else %>
+              <%= show_force_redo_reason %>
+            <% end %>
+          </td>
+        </tr>
+        
+        <!-- FORCE REDO PARTIAL EXPORT BATCH -->
+        <tr>
+          <td>&nbsp;FORCE Redo PARTIAL export</td>
+          <td>&nbsp;<%= show_force_partial_redo_msg %></td>
+          <td>&nbsp;
+            <% if show_force_partial_redo %>
+              <table class="form_table">
+                <% form_tag :action => 'forceRedoPartialExportForUcn', :master_id => @conv_export_master_batch.id, :ucn => params[:ucn]  do %>
+                <tr><td class="label_cell">Conversations should start: </td>
+                    <td class="field_cell"><%= select_tag("partial_conv_start_mins", options_for_select(@convStartMinsSelectList, 0)) %></td></tr>
+                <tr><td class="label_cell">Spread Conversations over: </td>
+                    <td class="field_cell"><%= select_tag("partial_conv_window_mins", options_for_select(@convWindowsMins, 0)) %> </td></tr>
+                <tr><td class="label_cell">Drop Dead after: </td>
+                    <td class="field_cell"><%= select_tag("partial_dropdead_window_mins", options_for_select(@dropdeadWindowMins, 0)) %></td></tr>
+                <tr><td class="label_cell">Run Notifications: </td>
+                    <td class="field_cell"><%= check_box_tag('partial_reNotify', 'true') %></td></tr>
+                <tr><td class="label_cell">&nbsp;</td>
+                    <td class="field_cell"><%= submit_tag("Do it") %></td></tr>
+                <% end %>
+              </table>
+            <% else %>
+              <%= show_force_partial_redo_reason %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% end %>
+
+
+
+
+
+
+
+
+  <br/>
+  <%= link_to 'Back', conv_export_master_batches_path %>
+
+
+<% end %>

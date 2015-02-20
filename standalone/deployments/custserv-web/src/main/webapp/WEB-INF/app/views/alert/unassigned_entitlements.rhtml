@@ -1,0 +1,28 @@
+<div align="center">
+<h2 align="center">Tasks - Unassigned Entitlements</h2>
+<% if (@unassignedEntitlements.length > 0) %>
+<table class="data_table">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>TMS Entitlement ID</th>
+            <th>Order #</th>
+            <th>Invoice #</th>
+            <th><%= PRODUCT_TERM %></th>
+            <th>License Count</th>
+            <th>Task Details</th>
+            <th>Dispatched By..</th>
+            <th>Task Status</th>
+            <th>Assigned Root Org</th>
+            <%= content_tag(:th, "User Assigned") if (current_user.hasScholasticPermission(Permission.assign_tasks) && current_user.hasScholasticPermission(Permission.edit)) %>
+            <%= content_tag(:th, "Action") if current_user.hasScholasticPermission(Permission.edit) %>
+        </tr>
+    </thead>
+    <tbody>
+    <%= render(:partial => "alert_unassigned_entitlement", :collection => @unassignedEntitlements, :locals => {:user_map => @user_map}) %>
+    </tbody>
+</table>
+<% else %>
+<div "no_entitlement_alert" align="center">There are currently no Unassigned Entitlement Tasks</div>
+<% end %>
+</div>

@@ -1,0 +1,7 @@
+<tr>
+  <td><%= user.sam_customer.root_org.name %></td>
+  <td><%= user.last_name %></td>
+  <td><%= user.first_name %></td>
+  <td><%= user.email %></td>
+  <td><%= link_to "Manage User", :action => "manage_user", :id => user.id %></td>
+</tr>

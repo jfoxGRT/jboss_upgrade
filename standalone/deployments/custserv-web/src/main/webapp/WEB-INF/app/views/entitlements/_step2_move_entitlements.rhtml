@@ -1,0 +1,29 @@
+<h3 style="text-align: left;" id="step2" >Step #2 of 2</h3>
+<br/>
+<h4>When you click on "Move Entitlement(s)", the entitlements listed above will be moved to the <%= SAM_CUSTOMER_TERM %> listed here.</h4>
+<br/>
+<% form_remote_tag(:url => url_for(:action => :move), :before => "Form.Element.disable('move_entitlements_button'); Form.Element.disable('lookup_button'); show_loading_msg('step3_container'); Effect.ScrollTo('step3_container');") do -%>
+<%= hidden_field_tag(:new_sam_customer_id, target_sam_customer.id) %>
+<%= hidden_field_tag(:entitlement_ids, entitlement_ids) %>
+<table class="data_table">
+	<tr>
+		<th><%= SAM_CUSTOMER_TERM %> ID</th>
+		<th><%= SAM_CUSTOMER_TERM %> Name</th>
+		<th>UCN</th>
+		<th>City</th>
+		<th>State</th>
+		<th>Zip Code</th>
+	</tr>
+	<tr>
+		<td><%= target_sam_customer.id %></td>
+		<td><%= target_sam_customer.name.strip %></td>
+		<td><%= new_org.ucn %></td>
+		<td><%= new_org.city_name.strip %></td>
+		<td><%= new_org.state_code %></td>
+		<td><%= new_org.zip_code %></td>
+	</tr>
+</table><br/>
+<%= submit_tag("Move Entitlement(s)", :id => "move_entitlements_button") %>
+<% end %>
+<br/><br/>
+<hr/>

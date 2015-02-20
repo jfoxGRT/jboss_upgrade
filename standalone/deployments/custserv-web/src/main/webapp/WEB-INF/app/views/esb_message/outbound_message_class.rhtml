@@ -1,0 +1,16 @@
+<div class="table_header">
+	<h2 class="table_title"><%= @esb_messages[0].simple_class_name %></h2>
+</div>
+<table class="data_table">
+    <thead>
+    <tr>
+        <th>Message ID</th>
+        <th>Corp ID Value</th>
+		<th>Transaction Type</th>
+        <th>Time Sent</th>
+    </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "outbound_message_type_detail", :collection => @esb_messages)%>
+    </tbody>    
+</table>

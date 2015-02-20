@@ -1,0 +1,23 @@
+	<ul>		
+		<li id="li_my_assigned_tasks"><%= link_to("My Assigned Tasks", user_tasks_path(:id => @current_user.id), {:id => "tasks"}) %></li>	
+	<% if (@controller_name == "tasks") %>
+		<ul onMouseover=cellImgOn("tasks") >
+	<% else %>
+		<ul onMouseover=cellImgOn("tasks") onMouseOut=cellImgOff("tasks") >
+	<% end %>
+			<li id="li_my_assigned_tasks"><%= render(:partial => "/common/left_sidebar_task_count", 
+				:locals => {:count => @my_task_count.to_s,
+							:task_status => "user",
+							:task_type => "tasks"}) %></li>			
+		</ul>
+		<%= render(:partial => "/common/task_type_counts", :collection => TASK_CONTROLLER_LIST, :locals => {:task_counts => @task_counts, :controller_name => @controller_name}) %>
+	</ul>
+	
+	<script type="text/javascript">
+		current_tab_heading = document.getElementById("<%= @controller_name %>");
+		if (current_tab_heading)
+			current_tab_heading.style.background = "url(<%= image_path('tabonbg_sidebar.gif')%>)";
+		current_tab = document.getElementById("<%= @controller_name %>_<%= params[:action] %>");
+		if (current_tab)
+			current_tab.style.background = "#ECF1DB";	
+	</script>

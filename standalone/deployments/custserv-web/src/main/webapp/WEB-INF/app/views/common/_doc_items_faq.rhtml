@@ -1,0 +1,36 @@
+<%# Purpose: Display general FAQs documentation items                       %>
+<%# Usage  : Send in, via :locals, a parameter named "doc_location_code"    %> 
+<%#          Value is from "doc_locations" tables "code" column             %>
+<%#          If no value sent in, all documents for all locations will show %>
+
+<div class="doc_display">
+
+<% dl_to_show = show_all_docs = '' %>
+<% if local_assigns[:doc_location_code].nil? %>
+  <% show_all_docs = true %>
+  <h1>All Documentation Items</h1>
+<% else %>
+  <% show_all_docs = false %>  
+  <% dl_to_show = DocLocation.find_by_code("#{doc_location_code}") %>
+  <h1><%= dl_to_show.display_text %></h1>  
+<% end %>
+
+<p class="jscontrols">
+  <a href="#" onclick="setAllAnswer(); return false;" title="">Expand All</a> | <a href="#"  onclick="unsetAllAnswer(); return false;" title="">Collapse All</a>
+</p>
+
+<% labels = DocLabel.find(:all, :order => 'display_order asc') %>
+
+<% labels.each do |label| %>
+  <% if show_all_docs %>
+    <% docs_to_show = DocLabel.find_by_code(label.code).doc_items.published.for_customer.by_doc_order %>    
+  <% else %>
+    <% docs_to_show = DocLabel.find_by_code(label.code).doc_items.for_doc_location_code("#{dl_to_show.code}").published.for_customer.by_doc_order %>
+  <% end %>
+  <% if !docs_to_show.empty? %>
+    <h3><%= label.display_text %> </h3>
+    <%= render(:partial => "common/doc_item_faq", :collection => docs_to_show, :locals => {:label => label}) %>
+  <% end %>
+<% end %>
+
+</div> <!-- end of doc_display -->

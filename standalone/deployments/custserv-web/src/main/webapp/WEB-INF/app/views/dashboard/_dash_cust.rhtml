@@ -1,0 +1,14 @@
+<tr>
+          <td><%= link_to(dash_cust.samCustomerUcn, {:action => :goto_sam_cust_via_ucn, :ucn => dash_cust.samCustomerUcn }) %></td>
+          <td><%=h dash_cust.status %></td>
+          <td><%=h dash_cust.liveBatchNumber %></td>
+          <td><%=h (dash_cust.publishStart.nil?) ? "" : dash_cust.publishStart %></td>
+          <td><%=h (dash_cust.publishEnd.nil?) ? "" : dash_cust.publishEnd %></td>
+        <% if @current_user.isAdminType %>
+            <td><%=h dash_cust.host %></td>
+            <td><%=h dash_cust.loaderDbName %></td>
+            <td><%=h dash_cust.liveDbName %></td>
+            <td><%=h dash_cust.refreshEnabled %></td>
+            <td><%=h dash_cust.createdAtDate %></td>
+        <% end %>
+</tr>

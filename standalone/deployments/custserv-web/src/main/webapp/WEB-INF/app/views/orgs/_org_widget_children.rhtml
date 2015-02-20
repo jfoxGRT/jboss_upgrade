@@ -1,0 +1,19 @@
+<% org = org_widget_children.org %>
+<div id="org_widget_parent_brief" style="font-size: 11px; background-color: #eeeeee; margin: 0px; padding: 3px;">
+	<span><%= link_to(org.name, "#", {:onclick => "lookup_org('#{org_widget_children.ucn}');"}) %></span><br/>
+	<span>UCN:</span>&nbsp;&nbsp;<%= org_widget_children.ucn %><br/>
+	<span>Number of Children:</span>&nbsp;&nbsp;<%= org.number_of_children %><br/>
+	<% if parent_customer %>
+		<div style="padding: 2px 0px 5px 0px;">
+			<input type="button" value="Go to Parent" onclick="get_children('<%= parent_customer.ucn %>');" />
+		</div>
+	<% end %>
+</div>
+<hr style="margin: 0px;" />
+<div style="font-weight: bold; color: #006699; text-align: center; margin: 0px; padding: 3px 0px 3px 0px;">Children</div>
+<hr style="margin: 0px;" />
+<div style="height: 600px; overflow: auto; vertical-align: top; font-size: 10px;">
+	<table>
+		<%= render(:partial => "/orgs/org_widget_child", :collection => descendant_orgs) %>
+	</table>
+</div>

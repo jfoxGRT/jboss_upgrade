@@ -1,0 +1,38 @@
+<table class="data_table" width="90%">
+    <thead>
+        <tr class="data_table_first_row">
+        	<td <%= sort_td_class_helper("seat_pool_id")%>>
+                <%= sort_link_helper("Seat Pool ID", "seat_pool_id", update_element, "update_seat_pools", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("server_id")%>>
+                <%= sort_link_helper("Server ID", "server_id", update_element, "update_seat_pools", status_indicator)%>
+            </td>
+            <td <%= sort_td_class_helper("server_name")%>>
+                <%= sort_link_helper("Server Name", "server_name", update_element, "update_seat_pools", status_indicator)%>
+            </td>
+			<td <%= sort_td_class_helper("seat_count")%>>
+                <%= sort_link_helper("Seat Count", "seat_count", update_element, "update_seat_pools", status_indicator) %>
+            </td>
+            <td <%= sort_td_class_helper("created_at")%>>
+                <%= sort_link_helper("Created At", "created_at", update_element, "update_seat_pools", status_indicator) %>
+            </td>
+            <td <%= sort_td_class_helper("updated_at")%>>
+                <%= sort_link_helper("Updated At", "updated_at", update_element, "update_seat_pools", status_indicator) %>
+            </td>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "seat_pool", :collection => seat_pool_collection) %>
+    </tbody>
+</table>
+
+<p class="page_links" align="center">
+<%= will_paginate(seat_pool_collection, :renderer => "RemoteLinkRenderer",
+                  :status_indicator => status_indicator,
+                  :update_element => update_element,
+                  :action => "update_seat_pools",
+				  :sam_customer_id => sam_customer_id,
+				  :subcommunity_id => subcommunity_id) %>
+</p>
+
+

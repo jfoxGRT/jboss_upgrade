@@ -1,0 +1,28 @@
+<% @page_title = "SAMC - Notifications" %>
+<table id="breadcrumb_container">
+	<tr>
+	<%= render(:partial => "common/breadcrumb_state_link", :object => @state) %>
+	<td><%= link_to(@sam_customer.name, sam_customer_path(@sam_customer.id)) %></div>
+	<td>&raquo;</td>
+	<td><%= render(:partial => "common/sam_customer_breadcrumb_level", :locals => {:site_area_code => ALERTS_CODE, :on_target => nil}) %></td>
+	<td>&raquo;</td>
+	<td><%= link_to(@alert.description, sam_customer_notification_type_notifications_path(@sam_customer.id, @alert.id)) %></td>
+	<td>&raquo;</td>
+	<td><span id="current_page_title"><%= @sam_server.name %></span></td>
+	</tr>
+</table>
+<hr/>
+<div class="table_header">
+	<h2 class="table_title"><%= @alert.description %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= @sam_server.name %></h2>
+</div>
+<table class="data_table">
+	<thead>
+		<tr>
+			<th>Event Type</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render(:partial => "event_type", :collection => @alert_instance_group_list) %>
+	</tbody>
+</table>

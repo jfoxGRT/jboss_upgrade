@@ -1,0 +1,16 @@
+<tr>
+	<td style="text-align: left;"><%= link_to_remote(descendant_org.name, 
+							{:before => "$$('input.submit_button').each(Form.Element.disable); $('status_indicator').show();",
+                            :complete => "$('status_indicator').hide(); $$('input.submit_button').each(Form.Element.enable); $('org_name').select();",
+							:url => {:action => "show_hierarchy", :id => descendant_org.ucn}}, {:class => "submit_button"}) %></td>
+	<td><%= descendant_org.ucn %></td>
+	<td><%= descendant_org.group_description %></td>
+	<td>&nbsp;<%= descendant_org.created_at %></td>
+	<td><%= descendant_org.number_of_children %></td>
+	<td>
+		<% if !descendant_org.sam_customer_active.nil? %>
+			<%= image_tag("choice-yes.gif") %>
+			<%= descendant_org.sam_customer_active == "1" ? image_tag("choice-yes.gif") : image_tag("choice-no.gif") %>
+		<% end %>
+	</td>
+</tr>

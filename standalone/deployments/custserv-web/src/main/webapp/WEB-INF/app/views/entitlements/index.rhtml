@@ -1,0 +1,110 @@
+<% @page_title = "SAMC - Entitlements for #{@sam_customer.name}" %>
+<script type="text/javascript" charset="utf-8">
+
+	//jQuery.ajaxSetup({'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}})
+
+	function getEntitlementData(pProductId, pStatus, pProductType) {
+			$('.entitlement_count_cell').removeClass('cell_selected');
+			$('#'+pProductId+'_'+pStatus).addClass('cell_selected');
+			//$('#status_indicator').show();
+			$('#entitlement_results_container').html("Loading entitlements..&nbsp;&nbsp;<%= escape_javascript(image_tag('indicator_smallwaitanim.gif', :border => '0', :id => 'status_image', :style => 'vertical-align: bottom;' )) %>");
+			$.scrollTo($('#entitlement_results_container'), 600);
+			$.get('<%= sam_customer_entitlements_path(@sam_customer.id) %>',{product_id: pProductId, status: pStatus, product_type: pProductType}, function(data) {
+				$('#entitlement_results_container').hide();
+				$('#entitlement_results_container').html(data);
+				$('#status_indicator').hide();
+				$('#entitlement_results_container').fadeIn(1100);
+				
+			}, "html").error(function() {alert("Error loading data.  Please contact an SAMC Administrator.");});
+		}
+	
+	
+	function loadModal(element) {
+		jQuery('#entitlement_details_widget_pane').html("<%= escape_javascript(render(:partial => '/common/popup_loading_indicator')) %>");
+		jQuery('#entitlement_details_widget').dialog('open')
+		$.get(element.attr("href"), function(data){
+			jQuery('#entitlement_details_widget_pane').hide();
+			jQuery('#entitlement_details_widget_pane').html(data);
+			jQuery('#entitlement_details_widget_pane').fadeIn(500, null);
+		});		
+	}
+				
+</script>
+
+
+<table id="breadcrumb_container">
+	<tr>
+		<%= render(:partial => "common/breadcrumb_first_three_levels", 
+					:locals => {:sam_customer => @sam_customer, 
+								:state => @state, 
+								:site_area_code => @site_area_code,
+								:on_target => true})%>
+	</tr>
+</table>
+<hr/>
+<table class="header_table_with_links">
+	<tr>
+		<td style="width: 30%;">&nbsp;</td>
+		<td style="width: 40%;" class="table_header"><h2 class="table_title"><%= @sam_customer.name %>&nbsp;&nbsp;-&nbsp;&nbsp;Entitlements</h2>
+		</td>
+		<td style="width: 30%; padding: 0px;">
+			<!--<div class="link_set" style="vertical-align: top; padding-right: 20px; text-align: right;">
+				<%#= link_to("Create Virtual Entitlement", new_sam_customer_entitlement_path(@sam_customer)) if (@current_user.isAdminType) %><br/>
+				<%#= link_to("Known Entitlement Destinations", sam_customer_entitlement_known_destinations_path(@sam_customer)) %>
+			</div>-->
+		</td>
+	</tr>
+</table>
+<!--<table id="sam_customer_entitlements_table" style="margin-bottom: 30px; margin-left: auto; margin-right: auto; width: 95%;">
+	<tbody>
+		<tr>
+			<td><%#= render(:partial => "sam_customer_entitlements_info", :locals => {:entitlement_collection => @entitlements,
+                  #                                          :status_indicator => "entitlements_loading_indicator",
+                  #                                          :update_element => "sam_customer_entitlements_table",
+                  #                                          :sam_customer_id => @sam_customer.id}) %>
+				  
+			</td>
+		</tr>
+	</tbody>
+</table>-->
+<div align="center" style="padding: 0px 0px 0px 0px; height: 25px;">
+		<span id="status_indicator" style="display: none;">Loading entitlements..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0", :id => "status_image", :style => "vertical-align: bottom;" ) %></span>    
+</div>
+<div id="tabs" style="width:750px; padding: 20px; margin-top: 10px; margin-bottom: 30px; margin-left: auto; margin-right: auto;">
+	<ul>
+		<li><a href="#tabs-1">Licenses</a></li>
+		<li><a href="#tabs-2">Services</a></li>
+		<li><a href="#tabs-3">All</a></li>
+	</ul>
+	<div id="tabs-1">
+		<%= render(:partial => "license_counts", :locals => {:sam_customer_id => @sam_customer.id, :product_list => @license_products, :entitlement_counts => @entitlement_counts}) %> 	
+  		<div align="center">
+  			<%= link_to("Export Table to CSV", :action => :export_license_entitlements_to_csv, :sam_customer_id => @sam_customer.id) %>
+        <br>
+        <%= link_to("Export License Entitlement Details to CSV", :action => :export_customer_entitlements_to_csv, :sam_customer_id => @sam_customer.id, :selection => "license") %>
+  		</div>
+	</div>
+	<div id="tabs-2">
+		<%= render(:partial => "service_counts", :locals => {:sam_customer_id => @sam_customer.id, :product_list => @service_products, :entitlement_counts => @entitlement_counts}) %> 
+  		<div align="center">
+  			<%= link_to("Export Table to CSV", :action => :export_service_entitlements_to_csv, :sam_customer_id => @sam_customer.id) %>
+        <br>
+        <%= link_to("Export Service Entitlement Details to CSV", :action => :export_customer_entitlements_to_csv, :sam_customer_id => @sam_customer.id, :selection => "service") %>
+  		</div>
+	</div>
+	<div id="tabs-3">
+		<%= render(:partial => "all_counts", :locals => {:sam_customer_id => @sam_customer.id, :product_list => @all_products, :entitlement_counts => @entitlement_counts}) %>
+  		<div align="center">
+  			<%= link_to("Export Table to CSV", :action => :export_all_entitlements_to_csv, :sam_customer_id => @sam_customer.id) %>
+        <br>
+        <%= link_to("Export Entitlement Details to CSV", :action => :export_customer_entitlements_to_csv, :sam_customer_id => @sam_customer.id, :selection => "all") %>
+  		</div>
+	</div>
+</div>
+<hr/>
+<div id="entitlement_results_container" align="center" style="padding-top: 20px;"></div>
+<!--<div id="entitlement_details_widget">
+	<div id="entitlement_details_widget_pane" style="width:100%;">
+		<%#= render(:partial => "/common/popup_loading_indicator") %>
+	</div>
+</div>-->

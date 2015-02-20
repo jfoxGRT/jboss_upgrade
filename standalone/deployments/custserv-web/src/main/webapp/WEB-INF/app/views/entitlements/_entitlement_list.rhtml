@@ -1,0 +1,23 @@
+<div id="entitlementsModalContent" style='display:none;margin:0px;padding=0px;'>
+    <table id="serverview" class="view" cellspacing="0" style="width:100%;margin:0px;padding:0px;">
+        <thead>
+            <tr class="parent">
+                <td style="background:#CC6600;">Entitlement List & Status</td>
+            </tr>
+        </thead>
+    </table>
+    <table cellspacing="1" style="width:100%;" id="task_edit">
+        <tr class='workDetails'>
+            <td class='workDetails' style='width:16%'>Task ID</td>
+            <td class='workDetails' style='width:12%'>TMS Entitlement ID</td>
+            <td class='workDetails' style='width:18%'> Date </td>
+            <td class='workDetails' style='width:20%'><%= PRODUCT_TERM %></td>
+            <td class='workDetails' style='width:10%'>Licenses</td>
+            <td class='workDetails' style='width:20%'>Status</td>
+        </tr>
+		<%= render(:partial => "entitlement_in_set", :collection => @entitlement_list) %>
+    </table>
+    <div class='buttons'>
+        <div class='no modalClose' style="padding-top:6px;" onMouseOver=buttonOver(this) onMouseOut=buttonOut(this)>Close</div>
+    </div>
+</div>

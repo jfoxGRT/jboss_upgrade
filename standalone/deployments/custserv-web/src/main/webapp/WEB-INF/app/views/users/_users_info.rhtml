@@ -1,0 +1,57 @@
+<% sam_customer_id = (sam_customer) ? sam_customer.id : nil 
+	edit_permission = @current_user.hasPermission?(Permission.edit) %>
+  
+<%= javascript_include_tag "jquery.dataTables" %>
+<%= javascript_include_tag "jquery/tabletools/TableTools.min.js" %>
+<%= stylesheet_link_tag "jquery/tabletools/TableTools.css" %>
+
+<script> 
+jQuery(document).ready(function() {
+	jQuery('#users_datatable').dataTable({
+    "bPaginate": false,
+		"aaSorting": [[2, "asc"]],
+    "oLanguage": {
+      "sEmptyTable": "No users to display.",
+      "sZeroRecords": "No users match the search criteria."
+    },
+    "sDom": 'T<"clear">lfrtip',
+    "oTableTools": {
+      "sSwfPath": "<%= DATATABLES_SWF_PATH %>copy_csv_xls_pdf_custom.swf",
+      "aButtons": [
+				"copy",
+				"csv",
+				{
+          "sExtends": "xls",
+          "sFileName": "*.xls",
+          "sButtonText": "XLS"
+        },
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape"
+				},
+				"print"
+			]
+		}
+	});
+} );
+</script>
+
+<table id="users_datatable" class="data_table filterable_table">
+  <thead>
+    <tr class="data_table_first_row">
+      <th>User ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Type</th>
+      <th>Email</th>
+      <% if @current_user.isAdminType %>
+      	<th>Token</th>
+      <% end %>
+      <th>Created</th>
+      <th>Registered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render(:partial => "user", :collection => users_collection, :locals => {:current_user => current_user, :sam_customer_id => sam_customer_id, :edit_permission => edit_permission}) %>
+  </tbody>
+</table>

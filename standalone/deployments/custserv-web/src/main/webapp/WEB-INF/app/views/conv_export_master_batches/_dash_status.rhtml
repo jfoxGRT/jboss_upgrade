@@ -1,0 +1,53 @@
+    <div class="table_header">
+      <h2 class="table_title">Current Dashboard Status</h2>
+    </div>
+    <table class="property_table shadow-large" style="width: 90%;">
+      <tbody>
+        <tr>
+          <td><b>UCN: </b>
+              <br/>&nbsp;
+              <%= link_to("Corresponding Dashboard loader status", {:action => :show_dash_hist, :controller => :dashboard, :master_batch_id => dash_status.liveBatchNumber, :ucn => dash_status.samCustomerUcn }) %>
+          </td>
+          <td><%=h dash_status.samCustomerUcn %></td>
+        </tr>
+        <tr>
+          <td><b>Status: </b></td>
+          <td><%=h dash_status.status %></td>
+        </tr>
+        <tr>
+          <td><b>Live Batch Number: </b></td>
+          <td><%=h dash_status.liveBatchNumber %></td>
+        </tr>
+        <tr>
+          <td><b>Publish Start Date: </b></td>
+          <td><%=h (dash_status.publishStart.nil?) ? "" : dash_status.publishStart %></td>
+        </tr>
+        <tr>
+          <td><b>Publish End Date: </b></td>
+          <td><%=h (dash_status.publishEnd.nil?) ? "" : dash_status.publishEnd %></td>
+        </tr>
+        <% if @current_user.isAdminType %>
+          <tr>
+            <td><b>Host: </b></td>
+            <td><%=h dash_status.host %></td>
+          </tr>
+          <tr>
+            <td><b>Loader DB Name: </b></td>
+            <td><%=h dash_status.loaderDbName %></td>
+          </tr>
+          <tr>
+            <td><b>LIVE DB Name: </b></td>
+            <td><%=h dash_status.liveDbName %></td>
+          </tr>
+          <tr>
+            <td><b>Refresh Enabled?: </b></td>
+            <td><%=h dash_status.refreshEnabled %></td>
+          </tr>
+          <tr>
+            <td><b>Created At: </b></td>
+            <td><%=h dash_status.createdAtDate %></td>
+          </tr>
+        <% end %>
+
+      </tbody>
+  </table>

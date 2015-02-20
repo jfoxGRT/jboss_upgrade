@@ -1,0 +1,19 @@
+<% site_areas = Array.new(SAM_CUSTOMER_SITE_AREAS)
+if site_area_code
+	target_site_area = site_areas.delete(site_areas.detect{|scsa| scsa[:code] == site_area_code})
+	site_areas.unshift(target_site_area)
+end %>
+<% site_areas.each do |scsa| %>
+	<% if (!on_target.nil? && scsa[:code] == site_area_code) %>
+		<span id="current_page_title"><%= scsa[:name] %></span><br/>
+	<% elsif (@current_user.has_user_type_access?(scsa[:user_type])) %>
+		<% if ((scsa[:name] == "License Counts") && @sam_customer.license_count_problems?) %>
+			<span <%= "style='padding-left: 1.5em;'" if defined?(not_breadcrumb) %>><%= link_to(scsa[:name], eval(SAM_CUSTOMER_SINGULAR_CONTROLLER_NAME + "_" + scsa[:controller_name] + "_path(@sam_customer.id)"), :style => "color: red;") %>&nbsp;&nbsp;<%= image_tag("flag.gif", :style => "vertical-align: bottom;") %></span>
+		<%elsif ((scsa[:name] == "Seat Activity") && SeatActivity.find_activity_count(@sam_customer)>0)%>
+		<span <%= "style='padding-left: 1.5em;'" if defined?(not_breadcrumb) %>><%= link_to(scsa[:name], eval(SAM_CUSTOMER_SINGULAR_CONTROLLER_NAME + "_" + scsa[:controller_name] + "_path(@sam_customer.id)"), :style => "color: red;") %>&nbsp;&nbsp;<%= image_tag("flag.gif", :style => "vertical-align: bottom;") %></span>
+		<% else %>
+			<%= link_to(scsa[:name], eval(SAM_CUSTOMER_SINGULAR_CONTROLLER_NAME + "_" + scsa[:controller_name] + "_path(@sam_customer.id)")) %>
+		<% end %>
+		<br/>
+	<% end %>
+<% end %>

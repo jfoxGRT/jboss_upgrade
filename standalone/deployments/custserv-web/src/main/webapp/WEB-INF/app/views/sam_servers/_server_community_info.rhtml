@@ -1,0 +1,18 @@
+<table class="data_table" style="width: 90%;">
+    <thead>
+        <tr>
+        	<% if @current_user.isAdminType %>
+				<th>Community Info ID</th>
+			<% end %>
+            <th><%= @community_info_term %></th>
+            <th>Supernumber</th>
+            <th>Customer-facing Version</th>
+			<th>Enabled</th>
+			<th>Created At</th>
+            <th>Updated At</th>
+       </tr>
+    </thead>
+    <tbody>
+        <%= render(:partial => "server_community", :collection => server_community_info.sam_server_community_infos, :locals => {:sam_server_id => @sam_server.id}) %>
+    </tbody>
+</table>

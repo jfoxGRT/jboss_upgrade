@@ -1,0 +1,55 @@
+<table class="property_table shadow-large">
+	<tbody>
+		<tr>
+			<td>Internal ID</td>
+			<td>&nbsp;<%= sam_customer_school_info.id %></td>
+		</tr>
+		<tr>
+			<td>Address</td>
+			<td>
+				<%= sam_customer_school_info.address1 %><br/>
+				<%= (sam_customer_school_info.address2 + "<br/>") if (!sam_customer_school_info.address2.nil? && sam_customer_school_info.address2.length > 0) %>
+				<%= sam_customer_school_info.city %><%= ", " if (!sam_customer_school_info.city.nil? && sam_customer_school_info.city.length > 0) %><%= sam_customer_school_info.state %>&nbsp;<%= sam_customer_school_info.postal_code %><br/>
+				<%= sam_customer_school_info.country %>
+			</td>
+		</tr>
+		<tr>
+			<td>Phone Number</td>
+			<td>&nbsp;<%= sam_customer_school_info.phone %></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td>&nbsp;<%= sam_customer_school_info.email %></td>
+		</tr>
+		<tr>
+			<td>School Number</td>
+			<td>&nbsp;<%= sam_customer_school_info.school_number %></td>
+		</tr>
+		<tr>
+			<td>SAM School ID</td>
+			<td>&nbsp;<%= sam_customer_school_info.sam_school_id %></td>
+		</tr>
+		<tr>
+			<td>Student Count</td>
+			<td>&nbsp;<%= sam_customer_school_info.student_count %></td>
+		</tr>
+		<tr>
+			<td>Installed on SAM Server</td>
+			<td>&nbsp;<%= link_to(sam_server.name, sam_server_path(sam_server.id)) %></td>
+		</tr>
+		<tr>
+			<td>Matched To</td>
+			<td>&nbsp;<% if @org %><a href="#" onclick="popup_org_dialog('<%= @org.customer.ucn %>'); return false;"><%= @org.name %></a><% end %></td>
+		</tr>
+		<tr>
+			<td>Created At</td>
+			<td>&nbsp;<%= sam_customer_school_info.created_at.strftime(DATE_FORM) %></td>
+		</tr>
+		<tr>
+			<td>Updated At</td>
+			<td>&nbsp;<%= sam_customer_school_info.updated_at.strftime(DATE_FORM) %></td>
+		</tr>
+	</tbody>
+</table>
+		
+		

@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <th>Organization</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Login</th>
+    <th>Email</th>
+    <th></th>
+  </tr>
+  <%= render :partial => "user", :collection => @users %>
+</table>
+
+<hr>
+  <%= pagination_links(@user_pages) %>
+<hr>

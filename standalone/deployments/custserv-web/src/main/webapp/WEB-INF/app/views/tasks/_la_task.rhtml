@@ -1,0 +1,11 @@
+<%  task_result = la_task[1][0] %>
+<tr>
+	<% form_for(:task, :url => ((task_result.status == Task.UNASSIGNED) ? (assign_task_path(task_result.id)) : (unassign_task_path(task_result.id))), :html => {:method => :put}) do |f| -%>
+	<%= f.hidden_field(:alert_id, :value => alert_id) %>
+	<%= render(:partial => "task_common_start_cells", :object => task_result) %>
+	<td><%= task_result.sam_customer.id %></td>
+	<td><%= task_result.sam_customer.name %></td>
+	<td><%= task_result.state_province.name %></td>
+	<%= render(:partial => "task_common_end_cells", :object => task_result, :locals => {:form_variable => f, :user_map => user_map}) %>
+	<% end -%>
+</tr>

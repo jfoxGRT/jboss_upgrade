@@ -1,0 +1,4 @@
+<% if (breadcrumb_state_link) %>
+	<td><%= link_to(breadcrumb_state_link.display_name, state_sam_customers_path(breadcrumb_state_link.id), :style => "vertical-align: middle;") %></td>
+	<td>&raquo;</td>
+<% end %>

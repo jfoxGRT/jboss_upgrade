@@ -1,0 +1,300 @@
+<%
+a_id = ""
+c_id = ""
+fversion = ""
+@sapling_meta_data.each do |sm|
+logger.debug("LOOKSSS"+sm.name)
+if (sm.name == 'agentIds')
+a_id = sm.value
+logger.debug("AHERE"+a_id)
+end
+if (sm.name == 'customersIds')
+c_id = sm.value
+logger.debug("CHERE"+c_id)
+end
+if (sm.name == 'fromVersion')
+fversion = sm.value
+logger.debug("FHERE"+fversion)
+end
+end%>
+
+<%= render(:partial => "sapling_js") %>
+
+<script type="text/javascript">
+	function isFieldNull(id) { //can be used for any javascript type
+    if (typeof(document.getElementById(id)) == 'UNDEFINED')  return true; //consider field not found at all to be null, prevent null reference
+    if (document.getElementById(id) == null)  return true; //prevent null reference
+    if(document.getElementById(id).value && (typeof(document.getElementById(id).value) != 'string' || document.getElementById(id).value.length > 0))  return false; //we'll consider empty string null
+    return true;
+  }
+  
+  function isCustomerFacing() { //used to determine whether a Marketing Name value should be expected (though not required)
+    if (isFieldNull('sapling_sapling_type'))  return false;
+    return  (document.getElementById('sapling_sapling_type').value == 'SAM_SERVER_COMPONENT' || document.getElementById('sapling_sapling_type').value == 'CONTENT');
+  }
+</script>
+
+<h2>Update Sapling ID: <%= @sapling.id %></h2>
+<%= error_messages_for :sapling %>
+
+<% form_for(:sapling, :url => sapling_path(@sapling), :html => {:multipart => true, :method => :put, :onsubmit => "$('status_indicator').show(); Form.Element.disable('submit_tag')"}) do |f| -%>
+  <%= f.hidden_field :id %>
+  <table align="center">
+    <tr><td style="text-align: left;"><label for="sapling_type">Sapling Type:</label></td><td style="text-align: left;"><%= f.select(:sapling_type, Sapling::SAPLING_TYPES) %></td></tr>
+	<tr><td style="text-align: left;"><label for="sapling_code">Sapling Code:</label></td><td style="text-align: left;"><%= f.select(:sapling_code, Sapling::SAPLING_CODES) %></td></tr>
+    <tr><td style="text-align: left;"><label for="version">Sapling Version:</label></td><td style="text-align: left;"><%= f.text_field :version %></td></tr>
+	<tr><td style="text-align: left;"><label for="os_family">OS Family:</label></td><td style="text-align: left;"><%= f.select(:os_family, Sapling::OS_FAMILY_TYPES) %></td></tr>
+	<tr><td style="text-align: left;"><label for="os_series">OS Series:</label></td><td style="text-align: left;"><%= f.select(:os_series, Sapling::OS_SERIES_TYPES) %></td></tr>
+	<tr><td style="text-align: left;"><label for="cpu_type">CPU Type:</label></td><td style="text-align: left;"><%= f.select(:cpu_type, Sapling::CPU_TYPES) %></td></tr>
+	<tr><td style="text-align: left;"><label for="cpu_bits">CPU Bits:</label></td><td style="text-align: left;"><%= f.select(:cpu_bits, Sapling::CPU_BIT_TYPES) %></td></tr>
+	<tr><td style="text-align: left;"><label for="scheduled">Scheduleable?</label></td><td style="text-align: left;"><%= f.check_box("scheduled") %></td></tr>
+	<tr><td style="text-align: left;"><label for="marketing_name">Marketing Name:</label></td><td style="text-align: left; vertical-align: top"><%= f.text_field :marketing_name %></td></tr>
+	<tr><td style="text-align: left;"><label for="notes">Notes:</label></td><td style="text-align: left; vertical-align: top"><%= f.text_area(:notes, :rows => 3, :cols => 40) %></td></tr>
+    <tr><td style="text-align: left;"><label for="customer_desc">Customer Description:</label></td><td style="text-align: left; vertical-align: top"><%= f.text_area(:customer_desc, :rows => 3, :cols => 40) %></td></tr>
+  </table>
+
+
+  
+
+  <BODY onLoad="checkScope()">
+  <table align="center" style="margin-bottom: 20px;">
+	<tr>
+		
+		
+	 	<td class="label_cell">
+					<label for="distributionScope">Distribution Scope</label>
+		</td>
+		 	<% if (@distributionScope != nil and @distributionScope.value != nil and @distributionScope.value == 'GLOBAL') %>
+				<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[distributionScope]", options_for_select(['GLOBAL', 'AGENT', 'CUSTOMER']), {:onchange => "scopeChange()"})  %></td>
+			
+			<% elsif (@distributionScope != nil and @distributionScope.value != nil and @distributionScope.value == 'AGENT') %>
+				<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[distributionScope]", options_for_select(['AGENT', 'CUSTOMER', 'GLOBAL']), {:onchange => "scopeChange()"})  %></td>
+		
+			<% elsif (@distributionScope != nil and @distributionScope.value != nil and @distributionScope.value == 'CUSTOMER') %>
+				<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[distributionScope]", options_for_select(['CUSTOMER', 'AGENT', 'GLOBAL']), {:onchange => "scopeChange()"})  %></td>
+			
+			<%else%>
+				<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[distributionScope]", options_for_select(['','GLOBAL', 'AGENT', 'CUSTOMER']), {:onchange => "scopeChange()"})  %></td>
+			<%end%>
+	</tr>
+	<% if (@sapling.sapling_type == 'SAM_SERVER_COMPONENT' or @sapling.sapling_type == 'CONTENT') %>
+   	<tr id="fromVersion">
+        <td class="label_cell">From Version: </td>
+		<td class="field_cell"><%= text_field_tag("sapling_meta[fromVersion]", fversion) %></td>
+    </tr>
+	<%end%>
+	<tr id="customerIds" style="display:none" >
+        <td class="label_cell">Customer IDs: </td>
+		<td class="field_cell"><%= text_field_tag("sapling_meta[customersIds]", c_id, {:disabled => true, :id => "customer"})%></td>
+		<td><font size="1" color="#808080">(i.e. 28, 32, 59)</font></td>
+    </tr>
+	<tr id="agentIds" style="display:none" >
+        <td class="label_cell">Agent IDs: </td>
+		<td class="field_cell"><%= text_field_tag("sapling_meta[agentIds]", a_id, {:disabled => true, :id => "agent"})%>
+		<td><font size="1" color="#808080">(i.e. 23, 35, 47)</font></td>
+    </tr>
+
+	
+<% if (@sapling.sapling_type == 'SAM_SERVER_COMPONENT') %>
+	<tr>
+	 	<td class="label_cell">
+					<label for="IS_IA_SAPLING">IA Sapling?</label>
+		</td>
+	
+		<% if (@IS_IA_SAPLING != nil and @IS_IA_SAPLING.value != nil and @IS_IA_SAPLING.value == 'true') %>
+			<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[IS_IA_SAPLING]", options_for_select(["true","false"]))  %></td>
+		<% elsif (@IS_IA_SAPLING != nil and @IS_IA_SAPLING.value != nil and @IS_IA_SAPLING.value == 'false') %>
+			<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[IS_IA_SAPLING]", options_for_select(["false","true"]))  %></td>	
+		<%else%>
+			<td class="field_cell" colspan = "3"><%= select_tag("sapling_meta[IS_IA_SAPLING]", options_for_select(["","true","false"]))  %></td>
+		<%end%>	
+	</tr>
+<tr><td style="text-align: left;"><label for="auto_target">Auto Target</label></td><td><%= f.check_box("auto_target", :onclick => "showTip()") %></td>
+      <td>
+          <div id="pro_tip" style="display:none;">
+              <span style="font-size:8px;color:red"> <p>Turning off Auto-Target will keep the sapling from having targets auto generated for it.</p>
+                  <p> If you do not want the sapling to be targeted at all, you should remove the sapling's existing targets <%= link_to("here", {:action => :target_sapling, :id => @sapling.id}, :target => '_blank')%>.</p></span>
+          </div>
+      </td>
+  </tr>
+	
+<% elsif (@sapling.sapling_type == 'CONTENT') %>	
+	
+  <table align="center" style="margin-bottom: 20px;">
+	<tr>
+	  		<td style="text-align: left;">
+			<label for="quizType">Quiz Type: </label></td>
+ 		<% if (@quizType != nil and @quizType.value != nil and @quizType.value == 'monthly') %>
+ 			<td style="text-align: left;"><%= select_tag("sapling_meta[quizType]", options_for_select(["monthly","master"]))  %></td>
+		<% elsif (@quizType != nil and @quizType.value != nil and @quizType.value == 'master') %>
+			<td style="text-align: left;"><%= select_tag("sapling_meta[quizType]", options_for_select(["master","monthly"]))  %></td>
+		<% else %>
+			<td style="text-align: left;"><%= select_tag("sapling_meta[quizType]", options_for_select(["","monthly", "master"]))  %></td>
+		<% end %>
+	</tr>
+  <tr><td style="text-align: left;"><label for="auto_target">Auto Target</label></td><td><%= f.check_box("auto_target", :onclick => "showTip()") %></td>
+      <td>
+          <div id="pro_tip" style="display:none;">
+              <span style="font-size:8px;color:red"> <p>Turning off Auto-Target will keep the sapling from having targets auto generated for it.</p>
+                  <p> If you do not want the sapling to be targeted at all, you should remove the sapling's existing targets <%= link_to("here", {:action => :target_sapling, :id => @sapling.id}, :target => '_blank')%>.</p></span>
+          </div>
+      </td>
+  </tr>
+  </table>
+<% else %>
+  <table align="center" style="margin-bottom: 20px;">
+		<tr>
+	  		<td style="text-align: left;">This sapling should go out to : </td>
+    	</tr>
+		<tr>
+ 	
+ 			<td style="text-align: left;"><%= select_tag("sapling_meta[local_or_hosted_deploy]", options_for_select(["local"]))  %></td>
+	
+		</tr>
+  </table>
+<%end%>
+
+  </table>
+
+  <table align="center" style="margin-bottom: 20px;">
+  <h2>Custom Values</h2>
+	<tr>
+	  <td style="text-align: left;"><label for="sapling_meta_name">Meta Data Name:</label></td><td style="text-align: left; padding-right: 20px;"><input type="text" id="meta_name"/></td>
+ 	  <td style="text-align: left;"><label for="sapling_meta_value">Meta Data Value:</label></td><td style="text-align: left; padding-right: 20px;"><input type="text" id="meta_value"/></td>
+	  <td style="text-align: left; padding-right: 20px;"><input type="button" value="Add Meta Data" onclick="insertMetaData(trim($('meta_name').value), trim($('meta_value').value))" /></td>
+	</tr>
+  </table><br />
+
+  <table align="left" class="data_table" id="meta_data_table">
+    <tbody id="meta_data_table_body">
+	  <tr>
+		<th>Meta Name</th>
+		<th>Meta Value</th>
+		<th>Action</th>
+	  </tr>
+	  <% unless(@sapling_meta_data.nil?) %>
+	    <%= render(:partial => "sapling_meta", :collection => @sapling_meta_data) %>
+	  <% end %>
+	  </tbody>
+	</table>
+<br><br><br><br><br><br><br><br><br><br>
+	
+	<% #unless(@sapling_meta_data.nil?) %>
+	    <%#= render(:partial => "sapling_meta_hidden", :collection => @sapling_meta_data) %>		
+	  <% #end %> 		
+
+	<div>
+	  <%= button_to("Update Sapling", {:action => :update, :id => @sapling.id}, :onclick => "if(isFieldNull('sapling_marketing_name') &amp;&amp; isCustomerFacing()) {return confirm('Marketing Name is null. Proceed?');}") %>
+  </div>
+	<div>
+	  <% if(@sapling.state != 'p') %>
+	    <%= link_to("Publish Sapling", :action => :publish_sapling, :id => @sapling.id) %>
+	  <% else %>
+	    <%= link_to("Unpublish Sapling", :action => :publish_sapling, :id => @sapling.id) %>
+	  <% end %>
+	  <a href="/commander/sapling-repository/reindex" target="_blank">Reindex Sapling Repository</a>
+    </div><br><br>
+<% end -%>	
+
+	
+	<h3><%= link_to("Display All Meta Values",  sapling_path(@sapling), {:target => "_blank"}) %></h3>
+
+
+<div id="status_indicator" align="center" style="padding-top: 10px; color: red; display: none;">
+    Please wait..&nbsp;&nbsp;<%= image_tag("indicator_smallwaitanim.gif", :border => "0" ) %>    
+</div>
+
+
+<script type="text/javascript">
+  function scopeChange(){
+console.log("in function scopeChange")
+	var scope = document.getElementById("sapling_meta_distributionScope");
+
+	if	(scope.value == 'AGENT'){
+	console.log("AGENT TIME")
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "";
+	//document.getElementById("customer").disabled = true;
+	document.getElementById("agent").disabled = false;
+	document.getElementById("customer").value = "";
+	
+
+}
+
+else if (scope.value == 'CUSTOMER'){
+	console.log("CUSTOMER TIME")
+	document.getElementById('customerIds').style.display = "";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	document.getElementById("customer").disabled = false;
+	document.getElementById("agent").value = "";
+
+}
+else if (scope.value == 'GLOBAL') {
+	console.log('GLOBAL TIME')
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	//document.getElementById("customer").disabled = true;
+	document.getElementById("agent").value = "";
+	document.getElementById("customer").value = "";
+
+
+}
+else {
+	console.log('NONE TIME')
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	//document.getElementById("customer").disabled = true;
+	document.getElementById("agent").value = "";
+	document.getElementById("customer").value = "";
+
+}
+
+}
+
+
+function checkScope(){
+	console.log("in function checkScope")
+	var scope = document.getElementById("sapling_meta_distributionScope");
+
+	if	(scope.value == 'AGENT'){
+	console.log("AGENT TIME")
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "";
+	//document.getElementById("customer").disabled = true;
+	document.getElementById("agent").disabled = false;
+
+}
+
+else if (scope.value == 'CUSTOMER'){
+	console.log("CUSTOMER TIME")
+	document.getElementById('customerIds').style.display = "";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	document.getElementById("customer").disabled = false;
+
+}
+else if (scope.value == 'GLOBAL') {
+	console.log('GLOBAL TIME')
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	//document.getElementById("customer").disabled = true;
+
+
+}
+else {
+	console.log('NONE TIME')
+	document.getElementById('customerIds').style.display = "none";
+	document.getElementById('agentIds').style.display = "none";
+	//document.getElementById("agent").disabled = true;
+	//document.getElementById("customer").disabled = true;
+
+}
+	
+}
+
+</script>
+

@@ -1,0 +1,23 @@
+<br>
+<table width="600">
+  <tr>
+    <td>Auth User ID:</td>
+    <td><%= auth_user_id %></td>
+  </tr>
+  <tr>
+    <td>Current Status: </td>
+    <td><%= status %></td>
+  </tr>
+  <% if(!reason.nil?) %>
+    <tr>
+      <td>Status Explanation: </td>
+      <td><%= reason %></td>
+    </tr>
+  <% end %>
+  <% if(!fields.nil?) %>
+    <tr>
+      <td>Mismatched Profile Fields: </td>
+      <td><%= fields %></td>
+    </tr>
+  <% end %>
+</table>
