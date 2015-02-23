@@ -4,6 +4,7 @@
 
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
+        <extension module="org.jboss.as.configadmin"/>
         <extension module="org.jboss.as.connector"/>
         <extension module="org.jboss.as.deployment-scanner"/>
         <extension module="org.jboss.as.ee"/>
@@ -32,6 +33,7 @@
         <property name="org.apache.tomcat.util.ENABLE_MODELER" value="true"/>
         <property name="org.apache.tomcat.util.http.Parameters.MAX_COUNT" value="5000"/>
     </system-properties>
+
 
     <management>
         <security-realms>
@@ -136,17 +138,39 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:datasources:1.2">
             <datasources>
-                <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
-                    <driver>h2</driver>
+                <datasource jndi-name="java:/jdbc/Scholastic" pool-name="MySqlDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:mysql://localhost:3306/scholastic?relaxAutoCommit=true&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResult=utf8</connection-url>
+                    <driver-class>org.mariadb.jdbc.Driver</driver-class>
+                    <driver>mariadb-java-client-1.1.7</driver>
+                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                    <pool>
+                        <min-pool-size>5</min-pool-size>
+                        <max-pool-size>50</max-pool-size>
+                        <use-strict-min>false</use-strict-min>
+                        <flush-strategy>FailingConnectionOnly</flush-strategy>
+                    </pool>
                     <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
+                        <user-name>scholastic</user-name>
+                        <password>scholastic</password>
                     </security>
+                    <validation>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <validate-on-match>false</validate-on-match>
+                        <background-validation>true</background-validation>
+                        <background-validation-millis>60000</background-validation-millis>
+                        <use-fast-fail>true</use-fast-fail>
+                    </validation>
+                    <timeout>
+                        <blocking-timeout-millis>15000</blocking-timeout-millis>
+                        <idle-timeout-minutes>3</idle-timeout-minutes>
+                    </timeout>
+                    <statement>
+                        <track-statements>NOWARN</track-statements>
+                    </statement>
                 </datasource>
                 <drivers>
-                    <driver name="h2" module="com.h2database.h2">
-                        <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    <driver name="mariadb-java-client-1.1.7" module="org.mariadb">
+                        <driver-class>org.mariadb.jdbc.Driver</driver-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -235,7 +259,7 @@
                     <keepalive-time time="10" unit="seconds"/>
                 </long-running-threads>
             </default-workmanager>
-            <cached-connection-manager/>
+            <cached-connection-manager debug="true" error="true"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jmx:1.3">
